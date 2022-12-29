@@ -13,13 +13,13 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('carts', function (Blueprint $table) {
+        Schema::create('payment_providers', function (Blueprint $table) {
             $table->id();
-
-            $table->foreignId('user_id')->nullable()->constrained()->onDelete('cascade');
-            $table->foreignId('product_id')->nullable()->constrained()->onDelete('cascade');
-            $table->bigInteger('quantity')->nullable()->default(1);
-
+            $table->string('label')->nullable();
+            $table->string('name')->nullable();
+            $table->string('description')->nullable();
+            $table->tinyInteger('status')->nullable()->default(1);
+            $table->integer('sort_order')->nullable()->default(0);
             $table->timestamps();
         });
     }
@@ -31,6 +31,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('carts');
+        Schema::dropIfExists('payment_providers');
     }
 };
