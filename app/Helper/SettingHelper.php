@@ -15,7 +15,11 @@ class SettingHelper
     public static function get($key, $default = null)
     {
         $setting = Setting::where('key', $key)->first();
-        return $setting->value == null ? $default : $setting->value;
+        if ($setting) {
+            return $setting->value == null ? $default : $setting->value;
+        } else {
+            return $default;
+        }
     }
 
 
