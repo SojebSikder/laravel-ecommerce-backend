@@ -27,7 +27,8 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        return view('backend.category.create');
+        $parent_categories = Category::whereNull('parent_id')->latest()->get();
+        return view('backend.category.create', compact('parent_categories'));
     }
 
     /**
@@ -43,10 +44,14 @@ class CategoryController extends Controller
         ]);
 
         $name = $request->input('name');
+        $parent_category_id = $request->input('parent_category_id');
 
         $category = new Category();
         $category->name = $name;
         $category->slug = Str::slug($name);
+        if ($parent_category_id) {
+            $category->parent_id = $parent_category_id;
+        }
         $category->save();
 
         return back()->with('success', 'Category created successfully');
@@ -92,7 +97,7 @@ class CategoryController extends Controller
         if ($category->status == '1') {
             $category->status = 0;
             $category->save();
-            return back()->with('success', 'Category disbaled');
+            return back()->with('success', 'Category disabled');
         } else {
             $category->status = 1;
             $category->save();
@@ -108,6 +113,13 @@ class CategoryController extends Controller
      */
     public function destroy($id)
     {
-        //
+        try {
+            // TODO delete child category too
+            $category = Category::find($id);
+            $category->delete();
+            return back()->with('success', 'Category deleted successfully');
+        } catch (\Throwable $th) {
+            return back()->with('warning', $th->getMessage());
+        }
     }
 }

@@ -16,18 +16,14 @@
                 style="
            margin: 10px 5px 10px 5px;">
                 <strong>{{ Session::get('success') }}</strong>.
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
         @elseif (Session::has('warning'))
             <div class="alert alert-danger alert-dismissible fade show" role="alert"
                 style="
            margin: 10px 5px 10px 5px;">
                 <strong>{{ Session::get('warning') }}</strong>.
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
         @endif
         {{-- //display error message --}}
@@ -62,8 +58,8 @@
                                             <tr>
                                                 <th>Category</th>
                                                 <th>Slug</th>
-                                                <th>Status</th>
-                                                <th>Actions</th>
+                                                <th class="text-center">Status</th>
+                                                <th class="text-center">Actions</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -74,19 +70,66 @@
                                                     @if ($category->status == '1')
                                                         <td class="text-center">
                                                             <a href="{{ route('category.status', $category->id) }}"
-                                                                class="badge badge-primary shadow-none">
+                                                                class="badge bg-primary text-decoration-none shadow-none">
                                                                 Active
                                                             </a>
                                                         </td>
                                                     @else
                                                         <td class="text-center">
                                                             <a href="{{ route('category.status', $category->id) }}"
-                                                                class="badge badge-warning shadow-none">
+                                                                class="badge bg-warning text-decoration-none shadow-none">
                                                                 Disabled
                                                             </a>
                                                         </td>
                                                     @endif
-                                                    <td>edit</td>
+                                                    <td class="text-center">
+                                                        <ul class="table-controls">
+                                                            <li>
+                                                                <a href="{{ route('category.edit', $category->id) }}"
+                                                                    class="bs-tooltip" data-bs-toggle="tooltip"
+                                                                    data-bs-placement="top" title=""
+                                                                    data-bs-title="Edit">
+                                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24"
+                                                                        height="24" viewBox="0 0 24 24" fill="none"
+                                                                        stroke="currentColor" stroke-width="2"
+                                                                        stroke-linecap="round" stroke-linejoin="round"
+                                                                        class="feather feather-edit-2 br-6 mb-1 p-1">
+                                                                        <path
+                                                                            d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z">
+                                                                        </path>
+                                                                    </svg>
+                                                                </a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="javascript:void(0);"
+                                                                    onclick="event.preventDefault();
+                                                                    if(confirm('Are you really want to delete?')){
+                                                                    document.getElementById('category-delete-{{ $category->id }}').submit()
+                                                                    }"
+                                                                    class="bs-tooltip" data-bs-toggle="tooltip"
+                                                                    data-bs-placement="top" title=""
+                                                                    data-bs-title="Delete">
+                                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24"
+                                                                        height="24" viewBox="0 0 24 24" fill="none"
+                                                                        stroke="currentColor" stroke-width="2"
+                                                                        stroke-linecap="round" stroke-linejoin="round"
+                                                                        class="feather feather-trash br-6 mb-1 p-1">
+                                                                        <polyline points="3 6 5 6 21 6"></polyline>
+                                                                        <path
+                                                                            d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2">
+                                                                        </path>
+                                                                    </svg>
+                                                                </a>
+                                                                {{-- delete  --}}
+                                                                <form method="post"
+                                                                    action="{{ route('category.destroy', $category->id) }}"
+                                                                    id="{{ 'category-delete-' . $category->id }}">
+                                                                    @csrf
+                                                                    @method('DELETE')
+                                                                </form>
+                                                            </li>
+                                                        </ul>
+                                                    </td>
                                                 </tr>
                                             @endforeach
 

@@ -9,23 +9,19 @@
     <!-- Main section -->
     <main class="mt-5 pt-3">
         {{-- display error message --}}
-        @if (Session::has('sms'))
+        @if (Session::has('success'))
             <div class="alert alert-success alert-dismissible fade show" role="alert"
                 style="
-               margin: 10px 5px 10px 5px;">
-                <strong>{{ Session::get('sms') }}</strong>.
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
+           margin: 10px 5px 10px 5px;">
+                <strong>{{ Session::get('success') }}</strong>.
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
         @elseif (Session::has('warning'))
             <div class="alert alert-danger alert-dismissible fade show" role="alert"
                 style="
-               margin: 10px 5px 10px 5px;">
+           margin: 10px 5px 10px 5px;">
                 <strong>{{ Session::get('warning') }}</strong>.
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
         @endif
         {{-- //display error message --}}

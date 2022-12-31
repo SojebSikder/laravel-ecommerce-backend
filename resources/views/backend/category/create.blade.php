@@ -16,18 +16,14 @@
                 style="
            margin: 10px 5px 10px 5px;">
                 <strong>{{ Session::get('success') }}</strong>.
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
         @elseif (Session::has('warning'))
             <div class="alert alert-danger alert-dismissible fade show" role="alert"
                 style="
            margin: 10px 5px 10px 5px;">
                 <strong>{{ Session::get('warning') }}</strong>.
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
         @endif
         {{-- //display error message --}}
@@ -61,6 +57,7 @@
                             </div>
                             <div class="card-body">
                                 <form action="{{ route('category.store') }}" method="POST">
+                                    @csrf
                                     <div class="row">
                                         <div class="col">
                                             <div class="form-group mb-3">
@@ -70,6 +67,22 @@
                                                     value="{{ old('name') }}" name="name" placeholder='e.g. Necklaces'>
                                             </div>
                                             @error('name')
+                                                <div class="alert alert-danger">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+                                        <div class="col">
+                                            <div class="form-group mb-3">
+                                                <label for="parent_category_id">Parent Category</label>
+                                                <select class="form-select mb-3" name="parent_category_id">
+                                                    <option value="0">Select parent category</option>
+                                                    @if (count($parent_categories) > 0)
+                                                        @foreach ($parent_categories as $category)
+                                                            <option value={{ $category->id }}>{{ $category->name }}</option>
+                                                        @endforeach
+                                                    @endif
+                                                </select>
+                                            </div>
+                                            @error('parent_category_id')
                                                 <div class="alert alert-danger">{{ $message }}</div>
                                             @enderror
                                         </div>
