@@ -16,7 +16,7 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $categories = Category::whereNull('parent_id')->latest()->get();
+        $categories = Category::with('sub_categories')->whereNull('parent_id')->latest()->get();
         return view('backend.category.index', compact('categories'));
     }
 
@@ -27,7 +27,7 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        $parent_categories = Category::whereNull('parent_id')->latest()->get();
+        $parent_categories = Category::latest()->get();
         return view('backend.category.create', compact('parent_categories'));
     }
 
@@ -66,6 +66,18 @@ class CategoryController extends Controller
     public function show($id)
     {
         //
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function subcategory($id)
+    {
+        $category = Category::with('sub_categories')->where('id', $id)->latest()->first();
+        return view('backend.category.subcategory.index', compact('category'));
     }
 
     /**

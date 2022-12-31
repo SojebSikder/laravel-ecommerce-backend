@@ -5,6 +5,7 @@
 @endsection
 
 @section('style')
+    <link rel="stylesheet" href="{{ asset('assets') }}/select2/css/select2.min.css">
 @endsection
 
 @section('content')
@@ -64,7 +65,7 @@
                                                 <label for="name">Name</label>
                                                 <input type="text" id="name"
                                                     class="form-control @error('name') is-invalid @enderror"
-                                                    value="{{ old('name') }}" name="name" placeholder='e.g. Necklaces'>
+                                                    value="{{ old('name') }}" name="name" placeholder='e.g. Vegetables'>
                                             </div>
                                             @error('name')
                                                 <div class="alert alert-danger">{{ $message }}</div>
@@ -73,8 +74,8 @@
                                         <div class="col">
                                             <div class="form-group mb-3">
                                                 <label for="parent_category_id">Parent Category</label>
-                                                <select class="form-select mb-3" name="parent_category_id">
-                                                    <option value="0">Select parent category</option>
+                                                <select class="select2 form-select mb-3" name="parent_category_id">
+                                                    <option value="0"> ===Select parent category===</option>
                                                     @if (count($parent_categories) > 0)
                                                         @foreach ($parent_categories as $category)
                                                             <option value={{ $category->id }}>{{ $category->name }}</option>
@@ -110,4 +111,8 @@
 @endsection
 
 @section('script')
+    <script src="{{ asset('assets') }}/select2/js/select2.min.js"></script>
+    <script>
+        $(".select2").select2();
+    </script>
 @endsection

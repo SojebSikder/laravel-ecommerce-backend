@@ -40,28 +40,8 @@
 }
 
 /* table controls */
-.table-controls > li > a svg {
-    color: #25d5e4;
-}
-
-.table-controls > li > a svg {
-    color: #888ea8;
-    width: 21px;
-}
 
 .table-controls li {
     list-style: none;
     display: inline;
-}
-
-.table-controls li svg {
-    cursor: pointer;
-    /* stroke-width: 1; */
-    margin: 0;
-    vertical-align: middle;
-    cursor: pointer;
-    color: #515365;
-    stroke-width: 1.5;
-    width: 28px;
-    height: 28px;
 }

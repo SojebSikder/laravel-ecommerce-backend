@@ -24,6 +24,7 @@ Route::middleware(['auth', 'admin'])->group(function () {
 
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::get('category/status/{id}', [CategoryController::class, 'status'])->name('category.status');
+    Route::get('category/{id}/subcategory', [CategoryController::class, 'subcategory'])->name('category.subcategory');
     Route::resource('category', CategoryController::class);
 });
 

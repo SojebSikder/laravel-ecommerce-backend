@@ -1,7 +1,7 @@
 @extends('Backend.master')
 
 @section('title')
-    Categories
+    Subcategories
 @endsection
 
 @section('style')
@@ -31,7 +31,7 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-md-12 fw-bold fs-3">
-                    Categories
+                    Subcategories → {{$category->name}}
                 </div>
             </div>
             <div class="row">
@@ -64,7 +64,7 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            @foreach ($categories as $category)
+                                            @foreach ($category->sub_categories as $category)
                                                 <tr>
                                                     <td>{{ $category->name }}</td>
                                                     <td>{{ $category->slug }}</td>
