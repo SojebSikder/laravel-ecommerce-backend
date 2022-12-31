@@ -8,6 +8,28 @@
 @section('content')
     <!-- Main section -->
     <main class="mt-5 pt-3">
+        {{-- display error message --}}
+        @if (Session::has('sms'))
+            <div class="alert alert-success alert-dismissible fade show" role="alert"
+                style="
+               margin: 10px 5px 10px 5px;">
+                <strong>{{ Session::get('sms') }}</strong>.
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        @elseif (Session::has('warning'))
+            <div class="alert alert-danger alert-dismissible fade show" role="alert"
+                style="
+               margin: 10px 5px 10px 5px;">
+                <strong>{{ Session::get('warning') }}</strong>.
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        @endif
+        {{-- //display error message --}}
+
         <div class="container-fluid">
             <div class="row">
                 <div class="col-md-12 fw-bold fs-3">

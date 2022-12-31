@@ -28,11 +28,11 @@
                         </li>
                         <li>
                             <div class="text-secondary small fw-bold text-uppercase px-3">
-                                Example
+                                Manage
                             </div>
                         </li>
 
-                        <li>
+                        {{-- <li>
                             <a class="nav-link sidebar-link px-3" data-bs-toggle="collapse" href="#collapseExample"
                                 role="button" aria-expanded="false" aria-controls="collapseExample">
                                 <span class="me-2"><i class="bi bi-layout-split"></i></span>
@@ -48,6 +48,30 @@
                                             <a href="#" class="nav-link px-3">
                                                 <span class="me-2"><i class="bi bi-layout-split"></i></span>
                                                 <span>Nested Link</span>
+                                            </a>
+                                        </li>
+
+                                    </ul>
+                                </div>
+                            </div>
+                        </li> --}}
+
+                        <li>
+                            <a class="nav-link sidebar-link px-3" data-bs-toggle="collapse" href="#collapseExample"
+                                role="button" aria-expanded="false" aria-controls="collapseExample">
+                                <span class="me-2"><i class="bi bi-layout-split"></i></span>
+                                <span>Products</span>
+                                <span class="right-icon ms-auto">
+                                    <i class="bi bi-chevron-down"></i>
+                                </span>
+                            </a>
+                            <div class="collapse" id="collapseExample">
+                                <div>
+                                    <ul class="navbar-nav ps-3">
+                                        <li>
+                                            <a href="{{ route('category.index') }}" class="nav-link px-3">
+                                                <span class="me-2"><i class="bi bi-layout-split"></i></span>
+                                                <span>Categories</span>
                                             </a>
                                         </li>
 
