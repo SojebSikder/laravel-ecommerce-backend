@@ -57,7 +57,7 @@
 
                             </div>
                             <div class="card-body">
-                                <form action="{{ route('category.update', $category->id) }}" method="POST">
+                                <form action="{{ route('category.update', $category->id) }}" method="POST" enctype="multipart/form-data">
                                     @csrf
                                     @method('PUT')
                                     <div class="row">
@@ -116,6 +116,15 @@
 
                                             {{-- image --}}
                                             <div class="col mb-4">
+                                                <div>
+                                                    {{-- <a href="{{ $category->image_url }}"
+                                                        target="_blank" rel="noopener noreferrer"> --}}
+                                                    <img style="max-width: 80px !important;" class="img-thumbnail"
+                                                        src="{{ $category->image_url }}" alt="{{ $category->image }}"
+                                                        data-toggle="tooltip" data-placement="top"
+                                                        title="Click to view large mode">
+                                                    {{-- </a> --}}
+                                                </div>
                                                 <div class="form-group">
                                                     <label for="name">Picture</label>
                                                     <label class="btn btn-info">

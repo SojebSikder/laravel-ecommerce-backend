@@ -4,10 +4,18 @@ namespace App\Models\Category;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
 
 class Category extends Model
 {
     use HasFactory;
+
+    protected $appends = ['image_url'];
+
+    public function getImageUrlAttribute()
+    {
+        return Storage::url(config('constants.uploads.category') . '/' . $this->image);
+    }
 
     public function sub_categories()
     {
