@@ -19,7 +19,17 @@ return new class extends Migration
             $table->string('name')->nullable();
             $table->string('slug')->nullable();
             $table->bigInteger('parent_id')->nullable();
-            
+
+            $table->string('image')->nullable();
+            $table->longText('description')->nullable();
+
+            /**
+             * SEO
+             */
+            $table->text('meta_title')->nullable();
+            $table->text('meta_description')->nullable(); // max limit 320
+            $table->text('meta_keyword')->nullable();
+
             $table->tinyInteger('status')->nullable()->default(1); // 1-> active, 0-> deactive
             $table->integer('sort_order')->nullable()->default(0);
 
