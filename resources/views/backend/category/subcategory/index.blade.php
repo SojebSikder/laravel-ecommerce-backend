@@ -40,7 +40,7 @@
                         <div class="card">
                             <div class="card-header">
 
-                                <a href="{{ route('category.create') }}" class="btn btn-sm btn-primary float-end mt-3 mr-4">
+                                <a href="{{ route('category.create') }}?parent_id={{$category->id}}" class="btn btn-sm btn-primary float-end mt-3 mr-4">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                         viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                                         stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus">

@@ -65,7 +65,8 @@
                                                 <label for="name">Name</label>
                                                 <input type="text" id="name"
                                                     class="form-control @error('name') is-invalid @enderror"
-                                                    value="{{ old('name') }}" name="name" placeholder='e.g. Vegetables'>
+                                                    value="{{ old('name') }}" name="name"
+                                                    placeholder='e.g. Vegetables'>
                                             </div>
                                             @error('name')
                                                 <div class="alert alert-danger">{{ $message }}</div>
@@ -77,8 +78,10 @@
                                                 <select class="select2 form-select mb-3" name="parent_category_id">
                                                     <option value="0"> ===Select parent category===</option>
                                                     @if (count($parent_categories) > 0)
-                                                        @foreach ($parent_categories as $category)
-                                                            <option value={{ $category->id }}>{{ $category->name }}</option>
+                                                        @foreach ($parent_categories as $subcategory)
+                                                            <option value={{ $subcategory->id }}
+                                                                @if (request('parent_id') == $subcategory->id) selected @endif>
+                                                                {{ $subcategory->name }}</option>
                                                         @endforeach
                                                     @endif
                                                 </select>
