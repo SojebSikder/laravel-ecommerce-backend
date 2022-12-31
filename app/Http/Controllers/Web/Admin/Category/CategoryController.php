@@ -15,9 +15,22 @@ class CategoryController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $categories = Category::with('sub_categories')->whereNull('parent_id')->latest()->get();
+        // search query
+        $q = $request->input('q');
+
+        $categories = Category::query();
+
+        if ($q) {
+            $categories = $categories->orWhere('name', 'like', '%' . $q . '%')
+                ->orWhere('slug', 'like', '%' . $q . '%');
+        }
+
+        $categories = $categories->with('sub_categories')
+            ->whereNull('parent_id')
+            ->latest()
+            ->paginate(15);
         return view('backend.category.index', compact('categories'));
     }
 

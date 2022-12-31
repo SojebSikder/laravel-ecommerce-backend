@@ -50,6 +50,14 @@
                                     Create category
                                 </a>
 
+                                {{-- search product --}}
+                                <form method="get">
+                                    <div>
+                                        <input class="form-control-sm float-end mt-3 me-3" name="q"
+                                            value="{{ request('q') }}" type="text" placeholder="search">
+                                    </div>
+                                </form>
+
                             </div>
                             <div class="card-body">
                                 <div>
@@ -145,6 +153,7 @@
 
 
                                     </table>
+                                    {{ $categories->appends(request()->query())->links('pagination::bootstrap-5') }}
                                 </div>
                             </div>
                         </div>

@@ -71,6 +71,12 @@
                                         <li>
                                             <a href="{{ route('category.index') }}" class="nav-link px-3">
                                                 <span class="me-2"><i class="bi bi-layout-split"></i></span>
+                                                <span>Inventory</span>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="{{ route('category.index') }}" class="nav-link px-3">
+                                                <span class="me-2"><i class="bi bi-layout-split"></i></span>
                                                 <span>Categories</span>
                                             </a>
                                         </li>
