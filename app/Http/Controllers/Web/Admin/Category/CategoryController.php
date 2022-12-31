@@ -90,7 +90,9 @@ class CategoryController extends Controller
      */
     public function edit($id)
     {
-        //
+        $parent_categories = Category::latest()->get();
+        $category = Category::findOrFail($id);
+        return view('backend.category.edit', compact('category', 'parent_categories'));
     }
 
     /**
@@ -102,7 +104,22 @@ class CategoryController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $request->validate([
+            'name' => 'required'
+        ]);
+
+        $name = $request->input('name');
+        $parent_category_id = $request->input('parent_category_id');
+
+        $category = Category::findOrFail($id);
+        $category->name = $name;
+        $category->slug = Str::slug($name);
+        if ($parent_category_id) {
+            $category->parent_id = $parent_category_id;
+        }
+        $category->save();
+
+        return back()->with('success', 'Category updated successfully');
     }
 
     public function status($id)
