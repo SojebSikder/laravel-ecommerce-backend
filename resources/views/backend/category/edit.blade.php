@@ -40,7 +40,7 @@
                     <div class="col-md-12 mt-3">
                         <div class="card">
                             <div class="card-header">
-                                <h5 class="float-start">Create category</h5>
+                                <h5 class="float-start">Edit category</h5>
                                 <a href="{{ route('category.index') }}" class="btn btn-sm btn-primary float-end mt-3 mr-4">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                         viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"

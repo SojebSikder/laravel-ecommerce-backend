@@ -128,7 +128,7 @@ class CategoryController extends Controller
      */
     public function edit($id)
     {
-        $parent_categories = Category::latest()->get();
+        $parent_categories = Category::where('id', '!=', $id)->latest()->get();
         $category = Category::findOrFail($id);
         return view('backend.category.edit', compact('category', 'parent_categories'));
     }
@@ -226,12 +226,23 @@ class CategoryController extends Controller
     {
         try {
             // remove subcategory first
-            $subcategory = Category::where('parent_id', $id);
-            if ($subcategory) {
-                $subcategory->delete();
+            $subcategories = Category::where('parent_id', $id)->get();
+            foreach ($subcategories as $subcategory) {
+                if ($subcategory) {
+                    // remove image
+                    if (Storage::exists(config('constants.uploads.category') . "/" . $subcategory->image)) {
+                        Storage::delete(config('constants.uploads.category') . "/" . $subcategory->image);
+                    }
+                    $subcategory->delete();
+                }
             }
+
             // then remove main category
             $category = Category::find($id);
+            // remove image
+            if (Storage::exists(config('constants.uploads.category') . "/" . $category->image)) {
+                Storage::delete(config('constants.uploads.category') . "/" . $category->image);
+            }
             $category->delete();
             return back()->with('success', 'Category deleted successfully');
         } catch (\Throwable $th) {
