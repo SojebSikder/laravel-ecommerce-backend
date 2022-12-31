@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Web\Admin\Category;
 use App\Http\Controllers\Controller;
 use App\Models\Category\Category;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 class CategoryController extends Controller
@@ -44,14 +45,51 @@ class CategoryController extends Controller
         ]);
 
         $name = $request->input('name');
+        $slug = $request->input('slug');
         $parent_category_id = $request->input('parent_category_id');
+        $file = $request->file('image');
+        $description = $request->input('description');
+        $meta_title = $request->input('meta_title');
+        $meta_description = $request->input('meta_description');
+        $meta_keyword = $request->input('meta_keyword');
+        $status = $request->input('status') == 1 ? 1 : 0;
 
         $category = new Category();
         $category->name = $name;
-        $category->slug = Str::slug($name);
+        // $category->slug = Str::slug($name);
+        $category->slug = Str::slug($slug);
         if ($parent_category_id) {
             $category->parent_id = $parent_category_id;
         }
+        if ($description) {
+            $category->description = $description;
+        }
+
+        if ($request->hasFile('image')) {
+            // $file_name = time() . '-' . uniqid() . '.' . $file->getClientOriginalExtension();
+            $file_name = time() . '-' . uniqid() . '.' . $file->extension();
+            $file_path = config('constants.uploads.category') . "/" . $file_name;
+
+            // resize image
+            // $resizedimg = ImageHelper::resize(file_get_contents($file->getRealPath()), 416, 236);
+            // Storage::put($file_path, (string) $resizedimg->encode());
+
+            $resizedimg = file_get_contents($file->getRealPath());
+            Storage::put($file_path, (string) $resizedimg);
+
+            $category->image = $file_name;
+        }
+        if ($meta_title) {
+            $category->meta_title = $meta_title;
+        }
+        if ($meta_description) {
+            $category->meta_description = $meta_description;
+        }
+        if ($meta_keyword) {
+            $category->meta_keyword = $meta_keyword;
+        }
+        $category->status = $status;
+
         $category->save();
 
         return back()->with('success', 'Category created successfully');
@@ -109,14 +147,56 @@ class CategoryController extends Controller
         ]);
 
         $name = $request->input('name');
+        $slug = $request->input('slug');
         $parent_category_id = $request->input('parent_category_id');
+        $file = $request->file('image');
+        $description = $request->input('description');
+        $meta_title = $request->input('meta_title');
+        $meta_description = $request->input('meta_description');
+        $meta_keyword = $request->input('meta_keyword');
+        $status = $request->input('status') == 1 ? 1 : 0;
 
         $category = Category::findOrFail($id);
         $category->name = $name;
-        $category->slug = Str::slug($name);
+        $category->slug = Str::slug($slug);
         if ($parent_category_id) {
             $category->parent_id = $parent_category_id;
         }
+        if ($description) {
+            $category->description = $description;
+        }
+
+        if ($request->hasFile('image')) {
+            // remove previous image first
+            if (Storage::exists(config('constants.uploads.category') . "/" . $category->image)) {
+                Storage::delete(config('constants.uploads.category') . "/" . $category->image);
+            }
+
+            $file_name = time() . '-' . uniqid() . '.' . $file->extension();
+            $file_path = config('constants.uploads.category') . "/" . $file_name;
+
+            $resizedimg = file_get_contents($file->getRealPath());
+            Storage::put($file_path, (string) $resizedimg);
+
+            $category->image = $file_name;
+        }
+        if ($meta_title) {
+            $category->meta_title = $meta_title;
+        } else {
+            $category->meta_title = null;
+        }
+        if ($meta_description) {
+            $category->meta_description = $meta_description;
+        } else {
+            $category->meta_description = null;
+        }
+        if ($meta_keyword) {
+            $category->meta_keyword = $meta_keyword;
+        } else {
+            $category->meta_keyword = null;
+        }
+        $category->status = $status;
+
         $category->save();
 
         return back()->with('success', 'Category updated successfully');
@@ -145,7 +225,12 @@ class CategoryController extends Controller
     public function destroy($id)
     {
         try {
-            // TODO delete child category too
+            // remove subcategory first
+            $subcategory = Category::where('parent_id', $id);
+            if ($subcategory) {
+                $subcategory->delete();
+            }
+            // then remove main category
             $category = Category::find($id);
             $category->delete();
             return back()->with('success', 'Category deleted successfully');

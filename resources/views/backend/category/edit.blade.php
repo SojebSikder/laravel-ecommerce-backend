@@ -1,7 +1,7 @@
 @extends('Backend.master')
 
 @section('title')
-    Edit Category
+    Edit category
 @endsection
 
 @section('style')
@@ -40,7 +40,7 @@
                     <div class="col-md-12 mt-3">
                         <div class="card">
                             <div class="card-header">
-                                <h5 class="float-start">Edit category</h5>
+                                <h5 class="float-start">Create category</h5>
                                 <a href="{{ route('category.index') }}" class="btn btn-sm btn-primary float-end mt-3 mr-4">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                         viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
@@ -62,44 +62,119 @@
                                     @method('PUT')
                                     <div class="row">
                                         <div class="col">
-                                            <div class="form-group mb-3">
-                                                <label for="name">Name</label>
-                                                <input type="text" id="name"
-                                                    class="form-control @error('name') is-invalid @enderror"
-                                                    value="{{ $category->name }}" name="name"
-                                                    placeholder='e.g. Vegetables'>
-                                            </div>
-                                            @error('name')
-                                                <div class="alert alert-danger">{{ $message }}</div>
-                                            @enderror
-                                        </div>
-                                        <div class="col">
-                                            <div class="form-group mb-3">
-                                                <label for="parent_category_id">Parent Category</label>
-                                                <select class="select2 form-select mb-3" name="parent_category_id">
-                                                    <option value="0"> ===Select parent category===</option>
-                                                    @if (count($parent_categories) > 0)
-                                                        @foreach ($parent_categories as $subcategory)
-                                                            <option value={{ $subcategory->id }}
-                                                                @if ($category->parent_id == $subcategory->id) selected @endif>
-                                                                {{ $subcategory->name }}</option>
-                                                        @endforeach
-                                                    @endif
-                                                </select>
-                                            </div>
-                                            @error('parent_category_id')
-                                                <div class="alert alert-danger">{{ $message }}</div>
-                                            @enderror
-                                        </div>
 
-                                        <div class="row">
+                                            <div class="col">
+                                                <div class="form-check form-switch mb-3 mt-5">
+                                                    <input class="form-check-input"
+                                                        @if ($category->status == 1) checked @endif value="1"
+                                                        name="status" type="checkbox" role="switch" id="status">
+                                                    <label class="form-check-label" for="status">Active</label>
+                                                </div>
+                                            </div>
+
                                             <div class="col">
                                                 <div class="form-group mb-3">
-                                                    <button id="submit" type="submit"
-                                                        class="btn btn-primary mt-3">Save</button>
+                                                    <label for="name">Name</label>
+                                                    <input type="text" id="name"
+                                                        class="form-control @error('name') is-invalid @enderror"
+                                                        value="{{ $category->name }}" name="name"
+                                                        placeholder='e.g. Vegetables'>
+                                                </div>
+                                                @error('name')
+                                                    <div class="alert alert-danger">{{ $message }}</div>
+                                                @enderror
+                                            </div>
+                                            <div class="col">
+                                                <div class="form-group mb-3">
+                                                    <label for="slug">Slug</label>
+                                                    <input type="text" id="slug"
+                                                        class="form-control @error('slug') is-invalid @enderror"
+                                                        value="{{ $category->slug }}" name="slug" placeholder='slug'>
+                                                </div>
+                                                @error('slug')
+                                                    <div class="alert alert-danger">{{ $message }}</div>
+                                                @enderror
+                                            </div>
+                                            <div class="col mb-4">
+                                                <div class="form-group mb-3">
+                                                    <label for="parent_category_id">Parent Category</label>
+                                                    <select class="select2 form-select mb-3" name="parent_category_id">
+                                                        <option value="0"> ===Select parent category===</option>
+                                                        @if (count($parent_categories) > 0)
+                                                            @foreach ($parent_categories as $subcategory)
+                                                                <option value={{ $subcategory->id }}
+                                                                    @if ($category->parent_id == $subcategory->id) selected @endif>
+                                                                    {{ $subcategory->name }}</option>
+                                                            @endforeach
+                                                        @endif
+                                                    </select>
+                                                </div>
+                                                @error('parent_category_id')
+                                                    <div class="alert alert-danger">{{ $message }}</div>
+                                                @enderror
+                                            </div>
+
+                                            {{-- image --}}
+                                            <div class="col mb-4">
+                                                <div class="form-group">
+                                                    <label for="name">Picture</label>
+                                                    <label class="btn btn-info">
+                                                        Choose file <input type="file" accept="image/*" name="image"
+                                                            id="uploadImage" class="d-none">
+                                                    </label>
+
+                                                    @error('image')
+                                                        <div class="alert alert-danger mt-1">{{ $message }}</div>
+                                                    @enderror
+                                                </div>
+                                            </div>
+
+                                            <div class="col">
+                                                <div class="form-group">
+                                                    <label for="description">Description</label>
+                                                    <textarea name="description" id="description">{{ $category->description }}</textarea>
+                                                </div>
+                                            </div>
+                                            <hr>
+                                            {{-- seo --}}
+                                            <div class="col">
+                                                <h5>SEO tags</h5>
+                                                <div class="col">
+                                                    <div class="form-group mb-3">
+                                                        <label for="meta_title">Meta Title</label>
+                                                        <input type="text"
+                                                            class="form-control @error('meta_title') is-invalid @enderror"
+                                                            value="{{ $category->meta_title }}" name="meta_title"
+                                                            placeholder='Title'>
+                                                    </div>
+                                                    <div class="form-group mb-3">
+                                                        <label for="meta_description">Meta Description</label>
+                                                        <textarea name="meta_description" placeholder="Description"
+                                                            class="form-control @error('meta_description') is-invalid @enderror" cols="10" rows="5">{{ $category->meta_description }}</textarea>
+                                                    </div>
+                                                    <div class="form-group mb-3">
+                                                        <label for="meta_keyword">Meta Keywords</label>
+                                                        <input type="text"
+                                                            class="form-control @error('meta_keyword') is-invalid @enderror"
+                                                            value="{{ $category->meta_keyword }}" name="meta_keyword"
+                                                            placeholder='Keywords'>
+                                                    </div>
+
+                                                </div>
+
+                                            </div>
+
+
+                                            <div class="row">
+                                                <div class="col">
+                                                    <div class="form-group mb-3">
+                                                        <button id="submit" type="submit"
+                                                            class="btn btn-primary mt-3">Save</button>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
+
                                     </div>
                                 </form>
                             </div>
@@ -115,8 +190,24 @@
 @endsection
 
 @section('script')
+    <script src="{{ asset('assets') }}/tinymce/tinymce.min.js"></script>
     <script src="{{ asset('assets') }}/select2/js/select2.min.js"></script>
     <script>
+        // select2
         $(".select2").select2();
+    </script>
+
+    <script>
+        // tinymce
+        tinymce.init({
+            selector: '#description',
+        });
+    </script>
+    <script>
+        const name = document.querySelector('#name');
+        const slug = document.querySelector('#slug');
+        name.addEventListener("keyup", function(e) {
+            slug.value = replace(e.target.value, " ", "-")
+        });
     </script>
 @endsection

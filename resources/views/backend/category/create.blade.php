@@ -82,6 +82,17 @@
                                                     <div class="alert alert-danger">{{ $message }}</div>
                                                 @enderror
                                             </div>
+                                            <div class="col">
+                                                <div class="form-group mb-3">
+                                                    <label for="slug">Slug</label>
+                                                    <input type="text" id="slug"
+                                                        class="form-control @error('slug') is-invalid @enderror"
+                                                        value="{{ old('slug') }}" name="slug" placeholder='slug'>
+                                                </div>
+                                                @error('slug')
+                                                    <div class="alert alert-danger">{{ $message }}</div>
+                                                @enderror
+                                            </div>
                                             <div class="col mb-4">
                                                 <div class="form-group mb-3">
                                                     <label for="parent_category_id">Parent Category</label>
@@ -188,19 +199,13 @@
         // tinymce
         tinymce.init({
             selector: '#description',
-            plugins: 'anchor autolink charmap codesample emoticons image link lists media searchreplace table visualblocks wordcount checklist mediaembed casechange export formatpainter pageembed linkchecker a11ychecker tinymcespellchecker permanentpen powerpaste advtable advcode editimage tinycomments tableofcontents footnotes mergetags autocorrect typography inlinecss',
-            toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table mergetags | addcomment showcomments | spellcheckdialog a11ycheck typography | align lineheight | checklist numlist bullist indent outdent | emoticons charmap | removeformat',
-            tinycomments_mode: 'embedded',
-            tinycomments_author: 'Author name',
-            mergetags_list: [{
-                    value: 'First.Name',
-                    title: 'First Name'
-                },
-                {
-                    value: 'Email',
-                    title: 'Email'
-                },
-            ]
+        });
+    </script>
+    <script>
+        const name = document.querySelector('#name');
+        const slug = document.querySelector('#slug');
+        name.addEventListener("keyup", function(e) {
+            slug.value = replace(e.target.value, " ", "-")
         });
     </script>
 @endsection

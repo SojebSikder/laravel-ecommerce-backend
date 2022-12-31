@@ -53,3 +53,18 @@ const tooltipTriggerList = document.querySelectorAll(
 const tooltipList = [...tooltipTriggerList].map(
     (tooltipTriggerEl) => new bootstrap.Tooltip(tooltipTriggerEl)
 );
+
+/*
+================================================
+|            Custom helper                     |
+================================================
+*/
+/**
+ * Replace text with high performance
+ * @param {*} str
+ * @param {*} search
+ * @param {*} replacement
+ */
+function replace(str, search, replacement) {
+    return str.split(search).join(replacement);
+}
