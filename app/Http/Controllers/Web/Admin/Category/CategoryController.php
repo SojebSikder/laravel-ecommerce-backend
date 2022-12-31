@@ -76,7 +76,9 @@ class CategoryController extends Controller
      */
     public function subcategory($id)
     {
-        $category = Category::with('sub_categories')->where('id', $id)->latest()->first();
+        $category = Category::with(['sub_categories' => function ($query) {
+            $query->orWhere('status', 0)->orWhere('status', 1);
+        }])->where('id', $id)->latest()->first();
         return view('backend.category.subcategory.index', compact('category'));
     }
 
