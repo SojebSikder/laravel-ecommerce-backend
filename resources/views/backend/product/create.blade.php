@@ -100,8 +100,15 @@
                                                         <option value="0"> ===Select category===</option>
                                                         @if (count($categories) > 0)
                                                             @foreach ($categories as $category)
+                                                                <?php $dash = ''; ?>
                                                                 <option value={{ $category->id }}>
                                                                     {{ $category->name }}</option>
+                                                                @if (count($category->sub_categories))
+                                                                    @include('components.subcategory', [
+                                                                        'sub_categories' =>
+                                                                            $category->sub_categories,
+                                                                    ])
+                                                                @endif
                                                             @endforeach
                                                         @endif
                                                     </select>
