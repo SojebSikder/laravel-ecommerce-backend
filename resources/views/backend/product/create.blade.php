@@ -139,6 +139,29 @@
                                                     <textarea name="description" id="description"></textarea>
                                                 </div>
                                             </div>
+
+                                            <div class="col mt-4">
+                                                <div class="form-group mb-3">
+                                                    <label for="price">Price</label>
+                                                    <input type="text" id="price"
+                                                        class="form-control @error('price') is-invalid @enderror"
+                                                        value="{{ old('price') }}" name="price" placeholder='price'>
+                                                </div>
+                                                @error('price')
+                                                    <div class="alert alert-danger">{{ $message }}</div>
+                                                @enderror
+                                            </div>
+
+                                            <div class="form-check form-switch mt-2">
+                                                <input class="form-check-input" value="1" name="is_sale"
+                                                    type="checkbox" role="switch" id="is_sale">
+                                                <label class="form-check-label"
+                                                    title="Check this if you want to provide discount"
+                                                    data-bs-toggle="tooltip" data-bs-placement="top"
+                                                    data-bs-title="Check this if you want to provide discount"
+                                                    for="is_sale">Sale?</label>
+                                            </div>
+
                                             <hr>
                                             {{-- seo --}}
                                             <div class="col">
