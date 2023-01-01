@@ -1,7 +1,7 @@
 @extends('backend.master')
 
 @section('title')
-    Subcategories
+    Manufacturer
 @endsection
 
 @section('style')
@@ -31,7 +31,7 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-md-12 fw-bold fs-3">
-                    Subcategories → {{ $category->name }}
+                    Manufacturer
                 </div>
             </div>
             <div class="row">
@@ -40,7 +40,7 @@
                         <div class="card">
                             <div class="card-header">
 
-                                <a href="{{ route('category.create') }}?parent_id={{ $category->id }}"
+                                <a href="{{ route('manufacturer.create') }}"
                                     class="btn btn-sm btn-primary float-end mt-3 mr-4">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                         viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
@@ -48,8 +48,16 @@
                                         <line x1="12" y1="5" x2="12" y2="19"></line>
                                         <line x1="5" y1="12" x2="19" y2="12"></line>
                                     </svg>
-                                    Create category
+                                    Create manufacturer
                                 </a>
+
+                                {{-- search --}}
+                                <form method="get">
+                                    <div>
+                                        <input class="form-control-sm float-end me-3 mt-3" name="q"
+                                            value="{{ request('q') }}" type="text" placeholder="search">
+                                    </div>
+                                </form>
 
                             </div>
                             <div class="card-body">
@@ -57,34 +65,25 @@
                                     <table class="table-bordered table-hover table-striped table" style="width: 100%;">
                                         <thead>
                                             <tr>
-                                                <th>Category</th>
-                                                <th>Slug</th>
-                                                <th>Subcategories</th>
+                                                <th>Name</th>
                                                 <th class="text-center">Status</th>
                                                 <th class="text-center">Actions</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            @foreach ($category->sub_categories as $category)
+                                            @foreach ($manufacturers as $manufacturer)
                                                 <tr>
-                                                    <td>{{ $category->name }}</td>
-                                                    <td>{{ $category->slug }}</td>
-                                                    <td>
-                                                        <a href="{{ route('category.subcategory', $category->id) }}"
-                                                            class="btn btn-sm btn-light">
-                                                            {{ count($category->sub_categories) }} subcategories
-                                                        </a>
-                                                    </td>
-                                                    @if ($category->status == '1')
+                                                    <td>{{ $manufacturer->name }}</td>
+                                                    @if ($manufacturer->status == '1')
                                                         <td class="text-center">
-                                                            <a href="{{ route('category.status', $category->id) }}"
+                                                            <a href="{{ route('manufacturer.status', $manufacturer->id) }}"
                                                                 class="badge bg-primary text-decoration-none shadow-none">
                                                                 Active
                                                             </a>
                                                         </td>
                                                     @else
                                                         <td class="text-center">
-                                                            <a href="{{ route('category.status', $category->id) }}"
+                                                            <a href="{{ route('manufacturer.status', $manufacturer->id) }}"
                                                                 class="badge bg-warning text-decoration-none shadow-none">
                                                                 Disabled
                                                             </a>
@@ -94,7 +93,7 @@
                                                         <ul class="table-controls">
                                                             <li>
                                                                 <a class="btn btn-sm btn-primary"
-                                                                    href="{{ route('category.edit', $category->id) }}"
+                                                                    href="{{ route('manufacturer.edit', $manufacturer->id) }}"
                                                                     data-bs-toggle="tooltip" data-bs-placement="top"
                                                                     title="" data-bs-title="Edit">
                                                                     <svg xmlns="http://www.w3.org/2000/svg" width="24"
@@ -113,7 +112,7 @@
                                                                 <a class="btn btn-sm btn-danger" href="javascript:void(0);"
                                                                     onclick="event.preventDefault();
                                                                     if(confirm('Are you really want to delete?')){
-                                                                    document.getElementById('category-delete-{{ $category->id }}').submit()
+                                                                    document.getElementById('manufacturer-delete-{{ $manufacturer->id }}').submit()
                                                                     }"
                                                                     data-bs-toggle="tooltip" data-bs-placement="top"
                                                                     title="" data-bs-title="Delete">
@@ -131,8 +130,8 @@
                                                                 </a>
                                                                 {{-- delete  --}}
                                                                 <form method="post"
-                                                                    action="{{ route('category.destroy', $category->id) }}"
-                                                                    id="{{ 'category-delete-' . $category->id }}">
+                                                                    action="{{ route('manufacturer.destroy', $manufacturer->id) }}"
+                                                                    id="{{ 'manufacturer-delete-' . $manufacturer->id }}">
                                                                     @csrf
                                                                     @method('DELETE')
                                                                 </form>
@@ -146,6 +145,7 @@
 
 
                                     </table>
+                                    {{ $manufacturers->appends(request()->query())->links('pagination::bootstrap-5') }}
                                 </div>
                             </div>
                         </div>

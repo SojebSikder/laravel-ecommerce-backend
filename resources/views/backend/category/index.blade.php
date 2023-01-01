@@ -1,4 +1,4 @@
-@extends('Backend.master')
+@extends('backend.master')
 
 @section('title')
     Categories
@@ -50,10 +50,10 @@
                                     Create category
                                 </a>
 
-                                {{-- search product --}}
+                                {{-- search --}}
                                 <form method="get">
                                     <div>
-                                        <input class="form-control-sm float-end mt-3 me-3" name="q"
+                                        <input class="form-control-sm float-end me-3 mt-3" name="q"
                                             value="{{ request('q') }}" type="text" placeholder="search">
                                     </div>
                                 </form>
@@ -61,7 +61,7 @@
                             </div>
                             <div class="card-body">
                                 <div>
-                                    <table class="table-striped table-hover table" style="width: 100%;">
+                                    <table class="table-bordered table-hover table-striped table" style="width: 100%;">
                                         <thead>
                                             <tr>
                                                 <th>Category</th>

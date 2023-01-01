@@ -3,6 +3,8 @@
 use App\Http\Controllers\Web\Admin\Auth\AuthController;
 use App\Http\Controllers\Web\Admin\Category\CategoryController;
 use App\Http\Controllers\Web\Admin\Dashboard\DashboardController;
+use App\Http\Controllers\Web\Admin\Product\ManufacturerController;
+use App\Http\Controllers\Web\Admin\Product\ProductController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -23,9 +25,19 @@ Route::get('/', function () {
 Route::middleware(['auth', 'admin'])->group(function () {
 
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+
+    // product
+    Route::get('product/{id}/status', [ProductController::class, 'status'])->name('product.status');
+    Route::resource('product', ProductController::class);
+
+    // Category
     Route::get('category/{id}/status', [CategoryController::class, 'status'])->name('category.status');
     Route::get('category/{id}/subcategory', [CategoryController::class, 'subcategory'])->name('category.subcategory');
     Route::resource('category', CategoryController::class);
+
+    // Manufacturer
+    Route::get('manufacturer/{id}/status', [ManufacturerController::class, 'status'])->name('manufacturer.status');
+    Route::resource('manufacturer', ManufacturerController::class);
 });
 
 

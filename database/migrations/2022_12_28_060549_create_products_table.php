@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('products', function (Blueprint $table) {
             $table->id();
 
-            $table->string('title'); // max limit 70
+            $table->string('name'); // max limit 70
             $table->string('slug')->nullable();
 
             /**

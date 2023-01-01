@@ -1,7 +1,7 @@
-@extends('Backend.master')
+@extends('backend.master')
 
 @section('title')
-    Categories
+    Create category
 @endsection
 
 @section('style')
@@ -205,7 +205,7 @@
         const name = document.querySelector('#name');
         const slug = document.querySelector('#slug');
         name.addEventListener("keyup", function(e) {
-            slug.value = replace(e.target.value, " ", "-")
+            slug.value = replace(e.target.value.toLowerCase(), " ", "-")
         });
     </script>
 @endsection
