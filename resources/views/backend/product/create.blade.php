@@ -62,6 +62,14 @@
                                     <div class="row">
                                         <div class="col">
 
+                                            <div class="d-flex form-group justify-content-end mb-3">
+                                                <button id="submit" type="submit" class="btn btn-primary me-1 mt-3"
+                                                    name="save">Save</button>
+                                                <button id="submit" type="submit" class="btn btn-primary mt-3"
+                                                    name="save-continue">Save
+                                                    and Continue Edit</button>
+                                            </div>
+
                                             <fieldset>
                                                 <legend>Product info</legend>
 
@@ -90,7 +98,8 @@
                                                         <label for="slug">Slug</label>
                                                         <input type="text" id="slug"
                                                             class="form-control @error('slug') is-invalid @enderror"
-                                                            value="{{ old('slug') }}" name="slug" placeholder='slug'>
+                                                            value="{{ old('slug') }}" name="slug"
+                                                            placeholder='slug'>
                                                     </div>
                                                     @error('slug')
                                                         <div class="alert alert-danger">{{ $message }}</div>
@@ -222,6 +231,23 @@
                                                 <legend>Inventory</legend>
                                                 <div class="col mt-4">
                                                     <div class="form-group mb-3">
+                                                        <label for="sku">SKU (Stock Keeping Unit)</label>
+                                                        <input type="text" id="sku"
+                                                            class="form-control @error('sku') is-invalid @enderror"
+                                                            value="{{ old('sku') }}" name="sku">
+                                                    </div>
+                                                    @error('sku')
+                                                        <div class="alert alert-danger">{{ $message }}</div>
+                                                    @enderror
+                                                </div>
+                                                <div class="form-check form-switch mt-2">
+                                                    <input class="form-check-input" value="1" name="track_quantity"
+                                                        type="checkbox" role="switch" id="track_quantity">
+                                                    <label class="form-check-label" for="track_quantity">Track
+                                                        quantity</label>
+                                                </div>
+                                                <div class="col mt-4">
+                                                    <div class="form-group mb-3">
                                                         <label for="quantity">Stock quantity</label>
                                                         <input type="number" id="quantity"
                                                             class="form-control @error('quantity') is-invalid @enderror"
@@ -262,15 +288,6 @@
 
                                                 </div>
                                             </fieldset>
-
-                                            <div class="row">
-                                                <div class="col">
-                                                    <div class="form-group mb-3">
-                                                        <button id="submit" type="submit"
-                                                            class="btn btn-primary mt-3">Save</button>
-                                                    </div>
-                                                </div>
-                                            </div>
                                         </div>
 
                                     </div>
@@ -280,7 +297,6 @@
                     </div>
                 </div>
             </div>
-
 
         </div>
     </main>

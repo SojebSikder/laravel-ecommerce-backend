@@ -64,6 +64,11 @@
                                     <div class="row">
                                         <div class="col">
 
+                                            <div class="d-flex form-group justify-content-end mb-3">
+                                                <button id="submit" type="submit"
+                                                    class="btn btn-primary me-1 mt-3">Save</button>
+                                            </div>
+
                                             <div class="col">
                                                 <div class="form-check form-switch mb-3 mt-5">
                                                     <input class="form-check-input"
