@@ -24,7 +24,8 @@
                      </button>
                  </div>
              </form> --}}
-             <div class="d-flex ms-auto"></div>
+             <div class="d-flex ms-auto text-white">{{ auth('web')->user()->fname }} {{ auth('web')->user()->lname }}
+             </div>
              <ul class="navbar-nav mb-lg-0 mb-2">
                  <li class="nav-item dropdown">
                      <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
@@ -38,7 +39,7 @@
                              <hr class="dropdown-divider" />
                          </li>
                          <li>
-                             <a class="dropdown-item" href="#">Something else here</a>
+                             <a href="{{route('logout')}}" class="dropdown-item" href="#">Logout</a>
                          </li>
                      </ul>
                  </li>

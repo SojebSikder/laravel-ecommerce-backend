@@ -79,7 +79,7 @@
                                                                     data-bs-toggle="modal"
                                                                     data-bs-target="#settingEdit{{ $setting->id }}"
                                                                     data-bs-toggle="tooltip" data-bs-placement="top"
-                                                                    title="" data-bs-title="Edit">
+                                                                    data-bs-title="Edit">
                                                                     <svg xmlns="http://www.w3.org/2000/svg" width="24"
                                                                         height="24" viewBox="0 0 24 24" fill="none"
                                                                         stroke="currentColor" stroke-width="2"
