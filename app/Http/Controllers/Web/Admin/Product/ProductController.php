@@ -82,8 +82,17 @@ class ProductController extends Controller
             $product->name = $name;
             $product->slug = Str::slug($slug);
             $product->price = $price;
-            $product->manufacturer_id = $manufacturer_id;
-            $product->description = $description;
+            if ($manufacturer_id) {
+                $product->manufacturer_id = $manufacturer_id;
+            } else {
+                $product->manufacturer_id = null;
+            }
+            if ($description) {
+
+                $product->description = $description;
+            } else {
+                $product->description = null;
+            }
             $product->track_quantity = $track_quantity;
             $product->quantity = $quantity;
             $product->sku = $sku;
@@ -97,12 +106,14 @@ class ProductController extends Controller
             $product->status = $status;
             $product->save();
             // save categories
-            foreach ($category_id as $category) {
-                // insert into product categories
-                $productCategoy = new ProductCategory();
-                $productCategoy->product_id = $product->id;
-                $productCategoy->category_id = $category;
-                $productCategoy->save();
+            if ($category_id) {
+                foreach ($category_id as $category) {
+                    // insert into product categories
+                    $productCategoy = new ProductCategory();
+                    $productCategoy->product_id = $product->id;
+                    $productCategoy->category_id = $category;
+                    $productCategoy->save();
+                }
             }
 
             return back()->with('success', 'Created successfully');
@@ -151,11 +162,11 @@ class ProductController extends Controller
         if ($product->status == '1') {
             $product->status = 0;
             $product->save();
-            return back()->with('success', 'Product disabled');
+            return back()->with('success', 'Disabled successfully');
         } else {
             $product->status = 1;
             $product->save();
-            return back()->with('success', 'Product enabled');
+            return back()->with('success', 'Enabled successfully');
         }
     }
 
@@ -167,6 +178,10 @@ class ProductController extends Controller
      */
     public function destroy($id)
     {
-        //
+        // TODO: delete product image
+        $product = Product::find($id);
+        $product->delete();
+
+        return back()->with('success', 'Deleted successfully');
     }
 }

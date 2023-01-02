@@ -1,7 +1,7 @@
 @extends('backend.master')
 
 @section('title')
-    Categories
+    Products
 @endsection
 
 @section('style')
