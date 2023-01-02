@@ -84,8 +84,7 @@
                                                     <label for="name">Name</label>
                                                     <input type="text" id="name"
                                                         class="form-control @error('name') is-invalid @enderror"
-                                                        value="{{ $manufacturer->name }}" name="name"
-                                                        placeholder='e.g. Vegetables'>
+                                                        value="{{ $manufacturer->name }}" name="name">
                                                 </div>
                                                 @error('name')
                                                     <div class="alert alert-danger">{{ $message }}</div>
@@ -96,8 +95,7 @@
                                                     <label for="slug">Slug</label>
                                                     <input type="text" id="slug"
                                                         class="form-control @error('slug') is-invalid @enderror"
-                                                        value="{{ $manufacturer->slug }}" name="slug"
-                                                        placeholder='slug'>
+                                                        value="{{ $manufacturer->slug }}" name="slug">
                                                 </div>
                                                 @error('slug')
                                                     <div class="alert alert-danger">{{ $message }}</div>

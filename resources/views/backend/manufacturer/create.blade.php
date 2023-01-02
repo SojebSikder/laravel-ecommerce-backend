@@ -93,7 +93,7 @@
                                                     <label for="slug">Slug</label>
                                                     <input type="text" id="slug"
                                                         class="form-control @error('slug') is-invalid @enderror"
-                                                        value="{{ old('slug') }}" name="slug" placeholder='slug'>
+                                                        value="{{ old('slug') }}" name="slug">
                                                 </div>
                                                 @error('slug')
                                                     <div class="alert alert-danger">{{ $message }}</div>
