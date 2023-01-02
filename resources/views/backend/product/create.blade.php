@@ -226,6 +226,49 @@
                                             </fieldset>
 
                                             <fieldset>
+                                                <legend>Shipping</legend>
+                                                <div class="d-flex">
+                                                    <div class="col me-1">
+                                                        <div class="form-group mb-3">
+                                                            <label for="weight">Weight</label>
+                                                            <input type="number" id="weight"
+                                                                class="form-control @error('weight') is-invalid @enderror"
+                                                                value="{{ old('weight') }}" name="weight">
+                                                        </div>
+                                                        @error('weight')
+                                                            <div class="alert alert-danger">{{ $message }}</div>
+                                                        @enderror
+                                                    </div>
+                                                    <div class="col">
+                                                        <div class="form-group mb-3">
+                                                            <label for="weight_unit">Weight unit</label>
+                                                            <?php
+                                                            $weight_units = [
+                                                                'kg' => 'kg',
+                                                                'lb' => 'lb',
+                                                                'oz' => 'oz',
+                                                                'g' => 'g',
+                                                            ];
+                                                            ?>
+                                                            <select
+                                                                class="form-control @error('weight_unit') is-invalid @enderror"
+                                                                name="weight_unit" id="weight_unit">
+                                                                @foreach ($weight_units as $key => $value)
+                                                                    <option value={{ $key }}>{{ $value }}
+                                                                    </option>
+                                                                @endforeach
+                                                            </select>
+                                                        </div>
+                                                        @error('weight_unit')
+                                                            <div class="alert alert-danger">{{ $message }}</div>
+                                                        @enderror
+                                                    </div>
+                                                </div>
+
+
+                                            </fieldset>
+
+                                            <fieldset>
                                                 <legend>Inventory</legend>
                                                 <div class="col mt-4">
                                                     <div class="form-group mb-3">

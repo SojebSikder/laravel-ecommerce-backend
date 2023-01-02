@@ -68,6 +68,10 @@ class ProductController extends Controller
             $track_quantity = $request->input('track_quantity') == 1 ? 1 : 0;
             $quantity = $request->input('quantity');
             $sku = $request->input('sku');
+
+            $weight = $request->input('weight');
+            $weight_unit = $request->input('weight_unit');
+
             $discount = $request->input('discount');
             $is_sale = $request->input('is_sale') == 1 ? 1 : 0;
             // seo
@@ -96,7 +100,19 @@ class ProductController extends Controller
             $product->track_quantity = $track_quantity;
             $product->quantity = $quantity;
             $product->sku = $sku;
-            $product->discount = $discount;
+
+            if ($weight) {
+                $product->weight = $weight;
+                $product->weight_unit = $weight_unit;
+            } else {
+                $product->weight = null;
+                $product->weight_unit = null;
+            }
+            if ($discount) {
+                $product->discount = $discount;
+            } else {
+                $product->discount = null;
+            }
             $product->is_sale = $is_sale;
 
             $product->meta_title = $meta_title;
@@ -106,6 +122,7 @@ class ProductController extends Controller
             $product->status = $status;
             $product->save();
             // save categories
+            // TODO sync
             if ($category_id) {
                 foreach ($category_id as $category) {
                     // insert into product categories
