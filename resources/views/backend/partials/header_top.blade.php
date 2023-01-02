@@ -7,7 +7,7 @@
              <span class="navbar-toggler-icon" data-bs-target="#offcanvasExample"></span>
          </button>
          <!-- End Sidebar button -->
-         <a class="navbar-brand fw-bold text-uppercase me-auto" href="#">Navbar</a>
+         <a class="navbar-brand fw-bold text-uppercase me-auto" href="#">{{ SettingHelper::get('name') }}</a>
          <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
              data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
              aria-label="Toggle navigation">
@@ -15,7 +15,7 @@
          </button>
          <div class="collapse navbar-collapse" id="navbarSupportedContent">
 
-             <form class="d-flex ms-auto" role="search">
+             {{-- <form class="d-flex ms-auto" role="search">
                  <div class="input-group my-lg-0 my-3">
                      <input type="text" class="form-control" placeholder="Recipient's username"
                          aria-label="Recipient's username" aria-describedby="button-addon2" />
@@ -23,7 +23,8 @@
                          <i class="bi bi-search"></i>
                      </button>
                  </div>
-             </form>
+             </form> --}}
+             <div class="d-flex ms-auto"></div>
              <ul class="navbar-nav mb-lg-0 mb-2">
                  <li class="nav-item dropdown">
                      <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"

@@ -5,6 +5,7 @@ use App\Http\Controllers\Web\Admin\Category\CategoryController;
 use App\Http\Controllers\Web\Admin\Dashboard\DashboardController;
 use App\Http\Controllers\Web\Admin\Product\ManufacturerController;
 use App\Http\Controllers\Web\Admin\Product\ProductController;
+use App\Http\Controllers\Web\Admin\Setting\SettingController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -38,6 +39,9 @@ Route::middleware(['auth', 'admin'])->group(function () {
     // Manufacturer
     Route::get('manufacturer/{id}/status', [ManufacturerController::class, 'status'])->name('manufacturer.status');
     Route::resource('manufacturer', ManufacturerController::class);
+
+    // setting
+    Route::resource('setting', SettingController::class);
 });
 
 

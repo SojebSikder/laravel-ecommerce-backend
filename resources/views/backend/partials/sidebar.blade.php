@@ -57,15 +57,15 @@
                         </li> --}}
 
                         <li>
-                            <a class="nav-link sidebar-link px-3" data-bs-toggle="collapse" href="#collapseExample"
-                                role="button" aria-expanded="false" aria-controls="collapseExample">
+                            <a class="nav-link sidebar-link px-3" data-bs-toggle="collapse" href="#products"
+                                role="button" aria-expanded="false" aria-controls="products">
                                 <span class="me-2"><i class="bi bi-layout-split"></i></span>
                                 <span>Products</span>
                                 <span class="right-icon ms-auto">
                                     <i class="bi bi-chevron-down"></i>
                                 </span>
                             </a>
-                            <div class="collapse" id="collapseExample">
+                            <div class="collapse" id="products">
                                 <div>
                                     <ul class="navbar-nav ps-3">
                                         <li>
@@ -84,6 +84,30 @@
                                             <a href="{{ route('manufacturer.index') }}" class="nav-link px-3">
                                                 <span class="me-2"><i class="bi bi-layout-split"></i></span>
                                                 <span>Manufacturers</span>
+                                            </a>
+                                        </li>
+
+                                    </ul>
+                                </div>
+                            </div>
+                        </li>
+
+                        <li>
+                            <a class="nav-link sidebar-link px-3" data-bs-toggle="collapse" href="#settings"
+                                role="button" aria-expanded="false" aria-controls="settings">
+                                <span class="me-2"><i class="bi bi-layout-split"></i></span>
+                                <span>Settings</span>
+                                <span class="right-icon ms-auto">
+                                    <i class="bi bi-chevron-down"></i>
+                                </span>
+                            </a>
+                            <div class="collapse" id="settings">
+                                <div>
+                                    <ul class="navbar-nav ps-3">
+                                        <li>
+                                            <a href="{{ route('setting.index') }}" class="nav-link px-3">
+                                                <span class="me-2"><i class="bi bi-layout-split"></i></span>
+                                                <span>Basic</span>
                                             </a>
                                         </li>
 
