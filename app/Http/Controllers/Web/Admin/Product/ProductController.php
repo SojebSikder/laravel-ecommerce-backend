@@ -4,8 +4,11 @@ namespace App\Http\Controllers\Web\Admin\Product;
 
 use App\Http\Controllers\Controller;
 use App\Models\Category\Category;
+use App\Models\Product\Manufacturer;
 use App\Models\Product\Product;
+use App\Models\Product\ProductCategory;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class ProductController extends Controller
 {
@@ -38,8 +41,9 @@ class ProductController extends Controller
     public function create()
     {
         $categories = Category::where('status', 1)->where('parent_id', null)->orderBy('name', 'asc')->get();
+        $manufacturers = Manufacturer::where('status', 1)->orderBy('name', 'asc')->get();
         $products = Product::where('status', 1)->get();
-        return view('backend.product.create', compact('categories', 'products'));
+        return view('backend.product.create', compact('categories', 'manufacturers', 'products'));
     }
 
     /**
@@ -50,21 +54,61 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        $name = $request->input('name');
-        $slug = $request->input('slug');
-        $category_id = $request->input('category_id');
-        $price = $request->input('price');
-        $description = $request->input('description');
-        $quantity = $request->input('quantity');
-        $sku = $request->input('sku');
-        $discount = $request->input('discount');
-        $is_sale = $request->input('is_sale') == 1 ? 1 : 0;
-        // seo
-        $meta_title = $request->input('meta_title');
-        $meta_description = $request->input('meta_description');
-        $meta_keyword = $request->input('meta_keyword');
-        //
-        $status = $request->input('status') == 1 ? 1 : 0;
+        try {
+            $request->validate([
+                'name' => 'required'
+            ]);
+
+            $name = $request->input('name');
+            $slug = $request->input('slug');
+            $category_id = $request->input('category_id');
+            $manufacturer_id = $request->input('manufacturer_id');
+            $price = $request->input('price');
+            $description = $request->input('description');
+            $track_quantity = $request->input('track_quantity') == 1 ? 1 : 0;
+            $quantity = $request->input('quantity');
+            $sku = $request->input('sku');
+            $discount = $request->input('discount');
+            $is_sale = $request->input('is_sale') == 1 ? 1 : 0;
+            // seo
+            $meta_title = $request->input('meta_title');
+            $meta_description = $request->input('meta_description');
+            $meta_keyword = $request->input('meta_keyword');
+            //
+            $status = $request->input('status') == 1 ? 1 : 0;
+
+            // insert record
+            $product = new Product();
+            $product->name = $name;
+            $product->slug = Str::slug($slug);
+            $product->price = $price;
+            $product->manufacturer_id = $manufacturer_id;
+            $product->description = $description;
+            $product->track_quantity = $track_quantity;
+            $product->quantity = $quantity;
+            $product->sku = $sku;
+            $product->discount = $discount;
+            $product->is_sale = $is_sale;
+
+            $product->meta_title = $meta_title;
+            $product->meta_description = $meta_description;
+            $product->meta_keyword = $meta_keyword;
+
+            $product->status = $status;
+            $product->save();
+            // save categories
+            foreach ($category_id as $category) {
+                // insert into product categories
+                $productCategoy = new ProductCategory();
+                $productCategoy->product_id = $product->id;
+                $productCategoy->category_id = $category;
+                $productCategoy->save();
+            }
+
+            return back()->with('success', 'Created successfully');
+        } catch (\Throwable $th) {
+            return back()->with('warning', $th->getMessage());
+        }
     }
 
     /**

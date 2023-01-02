@@ -62,135 +62,206 @@
                                     <div class="row">
                                         <div class="col">
 
-                                            <div class="col">
-                                                <div class="form-check form-switch mb-3 mt-5">
-                                                    <input class="form-check-input" checked value="1" name="status"
-                                                        type="checkbox" role="switch" id="status">
-                                                    <label class="form-check-label" for="status">Active</label>
-                                                </div>
-                                            </div>
+                                            <fieldset>
+                                                <legend>Product info</legend>
 
-                                            <div class="col">
-                                                <div class="form-group mb-3">
-                                                    <label for="name">Name</label>
-                                                    <input type="text" id="name"
-                                                        class="form-control @error('name') is-invalid @enderror"
-                                                        value="{{ old('name') }}" name="name"
-                                                        placeholder='e.g. Vegetables'>
+                                                <div class="col">
+                                                    <div class="form-check form-switch mb-3 mt-5">
+                                                        <input class="form-check-input" checked value="1"
+                                                            name="status" type="checkbox" role="switch" id="status">
+                                                        <label class="form-check-label" for="status">Active</label>
+                                                    </div>
                                                 </div>
-                                                @error('name')
-                                                    <div class="alert alert-danger">{{ $message }}</div>
-                                                @enderror
-                                            </div>
-                                            <div class="col">
-                                                <div class="form-group mb-3">
-                                                    <label for="slug">Slug</label>
-                                                    <input type="text" id="slug"
-                                                        class="form-control @error('slug') is-invalid @enderror"
-                                                        value="{{ old('slug') }}" name="slug" placeholder='slug'>
-                                                </div>
-                                                @error('slug')
-                                                    <div class="alert alert-danger">{{ $message }}</div>
-                                                @enderror
-                                            </div>
-                                            <div class="col mb-4">
-                                                <div class="form-group mb-3">
-                                                    <label for="category_id">Category</label>
-                                                    <select class="select2 form-select mb-3" name="category_id">
-                                                        <option value="0"> ===Select category===</option>
-                                                        @if (count($categories) > 0)
-                                                            @foreach ($categories as $category)
-                                                                <?php $dash = ''; ?>
-                                                                <option value={{ $category->id }}>
-                                                                    {{ $category->name }}</option>
-                                                                @if (count($category->sub_categories))
-                                                                    @include('components.subcategory', [
-                                                                        'sub_categories' =>
-                                                                            $category->sub_categories,
-                                                                    ])
-                                                                @endif
-                                                            @endforeach
-                                                        @endif
-                                                    </select>
-                                                </div>
-                                                @error('category_id')
-                                                    <div class="alert alert-danger">{{ $message }}</div>
-                                                @enderror
-                                            </div>
 
-                                            {{-- image --}}
-                                            <div class="col mb-4">
-                                                <div class="form-group">
-                                                    <label for="name">Picture</label>
-                                                    <label class="btn btn-info">
-                                                        Choose file <input type="file" accept="image/*" name="image"
-                                                            id="uploadImage" class="d-none">
-                                                    </label>
-
-                                                    @error('image')
-                                                        <div class="alert alert-danger mt-1">{{ $message }}</div>
-                                                    @enderror
-                                                </div>
-                                            </div>
-
-                                            <div class="col">
-                                                <div class="form-group">
-                                                    <label for="description">Description</label>
-                                                    <textarea name="description" id="description"></textarea>
-                                                </div>
-                                            </div>
-
-                                            <div class="col mt-4">
-                                                <div class="form-group mb-3">
-                                                    <label for="price">Price</label>
-                                                    <input type="text" id="price"
-                                                        class="form-control @error('price') is-invalid @enderror"
-                                                        value="{{ old('price') }}" name="price" placeholder='price'>
-                                                </div>
-                                                @error('price')
-                                                    <div class="alert alert-danger">{{ $message }}</div>
-                                                @enderror
-                                            </div>
-
-                                            <div class="form-check form-switch mt-2">
-                                                <input class="form-check-input" value="1" name="is_sale"
-                                                    type="checkbox" role="switch" id="is_sale">
-                                                <label class="form-check-label"
-                                                    title="Check this if you want to provide discount"
-                                                    data-bs-toggle="tooltip" data-bs-placement="top"
-                                                    data-bs-title="Check this if you want to provide discount"
-                                                    for="is_sale">Sale?</label>
-                                            </div>
-
-                                            <hr>
-                                            {{-- seo --}}
-                                            <div class="col">
-                                                <h5>SEO tags</h5>
                                                 <div class="col">
                                                     <div class="form-group mb-3">
-                                                        <label for="meta_title">Meta Title</label>
-                                                        <input type="text"
-                                                            class="form-control @error('meta_title') is-invalid @enderror"
-                                                            value="{{ old('meta_title') }}" name="meta_title"
-                                                            placeholder='Title'>
+                                                        <label for="name">Name</label>
+                                                        <input type="text" id="name"
+                                                            class="form-control @error('name') is-invalid @enderror"
+                                                            value="{{ old('name') }}" name="name"
+                                                            placeholder='e.g. Vegetables'>
                                                     </div>
+                                                    @error('name')
+                                                        <div class="alert alert-danger">{{ $message }}</div>
+                                                    @enderror
+                                                </div>
+                                                <div class="col">
                                                     <div class="form-group mb-3">
-                                                        <label for="meta_description">Meta Description</label>
-                                                        <textarea name="meta_description" placeholder="Description"
-                                                            class="form-control @error('meta_description') is-invalid @enderror" cols="10" rows="5">{{ old('meta_description') }}</textarea>
+                                                        <label for="slug">Slug</label>
+                                                        <input type="text" id="slug"
+                                                            class="form-control @error('slug') is-invalid @enderror"
+                                                            value="{{ old('slug') }}" name="slug" placeholder='slug'>
                                                     </div>
+                                                    @error('slug')
+                                                        <div class="alert alert-danger">{{ $message }}</div>
+                                                    @enderror
+                                                </div>
+                                                <div class="col mb-4">
                                                     <div class="form-group mb-3">
-                                                        <label for="meta_keyword">Meta Keywords</label>
-                                                        <input type="text"
-                                                            class="form-control @error('meta_keyword') is-invalid @enderror"
-                                                            value="{{ old('meta_keyword') }}" name="meta_keyword"
-                                                            placeholder='Keywords'>
+                                                        <label for="category_id">Categories</label>
+                                                        <select class="tagsselect2 form-select mb-3" name="category_id[]"
+                                                            multiple="multiple">
+                                                            {{-- <option value="0">None</option> --}}
+                                                            @if (count($categories) > 0)
+                                                                @foreach ($categories as $category)
+                                                                    <?php $dash = ''; ?>
+                                                                    <option value={{ $category->id }}>
+                                                                        {{ $category->name }}</option>
+                                                                    @if (count($category->sub_categories))
+                                                                        @include('components.subcategory', [
+                                                                            'sub_categories' =>
+                                                                                $category->sub_categories,
+                                                                        ])
+                                                                    @endif
+                                                                @endforeach
+                                                            @endif
+                                                        </select>
+                                                    </div>
+                                                    @error('category_id')
+                                                        <div class="alert alert-danger">{{ $message }}</div>
+                                                    @enderror
+                                                </div>
+
+                                                <div class="col mb-4">
+                                                    <div class="form-group mb-3">
+                                                        <label for="manufacturer_id">Manufacturer</label>
+                                                        <select id="select2" class="form-select mb-3"
+                                                            name="manufacturer_id">
+                                                            <option value="0">None</option>
+                                                            @if (count($manufacturers) > 0)
+                                                                @foreach ($manufacturers as $manufacturer)
+                                                                    <?php $dash = ''; ?>
+                                                                    <option value={{ $manufacturer->id }}>
+                                                                        {{ $manufacturer->name }}</option>
+                                                                @endforeach
+                                                            @endif
+                                                        </select>
+                                                    </div>
+                                                    @error('category_id')
+                                                        <div class="alert alert-danger">{{ $message }}</div>
+                                                    @enderror
+                                                </div>
+
+                                                {{-- image --}}
+                                                <div class="col mb-4">
+                                                    <div class="form-group">
+                                                        <label for="name">Picture</label>
+                                                        <label class="btn btn-info">
+                                                            Choose file <input type="file" accept="image/*"
+                                                                name="image" id="uploadImage" class="d-none">
+                                                        </label>
+
+                                                        @error('image')
+                                                            <div class="alert alert-danger mt-1">{{ $message }}</div>
+                                                        @enderror
+                                                    </div>
+                                                </div>
+
+                                                <div class="col">
+                                                    <div class="form-group">
+                                                        <label for="description">Description</label>
+                                                        <textarea name="description" id="description"></textarea>
+                                                    </div>
+                                                </div>
+                                            </fieldset>
+
+                                            <fieldset>
+                                                <legend>Prices</legend>
+                                                <div class="col mt-4">
+                                                    <div class="form-group mb-3">
+                                                        <label for="price">Price</label>
+                                                        <input type="number" id="price"
+                                                            class="form-control @error('price') is-invalid @enderror"
+                                                            value="{{ old('price') }}" name="price"
+                                                            placeholder='0.00'>
+                                                    </div>
+                                                    @error('price')
+                                                        <div class="alert alert-danger">{{ $message }}</div>
+                                                    @enderror
+                                                </div>
+                                                <div class="col mt-4">
+                                                    <div class="form-group mb-3">
+                                                        <label for="cost_per_item">Cost per item</label>
+                                                        <input type="number" id="cost_per_item"
+                                                            class="form-control @error('cost_per_item') is-invalid @enderror"
+                                                            value="{{ old('cost_per_item') }}" name="cost_per_item"
+                                                            placeholder='0.00'>
+                                                        <label style="font-size: 0.9rem" class="text-muted">Customer won't
+                                                            see
+                                                            this</label>
+                                                    </div>
+                                                    @error('cost_per_item')
+                                                        <div class="alert alert-danger">{{ $message }}</div>
+                                                    @enderror
+                                                </div>
+                                                <div class="col mt-4">
+                                                    <div class="form-group mb-3">
+                                                        <label for="discount">Discount <sup>%</sup></label>
+                                                        <input type="number" id="discount"
+                                                            class="form-control @error('discount') is-invalid @enderror"
+                                                            value="{{ old('discount') }}" name="discount"
+                                                            placeholder='e.g. 10'>
+                                                    </div>
+                                                    @error('discount')
+                                                        <div class="alert alert-danger">{{ $message }}</div>
+                                                    @enderror
+                                                </div>
+
+                                                <div class="form-check form-switch mt-2">
+                                                    <input class="form-check-input" value="1" name="is_sale"
+                                                        type="checkbox" role="switch" id="is_sale">
+                                                    <label class="form-check-label"
+                                                        title="Check this if you want to provide discount"
+                                                        data-bs-toggle="tooltip" data-bs-placement="top"
+                                                        data-bs-title="Check this if you want to provide discount"
+                                                        for="is_sale">Sale?</label>
+                                                </div>
+                                            </fieldset>
+
+                                            <fieldset>
+                                                <legend>Inventory</legend>
+                                                <div class="col mt-4">
+                                                    <div class="form-group mb-3">
+                                                        <label for="quantity">Stock quantity</label>
+                                                        <input type="number" id="quantity"
+                                                            class="form-control @error('quantity') is-invalid @enderror"
+                                                            value="{{ old('quantity') }}" name="quantity"
+                                                            placeholder='1000'>
+                                                    </div>
+                                                    @error('quantity')
+                                                        <div class="alert alert-danger">{{ $message }}</div>
+                                                    @enderror
+                                                </div>
+                                            </fieldset>
+
+                                            <fieldset>
+                                                <legend>SEO tags</legend>
+                                                <div class="col">
+                                                    <div class="col">
+                                                        <div class="form-group mb-3">
+                                                            <label for="meta_title">Meta Title</label>
+                                                            <input type="text"
+                                                                class="form-control @error('meta_title') is-invalid @enderror"
+                                                                value="{{ old('meta_title') }}" name="meta_title"
+                                                                placeholder='Title'>
+                                                        </div>
+                                                        <div class="form-group mb-3">
+                                                            <label for="meta_description">Meta Description</label>
+                                                            <textarea name="meta_description" placeholder="Description"
+                                                                class="form-control @error('meta_description') is-invalid @enderror" cols="10" rows="5">{{ old('meta_description') }}</textarea>
+                                                        </div>
+                                                        <div class="form-group mb-3">
+                                                            <label for="meta_keyword">Meta Keywords</label>
+                                                            <input type="text"
+                                                                class="form-control @error('meta_keyword') is-invalid @enderror"
+                                                                value="{{ old('meta_keyword') }}" name="meta_keyword"
+                                                                placeholder='Keywords'>
+                                                        </div>
+
                                                     </div>
 
                                                 </div>
-
-                                            </div>
-
+                                            </fieldset>
 
                                             <div class="row">
                                                 <div class="col">
@@ -221,7 +292,16 @@
     <script src="{{ asset('assets') }}/select2/js/select2.min.js"></script>
     <script>
         // select2
-        $(".select2").select2();
+        $(document).ready(function() {
+            $(".tagsselect2").select2({
+                placeholder: "Select categories",
+                allowClear: true,
+                tags: true
+            });
+        });
+        $(document).ready(function() {
+            $("#select2").select2();
+        });
     </script>
 
     <script>

@@ -97,7 +97,7 @@
                                                 <div class="form-group mb-3">
                                                     <label for="parent_category_id">Parent Category</label>
                                                     <select class="select2 form-select mb-3" name="parent_category_id">
-                                                        <option value="0"> ===Select parent category===</option>
+                                                        <option value="0">None</option>
                                                         @if (count($parent_categories) > 0)
                                                             @foreach ($parent_categories as $subcategory)
                                                                 <option value={{ $subcategory->id }}
