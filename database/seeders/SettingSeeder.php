@@ -20,33 +20,33 @@ class SettingSeeder extends Seeder
         Setting::create([
             'label' => 'Meta Title',
             'key' => 'meta_title',
-            'value' => 'Exinostore',
+            'value' => 'example',
             'description' => 'Change website meta title',
         ]);
         Setting::create([
             'label' => 'Meta description',
             'key' => 'meta_description',
-            'value' => 'Exinostore',
+            'value' => 'example',
             'value_type' => 'textarea',
             'description' => 'Change website meta description',
         ]);
         Setting::create([
             'label' => 'Meta keyword',
             'key' => 'meta_keyword',
-            'value' => 'Exinostore',
+            'value' => 'example',
             'description' => 'Change website meta keyword',
         ]);
         //
         Setting::create([
             'label' => 'name',
             'key' => 'name',
-            'value' => 'Exinostore',
+            'value' => 'example',
             'description' => 'Change website name',
         ]);
         Setting::create([
             'label' => 'slogan',
             'key' => 'slogan',
-            'value' => 'Exinostore slogan',
+            'value' => 'example slogan',
             'description' => 'Change slogan',
         ]);
 
@@ -72,19 +72,19 @@ class SettingSeeder extends Seeder
         Setting::create([
             'label' => 'Phone number',
             'key' => 'phone',
-            'value' => 'Dhaka, Bangladesh',
+            'value' => 'phone',
             'description' => 'Change phone number',
         ]);
         Setting::create([
             'label' => 'Email',
             'key' => 'email',
-            'value' => 'example@gmail.com',
+            'value' => 'example@email.com',
             'description' => 'Change email',
         ]);
         Setting::create([
             'label' => 'Contact email',
             'key' => 'contact_email',
-            'value' => 'example@gmail.com',
+            'value' => 'example@email.com',
             'description' => 'Contact email used to get mail from user also show them.',
         ]);
         // with html editor       

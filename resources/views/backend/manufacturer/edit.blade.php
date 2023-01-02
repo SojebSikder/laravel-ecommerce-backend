@@ -41,7 +41,8 @@
                         <div class="card">
                             <div class="card-header">
                                 <h5 class="float-start">Edit manufacturer</h5>
-                                <a href="{{ route('manufacturer.index') }}" class="btn btn-sm btn-primary float-end mt-3 mr-4">
+                                <a href="{{ route('manufacturer.index') }}"
+                                    class="btn btn-sm btn-primary float-end mt-3 mr-4">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                         viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                                         stroke-linecap="round" stroke-linejoin="round" class="feather feather-list">
@@ -57,11 +58,17 @@
 
                             </div>
                             <div class="card-body">
-                                <form action="{{ route('manufacturer.update', $manufacturer->id) }}" method="POST" enctype="multipart/form-data">
+                                <form action="{{ route('manufacturer.update', $manufacturer->id) }}" method="POST"
+                                    enctype="multipart/form-data">
                                     @csrf
                                     @method('PUT')
                                     <div class="row">
                                         <div class="col">
+
+                                            <div class="d-flex form-group justify-content-end mb-3">
+                                                <button id="submit" type="submit"
+                                                    class="btn btn-primary me-1 mt-3">Save</button>
+                                            </div>
 
                                             <div class="col">
                                                 <div class="form-check form-switch mb-3 mt-5">
@@ -89,22 +96,23 @@
                                                     <label for="slug">Slug</label>
                                                     <input type="text" id="slug"
                                                         class="form-control @error('slug') is-invalid @enderror"
-                                                        value="{{ $manufacturer->slug }}" name="slug" placeholder='slug'>
+                                                        value="{{ $manufacturer->slug }}" name="slug"
+                                                        placeholder='slug'>
                                                 </div>
                                                 @error('slug')
                                                     <div class="alert alert-danger">{{ $message }}</div>
                                                 @enderror
                                             </div>
-                                            
+
                                             {{-- image --}}
                                             <div class="col mb-4">
                                                 <div>
                                                     {{-- <a href="{{ $manufacturer->image_url }}"
                                                         target="_blank" rel="noopener noreferrer"> --}}
                                                     <img style="max-width: 80px !important;" class="img-thumbnail"
-                                                        src="{{ $manufacturer->image_url }}" alt="{{ $manufacturer->image }}"
-                                                        data-toggle="tooltip" data-placement="top"
-                                                        title="Click to view large mode">
+                                                        src="{{ $manufacturer->image_url }}"
+                                                        alt="{{ $manufacturer->image }}" data-toggle="tooltip"
+                                                        data-placement="top" title="Click to view large mode">
                                                     {{-- </a> --}}
                                                 </div>
                                                 <div class="form-group">
