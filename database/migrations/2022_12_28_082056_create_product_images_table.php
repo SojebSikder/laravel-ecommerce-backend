@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::create('product_images', function (Blueprint $table) {
             $table->id();
             $table->string('image')->nullable();
+            $table->text('title')->nullable();
             $table->text('alt_text')->nullable();
             $table->string('product_id')->nullable()->references('id')->on('products')->onDelete('cascade');
 

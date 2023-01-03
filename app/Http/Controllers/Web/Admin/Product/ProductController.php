@@ -9,6 +9,7 @@ use App\Models\Product\Product;
 use App\Models\Product\ProductCategory;
 use App\Models\Product\ProductImage;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 class ProductController extends Controller
@@ -202,6 +203,8 @@ class ProductController extends Controller
             $quantity = $request->input('quantity');
             $sku = $request->input('sku');
 
+            $image = $request->file('image');
+
             $weight = $request->input('weight');
             $weight_unit = $request->input('weight_unit');
 
@@ -267,11 +270,62 @@ class ProductController extends Controller
             //         $productCategoy->save();
             //     }
             // }
+            if ($request->hasFile('image')) {
+                // update images to variant image
+                $this->storeImage($image, $product->id);
+            }
 
             return back()->with('success', 'Updated successfully');
         } catch (\Throwable $th) {
             return back()->with('warning', $th->getMessage());
         }
+    }
+
+    /**
+     * store image
+     */
+    private function storeImage($file, $product_id)
+    {
+        if ($file) {
+            $count = count($file);
+            // upload new image
+            for ($i = 0; $i < $count; $i++) {
+                $file_tmp =  $file[$i];
+                $file_name = time() . '-' . uniqid() . '.' . $file_tmp->extension();
+                $file_path = config('constants.uploads.product') . "/" . $file_name;
+
+                // // resize image
+                // $resizedimg = ImageHelper::resize(file_get_contents($file_tmp->getRealPath()), 1000, 1000);
+                // Storage::put($file_path, (string) $resizedimg->encode());
+                // resize image
+                $resizedimg = file_get_contents($file_tmp->getRealPath());
+                Storage::put($file_path, (string) $resizedimg);
+
+                // insert into product image
+                $productImage = new ProductImage();
+                $productImage->product_id = $product_id;
+                $productImage->image = $file_name;
+                $productImage->save();
+            }
+        }
+    }
+
+    /**
+     * Update product image
+     */
+    public function updateImage(Request $request, $id)
+    {
+        $title = $request->input('title');
+        $alt_text = $request->input('alt_text');
+        $sort_order = $request->input('sort_order');
+
+        $productImage = ProductImage::find($id);
+        $productImage->title = $title;
+        $productImage->alt_text = $alt_text;
+        $productImage->sort_order = $sort_order;
+        $productImage->save();
+
+        return back()->with('success', 'Updated Successfully');
     }
 
     public function status($id)
