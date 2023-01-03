@@ -7,6 +7,7 @@ use App\Models\Category\Category;
 use App\Models\Product\Manufacturer;
 use App\Models\Product\Product;
 use App\Models\Product\ProductCategory;
+use App\Models\Product\ProductImage;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
@@ -42,8 +43,7 @@ class ProductController extends Controller
     {
         $categories = Category::where('status', 1)->where('parent_id', null)->orderBy('name', 'asc')->get();
         $manufacturers = Manufacturer::where('status', 1)->orderBy('name', 'asc')->get();
-        $products = Product::where('status', 1)->get();
-        return view('backend.product.create', compact('categories', 'manufacturers', 'products'));
+        return view('backend.product.create', compact('categories', 'manufacturers'));
     }
 
     /**
@@ -156,9 +156,17 @@ class ProductController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Request $request, $id)
     {
-        //
+
+        $categories = Category::where('status', 1)->where('parent_id', null)->orderBy('name', 'asc')->get();
+        $manufacturers = Manufacturer::where('status', 1)->orderBy('name', 'asc')->get();
+        $product = Product::findOrFail($id);
+
+        $productImages = ProductImage::orderBy('sort_order', 'asc')
+            ->paginate(15);
+
+        return view('backend.product.edit', compact('categories', 'manufacturers', 'productImages', 'product'));
     }
 
     /**

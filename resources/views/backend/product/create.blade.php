@@ -150,7 +150,7 @@
                                                 </div>
 
                                                 {{-- image --}}
-                                                <div class="col mb-4">
+                                                {{-- <div class="col mb-4">
                                                     <div class="form-group">
                                                         <label for="name">Picture</label>
                                                         <label class="btn btn-info">
@@ -162,7 +162,7 @@
                                                             <div class="alert alert-danger mt-1">{{ $message }}</div>
                                                         @enderror
                                                     </div>
-                                                </div>
+                                                </div> --}}
 
                                                 <div class="col">
                                                     <div class="form-group">

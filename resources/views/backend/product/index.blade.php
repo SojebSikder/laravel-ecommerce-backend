@@ -66,6 +66,9 @@
                                             <tr>
                                                 <th>Picture</th>
                                                 <th>Product</th>
+                                                <th>SKU</th>
+                                                <th>Price</th>
+                                                <th>Stock quantity</th>
                                                 <th class="text-center">Status</th>
                                                 <th class="text-center">Actions</th>
                                             </tr>
@@ -75,6 +78,9 @@
                                                 <tr>
                                                     <td>{{ $product->image }}</td>
                                                     <td>{{ $product->name }}</td>
+                                                    <td>{{ $product->sku }}</td>
+                                                    <td>{{ $product->price }}</td>
+                                                    <td>{{ $product->quantity }}</td>
 
                                                     @if ($product->status == '1')
                                                         <td class="text-center">
