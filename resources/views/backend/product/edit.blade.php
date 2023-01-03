@@ -397,7 +397,7 @@
                                                                                     </a>
                                                                                     {{-- delete  --}}
                                                                                     <form method="post"
-                                                                                        action="{{ route('product.destroy', $productImage->id) }}"
+                                                                                        action="{{ route('product.image.destroy', $productImage->id) }}"
                                                                                         id="{{ 'product-delete-' . $productImage->id }}">
                                                                                         @csrf
                                                                                         @method('DELETE')

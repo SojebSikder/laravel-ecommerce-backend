@@ -28,6 +28,12 @@ Route::middleware(['auth', 'admin'])->group(function () {
 
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
+    /**
+     * Product
+     */
+    // product image
+    Route::put('product/image/{id}', [ProductController::class, 'updateImage'])->name('product.image.update');
+    Route::delete('product/image/{id}/delete', [ProductController::class, 'deleteImage'])->name('product.image.destroy');
     // product
     Route::get('product/{id}/status', [ProductController::class, 'status'])->name('product.status');
     Route::resource('product', ProductController::class);

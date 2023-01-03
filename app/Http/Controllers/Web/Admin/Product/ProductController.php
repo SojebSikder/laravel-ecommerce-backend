@@ -328,6 +328,24 @@ class ProductController extends Controller
         return back()->with('success', 'Updated Successfully');
     }
 
+    // remove single product variant image
+    public function deleteImage($id)
+    {
+        try {
+            $productImage = ProductImage::where("id", $id)->first();
+            // remove image from storage
+            if (Storage::exists(config('constants.uploads.product') . "/" . $productImage->image)) {
+                Storage::delete(config('constants.uploads.product') . "/" . $productImage->image);
+            }
+            // remove record from database
+            $productImage->delete();
+            return redirect()->back()->with('success', 'Deleted Successfully');
+        } catch (\Throwable $th) {
+            //throw $th;
+            return redirect()->back()->with('success', 'Not Deleted. Something went wrong :(');
+        }
+    }
+
     public function status($id)
     {
         $product = Product::find($id);
