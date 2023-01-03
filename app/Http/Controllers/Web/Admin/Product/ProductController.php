@@ -138,7 +138,7 @@ class ProductController extends Controller
             // }
 
             if ($saveContinue) {
-                return redirect("/product/variant/create/$product->id")->with('success', 'Created successfully');
+                return redirect("/product/$product->id/edit")->with('success', 'Created successfully');
             } else {
                 return back()->with('success', 'Created successfully');
             }
