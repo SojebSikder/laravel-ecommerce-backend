@@ -65,8 +65,8 @@
                                             <div class="d-flex form-group justify-content-end mb-3">
                                                 <button id="submit" type="submit" class="btn btn-primary me-1 mt-3"
                                                     name="save">Save</button>
-                                                <button id="submit" type="submit" class="btn btn-primary mt-3"
-                                                    name="save-continue">Save
+                                                <button id="submit" value="1" type="submit" class="btn btn-primary mt-3"
+                                                    name="save_continue">Save
                                                     and Continue Edit</button>
                                             </div>
 
