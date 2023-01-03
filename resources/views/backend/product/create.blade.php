@@ -148,22 +148,7 @@
                                                         <div class="alert alert-danger">{{ $message }}</div>
                                                     @enderror
                                                 </div>
-
-                                                {{-- image --}}
-                                                {{-- <div class="col mb-4">
-                                                    <div class="form-group">
-                                                        <label for="name">Picture</label>
-                                                        <label class="btn btn-info">
-                                                            Choose file <input type="file" accept="image/*"
-                                                                name="image" id="uploadImage" class="d-none">
-                                                        </label>
-
-                                                        @error('image')
-                                                            <div class="alert alert-danger mt-1">{{ $message }}</div>
-                                                        @enderror
-                                                    </div>
-                                                </div> --}}
-
+                                                
                                                 <div class="col">
                                                     <div class="form-group">
                                                         <label for="description">Description</label>

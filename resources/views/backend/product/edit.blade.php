@@ -322,34 +322,25 @@
                                                                     <th>Display order</th>
                                                                     <th>Alt</th>
                                                                     <th>Title</th>
-                                                                    <th class="text-center">Status</th>
                                                                     <th class="text-center">Actions</th>
                                                                 </tr>
                                                             </thead>
                                                             <tbody>
                                                                 @foreach ($productImages as $productImage)
                                                                     <tr>
-                                                                        <td>{{ $productImage->image }}</td>
+                                                                        <td>
+                                                                            <a href="{{ $productImage->image_url }}"
+                                                                                target="_blank" rel="noopener noreferrer">
+                                                                                <img width="150" class="img-thumbnail"
+                                                                                    src="{{ $productImage->image_url }}"
+                                                                                    alt="{{ $productImage->alt_text }}"
+                                                                                    title="{{ $productImage->title }}">
+                                                                            </a>
+                                                                        </td>
                                                                         <td>{{ $productImage->sort_order }}</td>
-                                                                        <td>{{ $productImage->sku }}</td>
-                                                                        <td>{{ $productImage->price }}</td>
-                                                                        <td>{{ $productImage->quantity }}</td>
+                                                                        <td>{{ $productImage->alt_text }}</td>
+                                                                        <td>{{ $productImage->title }}</td>
 
-                                                                        @if ($productImage->status == '1')
-                                                                            <td class="text-center">
-                                                                                <a href="{{ route('product.status', $productImage->id) }}"
-                                                                                    class="badge bg-primary text-decoration-none shadow-none">
-                                                                                    Active
-                                                                                </a>
-                                                                            </td>
-                                                                        @else
-                                                                            <td class="text-center">
-                                                                                <a href="{{ route('product.status', $productImage->id) }}"
-                                                                                    class="badge bg-warning text-decoration-none shadow-none">
-                                                                                    Disabled
-                                                                                </a>
-                                                                            </td>
-                                                                        @endif
                                                                         <td class="text-center">
                                                                             <ul class="table-controls">
                                                                                 <li>
