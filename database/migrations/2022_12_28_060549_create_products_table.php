@@ -56,7 +56,7 @@ return new class extends Migration
             $table->bigInteger("views")->nullable()->default(0);
             $table->tinyInteger('status')->default(1); //1-> active,2->deactive
 
-            $table->softDeletes();
+            // $table->softDeletes();
             $table->timestamps();
         });
     }

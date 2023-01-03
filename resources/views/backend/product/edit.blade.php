@@ -68,7 +68,7 @@
                                                 <button id="submit" type="submit" class="btn btn-primary me-1 mt-3"
                                                     name="save">Save</button>
                                                 <button id="submit" type="submit" class="btn btn-primary mt-3"
-                                                    name="save-continue">Save
+                                                    name="save_continue">Save
                                                     and Continue Edit</button>
                                             </div>
 
@@ -109,8 +109,8 @@
                                                 <div class="col mb-4">
                                                     <div class="form-group mb-3">
                                                         <label for="category_id">Categories</label>
-                                                        <select class="tagsselect2 form-select mb-3" name="category_id[]"
-                                                            multiple="multiple">
+                                                        <select id="categories-select2" class="form-select mb-3"
+                                                            name="category_id[]" multiple="multiple">
                                                             {{-- <option value="0">None</option> --}}
                                                             @if (count($categories) > 0)
                                                                 @foreach ($categories as $category)
@@ -141,7 +141,8 @@
                                                             @if (count($manufacturers) > 0)
                                                                 @foreach ($manufacturers as $manufacturer)
                                                                     <?php $dash = ''; ?>
-                                                                    <option value={{ $manufacturer->id }}>
+                                                                    <option value={{ $manufacturer->id }}
+                                                                        @if ($product->manufacturer_id == $manufacturer->id) selected @endif>
                                                                         {{ $manufacturer->name }}</option>
                                                                 @endforeach
                                                             @endif
@@ -156,7 +157,7 @@
                                                 <div class="col">
                                                     <div class="form-group">
                                                         <label for="description">Description</label>
-                                                        <textarea name="description" id="description"></textarea>
+                                                        <textarea name="description" id="description">{{ $product->description }}</textarea>
                                                     </div>
                                                 </div>
                                             </fieldset>
@@ -168,7 +169,7 @@
                                                         <label for="price">Price</label>
                                                         <input type="number" id="price"
                                                             class="form-control @error('price') is-invalid @enderror"
-                                                            value="{{ old('price') }}" name="price"
+                                                            value="{{ $product->price }}" name="price"
                                                             placeholder='0.00'>
                                                     </div>
                                                     @error('price')
@@ -180,7 +181,7 @@
                                                         <label for="cost_per_item">Cost per item</label>
                                                         <input type="number" id="cost_per_item"
                                                             class="form-control @error('cost_per_item') is-invalid @enderror"
-                                                            value="{{ old('cost_per_item') }}" name="cost_per_item"
+                                                            value="{{ $product->cost_per_item }}" name="cost_per_item"
                                                             placeholder='0.00'>
                                                         <label style="font-size: 0.9rem" class="text-muted">Customer won't
                                                             see
@@ -195,7 +196,7 @@
                                                         <label for="discount">Discount <sup>%</sup></label>
                                                         <input type="number" id="discount"
                                                             class="form-control @error('discount') is-invalid @enderror"
-                                                            value="{{ old('discount') }}" name="discount"
+                                                            value="{{ $product->discount }}" name="discount"
                                                             placeholder='e.g. 10'>
                                                     </div>
                                                     @error('discount')
@@ -204,8 +205,9 @@
                                                 </div>
 
                                                 <div class="form-check form-switch mt-2">
-                                                    <input class="form-check-input" value="1" name="is_sale"
-                                                        type="checkbox" role="switch" id="is_sale">
+                                                    <input class="form-check-input"
+                                                        @if ($product->is_sale) checked @endif value="1"
+                                                        name="is_sale" type="checkbox" role="switch" id="is_sale">
                                                     <label class="form-check-label"
                                                         title="Check this if you want to provide discount"
                                                         data-bs-toggle="tooltip" data-bs-placement="top"
@@ -222,7 +224,7 @@
                                                             <label for="weight">Weight</label>
                                                             <input type="number" id="weight"
                                                                 class="form-control @error('weight') is-invalid @enderror"
-                                                                value="{{ old('weight') }}" name="weight">
+                                                                value="{{ $product->weight }}" name="weight">
                                                         </div>
                                                         @error('weight')
                                                             <div class="alert alert-danger">{{ $message }}</div>
@@ -264,15 +266,17 @@
                                                         <label for="sku">SKU (Stock Keeping Unit)</label>
                                                         <input type="text" id="sku"
                                                             class="form-control @error('sku') is-invalid @enderror"
-                                                            value="{{ old('sku') }}" name="sku">
+                                                            value="{{ $product->sku }}" name="sku">
                                                     </div>
                                                     @error('sku')
                                                         <div class="alert alert-danger">{{ $message }}</div>
                                                     @enderror
                                                 </div>
                                                 <div class="form-check form-switch mt-2">
-                                                    <input class="form-check-input" value="1" name="track_quantity"
-                                                        type="checkbox" role="switch" id="track_quantity">
+                                                    <input class="form-check-input"
+                                                        @if ($product->track_quantity) checked @endif value="1"
+                                                        name="track_quantity" type="checkbox" role="switch"
+                                                        id="track_quantity">
                                                     <label class="form-check-label" for="track_quantity">Track
                                                         quantity</label>
                                                 </div>
@@ -281,7 +285,7 @@
                                                         <label for="quantity">Stock quantity</label>
                                                         <input type="number" id="quantity"
                                                             class="form-control @error('quantity') is-invalid @enderror"
-                                                            value="{{ old('quantity') }}" name="quantity"
+                                                            value="{{ $product->quantity }}" name="quantity"
                                                             placeholder='1000'>
                                                     </div>
                                                     @error('quantity')
@@ -431,19 +435,19 @@
                                                             <label for="meta_title">Meta Title</label>
                                                             <input type="text"
                                                                 class="form-control @error('meta_title') is-invalid @enderror"
-                                                                value="{{ old('meta_title') }}" name="meta_title"
+                                                                value="{{ $product->meta_title }}" name="meta_title"
                                                                 placeholder='Title'>
                                                         </div>
                                                         <div class="form-group mb-3">
                                                             <label for="meta_description">Meta Description</label>
                                                             <textarea name="meta_description" placeholder="Description"
-                                                                class="form-control @error('meta_description') is-invalid @enderror" cols="10" rows="5">{{ old('meta_description') }}</textarea>
+                                                                class="form-control @error('meta_description') is-invalid @enderror" cols="10" rows="5">{{ $product->meta_description }}</textarea>
                                                         </div>
                                                         <div class="form-group mb-3">
                                                             <label for="meta_keyword">Meta Keywords</label>
                                                             <input type="text"
                                                                 class="form-control @error('meta_keyword') is-invalid @enderror"
-                                                                value="{{ old('meta_keyword') }}" name="meta_keyword"
+                                                                value="{{ $product->meta_keyword }}" name="meta_keyword"
                                                                 placeholder='Keywords'>
                                                         </div>
 
@@ -470,14 +474,22 @@
     <script src="{{ asset('assets') }}/tinymce/tinymce.min.js"></script>
     <script src="{{ asset('assets') }}/select2/js/select2.min.js"></script>
     <script>
-        // select2
+        // categoris
         $(document).ready(function() {
-            $(".tagsselect2").select2({
+            const categoriesSelect2 = $("#categories-select2");
+            const selectedValues = <?php echo json_encode($product->categories); ?>;
+            const newSelectedValues = selectedValues.map((selectedValue) => selectedValue.id)
+
+            categoriesSelect2.select2({
+
                 placeholder: "Select categories",
                 allowClear: true,
                 tags: true
             });
+
+            categoriesSelect2.val(newSelectedValues).trigger('change');
         });
+
         $(document).ready(function() {
             $("#select2").select2();
         });

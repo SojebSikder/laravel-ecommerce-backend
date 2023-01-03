@@ -59,11 +59,14 @@ class ProductController extends Controller
                 'name' => 'required'
             ]);
 
+            $saveContinue = $request->input('save_continue');
+
             $name = $request->input('name');
             $slug = $request->input('slug');
             $category_id = $request->input('category_id');
             $manufacturer_id = $request->input('manufacturer_id');
             $price = $request->input('price');
+            $cost_per_item = $request->input('cost_per_item');
             $description = $request->input('description');
             $track_quantity = $request->input('track_quantity') == 1 ? 1 : 0;
             $quantity = $request->input('quantity');
@@ -86,6 +89,7 @@ class ProductController extends Controller
             $product->name = $name;
             $product->slug = Str::slug($slug);
             $product->price = $price;
+            $product->cost_per_item = $cost_per_item;
             if ($manufacturer_id) {
                 $product->manufacturer_id = $manufacturer_id;
             } else {
@@ -122,18 +126,22 @@ class ProductController extends Controller
             $product->status = $status;
             $product->save();
             // save categories
-            // TODO sync
-            if ($category_id) {
-                foreach ($category_id as $category) {
-                    // insert into product categories
-                    $productCategoy = new ProductCategory();
-                    $productCategoy->product_id = $product->id;
-                    $productCategoy->category_id = $category;
-                    $productCategoy->save();
-                }
-            }
+            $product->categories()->sync($category_id);
+            // if ($category_id) {
+            //     foreach ($category_id as $category) {
+            //         // insert into product categories
+            //         $productCategoy = new ProductCategory();
+            //         $productCategoy->product_id = $product->id;
+            //         $productCategoy->category_id = $category;
+            //         $productCategoy->save();
+            //     }
+            // }
 
-            return back()->with('success', 'Created successfully');
+            if ($saveContinue) {
+                return redirect("/product/variant/create/$product->id")->with('success', 'Created successfully');
+            } else {
+                return back()->with('success', 'Created successfully');
+            }
         } catch (\Throwable $th) {
             return back()->with('warning', $th->getMessage());
         }
@@ -161,7 +169,7 @@ class ProductController extends Controller
 
         $categories = Category::where('status', 1)->where('parent_id', null)->orderBy('name', 'asc')->get();
         $manufacturers = Manufacturer::where('status', 1)->orderBy('name', 'asc')->get();
-        $product = Product::findOrFail($id);
+        $product = Product::with('categories')->findOrFail($id);
 
         $productImages = ProductImage::orderBy('sort_order', 'asc')
             ->paginate(15);
@@ -178,7 +186,92 @@ class ProductController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        try {
+            $request->validate([
+                'name' => 'required'
+            ]);
+
+            $name = $request->input('name');
+            $slug = $request->input('slug');
+            $category_id = $request->input('category_id');
+            $manufacturer_id = $request->input('manufacturer_id');
+            $price = $request->input('price');
+            $cost_per_item = $request->input('cost_per_item');
+            $description = $request->input('description');
+            $track_quantity = $request->input('track_quantity') == 1 ? 1 : 0;
+            $quantity = $request->input('quantity');
+            $sku = $request->input('sku');
+
+            $weight = $request->input('weight');
+            $weight_unit = $request->input('weight_unit');
+
+            $discount = $request->input('discount');
+            $is_sale = $request->input('is_sale') == 1 ? 1 : 0;
+            // seo
+            $meta_title = $request->input('meta_title');
+            $meta_description = $request->input('meta_description');
+            $meta_keyword = $request->input('meta_keyword');
+            //
+            $status = $request->input('status') == 1 ? 1 : 0;
+
+
+            // insert record
+            $product = Product::findOrFail($id);
+            $product->name = $name;
+            $product->slug = Str::slug($slug);
+            $product->price = $price;
+            $product->cost_per_item = $cost_per_item;
+            if ($manufacturer_id) {
+                $product->manufacturer_id = $manufacturer_id;
+            } else {
+                $product->manufacturer_id = null;
+            }
+            if ($description) {
+
+                $product->description = $description;
+            } else {
+                $product->description = null;
+            }
+            $product->track_quantity = $track_quantity;
+            $product->quantity = $quantity;
+            $product->sku = $sku;
+
+            if ($weight) {
+                $product->weight = $weight;
+                $product->weight_unit = $weight_unit;
+            } else {
+                $product->weight = null;
+                $product->weight_unit = null;
+            }
+            if ($discount) {
+                $product->discount = $discount;
+            } else {
+                $product->discount = null;
+            }
+            $product->is_sale = $is_sale;
+
+            $product->meta_title = $meta_title;
+            $product->meta_description = $meta_description;
+            $product->meta_keyword = $meta_keyword;
+
+            $product->status = $status;
+            $product->save();
+            // save categories
+            $product->categories()->sync($category_id);
+            // if ($category_id) {
+            //     foreach ($category_id as $category) {
+            //         // insert into product categories
+            //         $productCategoy = new ProductCategory();
+            //         $productCategoy->product_id = $product->id;
+            //         $productCategoy->category_id = $category;
+            //         $productCategoy->save();
+            //     }
+            // }
+
+            return back()->with('success', 'Updated successfully');
+        } catch (\Throwable $th) {
+            return back()->with('warning', $th->getMessage());
+        }
     }
 
     public function status($id)
@@ -203,7 +296,7 @@ class ProductController extends Controller
      */
     public function destroy($id)
     {
-        // TODO: delete product image
+        // product image will be delete with products
         $product = Product::find($id);
         $product->delete();
 
