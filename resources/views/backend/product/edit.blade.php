@@ -116,7 +116,8 @@
                                                                 @foreach ($categories as $category)
                                                                     <?php $dash = ''; ?>
                                                                     <option value={{ $category->id }}>
-                                                                        {{ $category->name }}</option>
+                                                                        {{ $category->name }}
+                                                                    </option>
                                                                     @if (count($category->sub_categories))
                                                                         @include('components.subcategory', [
                                                                             'sub_categories' =>
@@ -143,7 +144,8 @@
                                                                     <?php $dash = ''; ?>
                                                                     <option value={{ $manufacturer->id }}
                                                                         @if ($product->manufacturer_id == $manufacturer->id) selected @endif>
-                                                                        {{ $manufacturer->name }}</option>
+                                                                        {{ $manufacturer->name }}
+                                                                    </option>
                                                                 @endforeach
                                                             @endif
                                                         </select>
@@ -345,7 +347,9 @@
                                                                             <ul class="table-controls">
                                                                                 <li>
                                                                                     <a class="btn btn-sm btn-primary"
-                                                                                        href="{{ route('product.edit', $productImage->id) }}"
+                                                                                        href="javascript:void(0);"
+                                                                                        data-bs-toggle="modal"
+                                                                                        data-bs-target="#settingEdit{{ $productImage->id }}"
                                                                                         data-bs-toggle="tooltip"
                                                                                         data-bs-placement="top"
                                                                                         title=""
@@ -369,10 +373,10 @@
                                                                                 <li>
                                                                                     <a class="btn btn-sm btn-danger"
                                                                                         href="javascript:void(0);"
-                                                                                        onclick="event.preventDefault();
+                                                                                        {{-- onclick="event.preventDefault();
                                                                                         if(confirm('Are you really want to delete?')){
-                                                                                        document.getElementById('product-delete-{{ $productImage->id }}').submit()
-                                                                                        }"
+                                                                                        document.getElementById('product-delete-{{ $productImage->id }}').submit() }" --}}
+                                                                                        onclick="deleteImage({{ $productImage->id }})"
                                                                                         data-bs-toggle="tooltip"
                                                                                         data-bs-placement="top"
                                                                                         title=""
@@ -395,16 +399,76 @@
                                                                                         </svg>
                                                                                         Delete
                                                                                     </a>
-                                                                                    {{-- delete  --}}
-                                                                                    <form method="post"
-                                                                                        action="{{ route('product.image.destroy', $productImage->id) }}"
-                                                                                        id="{{ 'product-delete-' . $productImage->id }}">
-                                                                                        @csrf
-                                                                                        @method('DELETE')
-                                                                                    </form>
+
+
                                                                                 </li>
                                                                             </ul>
                                                                         </td>
+                                                                        {{-- modal --}}
+                                                                        <div class="modal fade"
+                                                                            id="settingEdit{{ $productImage->id }}"
+                                                                            tabindex="-1" role="dialog"
+                                                                            aria-labelledby="exampleModalCenterTitle"
+                                                                            aria-hidden="true">
+                                                                            <div class="modal-dialog modal-dialog-centered"
+                                                                                role="document">
+                                                                                <div class="modal-content">
+                                                                                    <div class="modal-header">
+                                                                                        <h5 class="modal-title"
+                                                                                            id="exampleModalLongTitle">
+                                                                                            Info</h5>
+                                                                                        <button type="button"
+                                                                                            class="btn-close"
+                                                                                            data-bs-dismiss="modal"
+                                                                                            aria-label="Close"></button>
+                                                                                    </div>
+                                                                                    <div class="modal-body">
+
+
+                                                                                        <div class="form-group">
+                                                                                            <label
+                                                                                                for="sort_order{{ $productImage->id }}">Display
+                                                                                                order</label>
+                                                                                            <input type="number"
+                                                                                                class="form-control"
+                                                                                                id="sort_order{{ $productImage->id }}"
+                                                                                                name="title"
+                                                                                                value="{{ $productImage->sort_order }}">
+                                                                                        </div>
+                                                                                        <div class="form-group">
+                                                                                            <label
+                                                                                                for="title{{ $productImage->id }}">Title</label>
+                                                                                            <input type="text"
+                                                                                                class="form-control"
+                                                                                                id="title{{ $productImage->id }}"
+                                                                                                name="title"
+                                                                                                value="{{ $productImage->title }}">
+                                                                                        </div>
+                                                                                        <div class="form-group">
+                                                                                            <label
+                                                                                                for="alt_text{{ $productImage->id }}">Alt</label>
+                                                                                            <input type="text"
+                                                                                                class="form-control"
+                                                                                                id="alt_text{{ $productImage->id }}"
+                                                                                                name="alt_text"
+                                                                                                value="{{ $productImage->alt_text }}">
+                                                                                        </div>
+
+                                                                                        <button
+                                                                                            onclick="updateImageDetails(
+                                                                                                {{ $productImage->id }},
+                                                                                              document.querySelector('#sort_order{{ $productImage->id }}').value, 
+                                                                                              document.querySelector('#alt_text{{ $productImage->id }}').value, 
+                                                                                              document.querySelector('#title{{ $productImage->id }}').value                                                                                                
+                                                                                            )"
+                                                                                            type="button"
+                                                                                            class="btn btn-sm btn-primary float-right">Update</button>
+
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        {{-- // modal --}}
                                                                     </tr>
                                                                 @endforeach
 
@@ -464,6 +528,41 @@
 @section('script')
     <script src="{{ asset('assets') }}/tinymce/tinymce.min.js"></script>
     <script src="{{ asset('assets') }}/select2/js/select2.min.js"></script>
+    <script>
+        // delete image
+        async function deleteImage(id) {
+            try {
+                const delete_Image = await fetch(
+                    `/product/image/${id}/delete?_method=DELETE&_token={{ csrf_token() }}`, {
+                        method: 'DELETE',
+                    })
+                window.location.reload()
+            } catch (error) {
+                alert("Something went wrong")
+            }
+        }
+        // update image details
+        async function updateImageDetails(id, sort_order, alt_text, title) {
+            try {
+                const data = {
+                    title: title,
+                    alt_text: alt_text,
+                    sort_order: sort_order,
+                }
+                const update_Image = await fetch(
+                    `/product/image/${id}?_method=PUT&_token={{ csrf_token() }}`, {
+                        method: 'PUT',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(data)
+                    })
+                window.location.reload()
+            } catch (error) {
+                alert("Something went wrong")
+            }
+        }
+    </script>
     <script>
         // categoris
         $(document).ready(function() {
