@@ -1,7 +1,7 @@
 @extends('backend.master')
 
 @section('title')
-    {{ auth()->user()->fname }}'s Dashboard
+    Dashboard
 @endsection
 
 
