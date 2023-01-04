@@ -532,6 +532,9 @@
         // delete image
         async function deleteImage(id) {
             try {
+                if (!confirm('Are you sure?')) {
+                    return;
+                }
                 const delete_Image = await fetch(
                     `/product/image/${id}/delete?_method=DELETE&_token={{ csrf_token() }}`, {
                         method: 'DELETE',
