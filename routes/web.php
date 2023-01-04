@@ -3,6 +3,7 @@
 use App\Http\Controllers\Web\Admin\Auth\AuthController;
 use App\Http\Controllers\Web\Admin\Auth\UserController;
 use App\Http\Controllers\Web\Admin\Category\CategoryController;
+use App\Http\Controllers\Web\Admin\Coupon\CouponController;
 use App\Http\Controllers\Web\Admin\Dashboard\DashboardController;
 use App\Http\Controllers\Web\Admin\Order\OrderController;
 use App\Http\Controllers\Web\Admin\Product\ManufacturerController;
@@ -41,6 +42,7 @@ Route::middleware(['auth', 'admin'])->group(function () {
     // product image
     Route::put('product/image/{id}', [ProductController::class, 'updateImage'])->name('product.image.update');
     Route::delete('product/image/{id}/delete', [ProductController::class, 'deleteImage'])->name('product.image.destroy');
+
     // product
     Route::get('product/{id}/status', [ProductController::class, 'status'])->name('product.status');
     Route::resource('product', ProductController::class);
@@ -56,6 +58,10 @@ Route::middleware(['auth', 'admin'])->group(function () {
 
     // sales
     Route::resource('order', OrderController::class);
+
+    // promotions
+    Route::get('coupon/{id}/status', [CouponController::class, 'status'])->name('coupon.status');
+    Route::resource('coupon', CouponController::class);
 
     // setting
     Route::resource('setting', SettingController::class);

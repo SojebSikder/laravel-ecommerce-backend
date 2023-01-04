@@ -117,6 +117,30 @@
                         </li>
 
                         <li>
+                            <a class="nav-link sidebar-link px-3" data-bs-toggle="collapse" href="#promotion"
+                                role="button" aria-expanded="false" aria-controls="promotion">
+                                <span class="me-2"><i class="bi bi-tags"></i></i></span>
+                                <span>Promotions</span>
+                                <span class="right-icon ms-auto">
+                                    <i class="bi bi-chevron-down"></i>
+                                </span>
+                            </a>
+                            <div class="collapse" id="promotion">
+                                <div>
+                                    <ul class="navbar-nav ps-3">
+                                        <li>
+                                            <a href="{{ route('coupon.index') }}" class="nav-link px-3">
+                                                <span class="me-2"><i class="bi bi-layout-split"></i></span>
+                                                <span>Coupons</span>
+                                            </a>
+                                        </li>
+
+                                    </ul>
+                                </div>
+                            </div>
+                        </li>
+
+                        <li>
                             <a class="nav-link sidebar-link px-3" data-bs-toggle="collapse" href="#settings"
                                 role="button" aria-expanded="false" aria-controls="settings">
                                 <span class="me-2"><i class="bi bi-gear"></i></span>

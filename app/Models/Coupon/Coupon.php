@@ -2,6 +2,7 @@
 
 namespace App\Models\Coupon;
 
+use App\Models\Order\OrderCoupon;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -9,6 +10,8 @@ use Illuminate\Database\Eloquent\Model;
 class Coupon extends Model
 {
     use HasFactory;
+
+    protected $guarded = [];
 
     public function product()
     {

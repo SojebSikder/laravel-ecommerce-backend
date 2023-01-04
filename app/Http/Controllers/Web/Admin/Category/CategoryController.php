@@ -218,7 +218,7 @@ class CategoryController extends Controller
     public function status($id)
     {
         $category = Category::find($id);
-        if ($category->status == '1') {
+        if ($category->status == 1) {
             $category->status = 0;
             $category->save();
             return back()->with('success', 'Disabled successfully');
