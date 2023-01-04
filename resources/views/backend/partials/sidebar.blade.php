@@ -59,7 +59,7 @@
                         <li>
                             <a class="nav-link sidebar-link px-3" data-bs-toggle="collapse" href="#products"
                                 role="button" aria-expanded="false" aria-controls="products">
-                                <span class="me-2"><i class="bi bi-layout-split"></i></span>
+                                <span class="me-2"><i class="bi bi-journal-album"></i></span>
                                 <span>Products</span>
                                 <span class="right-icon ms-auto">
                                     <i class="bi bi-chevron-down"></i>
@@ -95,7 +95,7 @@
                         <li>
                             <a class="nav-link sidebar-link px-3" data-bs-toggle="collapse" href="#settings"
                                 role="button" aria-expanded="false" aria-controls="settings">
-                                <span class="me-2"><i class="bi bi-layout-split"></i></span>
+                                <span class="me-2"><i class="bi bi-gear"></i></span>
                                 <span>Settings</span>
                                 <span class="right-icon ms-auto">
                                     <i class="bi bi-chevron-down"></i>
@@ -114,6 +114,18 @@
                                     </ul>
                                 </div>
                             </div>
+                        </li>
+
+                        <li>
+                            <a class="nav-link sidebar-link px-3" target="__blank" href="{{ env('CLIENT_APP_URL') }}"
+                                role="button">
+                                <span class="me-2"><i class="bi bi-shop"></i></span>
+                                <span>View store</span>
+                                <span class="right-icon ms-auto">
+                                    <i class="bi bi-box-arrow-up-right"></i>
+                                </span>
+                            </a>
+
                         </li>
 
                     </ul>
