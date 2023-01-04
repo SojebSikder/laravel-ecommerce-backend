@@ -13,9 +13,18 @@ class CouponController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $coupons = Coupon::latest()->paginate(15);
+        // search query
+        $q = $request->input('q');
+
+        $coupons = Coupon::query();
+
+        if ($q) {
+            $categories = $coupons->orWhere('code', 'like', '%' . $q . '%');
+        }
+
+        $coupons = $coupons->latest()->paginate(15);
 
         return view('backend.coupon.index', compact('coupons'));
     }
