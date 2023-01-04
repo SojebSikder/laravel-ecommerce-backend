@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\Controllers\Api\App\Product;
+namespace App\Http\Controllers\Api\App\Category;
 
 use App\Http\Controllers\Controller;
-use App\Models\Product\Product;
+use App\Models\Category\Category;
 use Illuminate\Http\Request;
 
-class ProductController extends Controller
+class CategoryController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,13 +15,12 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $default_limit = 15; //42;
-
-        $products = Product::latest()->paginate($default_limit);
+        $categories = Category::where('status', 1)
+            ->orderBy('sort_order', 'ASC')
+            ->get();
 
         return response()->json([
-            'success' => true,
-            'data' => $products,
+            'data' => $categories,
         ]);
     }
 
@@ -54,26 +53,7 @@ class ProductController extends Controller
      */
     public function show($id)
     {
-        try {
-            $product = Product::where('status', 1)->first();
-
-            if (!$product) {
-                return response()->json([
-                    'error' => true,
-                    'message' => 'Product not exist',
-                ]);
-            }
-
-            return response()->json([
-                'success' => true,
-                'data' => $product,
-            ]);
-        } catch (\Throwable $th) {
-            return response()->json([
-                'error' => true,
-                'message' => 'Something went wrong',
-            ]);
-        }
+        //
     }
 
     /**
