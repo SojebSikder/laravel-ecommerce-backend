@@ -4,6 +4,7 @@ use App\Http\Controllers\Web\Admin\Auth\AuthController;
 use App\Http\Controllers\Web\Admin\Auth\UserController;
 use App\Http\Controllers\Web\Admin\Category\CategoryController;
 use App\Http\Controllers\Web\Admin\Coupon\CouponController;
+use App\Http\Controllers\Web\Admin\Customer\CustomerController;
 use App\Http\Controllers\Web\Admin\Dashboard\DashboardController;
 use App\Http\Controllers\Web\Admin\Order\OrderController;
 use App\Http\Controllers\Web\Admin\Product\ManufacturerController;
@@ -62,6 +63,10 @@ Route::middleware(['auth', 'admin'])->group(function () {
     // promotions
     Route::get('coupon/{id}/status', [CouponController::class, 'status'])->name('coupon.status');
     Route::resource('coupon', CouponController::class);
+
+    // customer
+    Route::get('customer/{id}/status', [CustomerController::class, 'status'])->name('customer.status');
+    Route::resource('customer', CustomerController::class);
 
     // setting
     Route::resource('setting', SettingController::class);

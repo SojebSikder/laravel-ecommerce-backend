@@ -117,6 +117,30 @@
                         </li>
 
                         <li>
+                            <a class="nav-link sidebar-link px-3" data-bs-toggle="collapse" href="#customer"
+                                role="button" aria-expanded="false" aria-controls="customer">
+                                <span class="me-2"><i class="bi bi-people"></i></i></span>
+                                <span>Customers</span>
+                                <span class="right-icon ms-auto">
+                                    <i class="bi bi-chevron-down"></i>
+                                </span>
+                            </a>
+                            <div class="collapse" id="customer">
+                                <div>
+                                    <ul class="navbar-nav ps-3">
+                                        <li>
+                                            <a href="{{ route('customer.index') }}" class="nav-link px-3">
+                                                <span class="me-2"><i class="bi bi-layout-split"></i></span>
+                                                <span>Customers</span>
+                                            </a>
+                                        </li>
+
+                                    </ul>
+                                </div>
+                            </div>
+                        </li>
+
+                        <li>
                             <a class="nav-link sidebar-link px-3" data-bs-toggle="collapse" href="#promotion"
                                 role="button" aria-expanded="false" aria-controls="promotion">
                                 <span class="me-2"><i class="bi bi-tags"></i></i></span>

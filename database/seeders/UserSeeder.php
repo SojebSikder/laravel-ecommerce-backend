@@ -21,7 +21,7 @@ class UserSeeder extends Seeder
             'lname' => 'admin',
             'email' => 'admin@example.com',
             'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
-            'type' => 'admin'
+            'type' => 'su_admin'
         ]);
     }
 }
