@@ -339,10 +339,10 @@ class ProductController extends Controller
             }
             // remove record from database
             $productImage->delete();
-            return redirect()->back()->with('success', 'Deleted Successfully');
+            return back()->with('success', 'Deleted Successfully');
         } catch (\Throwable $th) {
             //throw $th;
-            return redirect()->back()->with('success', 'Not Deleted. Something went wrong :(');
+            return back()->with('success', 'Not Deleted. Something went wrong :(');
         }
     }
 

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Web\Admin\Auth\AuthController;
+use App\Http\Controllers\Web\Admin\Auth\UserController;
 use App\Http\Controllers\Web\Admin\Category\CategoryController;
 use App\Http\Controllers\Web\Admin\Dashboard\DashboardController;
 use App\Http\Controllers\Web\Admin\Product\ManufacturerController;
@@ -27,6 +28,11 @@ Route::get('/', function () {
 Route::middleware(['auth', 'admin'])->group(function () {
 
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+
+    // user
+    Route::get('user/profile', [UserController::class, 'profile'])->name('user.profile');
+    Route::put('user/profile', [UserController::class, 'updateProfile'])->name('user.profile.update');
+    Route::resource('user', UserController::class);
 
     /**
      * Product
@@ -65,5 +71,5 @@ Route::middleware('auth')->group(function () {
     Route::get('logout', [AuthController::class, 'destroy'])
         ->name('logout');
 
-    Route::resource('user', UserController::class);
+    // Route::resource('user', UserController::class);
 });

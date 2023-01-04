@@ -33,13 +33,12 @@
                          <i class="bi bi-people-fill"></i>
                      </a>
                      <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                         <li><a class="dropdown-item" href="#">Action</a></li>
-                         <li><a class="dropdown-item" href="#">Another action</a></li>
+                         <li><a class="dropdown-item" href="{{ route('user.profile') }}">Profile</a></li>
                          <li>
                              <hr class="dropdown-divider" />
                          </li>
                          <li>
-                             <a href="{{route('logout')}}" class="dropdown-item" href="#">Logout</a>
+                             <a href="{{ route('logout') }}" class="dropdown-item" href="#">Logout</a>
                          </li>
                      </ul>
                  </li>
