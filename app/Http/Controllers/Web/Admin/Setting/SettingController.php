@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Web\Admin\Setting;
 
 use App\Http\Controllers\Controller;
-use App\Models\Setting\Setting;
+use App\Models\Setting\Setting\Setting;
 use Illuminate\Http\Request;
 
 class SettingController extends Controller

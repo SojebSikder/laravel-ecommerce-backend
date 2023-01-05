@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Models\Setting;
+namespace App\Models\Setting\Setting;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class SettingType extends Model
+class Setting extends Model
 {
     use HasFactory;
 }

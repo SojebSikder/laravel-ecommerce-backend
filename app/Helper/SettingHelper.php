@@ -2,7 +2,7 @@
 
 namespace App\Helper;
 
-use App\Models\Setting\Setting;
+use App\Models\Setting\Setting\Setting;
 
 /**
  * Setting Helper
@@ -26,9 +26,9 @@ class SettingHelper
     /**
      * show currency sign
      */
-    public static function currency()
+    public static function currency_sign()
     {
-        return self::get("currency");
+        return self::get("currency_sign");
     }
 
     /**
