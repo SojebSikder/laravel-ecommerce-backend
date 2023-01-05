@@ -165,6 +165,30 @@
                         </li>
 
                         <li>
+                            <a class="nav-link sidebar-link px-3" data-bs-toggle="collapse" href="#cms"
+                                role="button" aria-expanded="false" aria-controls="cms">
+                                <span class="me-2"><i class="bi bi-body-text"></i></i></span>
+                                <span>Content management</span>
+                                <span class="right-icon ms-auto">
+                                    <i class="bi bi-chevron-down"></i>
+                                </span>
+                            </a>
+                            <div class="collapse" id="cms">
+                                <div>
+                                    <ul class="navbar-nav ps-3">
+                                        <li>
+                                            <a href="{{ route('page.index') }}" class="nav-link px-3">
+                                                <span class="me-2"><i class="bi bi-layout-split"></i></span>
+                                                <span>Pages</span>
+                                            </a>
+                                        </li>
+
+                                    </ul>
+                                </div>
+                            </div>
+                        </li>
+
+                        <li>
                             <a class="nav-link sidebar-link px-3" data-bs-toggle="collapse" href="#settings"
                                 role="button" aria-expanded="false" aria-controls="settings">
                                 <span class="me-2"><i class="bi bi-gear"></i></span>

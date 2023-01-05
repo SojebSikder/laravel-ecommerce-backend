@@ -3,6 +3,7 @@
 use App\Http\Controllers\Web\Admin\Auth\AuthController;
 use App\Http\Controllers\Web\Admin\Auth\UserController;
 use App\Http\Controllers\Web\Admin\Category\CategoryController;
+use App\Http\Controllers\Web\Admin\Cms\Page\PageController;
 use App\Http\Controllers\Web\Admin\Coupon\CouponController;
 use App\Http\Controllers\Web\Admin\Customer\CustomerController;
 use App\Http\Controllers\Web\Admin\Dashboard\DashboardController;
@@ -67,6 +68,10 @@ Route::middleware(['auth', 'admin'])->group(function () {
     // customer
     Route::get('customer/{id}/status', [CustomerController::class, 'status'])->name('customer.status');
     Route::resource('customer', CustomerController::class);
+
+    //cms
+    Route::get('page/{id}/status', [PageController::class, 'status'])->name('page.status');
+    Route::resource('page', PageController::class);
 
     // setting
     Route::resource('setting', SettingController::class);
