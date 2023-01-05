@@ -147,17 +147,17 @@
                                                                 class="btn btn-sm btn-danger">X</button>
                                                         </div>
                                                         <div>
-                                                            @if ($footerItem->status == '1')
+                                                            @if ($footerItem->status == 1)
                                                                 <td class="text-center">
                                                                     <a href="{{ route('footer-item.status', $footerItem->id) }}"
-                                                                        class="badge badge-primary shadow-none">
+                                                                        class="badge bg-primary text-decoration-none shadow-none">
                                                                         Active
                                                                     </a>
                                                                 </td>
                                                             @else
                                                                 <td class="text-center">
                                                                     <a href="{{ route('footer-item.status', $footerItem->id) }}"
-                                                                        class="badge badge-warning shadow-none">
+                                                                        class="badge bg-warning text-decoration-none shadow-none">
                                                                         Disabled
                                                                     </a>
                                                                 </td>
