@@ -3,6 +3,7 @@
 use App\Http\Controllers\Web\Admin\Auth\AuthController;
 use App\Http\Controllers\Web\Admin\Auth\UserController;
 use App\Http\Controllers\Web\Admin\Category\CategoryController;
+use App\Http\Controllers\Web\Admin\Cms\Footer\FooterController;
 use App\Http\Controllers\Web\Admin\Cms\Page\PageController;
 use App\Http\Controllers\Web\Admin\Coupon\CouponController;
 use App\Http\Controllers\Web\Admin\Customer\CustomerController;
@@ -70,8 +71,15 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::resource('customer', CustomerController::class);
 
     //cms
+    // page
     Route::get('page/{id}/status', [PageController::class, 'status'])->name('page.status');
     Route::resource('page', PageController::class);
+    // footer
+    Route::get('footer/{id}/status', [FooterController::class, 'status'])->name('footer.status');
+    Route::put('footer/{id}/sort', [FooterController::class, 'sortOrder'])->name('footer.sort');
+    Route::resource('footer', FooterController::class);
+    Route::get('footer-item/{id}/status', [FooterItemController::class, 'status'])->name('footer-item.status');
+    Route::resource('footer-item', FooterItemController::class);
 
     // setting
     Route::resource('setting', SettingController::class);
