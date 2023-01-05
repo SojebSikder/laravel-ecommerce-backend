@@ -4,6 +4,7 @@ use App\Http\Controllers\Web\Admin\Auth\AuthController;
 use App\Http\Controllers\Web\Admin\Auth\UserController;
 use App\Http\Controllers\Web\Admin\Category\CategoryController;
 use App\Http\Controllers\Web\Admin\Cms\Footer\FooterController;
+use App\Http\Controllers\Web\Admin\Cms\Footer\FooterItemController;
 use App\Http\Controllers\Web\Admin\Cms\Page\PageController;
 use App\Http\Controllers\Web\Admin\Coupon\CouponController;
 use App\Http\Controllers\Web\Admin\Customer\CustomerController;

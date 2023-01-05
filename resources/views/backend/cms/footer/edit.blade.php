@@ -241,7 +241,7 @@
             data.map((dt) => {
 
                 const formData = new FormData()
-                formData.append('footer_list_id', dt.bottom_id)
+                formData.append('footer_item_id', dt.bottom_id)
                 formData.append('footer_id', dt.footer_id)
                 formData.append('name', dt.link_text)
                 formData.append('link', dt.link)

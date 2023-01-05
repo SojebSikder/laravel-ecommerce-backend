@@ -38,14 +38,14 @@ class FooterItemController extends Controller
     {
         try {
             $footer_id = $request->input('footer_id');
-            $footer_list_id = $request->input('footer_list_id');
+            $footer_item_id = $request->input('footer_item_id');
             $name = $request->input('name');
             $link = $request->input('link');
             $sort_order = $request->input('sort_order');
 
-            if ($footer_list_id != 'null') {
+            if ($footer_item_id != 'null') {
                 // update
-                $updateFooterItem = FooterItem::find($footer_list_id);
+                $updateFooterItem = FooterItem::find($footer_item_id);
                 $updateFooterItem->name = $name;
                 $updateFooterItem->link = $link;
                 $updateFooterItem->sort_order = $sort_order;
