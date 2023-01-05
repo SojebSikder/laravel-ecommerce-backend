@@ -264,7 +264,7 @@ const isSmallScreen = window.matchMedia('(max-width: 1023.5px)').matches;
         });
     </script>
     <script>
-        const name = document.querySelector('#name');
+        const name = document.querySelector('#title');
         const slug = document.querySelector('#slug');
         name.addEventListener("keyup", function(e) {
             slug.value = replace(e.target.value.toLowerCase(), " ", "-")

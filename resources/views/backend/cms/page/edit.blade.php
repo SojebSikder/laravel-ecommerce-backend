@@ -71,8 +71,9 @@
 
                                             <div class="col">
                                                 <div class="form-check form-switch mb-3 mt-5">
-                                                    <input class="form-check-input" checked value="1" name="status"
-                                                        type="checkbox" role="switch" id="status">
+                                                    <input class="form-check-input"
+                                                        @if ($page->status) checked @endif value="1"
+                                                        name="status" type="checkbox" role="switch" id="status">
                                                     <label class="form-check-label" for="status">Active</label>
                                                 </div>
                                             </div>
@@ -267,7 +268,7 @@
         });
     </script>
     <script>
-        const name = document.querySelector('#name');
+        const name = document.querySelector('#title');
         const slug = document.querySelector('#slug');
         name.addEventListener("keyup", function(e) {
             slug.value = replace(e.target.value.toLowerCase(), " ", "-")
