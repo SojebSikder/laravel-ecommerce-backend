@@ -1,7 +1,11 @@
 <?php
 
 use App\Http\Controllers\Api\App\Auth\AuthController;
+use App\Http\Controllers\Api\App\Cms\Footer\FooterController;
+use App\Http\Controllers\Api\App\Cms\Page\PageController;
 use App\Http\Controllers\Api\App\Product\ProductController;
+use App\Http\Controllers\Api\App\Setting\Setting\SettingController;
+use App\Http\Controllers\Api\App\Sitemap\SitemapController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -45,3 +49,12 @@ Route::get("/product/show/{id}/{slug}", [ProductController::class, 'showOne']);
 Route::get("/product/trending", [ProductController::class, 'trending']);
 Route::get("/product/{id}/rating/me", [ProductController::class, 'showRating']);
 Route::resource("product", ProductController::class);
+
+// page
+Route::resource('page', PageController::class);
+Route::resource('footer', FooterController::class);
+// sitemap
+Route::get('sitemap.xml', [SitemapController::class, 'index']);
+Route::resource('sitemap', SitemapController::class);
+// setting
+Route::resource('setting', SettingController::class);
