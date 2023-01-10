@@ -16,7 +16,7 @@ class ProductController extends Controller
     public function index()
     {
         // lazy loading
-        $default_limit = 42;
+        $default_limit = 40;
 
         $products = Product::query()->with('images');
         $products = $products->latest()->paginate($default_limit);
