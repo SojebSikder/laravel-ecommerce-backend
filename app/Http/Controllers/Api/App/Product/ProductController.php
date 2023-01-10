@@ -15,9 +15,11 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $default_limit = 15; //42;
+        // lazy loading
+        $default_limit = 42;
 
-        $products = Product::with('images')->latest()->paginate($default_limit);
+        $products = Product::query()->with('images');
+        $products = $products->latest()->paginate($default_limit);
 
         return response()->json([
             'success' => true,
