@@ -76,7 +76,17 @@
                                         <tbody>
                                             @foreach ($products as $product)
                                                 <tr>
-                                                    <td>{{ $product->image }}</td>
+                                                    <td>
+                                                        @if (count($product->images) > 0)
+                                                            <a href="{{ $product->images[0]->image_url }}" target="_blank"
+                                                                rel="noopener noreferrer">
+                                                                <img style="width:50px; min-width: 50px;"
+                                                                    class="img-thumbnail"
+                                                                    src="{{ $product->images[0]->image_url }}"
+                                                                    alt="{{ $product->images[0]->alt_text }}">
+                                                            </a>
+                                                        @endif
+                                                    </td>
                                                     <td>{{ $product->name }}</td>
                                                     <td>{{ $product->sku }}</td>
                                                     <td>{{ $product->price }}</td>

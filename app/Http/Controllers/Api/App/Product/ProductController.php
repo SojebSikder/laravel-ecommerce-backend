@@ -17,7 +17,7 @@ class ProductController extends Controller
     {
         $default_limit = 15; //42;
 
-        $products = Product::latest()->paginate($default_limit);
+        $products = Product::with('images')->latest()->paginate($default_limit);
 
         return response()->json([
             'success' => true,

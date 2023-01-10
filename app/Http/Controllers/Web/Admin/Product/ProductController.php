@@ -172,7 +172,8 @@ class ProductController extends Controller
         $manufacturers = Manufacturer::where('status', 1)->orderBy('name', 'asc')->get();
         $product = Product::with('categories')->findOrFail($id);
 
-        $productImages = ProductImage::orderBy('sort_order', 'asc')
+        $productImages = ProductImage::where('product_id', $product->id)
+            ->orderBy('sort_order', 'asc')
             ->paginate(15);
 
         return view('backend.product.edit', compact('categories', 'manufacturers', 'productImages', 'product'));
