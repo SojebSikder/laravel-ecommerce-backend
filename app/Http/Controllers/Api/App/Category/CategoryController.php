@@ -15,7 +15,9 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $categories = Category::where('status', 1)
+        $categories = Category::with('sub_categories')
+            ->where('parent_id', null)
+            ->where('status', 1)
             ->orderBy('sort_order', 'ASC')
             ->get();
 
@@ -53,7 +55,27 @@ class CategoryController extends Controller
      */
     public function show($id)
     {
-        //
+        try {
+            $category = Category::with('sub_categories')
+                ->where('status', 1)
+                ->first();
+
+            if ($category) {
+                return response()->json([
+                    'data' => $category,
+                ]);
+            } else {
+                return response()->json([
+                    'error' => true,
+                    'message' => 'Category not found.',
+                ]);
+            }
+        } catch (\Throwable $th) {
+            return response()->json([
+                'error' => true,
+                'message' => 'Something went wrong.',
+            ]);
+        }
     }
 
     /**

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\App\Auth\AuthController;
+use App\Http\Controllers\Api\App\Category\CategoryController;
 use App\Http\Controllers\Api\App\Cms\Footer\FooterController;
 use App\Http\Controllers\Api\App\Cms\Page\PageController;
 use App\Http\Controllers\Api\App\Product\ProductController;
@@ -49,6 +50,8 @@ Route::get("/product/show/{id}/{slug}", [ProductController::class, 'showOne']);
 Route::get("/product/trending", [ProductController::class, 'trending']);
 Route::get("/product/{id}/rating/me", [ProductController::class, 'showRating']);
 Route::resource("product", ProductController::class);
+
+Route::resource("category", CategoryController::class);
 
 // page
 Route::resource('page', PageController::class);
