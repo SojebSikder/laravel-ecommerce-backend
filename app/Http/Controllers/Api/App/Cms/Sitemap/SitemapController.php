@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Api\App\Sitemap;
+namespace App\Http\Controllers\Api\App\Cms\Sitemap;
 
 use App\Http\Controllers\Controller;
 use App\Models\Cms\Footer\FooterItem;

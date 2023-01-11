@@ -4,9 +4,9 @@ use App\Http\Controllers\Api\App\Auth\AuthController;
 use App\Http\Controllers\Api\App\Category\CategoryController;
 use App\Http\Controllers\Api\App\Cms\Footer\FooterController;
 use App\Http\Controllers\Api\App\Cms\Page\PageController;
+use App\Http\Controllers\Api\App\Cms\Sitemap\SitemapController;
 use App\Http\Controllers\Api\App\Product\ProductController;
 use App\Http\Controllers\Api\App\Setting\Setting\SettingController;
-use App\Http\Controllers\Api\App\Sitemap\SitemapController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
