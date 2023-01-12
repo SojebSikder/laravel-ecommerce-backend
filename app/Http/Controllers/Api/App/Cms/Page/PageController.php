@@ -48,7 +48,9 @@ class PageController extends Controller
     public function show($slug)
     {
         try {
-            $page = Page::where('slug', $slug)->where('status', 1)->first();
+            $page = Page::where('slug', $slug)
+                ->where('status', 1)
+                ->first();
 
             if ($page) {
                 return response()->json([
