@@ -57,7 +57,9 @@ class ProductController extends Controller
     public function show($id)
     {
         try {
-            $product = Product::with('images')->where('status', 1)->first();
+            $product = Product::with('images')
+                ->where('status', 1)
+                ->find($id);
 
             if (!$product) {
                 return response()->json([
