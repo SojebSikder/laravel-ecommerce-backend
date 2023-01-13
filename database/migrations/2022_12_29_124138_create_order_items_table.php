@@ -16,14 +16,24 @@ return new class extends Migration
         Schema::create('order_items', function (Blueprint $table) {
             $table->id();
 
-            $table->string('order_id')->nullable()->references('id')->on('orders')->onDelete('cascade');
-            // variant id
-            $table->string('product_id')->nullable()->references('id')->on('products')->onDelete('set null');
+            $table->foreignId('order_id')->nullable()->constrained('orders')->onDelete('cascade');
+            $table->foreignId('product_id')->nullable()->constrained('products')->onDelete('set null');
+
             $table->decimal('discount')->nullable();
             $table->decimal('price')->nullable();
             // with discount
             $table->decimal('total_price')->nullable();
             $table->bigInteger('quantity')->nullable();
+
+            // info
+            // total product weight
+            $table->decimal('weight')->nullable();
+            // available values:
+            // kg - kilogram, 
+            // lb - pound, 
+            // oz - ounce,
+            // g - gram
+            $table->string('weight_unit')->nullable();
 
             $table->softDeletes();
             $table->timestamps();

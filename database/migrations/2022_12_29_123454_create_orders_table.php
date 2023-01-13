@@ -36,7 +36,9 @@ return new class extends Migration
             // without shipping_charge
             $table->decimal('order_total')->nullable();
 
-            // shipping
+            /**
+             * Shipping
+             */
             $table->foreignId('shipping_zone_id')->nullable()->constrained('shipping_zones')->onDelete('set null');
             $table->string('shipping_zone_name')->nullable();
             $table->decimal('shipping_charge')->nullable();
