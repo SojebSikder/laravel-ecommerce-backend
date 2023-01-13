@@ -7,6 +7,7 @@ use App\Models\Category\Category;
 use App\Models\Product\Manufacturer;
 use App\Models\Product\Product;
 use App\Models\Product\ProductCategory;
+use App\Models\Product\ProductDetails;
 use App\Models\Product\ProductImage;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -170,8 +171,7 @@ class ProductController extends Controller
 
         $categories = Category::where('status', 1)->where('parent_id', null)->orderBy('name', 'asc')->get();
         $manufacturers = Manufacturer::where('status', 1)->orderBy('name', 'asc')->get();
-        $product = Product::with('categories')->findOrFail($id);
-
+        $product = Product::with('categories', 'details')->findOrFail($id);
         $productImages = ProductImage::where('product_id', $product->id)
             ->orderBy('sort_order', 'asc')
             ->paginate(15);

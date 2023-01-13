@@ -483,6 +483,133 @@
                                             </fieldset>
 
                                             <fieldset>
+                                                <legend>Additional details</legend>
+
+                                                {{-- image upload --}}
+                                                <div class="col mb-4">
+                                                    <a href="{{ route('details.index', $product->id) }}"
+                                                        class="btn btn-sm btn-primary mt-3 mr-4">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="24"
+                                                            height="24" viewBox="0 0 24 24" fill="none"
+                                                            stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                                            stroke-linejoin="round" class="feather feather-plus">
+                                                            <line x1="12" y1="5" x2="12"
+                                                                y2="19"></line>
+                                                            <line x1="5" y1="12" x2="19"
+                                                                y2="12"></line>
+                                                        </svg>
+                                                        Add details
+                                                    </a>
+                                                </div>
+                                                <div class="card-body">
+                                                    <div>
+                                                        <table class="table-bordered table-hover table-striped table"
+                                                            style="width: 100%;">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th>Name</th>
+                                                                    <th>Display order</th>
+                                                                    <th>Status</th>
+                                                                    <th class="text-center">Actions</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                @if (count($product->details))
+                                                                    @foreach ($product->details as $productDetail)
+                                                                        <tr>
+                                                                            <td>{{ $productDetail->name }}</td>
+                                                                            <td>{{ $productDetail->sort_order }}</td>
+                                                                            @if ($product->status == '1')
+                                                                                <td class="text-center">
+                                                                                    <a href="{{ route('product.status', $productDetail->id) }}"
+                                                                                        class="badge bg-primary text-decoration-none shadow-none">
+                                                                                        Active
+                                                                                    </a>
+                                                                                </td>
+                                                                            @else
+                                                                                <td class="text-center">
+                                                                                    <a href="{{ route('product.status', $productDetail->id) }}"
+                                                                                        class="badge bg-warning text-decoration-none shadow-none">
+                                                                                        Disabled
+                                                                                    </a>
+                                                                                </td>
+                                                                            @endif
+
+
+                                                                            <td class="text-center">
+                                                                                <ul class="table-controls">
+                                                                                    <li>
+                                                                                        <a class="btn btn-sm btn-primary"
+                                                                                            href="javascript:void(0);"
+                                                                                            data-bs-toggle="modal"
+                                                                                            data-bs-target="#settingEdit{{ $productDetail->id }}"
+                                                                                            data-bs-toggle="tooltip"
+                                                                                            data-bs-placement="top"
+                                                                                            title=""
+                                                                                            data-bs-title="Edit">
+                                                                                            <svg xmlns="http://www.w3.org/2000/svg"
+                                                                                                width="24"
+                                                                                                height="24"
+                                                                                                viewBox="0 0 24 24"
+                                                                                                fill="none"
+                                                                                                stroke="currentColor"
+                                                                                                stroke-width="2"
+                                                                                                stroke-linecap="round"
+                                                                                                stroke-linejoin="round"
+                                                                                                class="feather feather-edit-2 br-6 mb-1 p-1">
+                                                                                                <path
+                                                                                                    d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z">
+                                                                                                </path>
+                                                                                            </svg>
+                                                                                            Edit
+                                                                                        </a>
+                                                                                    </li>
+                                                                                    <li>
+                                                                                        <a class="btn btn-sm btn-danger"
+                                                                                            href="javascript:void(0);"
+                                                                                            onclick="event.preventDefault();
+                                                                                            if(confirm('Are you really want to delete?')){
+                                                                                            document.getElementById('product-delete-{{ $productDetail->id }}').submit() }"
+                                                                                            data-bs-toggle="tooltip"
+                                                                                            data-bs-placement="top"
+                                                                                            title=""
+                                                                                            data-bs-title="Delete">
+                                                                                            <svg xmlns="http://www.w3.org/2000/svg"
+                                                                                                width="24"
+                                                                                                height="24"
+                                                                                                viewBox="0 0 24 24"
+                                                                                                fill="none"
+                                                                                                stroke="currentColor"
+                                                                                                stroke-width="2"
+                                                                                                stroke-linecap="round"
+                                                                                                stroke-linejoin="round"
+                                                                                                class="feather feather-trash br-6 mb-1 p-1">
+                                                                                                <polyline
+                                                                                                    points="3 6 5 6 21 6">
+                                                                                                </polyline>
+                                                                                                <path
+                                                                                                    d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2">
+                                                                                                </path>
+                                                                                            </svg>
+                                                                                            Delete
+                                                                                        </a>
+                                                                                    </li>
+                                                                                </ul>
+                                                                            </td>
+                                                                        </tr>
+                                                                    @endforeach
+                                                                @endif
+
+                                                            </tbody>
+
+
+                                                        </table>
+                                                    </div>
+                                                </div>
+
+                                            </fieldset>
+
+                                            <fieldset>
                                                 <legend>SEO tags</legend>
                                                 <div class="col">
                                                     <div class="col">

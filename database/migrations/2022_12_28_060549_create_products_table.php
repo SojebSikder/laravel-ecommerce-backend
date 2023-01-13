@@ -28,7 +28,6 @@ return new class extends Migration
 
             // product details
             $table->longText('description')->nullable();
-            $table->longText('details')->nullable();
             $table->decimal('price')->nullable();
             $table->decimal('discount')->nullable();
             $table->tinyInteger('track_quantity')->nullable()->default(0);

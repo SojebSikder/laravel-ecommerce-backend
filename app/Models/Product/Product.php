@@ -52,4 +52,9 @@ class Product extends Model
     {
         return $this->belongsToMany(Category::class, 'product_categories');
     }
+
+    public function details()
+    {
+        return $this->hasMany(ProductDetails::class);
+    }
 }
