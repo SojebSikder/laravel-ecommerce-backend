@@ -20,13 +20,19 @@ namespace App\Lib\SojebVar;
  */
 class SojebVar
 {
-    private static $_variables;
+    private static $_variables = [];
     /**
      * Set custom variable values
      */
     static function addVariable($vars)
     {
-        self::$_variables = $vars;
+        // self::$_variables = $vars;
+        self::$_variables = (object) array_merge((array)self::$_variables, $vars);
+    }
+
+    static function getVariable()
+    {
+        return self::$_variables;
     }
 
     /**

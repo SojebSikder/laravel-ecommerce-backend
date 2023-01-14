@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\App\Cms\Page;
 
 use App\Http\Controllers\Controller;
+use App\Lib\SojebVar\SojebVar;
 use App\Models\Cms\Page\Page;
 use Illuminate\Http\Request;
 
@@ -53,6 +54,12 @@ class PageController extends Controller
                 ->first();
 
             if ($page) {
+                // variable parsing
+                $page->body = SojebVar::parse($page->body);
+                $page->meta_title = SojebVar::parse($page->meta_title);
+                $page->meta_description = SojebVar::parse($page->meta_description);
+                // end variable parsing
+
                 return response()->json([
                     'success' => true,
                     'data' => $page,
