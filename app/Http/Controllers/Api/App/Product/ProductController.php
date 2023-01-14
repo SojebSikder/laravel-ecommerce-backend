@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api\App\Product;
 
+use App\Helper\SettingHelper;
 use App\Http\Controllers\Controller;
 use App\Lib\SojebVar\SojebVar;
 use App\Models\Product\Product;
@@ -71,10 +72,16 @@ class ProductController extends Controller
                 ]);
             }
 
+            // variable parsing
             SojebVar::addVariable([
+                'app.name' => SettingHelper::get('name'),
                 'product.name' => $product->name,
             ]);
             $product->description = SojebVar::parse($product->description);
+            $product->meta_title = SojebVar::parse($product->meta_title);
+            $product->meta_description = SojebVar::parse($product->meta_description);
+            // end variable parsing
+
 
             return response()->json([
                 'success' => true,
