@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Web\Admin\Product;
 
 use App\Http\Controllers\Controller;
+use App\Models\Product\Product;
 use App\Models\Product\ProductDetails;
 use Illuminate\Http\Request;
 
@@ -23,9 +24,11 @@ class ProductDetailsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create($id)
     {
-        //
+        $product = Product::find($id);
+
+        return view('backend.product.details.create', compact('product'));
     }
 
     /**
@@ -36,9 +39,18 @@ class ProductDetailsController extends Controller
      */
     public function store(Request $request, $id)
     {
-        $productDetails = new ProductDetails();
-        
+        $name = $request->input('name');
+        $body = $request->input('body');
+        $status = $request->input('status') == 1 ? 1 : 0;
+        $sort_order = $request->input('sort_order');
 
+
+        $productDetails = new ProductDetails();
+        $productDetails->product_id = $id;
+        $productDetails->name = $name;
+        $productDetails->body = $body;
+        $productDetails->status = $status;
+        $productDetails->sort_order = $sort_order;
         $productDetails->save();
 
         return back()->with('success', 'Created successfully');
@@ -63,7 +75,9 @@ class ProductDetailsController extends Controller
      */
     public function edit($id)
     {
-        //
+        $productDetail = ProductDetails::find($id);
+
+        return view('backend.product.details.edit', compact('productDetail'));
     }
 
     /**
@@ -75,7 +89,35 @@ class ProductDetailsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $name = $request->input('name');
+        $body = $request->input('body');
+        $status = $request->input('status') == 1 ? 1 : 0;
+        $sort_order = $request->input('sort_order');
+
+
+        $productDetails = ProductDetails::find($id);
+        $productDetails->product_id = $id;
+        $productDetails->name = $name;
+        $productDetails->body = $body;
+        $productDetails->status = $status;
+        $productDetails->sort_order = $sort_order;
+        $productDetails->save();
+
+        return back()->with('success', 'Updated successfully');
+    }
+
+    public function status($id)
+    {
+        $productDetails = ProductDetails::find($id);
+        if ($productDetails->status == 1) {
+            $productDetails->status = 0;
+            $productDetails->save();
+            return back()->with('success', 'Disabled successfully');
+        } else {
+            $productDetails->status = 1;
+            $productDetails->save();
+            return back()->with('success', 'Enabled successfully');
+        }
     }
 
     /**
@@ -86,6 +128,9 @@ class ProductDetailsController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $productDetails = ProductDetails::find($id);
+        $productDetails->delete();
+
+        return back()->with('success', 'Deleted successfully');
     }
 }

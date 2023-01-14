@@ -45,7 +45,7 @@ class Product extends Model
 
     public function images()
     {
-        return $this->hasMany(ProductImage::class);
+        return $this->hasMany(ProductImage::class)->orderBy('sort_order', 'asc');
     }
 
     public function categories()
@@ -55,6 +55,6 @@ class Product extends Model
 
     public function details()
     {
-        return $this->hasMany(ProductDetails::class);
+        return $this->hasMany(ProductDetails::class)->orderBy('sort_order', 'asc');
     }
 }

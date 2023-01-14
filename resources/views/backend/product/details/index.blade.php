@@ -82,7 +82,7 @@
                                                             {{ count($category->sub_categories) }} subcategories
                                                         </a>
                                                     </td>
-                                                    @if ($category->status == 1)
+                                                    @if ($category->status == '1')
                                                         <td class="text-center">
                                                             <a href="{{ route('category.status', $category->id) }}"
                                                                 class="badge bg-primary text-decoration-none shadow-none">

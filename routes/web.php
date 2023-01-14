@@ -48,8 +48,15 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::put('product/image/{id}', [ProductController::class, 'updateImage'])->name('product.image.update');
     Route::delete('product/image/{id}/delete', [ProductController::class, 'deleteImage'])->name('product.image.destroy');
 
+    // product details
+    Route::get('product/details/{id}/status', [ProductDetailsController::class, 'status'])->name('product.details.status');
+    Route::get('product/{id}/details/create', [ProductDetailsController::class, 'create'])->name('product.details.create');
+    Route::post('product/{id}/details', [ProductDetailsController::class, 'store'])->name('product.details.store');
+    Route::get('product/details/{id}/edit', [ProductDetailsController::class, 'edit'])->name('product.details.edit');
+    Route::put('product/details/{id}', [ProductDetailsController::class, 'update'])->name('product.details.update');
+    Route::delete('product/details/{id}', [ProductDetailsController::class, 'destroy'])->name('product.details.destroy');
+
     // product
-    Route::resource('product/{id}/details', ProductDetailsController::class);
     Route::get('product/{id}/status', [ProductController::class, 'status'])->name('product.status');
     Route::resource('product', ProductController::class);
 

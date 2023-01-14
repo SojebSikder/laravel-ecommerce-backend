@@ -485,9 +485,8 @@
                                             <fieldset>
                                                 <legend>Additional details</legend>
 
-                                                {{-- image upload --}}
                                                 <div class="col mb-4">
-                                                    <a href="{{ route('details.index', $product->id) }}"
+                                                    <a href="{{ route('product.details.create', $product->id) }}"
                                                         class="btn btn-sm btn-primary mt-3 mr-4">
                                                         <svg xmlns="http://www.w3.org/2000/svg" width="24"
                                                             height="24" viewBox="0 0 24 24" fill="none"
@@ -519,16 +518,16 @@
                                                                         <tr>
                                                                             <td>{{ $productDetail->name }}</td>
                                                                             <td>{{ $productDetail->sort_order }}</td>
-                                                                            @if ($product->status == '1')
+                                                                            @if ($productDetail->status == 1)
                                                                                 <td class="text-center">
-                                                                                    <a href="{{ route('product.status', $productDetail->id) }}"
+                                                                                    <a href="{{ route('product.details.status', $productDetail->id) }}"
                                                                                         class="badge bg-primary text-decoration-none shadow-none">
                                                                                         Active
                                                                                     </a>
                                                                                 </td>
                                                                             @else
                                                                                 <td class="text-center">
-                                                                                    <a href="{{ route('product.status', $productDetail->id) }}"
+                                                                                    <a href="{{ route('product.details.status', $productDetail->id) }}"
                                                                                         class="badge bg-warning text-decoration-none shadow-none">
                                                                                         Disabled
                                                                                     </a>
@@ -540,9 +539,7 @@
                                                                                 <ul class="table-controls">
                                                                                     <li>
                                                                                         <a class="btn btn-sm btn-primary"
-                                                                                            href="javascript:void(0);"
-                                                                                            data-bs-toggle="modal"
-                                                                                            data-bs-target="#settingEdit{{ $productDetail->id }}"
+                                                                                            href="{{ route('product.details.edit', $productDetail->id) }}"
                                                                                             data-bs-toggle="tooltip"
                                                                                             data-bs-placement="top"
                                                                                             title=""
@@ -569,7 +566,8 @@
                                                                                             href="javascript:void(0);"
                                                                                             onclick="event.preventDefault();
                                                                                             if(confirm('Are you really want to delete?')){
-                                                                                            document.getElementById('product-delete-{{ $productDetail->id }}').submit() }"
+                                                                                            document.getElementById('productDetail-delete-{{ $productDetail->id }}').submit()
+                                                                                            }"
                                                                                             data-bs-toggle="tooltip"
                                                                                             data-bs-placement="top"
                                                                                             title=""
@@ -593,6 +591,13 @@
                                                                                             </svg>
                                                                                             Delete
                                                                                         </a>
+                                                                                        {{-- delete  --}}
+                                                                                        <form method="post"
+                                                                                            action="{{ route('product.details.destroy', $productDetail->id) }}"
+                                                                                            id="{{ 'productDetail-delete-' . $productDetail->id }}">
+                                                                                            @csrf
+                                                                                            @method('DELETE')
+                                                                                        </form>
                                                                                     </li>
                                                                                 </ul>
                                                                             </td>
