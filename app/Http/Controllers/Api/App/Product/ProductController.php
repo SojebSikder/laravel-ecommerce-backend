@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\App\Product;
 
 use App\Http\Controllers\Controller;
+use App\Lib\SojebVar\SojebVar;
 use App\Models\Product\Product;
 use Illuminate\Http\Request;
 
@@ -69,6 +70,12 @@ class ProductController extends Controller
                     'message' => 'Product not exist',
                 ]);
             }
+
+            SojebVar::addVariable([
+                'name' => 'sojeb',
+                'age' => 20,
+            ]);
+            $product->description = SojebVar::parse($product->description);
 
             return response()->json([
                 'success' => true,
