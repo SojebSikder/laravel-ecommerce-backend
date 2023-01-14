@@ -72,8 +72,7 @@ class ProductController extends Controller
             }
 
             SojebVar::addVariable([
-                'name' => 'sojeb',
-                'age' => 20,
+                'product.name' => $product->name,
             ]);
             $product->description = SojebVar::parse($product->description);
 
