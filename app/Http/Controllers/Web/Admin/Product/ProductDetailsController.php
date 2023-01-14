@@ -96,7 +96,6 @@ class ProductDetailsController extends Controller
 
 
         $productDetails = ProductDetails::find($id);
-        $productDetails->product_id = $id;
         $productDetails->name = $name;
         $productDetails->body = $body;
         $productDetails->status = $status;
