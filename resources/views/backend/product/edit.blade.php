@@ -564,10 +564,7 @@
                                                                                     <li>
                                                                                         <a class="btn btn-sm btn-danger"
                                                                                             href="javascript:void(0);"
-                                                                                            onclick="event.preventDefault();
-                                                                                            if(confirm('Are you really want to delete?')){
-                                                                                            document.getElementById('productDetail-delete-{{ $productDetail->id }}').submit()
-                                                                                            }"
+                                                                                            onclick="deleteDetails({{ $productDetail->id }})"
                                                                                             data-bs-toggle="tooltip"
                                                                                             data-bs-placement="top"
                                                                                             title=""
@@ -591,13 +588,7 @@
                                                                                             </svg>
                                                                                             Delete
                                                                                         </a>
-                                                                                        {{-- delete  --}}
-                                                                                        <form method="post"
-                                                                                            action="{{ route('product.details.destroy', $productDetail->id) }}"
-                                                                                            id="{{ 'productDetail-delete-' . $productDetail->id }}">
-                                                                                            @csrf
-                                                                                            @method('DELETE')
-                                                                                        </form>
+
                                                                                     </li>
                                                                                 </ul>
                                                                             </td>
@@ -661,6 +652,21 @@
     <script src="{{ asset('assets') }}/tinymce/tinymce.min.js"></script>
     <script src="{{ asset('assets') }}/select2/js/select2.min.js"></script>
     <script>
+        // delete details
+        async function deleteDetails(id) {
+            try {
+                if (!confirm('Are you sure?')) {
+                    return;
+                }
+                const delete_Image = await fetch(
+                    `/product/details/${id}?_method=DELETE&_token={{ csrf_token() }}`, {
+                        method: 'DELETE',
+                    })
+                window.location.reload()
+            } catch (error) {
+                alert("Something went wrong")
+            }
+        }
         // delete image
         async function deleteImage(id) {
             try {
