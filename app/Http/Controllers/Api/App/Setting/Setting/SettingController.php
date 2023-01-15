@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\App\Setting\Setting;
 
 use App\Http\Controllers\Controller;
+use App\Models\Setting\Setting\Setting;
 use Illuminate\Http\Request;
 
 class SettingController extends Controller
@@ -14,7 +15,19 @@ class SettingController extends Controller
      */
     public function index()
     {
-        //
+        try {
+            $settings = Setting::all();
+
+            return response()->json([
+                'status' => 'success',
+                'data' => $settings
+            ]);
+        } catch (\Throwable $th) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Something went wrong :(',
+            ]);
+        }
     }
 
     /**
@@ -44,9 +57,27 @@ class SettingController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($key)
     {
-        //
+        try {
+            $setting = Setting::where('key', $key)->first();
+            if ($setting) {
+                return response()->json([
+                    'status' => 'success',
+                    'data' => $setting->value
+                ]);
+            } else {
+                return response()->json([
+                    'status' => 'error',
+                    'message' => 'Settings key not found :(',
+                ]);
+            }
+        } catch (\Throwable $th) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Something went wrong :(',
+            ]);
+        }
     }
 
     /**
