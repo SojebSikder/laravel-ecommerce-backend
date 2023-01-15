@@ -20,7 +20,9 @@ class Category extends Model
 
     public function products()
     {
-        return $this->belongsToMany(Product::class, 'product_categories')->where('status', 1);
+        return $this->belongsToMany(Product::class, 'product_categories')
+            ->with(['images'])
+            ->where('status', 1);
     }
 
     public function sub_categories()
