@@ -54,10 +54,11 @@ class CategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($slug)
     {
         try {
-            $category = Category::with('sub_categories')
+            $category = Category::with('sub_categories', 'products')
+                ->where('slug', $slug)
                 ->where('status', 1)
                 ->first();
 
