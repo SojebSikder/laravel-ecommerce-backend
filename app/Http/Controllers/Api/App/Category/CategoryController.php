@@ -18,7 +18,8 @@ class CategoryController extends Controller
         $categories = Category::with('sub_categories')
             ->where('parent_id', null)
             ->where('status', 1)
-            ->orderBy('sort_order', 'ASC')
+            ->orderBy('name', 'asc')
+            // ->orderBy('sort_order', 'asc')
             ->get();
 
         return response()->json([
