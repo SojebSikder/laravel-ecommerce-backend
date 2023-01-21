@@ -104,7 +104,6 @@ class CartController extends Controller
     public function update(Request $request, $id)
     {
         try {
-
             $quantity = $request->input('quantity');
             // user id
             $user_id = auth("api")->user()->id;
@@ -112,7 +111,7 @@ class CartController extends Controller
             $cart = Cart::where('user_id', $user_id)
                 ->where('id', $id)
                 ->first();
-            if ($quantity == 0) {
+            if ($quantity <= 0) {
                 $cart->delete();
 
                 return response()->json([
