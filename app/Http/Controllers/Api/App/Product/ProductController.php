@@ -19,7 +19,7 @@ class ProductController extends Controller
         // lazy loading
         $default_limit = 40;
 
-        $products = Product::query()->with('images');
+        $products = Product::query()->with('images')->where('status', 1);
         $products = $products->latest()->paginate($default_limit);
 
         return response()->json([
