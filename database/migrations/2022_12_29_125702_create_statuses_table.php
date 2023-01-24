@@ -24,8 +24,6 @@ return new class extends Migration
             $table->text('alt_text')->nullable();
             // is this show on user shipment status
             $table->tinyInteger('on_shipping_status')->nullable()->default(0); // 0,1
-            // specify if this is default for order. Only one row can be default value 1
-            $table->tinyInteger('default')->nullable()->default(0); // 0,1
             // additional feature
             $table->string('color')->nullable();
             //

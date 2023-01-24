@@ -212,6 +212,12 @@
                                                 <span>Basic</span>
                                             </a>
                                         </li>
+                                        <li>
+                                            <a href="{{ route('status.index') }}" class="nav-link px-3">
+                                                <span class="me-2"><i class="bi bi-layout-split"></i></span>
+                                                <span>Order status</span>
+                                            </a>
+                                        </li>
 
                                     </ul>
                                 </div>
@@ -219,8 +225,8 @@
                         </li>
 
                         <li>
-                            <a class="nav-link sidebar-link px-3" target="__blank" href="{{ env('CLIENT_APP_URL') }}"
-                                role="button">
+                            <a class="nav-link sidebar-link px-3" target="__blank"
+                                href="{{ env('CLIENT_APP_URL') }}" role="button">
                                 <span class="me-2"><i class="bi bi-shop"></i></span>
                                 <span>View store</span>
                                 <span class="right-icon ms-auto">
