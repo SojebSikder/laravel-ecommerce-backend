@@ -100,7 +100,8 @@ class StatusController extends Controller
      */
     public function edit($id)
     {
-        //
+        $status = Status::findOrFail($id);
+        return view('backend.setting.order.status.edit', compact('status'));
     }
 
     /**
