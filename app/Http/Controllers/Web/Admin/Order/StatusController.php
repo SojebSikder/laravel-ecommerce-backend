@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers\Web\Admin\Order;
 
+use App\Helper\ImageHelper;
 use App\Http\Controllers\Controller;
 use App\Models\Order\Status;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class StatusController extends Controller
 {
@@ -49,7 +51,34 @@ class StatusController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $label = $request->input('label');
+        $name = $request->input('name');
+        $description = $request->input('description');
+        $on_shipping_status = $request->input('on_shipping_status')  == 1 ? 1 : 0;
+        $default = $request->input('default')  == 1 ? 1 : 0;
+        $sort_order = $request->input('sort_order');
+        $file = $request->file('image');
+
+        $status = new Status();
+        $status->label = $label;
+        $status->name = $name;
+        $status->description = $description;
+        $status->on_shipping_status = $on_shipping_status;
+        $status->default = $default;
+        $status->sort_order = $sort_order;
+        if ($request->hasFile('image')) {
+            $file_name = time() . '-' . uniqid() . '.' . $file->getClientOriginalExtension();
+            $file_path = config('constants.uploads.setting_order_status') . "/" . $file_name;
+
+            // resize image
+            $resizedimg = ImageHelper::resize(file_get_contents($file->getRealPath()), 35, 35);
+            Storage::put($file_path, (string) $resizedimg->encode());
+
+            $status->image = $file_name;
+        }
+        $status->save();
+
+        return back()->with('success', 'Created successfully');
     }
 
     /**
@@ -83,7 +112,39 @@ class StatusController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $label = $request->input('label');
+        $name = $request->input('name');
+        $description = $request->input('description');
+        $on_shipping_status = $request->input('on_shipping_status')  == 1 ? 1 : 0;
+        $default = $request->input('default')  == 1 ? 1 : 0;
+        $sort_order = $request->input('sort_order');
+        $file = $request->file('image');
+
+        $status = Status::find($id);
+        $status->label = $label;
+        $status->name = $name;
+        $status->description = $description;
+        $status->on_shipping_status = $on_shipping_status;
+        $status->default = $default;
+        $status->sort_order = $sort_order;
+        if ($request->hasFile('image')) {
+            // remove previous image first
+            if (Storage::exists(config('constants.uploads.setting_order_status') . "/" . $status->image)) {
+                Storage::delete(config('constants.uploads.setting_order_status') . "/" . $status->image);
+            }
+
+            $file_name = time() . '-' . uniqid() . '.' . $file->getClientOriginalExtension();
+            $file_path = config('constants.uploads.setting_order_status') . "/" . $file_name;
+
+            // resize image
+            $resizedimg = ImageHelper::resize(file_get_contents($file->getRealPath()), 35, 35);
+            Storage::put($file_path, (string) $resizedimg->encode());
+
+            $status->image = $file_name;
+        }
+        $status->save();
+
+        return back()->with('success', 'Updated successfully');
     }
 
     public function status($id)
@@ -108,6 +169,17 @@ class StatusController extends Controller
      */
     public function destroy($id)
     {
-        //
+        try {
+            $status = Status::find($id);
+            // remove previous image first
+            if (Storage::exists(config('constants.uploads.setting_order_status') . "/" . $status->image)) {
+                Storage::delete(config('constants.uploads.setting_order_status') . "/" . $status->image);
+            }
+            // remove record from database
+            $status->delete();
+            return back()->with('success', 'Deleted Successfully');
+        } catch (\Throwable $th) {
+            return back()->with('warning', $th->getMessage());
+        }
     }
 }

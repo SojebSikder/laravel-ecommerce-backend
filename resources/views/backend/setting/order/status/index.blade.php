@@ -66,7 +66,7 @@
                                             <tr>
                                                 <th>Status</th>
                                                 <th>Description</th>
-                                                <th>Description</th>
+                                                <th>Icon</th>
                                                 <th>Show on user</th>
                                                 <th>Sorting order</th>
                                                 <th class="text-center">Status</th>
@@ -78,6 +78,24 @@
                                                 <tr>
                                                     <td>{{ $status->label }}</td>
                                                     <td>{{ $status->description }}</td>
+
+                                                    <td>
+                                                        <a href="{{ $status->image_url }}" target="_blank"
+                                                            rel="noopener noreferrer">
+                                                            <img style="max-width: 80px !important;" class="img-thumbnail"
+                                                                src="{{ $status->image_url }}" alt="{{ $status->image }}"
+                                                                data-toggle="tooltip" data-placement="top"
+                                                                title="Click to view large mode">
+                                                        </a>
+                                                    </td>
+
+                                                    <td>
+                                                        {{ $status->on_shipping_status }}
+                                                    </td>
+
+                                                    <td>
+                                                        {{ $status->sort_order }}
+                                                    </td>
 
                                                     @if ($status->status == 1)
                                                         <td class="text-center">

@@ -77,32 +77,55 @@
 
                                             <div class="col">
                                                 <div class="form-group mb-3">
-                                                    <label for="name">Name</label>
-                                                    <input type="text" id="name"
-                                                        class="form-control @error('name') is-invalid @enderror"
-                                                        value="{{ old('name') }}" name="name">
+                                                    <label for="label">Label</label>
+                                                    <input type="text" id="label"
+                                                        class="form-control @error('label') is-invalid @enderror"
+                                                        placeholder="e.g. Order processing" value="{{ old('label') }}"
+                                                        name="label">
                                                 </div>
-                                                @error('name')
+                                                @error('label')
                                                     <div class="alert alert-danger">{{ $message }}</div>
                                                 @enderror
                                             </div>
                                             <div class="col">
                                                 <div class="form-group mb-3">
-                                                    <label for="slug">Slug</label>
-                                                    <input type="text" id="slug"
-                                                        class="form-control @error('slug') is-invalid @enderror"
-                                                        value="{{ old('slug') }}" name="slug">
+                                                    <label for="name">Name</label>
+                                                    <input type="text" id="name"
+                                                        class="form-control @error('name') is-invalid @enderror"
+                                                        placeholder="e.g. order_processing" value="{{ old('name') }}"
+                                                        name="name">
                                                 </div>
-                                                @error('slug')
+                                                @error('name')
                                                     <div class="alert alert-danger">{{ $message }}</div>
                                                 @enderror
                                             </div>
 
+                                            <div class="col">
+                                                <div class="form-group mb-3">
+                                                    <label for="description">Description</label>
+                                                    <textarea name="description" class="form-control @error('description') is-invalid @enderror" id="description">{{ old('description') }}</textarea>
+                                                </div>
+                                                @error('description')
+                                                    <div class="alert alert-danger">{{ $message }}</div>
+                                                @enderror
+                                            </div>
+
+                                            <div class="col">
+                                                <div class="form-group mb-3">
+                                                    <label for="sort_order">Sorting order</label>
+                                                    <input type="number" id="sort_order"
+                                                        class="form-control @error('sort_order') is-invalid @enderror"
+                                                        value="{{ old('sort_order', 0) }}" name="sort_order">
+                                                </div>
+                                                @error('sort_order')
+                                                    <div class="alert alert-danger">{{ $message }}</div>
+                                                @enderror
+                                            </div>
 
                                             {{-- image --}}
                                             <div class="col mb-4">
                                                 <div class="form-group">
-                                                    <label for="name">Picture</label>
+                                                    <label for="name">Picture [Single] [35px by 35px]</label>
                                                     <label class="btn btn-info">
                                                         Choose file <input type="file" accept="image/*" name="image"
                                                             id="uploadImage" class="d-none">
@@ -111,6 +134,14 @@
                                                     @error('image')
                                                         <div class="alert alert-danger mt-1">{{ $message }}</div>
                                                     @enderror
+                                                </div>
+                                            </div>
+
+                                            <div class="col">
+                                                <div class="form-check form-switch mb-3 mt-5">
+                                                    <input class="form-check-input" value="1" name="on_shipping_status"
+                                                        type="checkbox" role="switch" id="on_shipping_status">
+                                                    <label class="form-check-label" for="on_shipping_status">Show on shipping status</label>
                                                 </div>
                                             </div>
 
@@ -140,10 +171,10 @@
 
 @section('script')
     <script>
-        const name = document.querySelector('#name');
-        const slug = document.querySelector('#slug');
+        const name = document.querySelector('#label');
+        const slug = document.querySelector('#name');
         name.addEventListener("keyup", function(e) {
-            slug.value = replace(e.target.value.toLowerCase(), " ", "-")
+            slug.value = replace(e.target.value.toLowerCase(), " ", "_")
         });
     </script>
 @endsection
