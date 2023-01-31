@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Cart\Cart;
 use App\Models\Checkout\Checkout;
 use App\Models\Checkout\CheckoutItem;
+use App\Models\Shipping\ShippingZone;
 use App\Services\Newsletter\MailingListService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -55,12 +56,16 @@ class CheckoutController extends Controller
             //start the transaction
             DB::beginTransaction();
 
+            $shippingZone = ShippingZone::find($shipping_zone_id);
+
             $checkout = new Checkout();
             $checkout->uuid = $uuid;
             $checkout->fname = $fname;
             $checkout->lname = $lname;
             $checkout->email = $email;
-            $checkout->shipping_zone_id = $shipping_zone_id;
+            if ($shippingZone) {
+                $checkout->shipping_zone_id = $shippingZone->id;
+            }
             if ($loggedInUser) {
                 $checkout->user_id = $loggedInUser->id;
             }
