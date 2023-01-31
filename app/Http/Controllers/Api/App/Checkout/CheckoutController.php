@@ -105,7 +105,12 @@ class CheckoutController extends Controller
                 if ($loggedInUser) {
                     $userId = $loggedInUser->id;
                 }
-                (new MailingListService())->store(fname: $fname, email: $email, user_id: $userId);
+                (new MailingListService())->store(
+                    fname: $fname,
+                    lname: $lname,
+                    email: $email,
+                    user_id: $userId
+                );
             }
 
             //commit the transaction

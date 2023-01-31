@@ -13,7 +13,7 @@ class MailingListService
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store($fname = null, $email = null, $user_id = null)
+    public function store($fname = null, $lname = null, $email = null, $user_id = null)
     {
         try {
             $uuid = uniqid('m', true);
@@ -29,6 +29,9 @@ class MailingListService
                 }
                 if ($fname) {
                     $mailingList->fname = $fname;
+                }
+                if ($lname) {
+                    $mailingList->lname = $lname;
                 }
                 $mailingList->email = $email;
                 $mailingList->uuid = $uuid;

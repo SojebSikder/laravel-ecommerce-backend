@@ -114,7 +114,6 @@ class OrderController extends Controller
             $billing_state = $request->input('billing_state');
             $billing_zip = $request->input('billing_zip');
             // payment
-            // $shipping_zone_id = $request->input('shipping_zone_id');
             $payment_provider_id = $request->input('payment_provider_id');
 
             // check if user logged in
@@ -300,7 +299,6 @@ class OrderController extends Controller
             $customerData = new \stdClass();
             $customerData->order = $customerOrder;
             //Send confirmation mail to customer
-            // Mail::to($loggedInUser)->send(new OrderConfirm($customerData));
             $customerTo = [
                 [
                     'email' => $email,
