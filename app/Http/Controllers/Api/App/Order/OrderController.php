@@ -79,7 +79,6 @@ class OrderController extends Controller
             ];
             $rules = [
                 'shipping_name' => 'required',
-                'phone_dial_code' => 'required',
                 'shipping_phone' => 'required',
                 'email' => 'required|string|email|max:255',
                 'shipping_city' => 'required',
@@ -103,7 +102,6 @@ class OrderController extends Controller
             $shipping_city = $request->input('shipping_city');
             $shipping_state = $request->input('shipping_state');
             $shipping_zip = $request->input('shipping_zip');
-            $phone_dial_code = $request->input('phone_dial_code');
             $email = $request->input('email');
             $shipping_phone = $request->input('shipping_phone');
             // user billing address
@@ -153,8 +151,7 @@ class OrderController extends Controller
             $shippingAddress->city = $shipping_city;
             $shippingAddress->state = $shipping_state;
             $shippingAddress->zip = $shipping_zip;
-            $shippingAddress->phone_dial_code = $phone_dial_code;
-            $shippingAddress->phone = $shipping_phone;
+            $shippingAddress->phone_number = $shipping_phone;
             $shippingAddress->email = $email;
             $shippingAddress->save();
             // store billing address
@@ -205,8 +202,7 @@ class OrderController extends Controller
             $order->payment_provider = $payment_provider->name;
             $order->payment_status = "unpaid";
             // contact
-            $order->phone_dial_code = $phone_dial_code;
-            $order->phone = $shipping_phone;
+            $order->phone_number = $shipping_phone;
             $order->email = $email;
             $order->user_shipping_address_id = $shippingAddress->id;
             if ($billing) {
