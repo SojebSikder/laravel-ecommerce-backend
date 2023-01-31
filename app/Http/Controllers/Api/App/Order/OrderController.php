@@ -2,9 +2,26 @@
 
 namespace App\Http\Controllers\Api\App\Order;
 
+use App\Helper\SettingHelper;
 use App\Http\Controllers\Controller;
+use App\Mail\Admin\Order\AdminOrderConfirm;
+use App\Mail\User\Order\OrderConfirm;
+use App\Models\Cart\Cart;
+use App\Models\Checkout\Checkout;
+use App\Models\Coupon\TempRedeem;
 use App\Models\Order\Order;
+use App\Models\Order\OrderCoupon;
+use App\Models\Order\OrderItem;
+use App\Models\Order\OrderStatus;
+use App\Models\Order\OrderStatusHistory;
+use App\Models\Order\Status;
+use App\Models\Payment\PaymentProvider;
+use App\Models\Product\Product;
+use App\Models\Shipping\ShippingZone;
+use App\Models\User\UserShippingAddress;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 
 class OrderController extends Controller
 {
@@ -56,7 +73,269 @@ class OrderController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        try {
+            $customMessages = [
+                'required' => 'The :attribute field is required.'
+            ];
+            $rules = [
+                'shipping_name' => 'required',
+                'phone_dial_code' => 'required',
+                'shipping_phone' => 'required',
+                'email' => 'required|string|email|max:255',
+                'shipping_city' => 'required',
+                'shipping_street_address' => 'required',
+                'shipping_country' => 'required',
+                'shipping_zone_id' => 'required',
+                'payment_provider_id' => 'required',
+            ];
+
+            $this->validate($request, $rules, $customMessages);
+            /**
+             * request params
+             */
+            // $cart_data = $request->input('cart_data');
+            $checkout_id = $request->input('checkout_id');
+            // user shipping address
+            $shipping_name = $request->input('shipping_name');
+            $shipping_country = $request->input('shipping_country');
+            $shipping_street_address = $request->input('shipping_street_address');
+            $shipping_building = $request->input('shipping_building');
+            $shipping_city = $request->input('shipping_city');
+            $shipping_state = $request->input('shipping_state');
+            $shipping_zip = $request->input('shipping_zip');
+            $phone_dial_code = $request->input('phone_dial_code');
+            $email = $request->input('email');
+            $shipping_phone = $request->input('shipping_phone');
+            // user billing address
+            $billing = $request->input('billing');
+            $billing_name = $request->input('billing_name');
+            $billing_country = $request->input('billing_country');
+            $billing_street_address = $request->input('billing_street_address');
+            $billing_building = $request->input('billing_building');
+            $billing_city = $request->input('billing_city');
+            $billing_state = $request->input('billing_state');
+            $billing_zip = $request->input('billing_zip');
+            // payment
+            // $shipping_zone_id = $request->input('shipping_zone_id');
+            $payment_provider_id = $request->input('payment_provider_id');
+
+            // check if user logged in
+            $loggedInUser = auth('api')->user();
+
+            //start the transaction
+            DB::beginTransaction();
+
+            if ($loggedInUser) {
+                $updateCheckout = Checkout::with('checkout_items')
+                    ->where('uuid', $checkout_id)
+                    ->first();
+                $updateCheckout->user_id =  $loggedInUser;
+                $updateCheckout->save();
+            }
+
+            $checkout = Checkout::with('checkout_items')
+                ->where('uuid', $checkout_id)
+                ->first();
+
+            $cart_data = $checkout->checkout_items;
+
+            $shipping_zone_id = $checkout->shipping_zone_id;
+
+            /**
+             * Store to db
+             */
+            // store shipping address
+            $shippingAddress = new UserShippingAddress();
+            $shippingAddress->name = $shipping_name;
+            $shippingAddress->country_id = $shipping_country;
+            $shippingAddress->street_address = $shipping_street_address;
+            $shippingAddress->building = $shipping_building;
+            $shippingAddress->city = $shipping_city;
+            $shippingAddress->state = $shipping_state;
+            $shippingAddress->zip = $shipping_zip;
+            $shippingAddress->phone_dial_code = $phone_dial_code;
+            $shippingAddress->phone = $shipping_phone;
+            $shippingAddress->email = $email;
+            $shippingAddress->save();
+            // store billing address
+            if ($billing) {
+                $billingAddress = new UserShippingAddress();
+                $billingAddress->name = $billing_name;
+                $billingAddress->country_id = $billing_country;
+                $billingAddress->street_address = $billing_street_address;
+                $billingAddress->building = $billing_building;
+                $billingAddress->city = $billing_city;
+                $billingAddress->state = $billing_state;
+                $billingAddress->zip = $billing_zip;
+                $billingAddress->phone = $shipping_phone;
+                $billingAddress->save();
+            }
+
+            // store order
+            // invoice id, user will use this for track order
+            $latestOrder = Order::orderBy('created_at', 'DESC')->first();
+            if ($latestOrder) {
+                if (Order::where('order_id', $latestOrder->order_id + 1)->first()) {
+                    $invoice_id = str_pad((int)$latestOrder->order_id + 2, 4, "0", STR_PAD_RIGHT);
+                } else {
+                    $invoice_id = str_pad((int)$latestOrder->order_id + 1, 4, "0", STR_PAD_RIGHT);
+                }
+            } else {
+                $invoice_id = "1000";
+            }
+            //
+            $shipping_zone_data = ShippingZone::where('id', $shipping_zone_id)->first();
+            $shipping_charge = (float) $shipping_zone_data->price;
+            $order_total = Checkout::order_total($checkout_id) + (float) $shipping_charge;
+            $payment_provider = PaymentProvider::find($payment_provider_id);
+            $status_info = Status::where('default', 1)->first();
+
+            $order = new Order();
+            if ($checkout->user_id) {
+                $order->user_id = $checkout->user_id;
+            }
+            $order->invoice_number = $invoice_id;
+            $order->sub_total = Checkout::subtotal($checkout_id);
+            $order->shipping_zone_id = $shipping_zone_id;
+            $order->shipping_zone_name = $shipping_zone_data->name;
+            $order->shipping_charge = $shipping_charge;
+            // store order total with = subtotal + coupon discount + shipping charge
+            $order->order_total = $order_total;
+            $order->payment_provider_id = $payment_provider_id;
+            $order->payment_provider = $payment_provider->name;
+            $order->payment_status = "unpaid";
+            // contact
+            $order->phone_dial_code = $phone_dial_code;
+            $order->phone = $shipping_phone;
+            $order->email = $email;
+            $order->user_shipping_address_id = $shippingAddress->id;
+            if ($billing) {
+                $order->user_billing_address_id = $billingAddress->id;
+            } else {
+                $order->user_billing_address_id = $shippingAddress->id;
+            }
+
+            if ($status_info) {
+                $order->status = $status_info->name;
+            } else {
+                $order->status = "order_placed";
+            }
+            $order->currency = SettingHelper::currency_code();
+            $order->save();
+
+            // add order status history
+            if ($status_info) {
+                $order_status = new OrderStatus();
+                $order_status->order_id = $order->id;
+                $order_status->status_id = $status_info->id;
+                $order_status->save();
+
+                // keep order status history
+                $order_status_history = new OrderStatusHistory();
+                $order_status_history->order_id = $order->id;
+                $order_status_history->status_id = $status_info->id;
+                $order_status_history->save();
+            }
+
+            if ($checkout->user_id) {
+                // store coupon history to order_coupon
+                $temp_redeems = TempRedeem::where('user_id', $checkout->user_id)->get();
+                if (count($temp_redeems)) {
+                    foreach ($temp_redeems as $temp_redeem) {
+                        $orderCoupon = new OrderCoupon();
+                        $orderCoupon->order_id = $order->id;
+                        $orderCoupon->user_id = $checkout->user_id;
+                        $orderCoupon->coupon_id = $temp_redeem->coupon_id;
+                        $orderCoupon->coupon_type = $temp_redeem->coupon->coupon_type;
+                        $orderCoupon->method = $temp_redeem->coupon->method;
+                        $orderCoupon->code = $temp_redeem->coupon->code;
+                        $orderCoupon->amount_type = $temp_redeem->coupon->amount_type;
+                        $orderCoupon->amount = $temp_redeem->coupon->amount;
+                        $orderCoupon->save();
+
+                        // remove temp_redeem data
+                        TempRedeem::where('id', $temp_redeem->id)->first()->delete();
+                    }
+                }
+            }
+
+            // add order item and remove cart data
+            if ($checkout) {
+                foreach ($checkout->checkout_items as $checkout_item) {
+                    // insert cart data to order product
+                    $orderItem = new OrderItem();
+                    $orderItem->order_id = $order->id;
+
+                    $orderItem->product_id = $checkout_item->product_id;
+                    if ($checkout_item->product->is_sale == 1) {
+                        $orderItem->discount = $checkout_item->product->discount;
+                    }
+                    $orderItem->qnty = $checkout_item->qnty;
+                    $orderItem->price = $checkout_item->product->price;
+                    $orderItem->total_price = $checkout_item->subtotal;
+                    $orderItem->attribute = json_encode($checkout_item->attribute);
+
+                    $orderItem->save();
+
+                    // decrease product quantity
+                    $updateProduct = Product::find($checkout_item->product_id);
+                    if ($updateProduct) {
+                        $updateProduct->quantity = (int)$updateProduct->quantity - (int)$checkout_item->qnty;
+                        $updateProduct->save();
+                    }
+
+                    if ($checkout_item->cart_id) {
+                        // remove cart data
+                        Cart::where('id', $checkout_item->cart_id)->first()->delete();
+                    }
+                }
+                // delete checkout with checkout items
+                $checkout->delete();
+            }
+
+
+            $customerOrder = Order::find($order->id);
+            // TODO make payment
+
+
+            /**
+             * Notification
+             */
+            $customerData = new \stdClass();
+            $customerData->order = $customerOrder;
+            //Send confirmation mail to customer
+            // Mail::to($loggedInUser)->send(new OrderConfirm($customerData));
+            $customerTo = [
+                [
+                    'email' => $email,
+                    'name' => $shipping_name,
+                ]
+            ];
+            Mail::to($customerTo)->send(new OrderConfirm($customerData));
+            // Send confirmation mail to admin
+            $to = [
+                [
+                    'email' => SettingHelper::get('contact_email'),
+                    'name' => SettingHelper::get('name'),
+                ]
+            ];
+            $data = new \stdClass();
+            $data->order = $customerOrder;
+            Mail::to($to)->send(new AdminOrderConfirm($data));
+            // end Notification
+
+            //commit the transaction
+            DB::commit();
+
+            // response
+            return response()->json([
+                'success' => true,
+                'message' => 'Order placed successfully',
+            ]);
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            throw $th;
+        }
     }
 
     /**
@@ -67,8 +346,68 @@ class OrderController extends Controller
      */
     public function show($id)
     {
-        //
+        try {
+            $order = Order::where('id', $id)
+                ->where('user_id', auth('api')->user()->id)
+                ->first();
+
+            if ($order) {
+                return response()->json([
+                    'success' => true,
+                    'data' => $order,
+                ]);
+            } else {
+                return response()->json([
+                    'error' => true,
+                    'message' => "Not found.",
+                ]);
+            }
+        } catch (\Throwable $th) {
+            return response()->json([
+                'error' => true,
+                'data' => 'Something went wrong.',
+            ]);
+        }
     }
+
+    /**
+     * Show order status
+     */
+    public function orderStatus(Request $request)
+    {
+        try {
+            $order_number = $request->input('order_number');
+            $email = $request->input('email');
+
+            $order_number = ltrim($order_number, '#');
+
+            $statuses = Status::orderBy('sort_order', 'asc')->where('on_shipping_status', 1)->get();
+            $order = Order::where('order_id', $order_number)
+                ->where('email', $email)
+                ->first();
+
+            if ($order) {
+                return response()->json([
+                    'success' => true,
+                    'data' => [
+                        'order_status' => $statuses,
+                        'order_data' => $order,
+                    ],
+                ]);
+            } else {
+                return response()->json([
+                    'error' => true,
+                    'message' => 'Order not found',
+                ]);
+            }
+        } catch (\Throwable $th) {
+            return response()->json([
+                'error' => true,
+                'message' => 'Something went wrong :(',
+            ]);
+        }
+    }
+
 
     /**
      * Show the form for editing the specified resource.

@@ -13,16 +13,16 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('mailing_lists', function (Blueprint $table) {
+        Schema::create('checkouts', function (Blueprint $table) {
             $table->id();
 
-            $table->text('uuid')->nullable();
-            $table->foreignId('user_id')->nullable()->references('id')->on('users')->onDelete('cascade');
+            $table->string('uuid')->nullable()->unique();
             $table->string('fname')->nullable();
             $table->string('lname')->nullable();
             $table->string('email')->nullable();
-            $table->string('phone_number')->nullable();
-            $table->tinyInteger('status')->nullable()->default(1); // 1-> active, 0-> deactive
+
+            $table->foreignId('user_id')->nullable()->constrained()->onDelete('set null');
+            $table->foreignId('shipping_zone_id')->nullable()->constrained('shipping_zones')->onDelete('set null');
 
             $table->timestamps();
         });
@@ -35,6 +35,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('mailing_lists');
+        Schema::dropIfExists('checkouts');
     }
 };

@@ -19,6 +19,7 @@ return new class extends Migration
             $table->foreignId('user_id')->nullable()->constrained()->onDelete('cascade');
             $table->foreignId('product_id')->nullable()->constrained()->onDelete('cascade');
             $table->bigInteger('quantity')->nullable()->default(1);
+            $table->text('attribute')->nullable(); // store product option sets
 
             $table->timestamps();
         });

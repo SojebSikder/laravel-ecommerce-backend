@@ -13,22 +13,31 @@ class MailingListService
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store($email = null, $user_id = null)
+    public function store($fname = null, $email = null, $user_id = null)
     {
         try {
             $uuid = uniqid('m', true);
 
-            $mailingList = new MailingList();
-            if ($user_id) {
-                $mailingList->user_id = $user_id;
-            } else if (auth('api')->user()) {
-                $mailingList->user_id = auth('api')->user()->id;
-            }
-            $mailingList->email = $email;
-            $mailingList->uuid = $uuid;
-            $mailingList->save();
+            $existMail = MailingList::where('email', $email)->first();
 
-            return $mailingList;
+            if (!$existMail) {
+                $mailingList = new MailingList();
+                if ($user_id) {
+                    $mailingList->user_id = $user_id;
+                } else if (auth('api')->user()) {
+                    $mailingList->user_id = auth('api')->user()->id;
+                }
+                if ($fname) {
+                    $mailingList->fname = $fname;
+                }
+                $mailingList->email = $email;
+                $mailingList->uuid = $uuid;
+                $mailingList->save();
+
+                return $mailingList;
+            } else {
+                return $existMail;
+            }
         } catch (\Throwable $th) {
             return 0;
         }
