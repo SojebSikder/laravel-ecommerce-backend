@@ -2,9 +2,11 @@
 
 use App\Http\Controllers\Api\App\Auth\AuthController;
 use App\Http\Controllers\Api\App\Category\CategoryController;
+use App\Http\Controllers\Api\App\Checkout\CheckoutController;
 use App\Http\Controllers\Api\App\Cms\Footer\FooterController;
 use App\Http\Controllers\Api\App\Cms\Page\PageController;
 use App\Http\Controllers\Api\App\Cms\Sitemap\SitemapController;
+use App\Http\Controllers\Api\App\Order\OrderController;
 use App\Http\Controllers\Api\App\Product\ProductController;
 use App\Http\Controllers\Api\App\Setting\Setting\SettingController;
 use Illuminate\Http\Request;
@@ -52,6 +54,10 @@ Route::get("/product/{id}/rating/me", [ProductController::class, 'showRating']);
 Route::resource("product", ProductController::class);
 
 Route::resource("category", CategoryController::class);
+
+// order
+Route::resource("checkout", CheckoutController::class);
+Route::resource("order", OrderController::class);
 
 // page
 Route::resource('page', PageController::class);

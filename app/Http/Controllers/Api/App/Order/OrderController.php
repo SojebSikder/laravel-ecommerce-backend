@@ -270,7 +270,7 @@ class OrderController extends Controller
                     if ($checkout_item->product->is_sale == 1) {
                         $orderItem->discount = $checkout_item->product->discount;
                     }
-                    $orderItem->qnty = $checkout_item->qnty;
+                    $orderItem->quantity = $checkout_item->quantity;
                     $orderItem->price = $checkout_item->product->price;
                     $orderItem->total_price = $checkout_item->subtotal;
                     $orderItem->attribute = json_encode($checkout_item->attribute);
@@ -280,7 +280,7 @@ class OrderController extends Controller
                     // decrease product quantity
                     $updateProduct = Product::find($checkout_item->product_id);
                     if ($updateProduct) {
-                        $updateProduct->quantity = (int)$updateProduct->quantity - (int)$checkout_item->qnty;
+                        $updateProduct->quantity = (int)$updateProduct->quantity - (int)$checkout_item->quantity;
                         $updateProduct->save();
                     }
 
