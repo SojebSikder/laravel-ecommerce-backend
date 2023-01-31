@@ -46,9 +46,19 @@ class Coupon extends Model
             return false;
         }
     }
-    // is coupon available. (currently not using)
+    // is coupon available
     public function isAvailable()
     {
-        return true;
+        if ($this->starts_at != null) {
+            if ($this->starts_at > Carbon::now()->toDateString()) {
+                // not available
+                return false;
+            } else {
+                // is available
+                return true;
+            }
+        } else {
+            return true;
+        }
     }
 }

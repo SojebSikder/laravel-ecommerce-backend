@@ -57,9 +57,10 @@
 
                             </div>
                             <div class="card-body">
-                                <form action="{{ route('status.edit', $status->id) }}" method="POST"
+                                <form action="{{ route('status.update', $status->id) }}" method="POST"
                                     enctype="multipart/form-data">
                                     @csrf
+                                    @method('PUT')
                                     <div class="row">
                                         <div class="col">
 

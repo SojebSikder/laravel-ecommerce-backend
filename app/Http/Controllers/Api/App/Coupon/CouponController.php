@@ -140,10 +140,7 @@ class CouponController extends Controller
 
 
         // Make sure is voucher active, not expired and available.
-        // if ($voucher->status == 0 || $voucher->isExpired() || !$voucher->isAvailable()) {
-        //     return;
-        // }
-        if ($voucher->status == 0 || $voucher->isExpired()) {
+        if ($voucher->status == 0 || $voucher->isExpired() || !$voucher->isAvailable()) {
             return response()->json([
                 'error' => true,
                 'message' => 'Coupon is not active or it has expired',
