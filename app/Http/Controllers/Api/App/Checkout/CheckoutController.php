@@ -86,16 +86,16 @@ class CheckoutController extends Controller
                 }
 
                 if ($loggedInUser) {
-                    $checkoutItem->variant_id = $cart->variant_id;
-                    if ($cart->variant->product->is_sale == 1) {
-                        $checkoutItem->discount = $cart->variant->discount;
+                    $checkoutItem->product_id = $cart->product_id;
+                    if ($cart->product->is_sale == 1) {
+                        $checkoutItem->discount = $cart->product->discount;
                     }
                     $checkoutItem->quantity = $cart->quantity;
                     $checkoutItem->attribute = json_encode($cart->attribute);
                 } else {
-                    $checkoutItem->variant_id = $cart['variant_id'];
-                    if ($cart['variant']['product']['is_sale'] == 1) {
-                        $checkoutItem->discount = $cart['variant']['discount'];
+                    $checkoutItem->product_id = $cart['product_id'];
+                    if ($cart['product']['is_sale'] == 1) {
+                        $checkoutItem->discount = $cart['product']['discount'];
                     }
                     $checkoutItem->quantity = $cart['quantity'];
                     $checkoutItem->attribute = json_encode($cart['attribute']);
@@ -121,18 +121,19 @@ class CheckoutController extends Controller
             //commit the transaction
             DB::commit();
 
-            return [
+            return response()->json([
                 'success' => true,
                 'data' => [
                     'checkout_id' => $checkout->uuid,
                 ]
-            ];
+            ]);
         } catch (\Throwable $th) {
             DB::rollBack();
-            return [
-                'error' => true,
-                'message' => "Something went wrong :(",
-            ];
+            throw $th;
+            // return response()->json([
+            //     'error' => true,
+            //     'message' => "Something went wrong :(",
+            // ]);
         }
     }
 
