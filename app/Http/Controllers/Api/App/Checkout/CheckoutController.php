@@ -91,14 +91,14 @@ class CheckoutController extends Controller
                         $checkoutItem->discount = $cart->product->discount;
                     }
                     $checkoutItem->quantity = $cart->quantity;
-                    $checkoutItem->attribute = json_encode($cart->attribute);
+                    $checkoutItem->attribute = isset($cart->attribute) ? json_encode($cart->attribute) : null;
                 } else {
                     $checkoutItem->product_id = $cart['product_id'];
                     if ($cart['product']['is_sale'] == 1) {
                         $checkoutItem->discount = $cart['product']['discount'];
                     }
                     $checkoutItem->quantity = $cart['quantity'];
-                    $checkoutItem->attribute = json_encode($cart['attribute']);
+                    $checkoutItem->attribute = isset($cart['attribute']) ? json_encode($cart['attribute']) : null;
                 }
 
                 $checkoutItem->save();
