@@ -74,6 +74,12 @@
                                                 <span>Orders</span>
                                             </a>
                                         </li>
+                                        <li>
+                                            <a href="{{ route('checkout.index') }}" class="nav-link px-3">
+                                                <span class="me-2"><i class="bi bi-layout-split"></i></span>
+                                                <span>Abandoned checkouts</span>
+                                            </a>
+                                        </li>
 
                                     </ul>
                                 </div>

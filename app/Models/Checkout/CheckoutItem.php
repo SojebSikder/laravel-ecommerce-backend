@@ -4,6 +4,7 @@ namespace App\Models\Checkout;
 
 use App\Helper\SettingHelper;
 use App\Helper\StringHelper;
+use App\Models\Product\Product;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 

@@ -19,7 +19,8 @@ return new class extends Migration
             $table->foreignId('cart_id')->nullable()->constrained('carts')->onDelete('cascade');
             $table->foreignId('checkout_id')->nullable()->constrained('checkouts')->onDelete('cascade');
             // product id
-            $table->string('product_id')->nullable()->references('id')->on('products')->onDelete('cascade');
+            $table->foreignId('product_id')->nullable()->constrained('products')->onDelete('cascade');
+
             $table->decimal('discount')->nullable();
             $table->decimal('price')->nullable();
             // with discount

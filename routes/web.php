@@ -3,6 +3,7 @@
 use App\Http\Controllers\Web\Admin\Auth\AuthController;
 use App\Http\Controllers\Web\Admin\Auth\UserController;
 use App\Http\Controllers\Web\Admin\Category\CategoryController;
+use App\Http\Controllers\Web\Admin\Checkout\CheckoutController;
 use App\Http\Controllers\Web\Admin\Cms\Footer\FooterController;
 use App\Http\Controllers\Web\Admin\Cms\Footer\FooterItemController;
 use App\Http\Controllers\Web\Admin\Cms\Page\PageController;
@@ -71,6 +72,7 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::resource('manufacturer', ManufacturerController::class);
 
     // sales
+    Route::resource('checkout', CheckoutController::class);
     Route::resource('order', OrderController::class);
 
     // promotions
