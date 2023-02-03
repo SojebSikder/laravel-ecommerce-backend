@@ -23,6 +23,7 @@ return new class extends Migration
             // country flag
             $table->string('flag')->nullable();
 
+            $table->tinyInteger('status')->nullable()->default(1); // 1-> active, 0-> deactive
             $table->timestamps();
         });
     }
