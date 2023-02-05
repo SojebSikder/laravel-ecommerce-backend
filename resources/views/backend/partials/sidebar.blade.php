@@ -225,6 +225,12 @@
                                             </a>
                                         </li>
                                         <li>
+                                            <a href="{{ route('payment-provider.index') }}" class="nav-link px-3">
+                                                <span class="me-2"><i class="bi bi-layout-split"></i></span>
+                                                <span>Payment method</span>
+                                            </a>
+                                        </li>
+                                        <li>
                                             <a href="{{ route('status.index') }}" class="nav-link px-3">
                                                 <span class="me-2"><i class="bi bi-layout-split"></i></span>
                                                 <span>Order status</span>
