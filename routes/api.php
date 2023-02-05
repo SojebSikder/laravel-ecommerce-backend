@@ -9,6 +9,7 @@ use App\Http\Controllers\Api\App\Cms\Sitemap\SitemapController;
 use App\Http\Controllers\Api\App\Order\OrderController;
 use App\Http\Controllers\Api\App\Product\ProductController;
 use App\Http\Controllers\Api\App\Setting\Setting\SettingController;
+use App\Http\Controllers\Api\App\Shipping\ShippingController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -66,4 +67,5 @@ Route::resource('footer', FooterController::class);
 Route::get('sitemap.xml', [SitemapController::class, 'index']);
 Route::resource('sitemap', SitemapController::class);
 // setting
+Route::resource('shipping', ShippingController::class);
 Route::resource('setting', SettingController::class);
