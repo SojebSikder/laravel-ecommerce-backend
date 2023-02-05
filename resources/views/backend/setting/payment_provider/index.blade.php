@@ -67,14 +67,14 @@
                                                 <th>Provider</th>
                                                 <th>Description</th>
                                                 <th class="text-center">Status</th>
-                                                <th class="text-center">Actions</th>
+                                                {{-- <th class="text-center">Actions</th> --}}
                                             </tr>
                                         </thead>
                                         <tbody>
                                             @foreach ($payment_providers as $payment_provider)
                                                 <tr>
                                                     <td>{{ $payment_provider->name }}</td>
-                                                    <td>{{ $payment_provider->slug }}</td>
+                                                    <td>{{ $payment_provider->description }}</td>
                                                     @if ($payment_provider->status == 1)
                                                         <td class="text-center">
                                                             <a href="{{ route('payment-provider.status', $payment_provider->id) }}"
@@ -90,7 +90,7 @@
                                                             </a>
                                                         </td>
                                                     @endif
-                                                    <td class="text-center">
+                                                    {{-- <td class="text-center">
                                                         <ul class="table-controls">
                                                             <li>
                                                                 <a class="btn btn-sm btn-primary"
@@ -109,36 +109,8 @@
                                                                     Edit
                                                                 </a>
                                                             </li>
-                                                            <li>
-                                                                <a class="btn btn-sm btn-danger" href="javascript:void(0);"
-                                                                    onclick="event.preventDefault();
-                                                                    if(confirm('Are you really want to delete?')){
-                                                                    document.getElementById('payment-provider-delete-{{ $payment_provider->id }}').submit()
-                                                                    }"
-                                                                    data-bs-toggle="tooltip" data-bs-placement="top"
-                                                                    title="" data-bs-title="Delete">
-                                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24"
-                                                                        height="24" viewBox="0 0 24 24" fill="none"
-                                                                        stroke="currentColor" stroke-width="2"
-                                                                        stroke-linecap="round" stroke-linejoin="round"
-                                                                        class="feather feather-trash br-6 mb-1 p-1">
-                                                                        <polyline points="3 6 5 6 21 6"></polyline>
-                                                                        <path
-                                                                            d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2">
-                                                                        </path>
-                                                                    </svg>
-                                                                    Delete
-                                                                </a>
-                                                                {{-- delete  --}}
-                                                                <form method="post"
-                                                                    action="{{ route('payment-provider.destroy', $payment_provider->id) }}"
-                                                                    id="{{ 'payment-provider-delete-' . $payment_provider->id }}">
-                                                                    @csrf
-                                                                    @method('DELETE')
-                                                                </form>
-                                                            </li>
                                                         </ul>
-                                                    </td>
+                                                    </td> --}}
                                                 </tr>
                                             @endforeach
 

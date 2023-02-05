@@ -101,7 +101,7 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('setting/order/status/{id}/status', [StatusController::class, 'status'])->name('status.status');
     Route::resource('setting/order/status', StatusController::class);
 
-    Route::get('setting/payment-provider/{id}/status', [PaymentProviderController::class, 'status'])->name('payment_provider.status');
+    Route::get('setting/payment-provider/{id}/status', [PaymentProviderController::class, 'status'])->name('payment-provider.status');
     Route::resource('setting/payment-provider', PaymentProviderController::class);
 
     // payment
