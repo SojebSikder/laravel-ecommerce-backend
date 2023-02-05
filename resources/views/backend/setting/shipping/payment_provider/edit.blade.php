@@ -58,7 +58,7 @@
 
                             </div>
                             <div class="card-body">
-                                <form action="{{ route('shipping.shipping-zone.update', $shippingZone->id) }}"
+                                <form action="{{ route('payment-provider.update', $shippingZone->id) }}"
                                     method="POST" enctype="multipart/form-data">
                                     @csrf
                                     @method('PUT')
