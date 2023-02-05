@@ -5,7 +5,7 @@
 @endsection
 
 @section('style')
-<link rel="stylesheet" href="{{ asset('assets') }}/select2/css/select2.min.css">
+    <link rel="stylesheet" href="{{ asset('assets') }}/select2/css/select2.min.css">
 @endsection
 
 @section('content')
@@ -41,7 +41,8 @@
                         <div class="card">
                             <div class="card-header">
                                 <h5 class="float-start">Edit country</h5>
-                                <a href="{{ route('shipping.edit', $shipping->id) }}" class="btn btn-sm btn-primary float-end mt-3 mr-4">
+                                <a href="{{ route('shipping.edit', $shipping->id) }}"
+                                    class="btn btn-sm btn-primary float-end mt-3 mr-4">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                         viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                                         stroke-linecap="round" stroke-linejoin="round" class="feather feather-list">
@@ -57,8 +58,8 @@
 
                             </div>
                             <div class="card-body">
-                                <form action="{{ route('shipping.shipping-zone.update', $shippingZone->id) }}" method="POST"
-                                    enctype="multipart/form-data">
+                                <form action="{{ route('shipping.shipping-zone.update', $shippingZone->id) }}"
+                                    method="POST" enctype="multipart/form-data">
                                     @csrf
                                     @method('PUT')
                                     <div class="row">
@@ -76,24 +77,26 @@
                                                 <div class="form-group mb-3">
                                                     <label>Shipping zone Name<sup style="color: red">(*) </sup></label>
                                                     <input id="name" disabled type="text"
-                                                        class="form-control @error('name') is-invalid @enderror" name="name"
-                                                        placeholder="Name" value="{{ $shippingZone->name }}" />
+                                                        class="form-control @error('name') is-invalid @enderror"
+                                                        name="name" placeholder="Name"
+                                                        value="{{ $shippingZone->name }}" />
                                                 </div>
                                             </div>
-                
+
                                             <div class="col">
                                                 <div class="form-group">
                                                     <label for="tags">Payment methods</label>
                                                     <select id="tags" class="form-control tags" multiple="multiple"
                                                         name="payment_providers[]">
                                                         @foreach ($payment_providers as $payment_provider)
-                                                            <option value="{{ $payment_provider->name }}">{{ $payment_provider->name }}
+                                                            <option value="{{ $payment_provider->name }}">
+                                                                {{ $payment_provider->name }}
                                                             </option>
                                                         @endforeach
                                                     </select>
                                                 </div>
                                             </div>
-                
+
                                             <div class="col">
                                                 <input type="checkbox" id="checkbox">
                                                 <label for="checkbox">Select all</label>
@@ -124,21 +127,22 @@
 @endsection
 
 @section('script')
-<script src="{{ asset('assets') }}/select2/js/select2.min.js"></script>
+    <script src="{{ asset('assets') }}/select2/js/select2.min.js"></script>
 
     <script>
         $(document).ready(function() {
             const tags = $(`.tags`);
             tags.select2({
                 multiple: true,
-                placeholder: "Select countries",
+                placeholder: "Select payment method",
                 allowClear: true,
                 tags: true
             });
 
-            const selectedValues = <?php echo json_encode($shippingZone->tags); ?>;
+            const selectedValues = <?php echo json_encode($shippingZone->payment_providers); ?>;
             const newSelectedValues = selectedValues.map((selectedValue) => selectedValue.name)
             tags.val(newSelectedValues).trigger('change');
+
         });
 
         $("#checkbox").click(function() {
