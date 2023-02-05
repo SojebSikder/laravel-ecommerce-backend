@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 03, 2023 at 02:44 PM
--- Server version: 10.4.25-MariaDB
--- PHP Version: 8.1.10
+-- Generation Time: Feb 05, 2023 at 11:19 AM
+-- Server version: 10.4.27-MariaDB
+-- PHP Version: 8.2.0
 
 SET FOREIGN_KEY_CHECKS=0;
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
@@ -528,6 +528,13 @@ INSERT INTO `settings` (`id`, `setting_type_id`, `label`, `key`, `value`, `value
 (12, NULL, 'Copyright info', 'copyright', 'Copyright info', 'html', NULL, 'Change Copyright info', NULL, NULL, 0, '2023-01-05 04:42:52', '2023-01-05 04:42:52'),
 (13, NULL, 'Maintenance mode', 'maintenance_mode', '0', 'checkbox', NULL, 'Maintenance mode', NULL, NULL, 0, '2023-01-05 04:42:52', '2023-01-05 04:42:52'),
 (14, NULL, 'Maintenance mode message', 'maintenance_mode_message', 'Website is in maintenance', 'html', NULL, 'Maintenance mode message', NULL, NULL, 0, '2023-01-05 04:42:52', '2023-01-05 04:42:52');
+
+--
+-- Dumping data for table `shippings`
+--
+
+INSERT INTO `shippings` (`id`, `name`, `status`, `sort_order`, `created_at`, `updated_at`) VALUES
+(1, 'General', 1, 0, '2023-02-05 04:02:17', '2023-02-05 04:02:17');
 
 --
 -- Dumping data for table `users`

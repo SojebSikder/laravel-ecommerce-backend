@@ -16,6 +16,8 @@ use App\Http\Controllers\Web\Admin\Product\ManufacturerController;
 use App\Http\Controllers\Web\Admin\Product\ProductController;
 use App\Http\Controllers\Web\Admin\Product\ProductDetailsController;
 use App\Http\Controllers\Web\Admin\Setting\SettingController;
+use App\Http\Controllers\Web\Admin\Shipping\ShippingController;
+use App\Http\Controllers\Web\Admin\Shipping\ShippingZoneController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -97,6 +99,18 @@ Route::middleware(['auth', 'admin'])->group(function () {
     // setting
     Route::get('setting/order/status/{id}/status', [StatusController::class, 'status'])->name('status.status');
     Route::resource('setting/order/status', StatusController::class);
+
+    // paymnent
+    Route::get('setting/shipping-zone/{shipping_id}/payment-provider/{shipping_zone_id}/edit', [ShippingZoneController::class, 'paymentProviderEdit']);
+    Route::put('setting/shipping-zone/payment-provider/{id}', [ShippingZoneController::class, 'paymentProviderUpdate'])->name('payment-provider.update');
+    // address
+    Route::get('setting/shipping-zone/{shipping_id}/address/{shipping_zone_id}/edit', [ShippingZoneController::class, 'addressEdit']);
+    Route::put('setting/shipping-zone/address/{id}', [ShippingZoneController::class, 'addressUpdate'])->name('shipping.shipping-zone.update');
+    Route::resource('setting/shipping-zone', ShippingZoneController::class);
+
+    Route::get('setting/shipping/{id}/status', [ShippingController::class, 'status'])->name('shipping.status');
+    Route::resource('setting/shipping', ShippingController::class);
+
     Route::resource('setting', SettingController::class);
 });
 
