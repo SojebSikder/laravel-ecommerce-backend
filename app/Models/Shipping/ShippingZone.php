@@ -11,7 +11,7 @@ class ShippingZone extends Model
 {
     use HasFactory;
 
-    public function tags()
+    public function countries()
     {
         return $this->belongsToMany(Country::class, 'shipping_zone_addresses');
     }

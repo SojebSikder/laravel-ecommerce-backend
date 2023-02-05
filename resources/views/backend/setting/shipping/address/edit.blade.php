@@ -134,7 +134,7 @@
                 tags: true
             });
 
-            const selectedValues = <?php echo json_encode($shippingZone->tags); ?>;
+            const selectedValues = <?php echo json_encode($shippingZone->countries); ?>;
             const newSelectedValues = selectedValues.map((selectedValue) => selectedValue.name)
             tags.val(newSelectedValues).trigger('change');
         });
