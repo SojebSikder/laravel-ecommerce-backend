@@ -40,7 +40,7 @@
                         <div class="card">
                             <div class="card-header">
 
-                                <a href="{{ route('category.create') }}" class="btn btn-sm btn-primary float-end mt-3 mr-4">
+                                <a href="{{ route('order.create') }}" class="btn btn-sm btn-primary float-end mt-3 mr-4">
                                     View all orders
                                 </a>
 
@@ -59,11 +59,12 @@
                                         <thead>
                                             <tr>
                                                 <th>Order #</th>
+                                                <th>Date</th>
                                                 <th>Order status</th>
                                                 <th>Payment status</th>
-                                                <th>Shipping status</th>
+                                                <th>Fulfillment status</th>
                                                 <th>Customer</th>
-                                                <th>Created at</th>
+                                                <th>Items</th>
                                                 <th>Order total</th>
                                                 <th class="text-center">Actions</th>
                                             </tr>
@@ -72,6 +73,11 @@
                                             @foreach ($orders as $order)
                                                 <tr>
                                                     <td>#{{ $order->invoice_number }}</td>
+                                                    <td>
+                                                        {{ date('d M Y', strtotime($order->created_at)) }} at
+                                                        {{ date('h:i a', strtotime($order->created_at)) }}
+                                                        ({{ $order->created_at->diffForHumans() }})
+                                                    </td>
 
                                                     <td class="text-center">
                                                         <div class="badge bg-primary text-decoration-none shadow-none">
@@ -80,13 +86,16 @@
                                                     </td>
 
                                                     <td>{{ $order->payment_status }}</td>
-                                                    <td>{{ $order->fname }}</td>
+                                                    <td>{{ $order->fulfillment_status }}</td>
+                                                    <td>{{ $order->fname }} {{ $order->lname }}</td>
+                                                    <td>{{ count($order->order_items) }} items</td>
+                                                    <td>{{ $order->order_total }}</td>
 
                                                     <td class="text-center">
                                                         <ul class="table-controls">
                                                             <li>
                                                                 <a class="btn btn-sm btn-primary"
-                                                                    href="{{ route('category.edit', $order->id) }}"
+                                                                    href="{{ route('order.edit', $order->id) }}"
                                                                     data-bs-toggle="tooltip" data-bs-placement="top"
                                                                     title="" data-bs-title="Edit">
                                                                     <svg xmlns="http://www.w3.org/2000/svg" width="24"
@@ -101,34 +110,7 @@
                                                                     Edit
                                                                 </a>
                                                             </li>
-                                                            <li>
-                                                                <a class="btn btn-sm btn-danger" href="javascript:void(0);"
-                                                                    onclick="event.preventDefault();
-                                                                    if(confirm('Are you really want to delete?')){
-                                                                    document.getElementById('category-delete-{{ $order->id }}').submit()
-                                                                    }"
-                                                                    data-bs-toggle="tooltip" data-bs-placement="top"
-                                                                    title="" data-bs-title="Delete">
-                                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24"
-                                                                        height="24" viewBox="0 0 24 24" fill="none"
-                                                                        stroke="currentColor" stroke-width="2"
-                                                                        stroke-linecap="round" stroke-linejoin="round"
-                                                                        class="feather feather-trash br-6 mb-1 p-1">
-                                                                        <polyline points="3 6 5 6 21 6"></polyline>
-                                                                        <path
-                                                                            d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2">
-                                                                        </path>
-                                                                    </svg>
-                                                                    Delete
-                                                                </a>
-                                                                {{-- delete  --}}
-                                                                <form method="post"
-                                                                    action="{{ route('category.destroy', $order->id) }}"
-                                                                    id="{{ 'category-delete-' . $order->id }}">
-                                                                    @csrf
-                                                                    @method('DELETE')
-                                                                </form>
-                                                            </li>
+
                                                         </ul>
                                                     </td>
                                                 </tr>

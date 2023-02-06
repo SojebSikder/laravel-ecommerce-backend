@@ -32,7 +32,9 @@ class OrderController extends Controller
                 ->orWhere('phone_number', 'like', '%' . $q . '%');
         }
 
-        $orders = $orders->latest()->paginate(15);
+        $orders = $orders->with('order_items')
+            ->latest()
+            ->paginate(15);
         return view('backend.order.index', compact('orders'));
     }
 
