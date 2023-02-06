@@ -79,11 +79,12 @@ class OrderController extends Controller
                 'required' => 'The :attribute field is required.'
             ];
             $rules = [
-                'shipping_name' => 'required',
+                'shipping_fname' => 'required',
+                'shipping_lname' => 'required',
                 'shipping_phone' => 'required',
                 'email' => 'required|string|email|max:255',
                 'shipping_city' => 'required',
-                'shipping_street_address' => 'required',
+                'shipping_address1' => 'required',
                 'shipping_country' => 'required',
                 'shipping_zone_id' => 'required',
                 'payment_provider_id' => 'required',
