@@ -58,9 +58,9 @@ class ShippingController extends Controller
         $shipping = ShippingZone::query()
             ->select('id', 'name', 'price')
             ->with(['countries' => function ($query) {
-                // $query->select('id', 'name', 'country_code', 'dial_code', 'flag');
+                $query->select('name', 'country_code', 'dial_code', 'flag');
             }, 'payment_providers' => function ($query) {
-                // $query->select('id', 'label', 'name',);
+                $query->select('label', 'name');
             }])
             ->find($id);
 
