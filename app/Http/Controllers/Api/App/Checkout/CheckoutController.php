@@ -145,7 +145,34 @@ class CheckoutController extends Controller
      */
     public function show($id)
     {
-        $checkout = Checkout::with('checkout_items')->where('uuid', $id)->first();
+        $checkout = Checkout::select(
+            'id',
+            'uuid',
+            'fname',
+            'lname',
+            'email',
+            'shipping_zone_id',
+        )
+            ->with(['checkout_items' => function ($query) {
+                $query->select(
+                    'id',
+                    'checkout_id',
+                    'product_id',
+                    'quantity',
+                    'discount',
+                    'attribute',
+                )->with(['product' => function ($query2) {
+                    $query2->select(
+                        'id',
+                        'name',
+                        'price',
+                        'discount',
+                    );
+                }]);
+            }])
+            ->where('uuid', $id)
+            ->first();
+
         if ($checkout) {
             return response()->json([
                 'coupon_discounted' => Checkout::coupon_price($id),

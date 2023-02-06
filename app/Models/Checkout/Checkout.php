@@ -12,7 +12,7 @@ class Checkout extends Model
 {
     use HasFactory;
 
-    protected $appends = ['currency_sign', 'currency_code', 'subtotal'];
+    protected $appends = ['currency_sign', 'currency_code'];
 
     // custom currency attribute
     public function getCurrencySignAttribute()
@@ -58,6 +58,7 @@ class Checkout extends Model
         });
         return $optionSetPriceReduce;
     }
+
     // returns all products subtotal (for client side)
     public static function subtotal($id)
     {
@@ -66,20 +67,23 @@ class Checkout extends Model
 
 
         $map = array_map(function ($cart) {
-            $priceMap = array_map(
-                function ($attribute) use ($cart) {
-                    return static::getOptionSetPrice($cart, $attribute->name, $attribute->value);
-                },
-                $cart['attribute']
-            );
-            $price = array_reduce($priceMap, function ($prev, $curr) {
-                return $prev + $curr;
-            }, 0.0);
+            $price = 0;
+            if ($cart['attribute'] && count($cart['attribute'])) {
+                $priceMap = array_map(
+                    function ($attribute) use ($cart) {
+                        return static::getOptionSetPrice($cart, $attribute->name, $attribute->value);
+                    },
+                    $cart['attribute']
+                );
+                $price = array_reduce($priceMap, function ($prev, $curr) {
+                    return $prev + $curr;
+                }, 0.0);
+            }
 
-            if ($cart['variant']['product']['is_sale'] == "true") {
-                return $price + StringHelper::discount($cart['variant']['price'], $cart['variant']['discount']);
+            if ($cart['product']['is_sale'] == 1) {
+                return $price + StringHelper::discount($cart['product']['price'], $cart['product']['discount']);
             } else {
-                return $price + (float) $cart['variant']['price'];
+                return $price + (float) $cart['product']['price'];
             }
         }, $carts->toArray());
 
