@@ -167,7 +167,14 @@ class CheckoutController extends Controller
                         'name',
                         'price',
                         'discount',
-                    );
+                    )->with(['images' => function ($query3) {
+                        $query3->select(
+                            'title',
+                            'alt_text',
+                            'image',
+                            'product_id'
+                        );
+                    }]);
                 }]);
             }])
             ->where('uuid', $id)
