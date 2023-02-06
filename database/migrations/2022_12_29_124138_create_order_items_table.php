@@ -35,6 +35,8 @@ return new class extends Migration
             // g - gram
             $table->string('weight_unit')->nullable();
 
+            $table->text('attribute')->nullable(); // store product option sets
+
             $table->softDeletes();
             $table->timestamps();
         });

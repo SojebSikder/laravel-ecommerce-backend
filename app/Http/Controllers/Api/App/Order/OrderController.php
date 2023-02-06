@@ -81,7 +81,7 @@ class OrderController extends Controller
             $rules = [
                 'shipping_fname' => 'required',
                 'shipping_lname' => 'required',
-                'shipping_phone' => 'required',
+                // 'shipping_phone' => 'required',
                 'email' => 'required|string|email|max:255',
                 'shipping_city' => 'required',
                 'shipping_address1' => 'required',
