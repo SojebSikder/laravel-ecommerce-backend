@@ -71,7 +71,7 @@
                                         <tbody>
                                             @foreach ($orders as $order)
                                                 <tr>
-                                                    <td>{{ $order->tracking_number }}</td>
+                                                    <td>#{{ $order->invoice_number }}</td>
 
                                                     <td class="text-center">
                                                         <div class="badge bg-primary text-decoration-none shadow-none">
@@ -79,7 +79,8 @@
                                                         </div>
                                                     </td>
 
-                                                    <td>{{ $order->payment_status }}</td>                                                    
+                                                    <td>{{ $order->payment_status }}</td>
+                                                    <td>{{ $order->fname }}</td>
 
                                                     <td class="text-center">
                                                         <ul class="table-controls">

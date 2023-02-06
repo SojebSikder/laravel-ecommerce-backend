@@ -89,7 +89,8 @@ return new class extends Migration
             $table->foreignId('user_id')->nullable()->constrained()->onDelete('set null');
 
             // hardcoded contact info
-            $table->string('phone_dial_code')->nullable();
+            $table->string('fname')->nullable();
+            $table->string('lname')->nullable();
             $table->string('phone_number')->nullable();
             $table->string('email')->nullable();
 

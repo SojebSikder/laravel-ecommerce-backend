@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('uuid')->nullable()->unique();
             $table->string('fname')->nullable();
             $table->string('lname')->nullable();
+            $table->string('phone_number')->nullable();
             $table->string('email')->nullable();
 
             $table->foreignId('user_id')->nullable()->constrained()->onDelete('set null');

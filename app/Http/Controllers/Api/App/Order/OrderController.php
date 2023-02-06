@@ -252,6 +252,12 @@ class OrderController extends Controller
             $order->payment_provider = $payment_provider->name;
             $order->payment_status = "unpaid";
             // contact
+            if ($checkout->fname) {
+                $order->fname = $checkout->fname;
+            }
+            if ($checkout->lname) {
+                $order->lname = $checkout->lname;
+            }
             $order->phone_number = $shipping_phone;
             $order->email = $email;
             $order->user_shipping_address_id = $shippingAddress->id;
