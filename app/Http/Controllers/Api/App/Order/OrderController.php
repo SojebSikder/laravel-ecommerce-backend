@@ -6,6 +6,7 @@ use App\Helper\SettingHelper;
 use App\Http\Controllers\Controller;
 use App\Mail\Admin\Order\AdminOrderConfirm;
 use App\Mail\User\Order\OrderConfirm;
+use App\Models\Address\Country;
 use App\Models\Cart\Cart;
 use App\Models\Checkout\Checkout;
 use App\Models\Coupon\TempRedeem;
@@ -95,10 +96,11 @@ class OrderController extends Controller
             // $cart_data = $request->input('cart_data');
             $checkout_id = $request->input('checkout_id');
             // user shipping address
-            $shipping_name = $request->input('shipping_name');
+            $shipping_fname = $request->input('shipping_fname');
+            $shipping_lname = $request->input('shipping_lname');
             $shipping_country = $request->input('shipping_country');
-            $shipping_street_address = $request->input('shipping_street_address');
-            $shipping_building = $request->input('shipping_building');
+            $shipping_address1 = $request->input('shipping_address1');
+            $shipping_address2 = $request->input('shipping_address2');
             $shipping_city = $request->input('shipping_city');
             $shipping_state = $request->input('shipping_state');
             $shipping_zip = $request->input('shipping_zip');
@@ -106,10 +108,11 @@ class OrderController extends Controller
             $shipping_phone = $request->input('shipping_phone');
             // user billing address
             $billing = $request->input('billing');
-            $billing_name = $request->input('billing_name');
+            $billing_fname = $request->input('billing_fname');
+            $billing_lname = $request->input('billing_lname');
             $billing_country = $request->input('billing_country');
-            $billing_street_address = $request->input('billing_street_address');
-            $billing_building = $request->input('billing_building');
+            $billing_address1 = $request->input('billing_address1');
+            $billing_address2 = $request->input('billing_address2');
             $billing_city = $request->input('billing_city');
             $billing_state = $request->input('billing_state');
             $billing_zip = $request->input('billing_zip');
@@ -143,27 +146,73 @@ class OrderController extends Controller
              */
             // store shipping address
             $shippingAddress = new UserShippingAddress();
-            $shippingAddress->name = $shipping_name;
-            $shippingAddress->country_id = $shipping_country;
-            $shippingAddress->street_address = $shipping_street_address;
-            $shippingAddress->building = $shipping_building;
-            $shippingAddress->city = $shipping_city;
-            $shippingAddress->state = $shipping_state;
-            $shippingAddress->zip = $shipping_zip;
-            $shippingAddress->phone_number = $shipping_phone;
-            $shippingAddress->email = $email;
+            if ($shipping_fname) {
+                $shippingAddress->fname = $shipping_fname;
+            }
+            if ($shipping_lname) {
+                $shippingAddress->lname = $shipping_lname;
+            }
+            if ($shipping_country) {
+                $shippingCountryInfo = Country::find($shipping_country);
+                $shippingAddress->country = $shippingCountryInfo->name;
+
+                $shippingAddress->country_id = $shipping_country;
+            }
+            if ($shipping_address1) {
+                $shippingAddress->address1 = $shipping_address1;
+            }
+            if ($shipping_address2) {
+                $shippingAddress->address2 = $shipping_address2;
+            }
+            if ($shipping_city) {
+                $shippingAddress->city = $shipping_city;
+            }
+            if ($shipping_state) {
+                $shippingAddress->state = $shipping_state;
+            }
+            if ($shipping_zip) {
+                $shippingAddress->zip = $shipping_zip;
+            }
+            if ($shipping_phone) {
+                $shippingAddress->phone_number = $shipping_phone;
+            }
+            if ($email) {
+                $shippingAddress->email = $email;
+            }
             $shippingAddress->save();
             // store billing address
             if ($billing) {
                 $billingAddress = new UserShippingAddress();
-                $billingAddress->name = $billing_name;
-                $billingAddress->country_id = $billing_country;
-                $billingAddress->street_address = $billing_street_address;
-                $billingAddress->building = $billing_building;
-                $billingAddress->city = $billing_city;
-                $billingAddress->state = $billing_state;
-                $billingAddress->zip = $billing_zip;
-                $billingAddress->phone = $shipping_phone;
+                if ($billing_fname) {
+                    $billingAddress->fname = $billing_fname;
+                }
+                if ($billing_lname) {
+                    $billingAddress->lname = $billing_lname;
+                }
+                if ($billing_country) {
+                    $billingCountryInfo = Country::find($shipping_country);
+                    $billingAddress->country = $billingCountryInfo->name;
+
+                    $billingAddress->country_id = $billing_country;
+                }
+                if ($billing_address1) {
+                    $billingAddress->address1 = $billing_address1;
+                }
+                if ($billing_address2) {
+                    $billingAddress->address2 = $billing_address2;
+                }
+                if ($billing_city) {
+                    $billingAddress->city = $billing_city;
+                }
+                if ($billing_state) {
+                    $billingAddress->state = $billing_state;
+                }
+                if ($billing_zip) {
+                    $billingAddress->zip = $billing_zip;
+                }
+                if ($shipping_phone) {
+                    $billingAddress->phone_number = $shipping_phone;
+                }
                 $billingAddress->save();
             }
 
@@ -184,7 +233,8 @@ class OrderController extends Controller
             $shipping_charge = (float) $shipping_zone_data->price;
             $order_total = Checkout::order_total($checkout_id) + (float) $shipping_charge;
             $payment_provider = PaymentProvider::find($payment_provider_id);
-            $status_info = Status::where('default', 1)->first();
+            // $status_info = Status::where('default', 1)->first();
+            $status_info = Status::where('status', 1)->first();
 
             $order = new Order();
             if ($checkout->user_id) {
@@ -302,7 +352,7 @@ class OrderController extends Controller
             $customerTo = [
                 [
                     'email' => $email,
-                    'name' => $shipping_name,
+                    'name' => $shipping_fname . ' ' . $shipping_lname,
                 ]
             ];
             Mail::to($customerTo)->send(new OrderConfirm($customerData));
