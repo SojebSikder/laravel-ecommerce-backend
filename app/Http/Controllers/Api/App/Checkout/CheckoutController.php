@@ -227,6 +227,20 @@ class CheckoutController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $checkout = Checkout::where('uuid', $id)->first();
+
+        if ($checkout) {
+            $checkout->delete();
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Cancelled successfully',
+            ]);
+        } else {
+            return response()->json([
+                'error' => true,
+                'message' => 'Not found',
+            ]);
+        }
     }
 }

@@ -16,16 +16,18 @@ return new class extends Migration
         Schema::create('user_shipping_addresses', function (Blueprint $table) {
             $table->id();
 
-            $table->string('name')->nullable();
+            $table->string('fname')->nullable();
+            $table->string('lname')->nullable();
+            $table->string('phone_number')->nullable();
+            $table->string('email')->nullable();
+
             $table->foreignId('country_id')->nullable()->constrained('countries')->onDelete('set null');
-            $table->string('street_address')->nullable();
-            $table->string('building')->nullable();
+            $table->string('country')->nullable();
+            $table->string('address1')->nullable();
+            $table->string('address2')->nullable();
             $table->string('city')->nullable();
             $table->string('state')->nullable();
             $table->string('zip')->nullable();
-            $table->string('phone_dial_code')->nullable();
-            $table->string('phone')->nullable();
-            $table->string('email')->nullable();
 
             $table->foreignId('user_id')->nullable()->constrained()->onDelete('set null');
             $table->tinyInteger('status')->default(1);

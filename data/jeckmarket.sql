@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 05, 2023 at 11:19 AM
+-- Generation Time: Feb 06, 2023 at 01:19 PM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 8.2.0
 
@@ -83,7 +83,8 @@ INSERT INTO `categories` (`id`, `name`, `slug`, `parent_id`, `image`, `descripti
 --
 
 INSERT INTO `checkouts` (`id`, `uuid`, `fname`, `lname`, `email`, `user_id`, `shipping_zone_id`, `created_at`, `updated_at`) VALUES
-(1, '63da8ddd5c5c85.86544173', 'sojeb', 'sikder', 'sojebsikder@gmail.com', NULL, NULL, '2023-02-01 10:05:49', '2023-02-01 10:05:49');
+(1, '63da8ddd5c5c85.86544173', 'sojeb', 'sikder', 'sojebsikder@gmail.com', NULL, 1, '2023-02-01 10:05:49', '2023-02-01 10:05:49'),
+(2, '63e0db53cc1228.22424906', 'sojeb', 'sikder', 'sojebsikder@gmail.com', NULL, 1, '2023-02-06 04:49:55', '2023-02-06 04:49:55');
 
 --
 -- Dumping data for table `checkout_items`
@@ -91,7 +92,9 @@ INSERT INTO `checkouts` (`id`, `uuid`, `fname`, `lname`, `email`, `user_id`, `sh
 
 INSERT INTO `checkout_items` (`id`, `cart_id`, `checkout_id`, `product_id`, `discount`, `price`, `total_price`, `quantity`, `attribute`, `created_at`, `updated_at`) VALUES
 (1, NULL, 1, 81, '15.00', NULL, NULL, 2, NULL, '2023-02-01 10:05:49', '2023-02-01 10:05:49'),
-(2, NULL, 1, 2, NULL, NULL, NULL, 1, NULL, '2023-02-01 10:05:49', '2023-02-01 10:05:49');
+(2, NULL, 1, 2, NULL, NULL, NULL, 1, NULL, '2023-02-01 10:05:49', '2023-02-01 10:05:49'),
+(3, NULL, 2, 81, '15.00', NULL, NULL, 2, NULL, '2023-02-06 04:49:56', '2023-02-06 04:49:56'),
+(4, NULL, 2, 2, NULL, NULL, NULL, 3, NULL, '2023-02-06 04:49:56', '2023-02-06 04:49:56');
 
 --
 -- Dumping data for table `countries`
@@ -394,6 +397,15 @@ INSERT INTO `pages` (`id`, `title`, `slug`, `body`, `is_gjs`, `gjs_data`, `meta_
 (2, 'FAQ', 'faq', '<h2><strong>What is ${app.name}?</strong></h2>\r\n<p>${app.name} is your online supermarket. Everything you buy in a supermarket, can be ordered from us. We will deliver it to your door in minutes. We have everything from fresh vegetables and fruit to ingredients for your dinner, but also everything you need for happy hour!​</p>\r\n<p>&nbsp;</p>\r\n<p><strong>Where does ${app.name} deliver?</strong></p>\r\n<p>You can see where we are currently delivering in the ${app.name} app. Behind the scenes, we\'re working hard to add new locations. Do you want to be kept up to date and receive a message when we arrive in your area? Then fill in your details&nbsp;<a href=\"https://www.goflink.com/en-DE/p/waitlist/\"><u>here</u></a><u>!</u></p>\r\n<p>&nbsp;</p>\r\n<p><strong>I received the wrong product(s) with my ${app.name} order. What should I do?​</strong></p>\r\n<p>Sorry about that! Contact our customer service in the app or webshop and share with them what happened. We will try to solve this problem for you as soon as possible!</p>\r\n<p>&nbsp;</p>\r\n<p><strong>A product is missing from my order. What should I do?​</strong></p>\r\n<p>Sorry, that was an oversight. Let us know directly via our support in the app or the webshop and we\'ll find a quick solution. As a small compensation, we\'ll give you a code for your next order. This way, the delivery charges will be on us next time.</p>\r\n<p>&nbsp;</p>\r\n<p><strong>What are your opening hours?</strong></p>\r\n<p>We deliver to you Mon-Thu from 7.30 or 8am (varies per city) until 11pm and Fri-Sat from 7.30 or 8am until Midnight. We\'re closed on Sunday.</p>\r\n<p>&nbsp;</p>\r\n<p><strong>What is the delivery fee?</strong></p>\r\n<p>We charge a dynamic delivery fee, depending, inter alia, on the size of your order. We will inform you about the exact delivery costs that apply to your order before you proceed to checkout.</p>\r\n<p>&nbsp;</p>\r\n<p><strong>Why do you charge a storage fee?</strong></p>\r\n<p>In addition to the delivery costs, we charge an additional fee (storage fee) for certain products. This fee compensates for the higher costs associated with the sale of these products, e.g. special expenses for inspection, storage or protection against theft. The storage fee applies to every order that includes at least one such product and is shown separately in the shopping cart or in the order overview.</p>\r\n<p>&nbsp;</p>\r\n<p><strong>Can I pay when my order is delivered?</strong></p>\r\n<p>No. You pay in just a few clicks when you place the order using one of our several online payment options.</p>\r\n<p>&nbsp;</p>\r\n<p><strong>${app.name} doesn\'t sell my favourite brand. How can I tell you about it?</strong></p>\r\n<p>We would love to hear what you think is missing on ${app.name}. We are always open to new products to expand our selection.<a href=\"https://www.instagram.com/flinkgermany/\">&nbsp;<u>So don\'t hesitate to give us your feedback here</u></a><u>.</u></p>\r\n<p>&nbsp;</p>\r\n<p><strong>I regularly see your riders riding</strong>.&nbsp;<strong>How can I become a ${app.name} rider?</strong></p>\r\n<p>We are regularly looking for new riders throughout Germany.&nbsp;<a href=\"https://riders.goflink.com/join/\"><u>You can sign up here to become a rider or warehouse employee.</u></a></p>\r\n<p>&nbsp;</p>\r\n<p><strong>Is there a minimum order value?</strong></p>\r\n<p>Yes. You will find the current minimum order value in the app.</p>\r\n<p>&nbsp;</p>\r\n<p><strong>Why do I sometimes have to wait longer for my order?</strong></p>\r\n<p>If it is busy, it can sometimes unfortunately take a bit longer for your order to be delivered. The estimated delivery time is always indicated in the app before you place your order. If the order has not arrived after the delivery time indicated, you can contact our customer service.</p>\r\n<p>&nbsp;</p>\r\n<p><strong>I forgot to add something to my order. Can I still change it?</strong></p>\r\n<p>We start packing your order right away so it arrives to you quickly. As a result, it is impossible to make changes after placing the order.</p>\r\n<p>&nbsp;</p>\r\n<p><strong>Where can I drop of my bottles with deposit?</strong></p>\r\n<p>Your empty can and bottles with deposits can be returned at all REWE stores.</p>\r\n<p>&nbsp;</p>\r\n<p><strong>Are all the organic products really organic?</strong></p>\r\n<p>Yes! We have official Bio certifications. Our Bio-Kontrollstellennummer is DE-&Ouml;KO-037. We stand for full transparency and will of course gladly inform you about the exact numbers of our organic products. Simply contact our support team and we will be happy to help you.</p>', 0, NULL, 'faq page', 'faq', 'faq', 1, 0, '2023-01-06 05:58:00', '2023-01-14 09:24:31');
 
 --
+-- Dumping data for table `payment_providers`
+--
+
+INSERT INTO `payment_providers` (`id`, `label`, `name`, `description`, `status`, `sort_order`, `created_at`, `updated_at`) VALUES
+(1, 'Cash on delivery', 'cod', 'Goods must be paid for at the time of delivery', 1, 0, '2023-02-05 06:42:51', '2023-02-05 06:47:57'),
+(2, 'Stripe', 'stripe', NULL, 1, 0, '2023-02-05 06:42:51', '2023-02-05 06:42:51'),
+(3, 'SSL Commerz', 'sslcommerz', NULL, 1, 0, '2023-02-05 06:42:51', '2023-02-05 06:42:51');
+
+--
 -- Dumping data for table `products`
 --
 
@@ -534,7 +546,32 @@ INSERT INTO `settings` (`id`, `setting_type_id`, `label`, `key`, `value`, `value
 --
 
 INSERT INTO `shippings` (`id`, `name`, `status`, `sort_order`, `created_at`, `updated_at`) VALUES
-(1, 'General', 1, 0, '2023-02-05 04:02:17', '2023-02-05 04:02:17');
+(1, 'General', 1, 0, '2023-02-05 04:02:17', '2023-02-05 04:32:34');
+
+--
+-- Dumping data for table `shipping_zones`
+--
+
+INSERT INTO `shipping_zones` (`id`, `shipping_id`, `name`, `price`, `shipping_time_start`, `shipping_time_end`, `status`, `sort_order`, `created_at`, `updated_at`) VALUES
+(1, 1, 'Express Shipping', '200.00', 2, 4, 0, 0, '2023-02-05 04:44:04', '2023-02-05 04:44:04');
+
+--
+-- Dumping data for table `shipping_zone_addresses`
+--
+
+INSERT INTO `shipping_zone_addresses` (`id`, `shipping_zone_id`, `country_id`, `created_at`, `updated_at`) VALUES
+(8, 1, 20, '2023-02-05 07:24:54', '2023-02-05 07:24:54'),
+(9, 1, 99, '2023-02-05 07:24:54', '2023-02-05 07:24:54'),
+(10, 1, 167, '2023-02-05 07:24:54', '2023-02-05 07:24:54');
+
+--
+-- Dumping data for table `shipping_zone_payment_providers`
+--
+
+INSERT INTO `shipping_zone_payment_providers` (`id`, `shipping_zone_id`, `payment_provider_id`, `status`, `sort_order`, `created_at`, `updated_at`) VALUES
+(1, 1, 1, 1, 0, '2023-02-05 06:51:44', '2023-02-05 06:51:44'),
+(2, 1, 2, 1, 0, '2023-02-05 06:51:44', '2023-02-05 06:51:44'),
+(3, 1, 3, 1, 0, '2023-02-05 06:51:44', '2023-02-05 06:51:44');
 
 --
 -- Dumping data for table `users`
