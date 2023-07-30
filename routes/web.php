@@ -143,6 +143,12 @@ Route::middleware(['auth', 'admin'])->group(function () {
 
     // plugin
     Route::get('plugin/{id}/status', [PluginController::class, 'status'])->name('plugin.status');
+
+    Route::get('plugin/{id}/install', [PluginController::class, 'install'])->name('plugin.install');
+    Route::get('plugin/{id}/uninstall', [PluginController::class, 'uninstall'])->name('plugin.uninstall');
+    Route::get('plugin/{id}/activate', [PluginController::class, 'activate'])->name('plugin.activate');
+    Route::get('plugin/{id}/deactivate', [PluginController::class, 'deactivate'])->name('plugin.deactivate');
+    Route::post('plugin/upload', [PluginController::class, 'upload'])->name('plugin.upload');
     Route::resource('plugin', PluginController::class);
 });
 

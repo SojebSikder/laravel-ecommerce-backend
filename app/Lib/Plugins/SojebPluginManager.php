@@ -106,7 +106,35 @@ class SojebPluginManager
                 return $pluginInfo->status == 1;
             }
         }
-        return false;
+        return 0;
+    }
+
+    // activate plugin
+    public static function activatePlugin($package)
+    {
+        $plugin = self::getPlugin($package);
+        if ($plugin) {
+            // return $plugin->activate();
+            $pluginInfo = self::getPluginInfo($package);
+            if ($pluginInfo) {
+                $pluginInfo->status = 1;
+                self::savePluginInfo($plugin, $pluginInfo);
+            }
+        }
+    }
+
+    // deactivate plugin
+    public static function deactivatePlugin($package)
+    {
+        $plugin = self::getPlugin($package);
+        if ($plugin) {
+            // return $plugin->deactivate();
+            $pluginInfo = self::getPluginInfo($package);
+            if ($pluginInfo) {
+                $pluginInfo->status = 0;
+                self::savePluginInfo($plugin, $pluginInfo);
+            }
+        }
     }
 
     // get all plugins
@@ -119,8 +147,19 @@ class SojebPluginManager
             $pluginFile = $pluginPath . DIRECTORY_SEPARATOR . $pluginDir . DIRECTORY_SEPARATOR . 'index.php';
             if (file_exists($pluginFile)) {
                 require_once $pluginFile;
+                // replace '.' with '' in plugin name
+                $pluginDir = str_replace('.', '', $pluginDir);
+
                 $pluginClass = ucfirst($pluginDir) . '_Plugin';
                 $plugin = new $pluginClass();
+
+                $pluginInfo = self::getPluginInfo($plugin->package);
+                if ($pluginInfo) {
+                    $plugin->status == 1;
+                } else {
+                    $plugin->status == 0;
+                }
+                // $plugin->status = self::isPluginActive($plugin->package);
                 $plugins[] = $plugin;
             }
         }

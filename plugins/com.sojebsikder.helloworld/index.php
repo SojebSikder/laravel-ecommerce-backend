@@ -3,7 +3,7 @@
 use App\Lib\Plugins\SojebPlugin;
 use App\Lib\Plugins\SojebPluginInterface;
 
-class Helloworld_Plugin extends SojebPlugin implements SojebPluginInterface
+class ComsojebsikderHelloworld_Plugin extends SojebPlugin implements SojebPluginInterface
 {
     public function __construct()
     {

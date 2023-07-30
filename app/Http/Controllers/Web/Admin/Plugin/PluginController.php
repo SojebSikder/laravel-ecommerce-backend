@@ -17,7 +17,88 @@ class PluginController extends Controller
     {
         $plugins = SojebPluginManager::getPlugins();
 
+
+        // dd($plugins);
         return view('backend.plugin.index', compact('plugins'));
+    }
+
+    public function install($package)
+    {
+        $plugin = SojebPluginManager::getPlugin($package);
+        if ($plugin) {
+            $plugin->install();
+            return back()->with('success', 'Plugin installed successfully');
+        }
+        return back()->with('error', 'Plugin not found');
+    }
+
+    public function uninstall($package)
+    {
+        $plugin = SojebPluginManager::getPlugin($package);
+        if ($plugin) {
+            $plugin->uninstall();
+            return back()->with('success', 'Plugin uninstalled successfully');
+        }
+        return back()->with('error', 'Plugin not found');
+    }
+
+    public function activate($package)
+    {
+        $plugin = SojebPluginManager::activatePlugin($package);
+        if ($plugin) {
+            return back()->with('success', 'Plugin activated successfully');
+        }
+        return back()->with('error', 'Plugin not found');
+    }
+
+    public function deactivate($package)
+    {
+        $plugin = SojebPluginManager::deactivatePlugin($package);
+
+        if ($plugin) {
+            return back()->with('success', 'Plugin deactivated successfully');
+        }
+        return back()->with('error', 'Plugin not found');
+    }
+
+    public function settings($package)
+    {
+        $plugin = SojebPluginManager::getPlugin($package);
+        if ($plugin) {
+            return view('backend.plugin.settings', compact('plugin'));
+        }
+        return back()->with('error', 'Plugin not found');
+    }
+
+    public function saveSettings(Request $request, $package)
+    {
+        $plugin = SojebPluginManager::getPlugin($package);
+        if ($plugin) {
+            $plugin->saveSettings($request);
+            return back()->with('success', 'Settings saved successfully');
+        }
+        return back()->with('error', 'Plugin not found');
+    }
+
+
+    public function upload(Request $request)
+    {
+        $request->validate([
+            'plugin' => 'required|mimes:zip'
+        ]);
+
+        $file = $request->file('plugin');
+        $filename = $file->getClientOriginalName();
+        $file->move(public_path('plugins'), $filename);
+
+        $zip = new \ZipArchive();
+        $zip->open(public_path('plugins/' . $filename));
+        $zip->extractTo(public_path('plugins'));
+        $zip->close();
+
+        unlink(public_path('plugins/' . $filename));
+
+        return back()->with('success', 'Plugin uploaded successfully');
     }
 
     /**
