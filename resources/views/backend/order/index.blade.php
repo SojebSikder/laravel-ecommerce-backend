@@ -40,9 +40,16 @@
                         <div class="card">
                             <div class="card-header">
 
-                                <a href="{{ route('order.create') }}" class="btn btn-sm btn-primary float-end mt-3 mr-4">
-                                    View all orders
-                                </a>
+                                <form method="get">
+                                    <input class="form-control" value="{{ request('date') }}" type="date" name="date">
+                                    <button type="submit" class="btn btn-sm btn-primary mt-3">
+                                        Search
+                                    </button>
+                                </form>
+
+                                {{-- <a href="{{ route('order.create') }}" class="btn btn-sm btn-primary float-end mt-3 mr-4">
+                                    Create order
+                                </a> --}}
 
                                 {{-- search --}}
                                 <form method="get">
@@ -88,26 +95,21 @@
                                                     <td>{{ $order->payment_status }}</td>
                                                     <td>{{ $order->fulfillment_status }}</td>
                                                     <td>{{ $order->fname }} {{ $order->lname }}</td>
-                                                    <td>{{ count($order->order_items) }} items</td>
+                                                    <td>
+                                                        {{ count($order->order_items) }} items
+
+                                                    </td>
                                                     <td>{{ $order->order_total }}</td>
 
                                                     <td class="text-center">
                                                         <ul class="table-controls">
                                                             <li>
                                                                 <a class="btn btn-sm btn-primary"
-                                                                    href="{{ route('order.edit', $order->id) }}"
+                                                                    href="{{ route('order.show', $order->id) }}"
                                                                     data-bs-toggle="tooltip" data-bs-placement="top"
-                                                                    title="" data-bs-title="Edit">
-                                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24"
-                                                                        height="24" viewBox="0 0 24 24" fill="none"
-                                                                        stroke="currentColor" stroke-width="2"
-                                                                        stroke-linecap="round" stroke-linejoin="round"
-                                                                        class="feather feather-edit-2 br-6 mb-1 p-1">
-                                                                        <path
-                                                                            d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z">
-                                                                        </path>
-                                                                    </svg>
-                                                                    Edit
+                                                                    title="" data-bs-title="View">
+                                                                    <i class="bi bi-eye"></i>
+                                                                    View
                                                                 </a>
                                                             </li>
 

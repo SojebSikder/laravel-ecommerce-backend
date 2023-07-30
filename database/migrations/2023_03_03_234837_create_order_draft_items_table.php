@@ -18,11 +18,6 @@ return new class extends Migration
 
             $table->foreignId('order_draft_id')->nullable()->constrained('order_drafts')->onDelete('cascade');
             // product type
-            // product - product order
-            // product_plan - foodplan order
-            $table->string('product_type')->nullable()->default('product');
-
-            // product type
             $table->foreignId('product_id')->nullable()->constrained()->onDelete('cascade');
 
             $table->bigInteger('quantity')->nullable()->default(1);

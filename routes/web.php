@@ -78,6 +78,16 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::resource('manufacturer', ManufacturerController::class);
 
     // sales
+    Route::prefix('order')->group(function () {
+        Route::get('invoice-view/{id}', [OrderController::class, 'invoice'])->name('order_invoice');
+        Route::post('destroy/{id}', [OrderController::class, 'destroy'])->name('order_destroy');
+
+        // order status
+        Route::post('status/payment/{id}', [OrderController::class, 'paymentStatus'])->name('payment_status');
+        Route::post('status/fulfillment/{id}', [OrderController::class, 'fulfillmentStatus'])->name('fulfillment_status');
+        Route::post('status/{id}', [OrderController::class, 'status'])->name('order_status');
+        Route::delete('status/{id}', [OrderController::class, 'destroyStatus'])->name('order_status.destroy');
+    });
     Route::resource('checkout', CheckoutController::class);
     Route::resource('order', OrderController::class);
     // draft

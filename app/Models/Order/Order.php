@@ -4,7 +4,6 @@ namespace App\Models\Order;
 
 use App\Models\Shipping\ShippingZone;
 use App\Models\User;
-use App\Models\User\UserShippingAddress;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -17,12 +16,12 @@ class Order extends Model
      *
      * @var array
      */
-    protected $with = ['order_statuses', 'order_items', 'coupons', 'shipping_zone', 'user_shipping_address', 'user_billing_address'];
+    protected $with = ['order_statuses', 'order_items', 'coupons', 'shipping_zone', 'order_shipping_address', 'order_billing_address'];
 
 
     public function user()
     {
-        return $this->belongsTo(User::class, 'user_id')->with('orders');
+        return $this->belongsTo(User::class, 'user_id');
     }
 
     public function order_items()
@@ -45,13 +44,13 @@ class Order extends Model
         return $this->belongsTo(ShippingZone::class, 'shipping_zone_id');
     }
 
-    public function user_shipping_address()
+    public function order_shipping_address()
     {
-        return $this->belongsTo(UserShippingAddress::class, 'user_shipping_address_id')->with('country');
+        return $this->belongsTo(OrderShippingAddress::class, 'order_shipping_address_id')->with('country');
     }
 
-    public function user_billing_address()
+    public function order_billing_address()
     {
-        return $this->belongsTo(UserShippingAddress::class, 'user_billing_address_id')->with('country');
+        return $this->belongsTo(OrderShippingAddress::class, 'order_billing_address_id')->with('country');
     }
 }

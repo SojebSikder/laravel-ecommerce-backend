@@ -13,13 +13,13 @@ use App\Models\Coupon\TempRedeem;
 use App\Models\Order\Order;
 use App\Models\Order\OrderCoupon;
 use App\Models\Order\OrderItem;
+use App\Models\Order\OrderShippingAddress;
 use App\Models\Order\OrderStatus;
 use App\Models\Order\OrderStatusHistory;
 use App\Models\Order\Status;
 use App\Models\Payment\PaymentProvider;
 use App\Models\Product\Product;
 use App\Models\Shipping\ShippingZone;
-use App\Models\User\UserShippingAddress;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
@@ -146,7 +146,7 @@ class OrderController extends Controller
              * Store to db
              */
             // store shipping address
-            $shippingAddress = new UserShippingAddress();
+            $shippingAddress = new OrderShippingAddress();
             if ($shipping_fname) {
                 $shippingAddress->fname = $shipping_fname;
             }
@@ -183,7 +183,7 @@ class OrderController extends Controller
             $shippingAddress->save();
             // store billing address
             if ($billing) {
-                $billingAddress = new UserShippingAddress();
+                $billingAddress = new OrderShippingAddress();
                 if ($billing_fname) {
                     $billingAddress->fname = $billing_fname;
                 }
@@ -221,10 +221,10 @@ class OrderController extends Controller
             // invoice id, user will use this for track order
             $latestOrder = Order::orderBy('created_at', 'DESC')->first();
             if ($latestOrder) {
-                if (Order::where('order_id', $latestOrder->order_id + 1)->first()) {
-                    $invoice_id = str_pad((int)$latestOrder->order_id + 2, 4, "0", STR_PAD_RIGHT);
+                if (Order::where('invoice_number', $latestOrder->invoice_number + 1)->first()) {
+                    $invoice_id = str_pad((int)$latestOrder->invoice_number + 2, 4, "0", STR_PAD_RIGHT);
                 } else {
-                    $invoice_id = str_pad((int)$latestOrder->order_id + 1, 4, "0", STR_PAD_RIGHT);
+                    $invoice_id = str_pad((int)$latestOrder->invoice_number + 1, 4, "0", STR_PAD_RIGHT);
                 }
             } else {
                 $invoice_id = "1000";
@@ -260,12 +260,13 @@ class OrderController extends Controller
             }
             $order->phone_number = $shipping_phone;
             $order->email = $email;
-            $order->user_shipping_address_id = $shippingAddress->id;
+            $order->order_shipping_address_id = $shippingAddress->id;
             if ($billing) {
-                $order->user_billing_address_id = $billingAddress->id;
+                $order->order_billing_address_id = $billingAddress->id;
             } else {
-                $order->user_billing_address_id = $shippingAddress->id;
+                $order->order_billing_address_id = $shippingAddress->id;
             }
+
 
             if ($status_info) {
                 $order->status = $status_info->name;

@@ -17,7 +17,6 @@ return new class extends Migration
         // because in future dependent table data may be chaanged or deleted
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
-
             /**
              * Tracking
              */
@@ -47,16 +46,26 @@ return new class extends Migration
             // 2. stripe -> stripe
             $table->foreignId('payment_provider_id')->nullable()->constrained('payment_providers')->onDelete('set null');
             $table->string('payment_provider')->nullable();
+            // percentage
+            // fixed
+            $table->string('payment_provider_charge_type')->nullable()->default('percentage');
+            $table->string('payment_provider_charge')->nullable();
 
             /**
              * Payment status. available value:
              * 
              * unpaid
              * paid
+             * processing
              * refunded
              * failed
              */
             $table->string('payment_status')->nullable(); // values: 
+            // raw information receive from payment provider
+            // raw status from payment provider
+            $table->string('payment_raw_status')->nullable();
+            $table->decimal('paid_amount')->nullable();
+            $table->string('paid_currency')->nullable();
 
             /**
              * // status value handling dynamically
@@ -84,9 +93,13 @@ return new class extends Migration
             $table->text('comment')->nullable();
 
             // user shipping address
-            $table->foreignId('user_shipping_address_id')->nullable()->constrained('user_shipping_addresses')->onDelete('set null');
-            $table->foreignId('user_billing_address_id')->nullable()->constrained('user_shipping_addresses')->onDelete('set null');
+            $table->foreignId('order_shipping_address_id')->nullable()->constrained('order_shipping_addresses')->onDelete('set null');
+            $table->foreignId('order_billing_address_id')->nullable()->constrained('order_shipping_addresses')->onDelete('set null');
             $table->foreignId('user_id')->nullable()->constrained()->onDelete('set null');
+
+            // geo location
+            $table->decimal('latitude', 10, 8)->nullable();
+            $table->decimal('longitude', 11, 8)->nullable();
 
             // hardcoded contact info
             $table->string('fname')->nullable();

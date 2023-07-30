@@ -24,7 +24,7 @@ class SettingHelper
 
 
     /**
-     * show currency sign
+     * show currency sign e.g. $
      */
     public static function currency_sign()
     {
@@ -32,7 +32,7 @@ class SettingHelper
     }
 
     /**
-     * show currency code
+     * show currency code e.g. USD
      */
     public static function currency_code()
     {

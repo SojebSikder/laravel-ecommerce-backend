@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 30, 2023 at 11:08 AM
+-- Generation Time: Jul 30, 2023 at 11:51 AM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -389,20 +389,11 @@ INSERT INTO `manufacturers` (`id`, `name`, `slug`, `image`, `description`, `meta
 (3, 'Amazon', 'amazon', NULL, NULL, NULL, NULL, NULL, 1, 0, '2023-01-05 06:08:20', '2023-01-05 06:08:20');
 
 --
--- Dumping data for table `order_drafts`
+-- Dumping data for table `orders`
 --
 
-INSERT INTO `order_drafts` (`id`, `user_id`, `comment`, `fname`, `lname`, `phone_number`, `email`, `country_id`, `country`, `address1`, `address2`, `city`, `state`, `zip`, `latitude`, `longitude`, `created_at`, `updated_at`) VALUES
-(1, 2, 'asas', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2023-07-30 02:47:43', '2023-07-30 02:47:43'),
-(2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2023-07-30 03:02:02', '2023-07-30 03:02:02');
-
---
--- Dumping data for table `order_draft_items`
---
-
-INSERT INTO `order_draft_items` (`id`, `order_draft_id`, `product_type`, `product_id`, `quantity`, `attribute`, `created_at`, `updated_at`) VALUES
-(1, 2, 'product', 81, 1, NULL, '2023-07-30 03:06:19', '2023-07-30 03:06:19'),
-(2, 2, 'product', 81, 1, NULL, '2023-07-30 03:08:06', '2023-07-30 03:08:06');
+INSERT INTO `orders` (`id`, `invoice_number`, `payment_ref_id`, `properties`, `sub_total`, `order_total`, `shipping_zone_id`, `shipping_zone_name`, `shipping_charge`, `payment_provider_id`, `payment_provider`, `payment_status`, `status`, `fulfillment_status`, `currency`, `comment`, `user_shipping_address_id`, `user_billing_address_id`, `user_id`, `fname`, `lname`, `phone_number`, `email`, `deleted_at`, `created_at`, `updated_at`) VALUES
+(1, '1000', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'unfulfilled', NULL, 'asas', NULL, NULL, 2, NULL, NULL, NULL, NULL, NULL, '2023-07-30 03:41:28', '2023-07-30 03:41:28');
 
 --
 -- Dumping data for table `pages`

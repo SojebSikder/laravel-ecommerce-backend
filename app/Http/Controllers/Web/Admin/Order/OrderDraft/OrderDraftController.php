@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Web\Admin\Order\OrderDraft;
 use App\Http\Controllers\Controller;
 use App\Models\Order\OrderDraft\OrderDraft;
 use App\Models\Order\OrderDraft\OrderDraftItem;
-use App\Models\Product\Foodplan\Foodplan;
 use App\Models\Product\Product;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -115,7 +114,6 @@ class OrderDraftController extends Controller
         if (!$product) {
             return back()->with('warning', 'Product not found');
         }
-        $order_draft_item->product_type = "product";
         $order_draft_item->product_id = $product->id;
 
 

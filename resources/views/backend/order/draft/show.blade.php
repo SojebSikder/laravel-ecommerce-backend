@@ -140,7 +140,7 @@
                                                                                             </ul>
                                                                                         @endif
                                                                                     </td>
-                                                                                    <td>{{ $order_draft->currency }}{{ $item->total_price }}
+                                                                                    <td>{{ $order_draft->currency }}{{ $item->product->price }}
                                                                                     </td>
                                                                                 </tr>
                                                                             @endforeach
@@ -378,6 +378,19 @@
 
                                             <hr>
                                             <div class="col">
+                                                <form action="{{ route('order.store') }}?order_draft_id={{ $order_draft->id }}"
+                                                    id="place_order" method="post">
+                                                    @csrf
+                                        
+                                                    <div class="form-group mb-3">
+                                                        <button
+                                                            onclick="event.preventDefault();
+                                                            if(confirm('Are you sure ?')){
+                                                                document.getElementById('place_order').submit()
+                                                            }"
+                                                            class="btn btn-outline-primary mt-3">Place order</button>
+                                                    </div>
+                                                </form>
                                                 <form action="{{ route('order-draft.destroy', $order_draft->id) }}"
                                                     id="order_destroy" method="post">
                                                     @csrf
