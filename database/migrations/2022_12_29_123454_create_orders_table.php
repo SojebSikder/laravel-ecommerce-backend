@@ -26,6 +26,9 @@ return new class extends Migration
             $table->text('payment_ref_id')->nullable();
             // for additional custom information (currently not using) 
             $table->longText('properties')->nullable();
+            // tracking number provided by courier company
+            $table->string('tracking_number')->nullable();
+            $table->string('courier_provider')->nullable()->default('call_courier');
             /**
              * price
              */

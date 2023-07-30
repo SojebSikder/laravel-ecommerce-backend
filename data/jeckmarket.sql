@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 30, 2023 at 11:51 AM
+-- Generation Time: Jul 30, 2023 at 04:02 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -392,8 +392,40 @@ INSERT INTO `manufacturers` (`id`, `name`, `slug`, `image`, `description`, `meta
 -- Dumping data for table `orders`
 --
 
-INSERT INTO `orders` (`id`, `invoice_number`, `payment_ref_id`, `properties`, `sub_total`, `order_total`, `shipping_zone_id`, `shipping_zone_name`, `shipping_charge`, `payment_provider_id`, `payment_provider`, `payment_status`, `status`, `fulfillment_status`, `currency`, `comment`, `user_shipping_address_id`, `user_billing_address_id`, `user_id`, `fname`, `lname`, `phone_number`, `email`, `deleted_at`, `created_at`, `updated_at`) VALUES
-(1, '1000', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'unfulfilled', NULL, 'asas', NULL, NULL, 2, NULL, NULL, NULL, NULL, NULL, '2023-07-30 03:41:28', '2023-07-30 03:41:28');
+INSERT INTO `orders` (`id`, `invoice_number`, `payment_ref_id`, `properties`, `sub_total`, `order_total`, `shipping_zone_id`, `shipping_zone_name`, `shipping_charge`, `payment_provider_id`, `payment_provider`, `payment_provider_charge_type`, `payment_provider_charge`, `payment_status`, `payment_raw_status`, `paid_amount`, `paid_currency`, `status`, `fulfillment_status`, `currency`, `comment`, `order_shipping_address_id`, `order_billing_address_id`, `user_id`, `latitude`, `longitude`, `fname`, `lname`, `phone_number`, `email`, `deleted_at`, `created_at`, `updated_at`) VALUES
+(1, '1000', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'percentage', NULL, NULL, NULL, NULL, NULL, NULL, 'unfulfilled', NULL, 'asas', NULL, NULL, 2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2023-07-30 03:41:28', '2023-07-30 03:41:28'),
+(2, '1001', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'percentage', NULL, NULL, NULL, NULL, NULL, NULL, 'unfulfilled', NULL, 'hh', NULL, NULL, 2, NULL, NULL, 'sd', 'sdsd', NULL, 'as@gmail.com', NULL, '2023-07-30 07:42:22', '2023-07-30 07:42:22'),
+(3, '1002', NULL, NULL, NULL, 8.50, NULL, NULL, NULL, NULL, NULL, 'percentage', NULL, 'paid', NULL, NULL, NULL, 'processing', 'unfulfilled', NULL, NULL, 1, NULL, 2, NULL, NULL, 'sd', 'sdsd', NULL, 'as@gmail.com', NULL, '2023-07-30 07:53:17', '2023-07-30 07:59:02');
+
+--
+-- Dumping data for table `order_items`
+--
+
+INSERT INTO `order_items` (`id`, `order_id`, `product_id`, `discount`, `price`, `total_price`, `quantity`, `weight`, `weight_unit`, `attribute`, `deleted_at`, `created_at`, `updated_at`) VALUES
+(1, 2, 81, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL, '2023-07-30 07:42:22', '2023-07-30 07:42:22'),
+(2, 2, 81, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL, '2023-07-30 07:42:22', '2023-07-30 07:42:22'),
+(3, 3, 81, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL, '2023-07-30 07:53:17', '2023-07-30 07:53:17');
+
+--
+-- Dumping data for table `order_shipping_addresses`
+--
+
+INSERT INTO `order_shipping_addresses` (`id`, `fname`, `lname`, `phone_number`, `email`, `country_id`, `country`, `address1`, `address2`, `city`, `state`, `zip`, `latitude`, `longitude`, `user_id`, `status`, `deleted_at`, `created_at`, `updated_at`) VALUES
+(1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, NULL, '2023-07-30 07:53:17', '2023-07-30 07:53:17');
+
+--
+-- Dumping data for table `order_statuses`
+--
+
+INSERT INTO `order_statuses` (`id`, `order_id`, `status_id`, `created_at`, `updated_at`) VALUES
+(1, 3, 2, '2023-07-30 07:59:02', '2023-07-30 07:59:02');
+
+--
+-- Dumping data for table `order_status_histories`
+--
+
+INSERT INTO `order_status_histories` (`id`, `order_id`, `status_id`, `created_at`, `updated_at`) VALUES
+(1, 3, 2, '2023-07-30 07:59:02', '2023-07-30 07:59:02');
 
 --
 -- Dumping data for table `pages`
@@ -669,7 +701,7 @@ INSERT INTO `products` (`id`, `name`, `slug`, `meta_title`, `meta_description`, 
 (78, 'assas', 'assas', NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL, NULL, 0, 1, '2023-01-10 08:00:15', '2023-01-10 08:00:15'),
 (79, 'asasa', 'asasa', NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL, NULL, 0, 1, '2023-01-10 08:00:17', '2023-01-10 08:00:17'),
 (80, 'asasa', 'asasa', NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL, NULL, 0, 1, '2023-01-10 08:00:19', '2023-01-10 08:00:19'),
-(81, 'Ben & Jerry\'s Sundae Vegan Berry Revolutionary 427ml', 'ben-jerrys-sundae-vegan-berry-revolutionary-427ml', 'Buy ${product.name} from ${app.name} now | ${app.name}', 'Buy ${product.name} from ${app.name} now at affordable price', NULL, '<h2>description</h2>\r\n<p><strong>${product.name}</strong> this is description test</p>', 10.00, 15.00, 1, 500, NULL, NULL, 1, NULL, NULL, NULL, 3, NULL, NULL, 0, 1, '2023-01-11 07:23:09', '2023-01-14 09:59:56');
+(81, 'Ben & Jerry\'s Sundae Vegan Berry Revolutionary 427ml', 'ben-jerrys-sundae-vegan-berry-revolutionary-427ml', 'Buy ${product.name} from ${app.name} now | ${app.name}', 'Buy ${product.name} from ${app.name} now at affordable price', NULL, '<h2>description</h2>\r\n<p><strong>${product.name}</strong> this is description test</p>', 10.00, 15.00, 1, 500, NULL, NULL, 1, NULL, NULL, NULL, 3, NULL, NULL, 0, 1, '2023-01-11 07:23:09', '2023-07-30 07:32:10');
 
 --
 -- Dumping data for table `product_categories`
@@ -767,6 +799,15 @@ INSERT INTO `shipping_zone_payment_providers` (`id`, `shipping_zone_id`, `paymen
 (1, 1, 1, 1, 0, '2023-02-05 06:51:44', '2023-02-05 06:51:44'),
 (2, 1, 2, 1, 0, '2023-02-05 06:51:44', '2023-02-05 06:51:44'),
 (3, 1, 3, 1, 0, '2023-02-05 06:51:44', '2023-02-05 06:51:44');
+
+--
+-- Dumping data for table `statuses`
+--
+
+INSERT INTO `statuses` (`id`, `label`, `name`, `description`, `image`, `alt_text`, `on_shipping_status`, `color`, `status`, `sort_order`, `created_at`, `updated_at`) VALUES
+(1, 'Order placed', 'order_placed', NULL, NULL, NULL, 1, NULL, 1, 0, '2023-07-30 07:58:14', '2023-07-30 07:58:14'),
+(2, 'Processing', 'processing', NULL, NULL, NULL, 1, NULL, 1, 0, '2023-07-30 07:58:33', '2023-07-30 07:58:33'),
+(3, 'Order Delivered', 'order_delivered', NULL, NULL, NULL, 1, NULL, 1, 0, '2023-07-30 07:58:47', '2023-07-30 07:58:47');
 
 --
 -- Dumping data for table `users`

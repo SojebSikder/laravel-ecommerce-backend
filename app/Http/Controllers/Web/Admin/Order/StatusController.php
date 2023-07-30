@@ -64,7 +64,7 @@ class StatusController extends Controller
         $status->name = $name;
         $status->description = $description;
         $status->on_shipping_status = $on_shipping_status;
-        $status->default = $default;
+        // $status->default = $default;
         $status->sort_order = $sort_order;
         if ($request->hasFile('image')) {
             $file_name = time() . '-' . uniqid() . '.' . $file->getClientOriginalExtension();
@@ -126,7 +126,7 @@ class StatusController extends Controller
         $status->name = $name;
         $status->description = $description;
         $status->on_shipping_status = $on_shipping_status;
-        $status->default = $default;
+        // $status->default = $default;
         $status->sort_order = $sort_order;
         if ($request->hasFile('image')) {
             // remove previous image first
