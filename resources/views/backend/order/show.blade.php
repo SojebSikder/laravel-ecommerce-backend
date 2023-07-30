@@ -49,7 +49,7 @@
                         <div class="card">
                             <div class="card-header">
                                 <h5 class="float-start">Manage order</h5>
-                                <a href="{{ route('order.index') }}" class="btn btn-sm btn-primary float-end mt-3 mr-4">
+                                <a href="{{ route('order.index') }}" class="btn btn-sm btn-primary float-end mr-4 mt-3">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                         viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                                         stroke-linecap="round" stroke-linejoin="round" class="feather feather-list">
@@ -294,14 +294,24 @@
 
                                                                         <div class="row">
                                                                             <div class="form-group">
-                                                                                <label for="shipping_name">Full
+                                                                                <label for="shipping_fname">First
                                                                                     Name</label>
                                                                                 <input type="text"
-                                                                                    placeholder="Full Name"
-                                                                                    value="{{ $order->order_shipping_address->name }}"
+                                                                                    placeholder="First Name"
+                                                                                    value="{{ $order->order_shipping_address->fname }}"
                                                                                     class="form-control"
-                                                                                    id="shipping_name"
-                                                                                    name="shipping_name">
+                                                                                    id="shipping_fname"
+                                                                                    name="shipping_fname">
+                                                                            </div>
+                                                                            <div class="form-group">
+                                                                                <label for="shipping_lname">Last
+                                                                                    Name</label>
+                                                                                <input type="text"
+                                                                                    placeholder="Last Name"
+                                                                                    value="{{ $order->order_shipping_address->lname }}"
+                                                                                    class="form-control"
+                                                                                    id="shipping_lname"
+                                                                                    name="shipping_lname">
                                                                             </div>
                                                                             <div class="form-group">
                                                                                 <label
@@ -324,24 +334,24 @@
 
                                                                         <div class="row">
                                                                             <div class="form-group">
-                                                                                <label for="shipping_street_address">Street
-                                                                                    address</label>
+                                                                                <label for="shipping_address1">Address
+                                                                                    1</label>
                                                                                 <input type="text"
                                                                                     placeholder="Street address"
                                                                                     class="form-control"
-                                                                                    id="shipping_street_address"
-                                                                                    name="shipping_street_address"
-                                                                                    value="{{ $order->order_shipping_address->street_address }}">
+                                                                                    id="shipping_address1"
+                                                                                    name="shipping_address1"
+                                                                                    value="{{ $order->order_shipping_address->address1 }}">
                                                                             </div>
                                                                             <div class="form-group">
-                                                                                <label
-                                                                                    for="shipping_building">Building</label>
+                                                                                <label for="shipping_address2">Address
+                                                                                    2</label>
                                                                                 <input type="text"
                                                                                     placeholder="building"
                                                                                     class="form-control"
-                                                                                    id="shipping_building"
-                                                                                    name="shipping_building"
-                                                                                    value="{{ $order->order_shipping_address->building }}">
+                                                                                    id="shipping_address2"
+                                                                                    name="shipping_address2"
+                                                                                    value="{{ $order->order_shipping_address->address2 }}">
                                                                             </div>
                                                                         </div>
 
@@ -373,12 +383,13 @@
                                                                                     value="{{ $order->order_shipping_address->zip }}">
                                                                             </div>
                                                                             <div class="form-group">
-                                                                                <label for="shipping_phone">Phone</label>
+                                                                                <label for="shipping_phone_number">Phone
+                                                                                    Number</label>
                                                                                 <input type="text" placeholder="Phone"
                                                                                     class="form-control"
-                                                                                    id="shipping_phone"
-                                                                                    name="shipping_phone"
-                                                                                    value="{{ $order->order_shipping_address->phone }}">
+                                                                                    id="shipping_phone_number"
+                                                                                    name="shipping_phone_number"
+                                                                                    value="{{ $order->order_shipping_address->phone_numebr }}">
                                                                             </div>
                                                                         </div>
                                                                     </div>
@@ -418,14 +429,24 @@
 
                                                                             <div class="row">
                                                                                 <div class="form-group">
-                                                                                    <label for="billing_name">Full
+                                                                                    <label for="billing_fname">First
                                                                                         Name</label>
                                                                                     <input type="text"
-                                                                                        placeholder="Full Name"
-                                                                                        value="{{ $order->order_billing_address->name }}"
+                                                                                        placeholder="First Name"
+                                                                                        value="{{ $order->order_billing_address->fname }}"
                                                                                         class="form-control"
-                                                                                        id="billing_name"
-                                                                                        name="shipping_name">
+                                                                                        id="billing_fname"
+                                                                                        name="shipping_fname">
+                                                                                </div>
+                                                                                <div class="form-group">
+                                                                                    <label for="billing_lname">Last
+                                                                                        Name</label>
+                                                                                    <input type="text"
+                                                                                        placeholder="Last Name"
+                                                                                        value="{{ $order->order_billing_address->lname }}"
+                                                                                        class="form-control"
+                                                                                        id="billing_lname"
+                                                                                        name="shipping_lname">
                                                                                 </div>
                                                                                 <div class="form-group">
                                                                                     <label
@@ -450,24 +471,23 @@
                                                                             <div class="row">
                                                                                 <div class="form-group">
                                                                                     <label
-                                                                                        for="billing_street_address">Street
-                                                                                        address</label>
+                                                                                        for="billing_address1">Address 1</label>
                                                                                     <input type="text"
                                                                                         placeholder="Street address"
                                                                                         class="form-control"
-                                                                                        id="billing_street_address"
-                                                                                        name="shipping_street_address"
-                                                                                        value="{{ $order->order_billing_address->street_address }}">
+                                                                                        id="billing_address1"
+                                                                                        name="shipping_address1"
+                                                                                        value="{{ $order->order_billing_address->address1 }}">
                                                                                 </div>
                                                                                 <div class="form-group">
                                                                                     <label
-                                                                                        for="billing_building">Building</label>
+                                                                                        for="billing_address2">Address 2</label>
                                                                                     <input type="text"
-                                                                                        placeholder="building"
+                                                                                        placeholder="address2"
                                                                                         class="form-control"
-                                                                                        id="billing_building"
-                                                                                        name="shipping_building"
-                                                                                        value="{{ $order->order_billing_address->building }}">
+                                                                                        id="billing_address2"
+                                                                                        name="shipping_address2"
+                                                                                        value="{{ $order->order_billing_address->address2 }}">
                                                                                 </div>
                                                                             </div>
 
@@ -597,7 +617,7 @@
                                                                             @endforeach
                                                                         </tbody>
                                                                     </table>
-                                                                    
+
                                                                     <hr>
                                                                     <div>
                                                                         <label>Shipping zone:</label>

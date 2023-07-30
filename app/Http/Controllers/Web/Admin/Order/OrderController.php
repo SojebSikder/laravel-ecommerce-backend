@@ -219,29 +219,35 @@ class OrderController extends Controller
     public function saveUserShippingDetails(Request $request, $id)
     {
         // user shipping address
-        $shipping_name = $request->input('shipping_name');
+        $shipping_fname = $request->input('shipping_fname');
+        $shipping_lname = $request->input('shipping_lname');
         $shipping_country = $request->input('shipping_country');
-        $shipping_street_address = $request->input('shipping_street_address');
-        $shipping_building = $request->input('shipping_building');
+
+        $shipping_address1 = $request->input('shipping_address1');
+        $shipping_address2 = $request->input('shipping_address2');
+
         $shipping_city = $request->input('shipping_city');
         $shipping_state = $request->input('shipping_state');
         $shipping_zip = $request->input('shipping_zip');
-        $shipping_phone = $request->input('shipping_phone');
+        $shipping_phone_number = $request->input('shipping_phone_number');
 
 
         // store shipping address
         $shippingAddress = OrderShippingAddress::find($id);
-        if ($shipping_name) {
-            $shippingAddress->name = $shipping_name;
+        if ($shipping_fname) {
+            $shippingAddress->fname = $shipping_fname;
+        }
+        if ($shipping_lname) {
+            $shippingAddress->lname = $shipping_lname;
         }
         if ($shipping_country) {
             $shippingAddress->country_id = $shipping_country;
         }
-        if ($shipping_street_address) {
-            $shippingAddress->street_address = $shipping_street_address;
+        if ($shipping_address1) {
+            $shippingAddress->shipping_address1 = $shipping_address1;
         }
-        if ($shipping_building) {
-            $shippingAddress->building = $shipping_building;
+        if ($shipping_address2) {
+            $shippingAddress->shipping_address2 = $shipping_address2;
         }
         if ($shipping_city) {
             $shippingAddress->city = $shipping_city;
@@ -252,8 +258,8 @@ class OrderController extends Controller
         if ($shipping_zip) {
             $shippingAddress->zip = $shipping_zip;
         }
-        if ($shipping_phone) {
-            $shippingAddress->phone = $shipping_phone;
+        if ($shipping_phone_number) {
+            $shippingAddress->phone_number = $shipping_phone_number;
         }
 
         $shippingAddress->save();
