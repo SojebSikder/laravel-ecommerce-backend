@@ -1,0 +1,13 @@
+{
+    "package": "com.sojebsikder.helloworld",
+    "name": "Hello World",
+    "description": "Hello World Plugin",
+    "version": "1.0",
+    "author": null,
+    "website": null,
+    "copy_right": null,
+    "license": null,
+    "help": null,
+    "icon": null,
+    "status": 1
+}

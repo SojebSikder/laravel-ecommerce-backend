@@ -10,34 +10,14 @@ class SojebPluginManager
         $pluginPath = base_path('plugins') . DIRECTORY_SEPARATOR . $plugin->package;
         $pluginInfoFile = $pluginPath . DIRECTORY_SEPARATOR . 'plugin.json';
         if (file_exists($pluginInfoFile)) {
-            $pluginInfo = json_decode(file_get_contents($pluginInfoFile));
+            // $pluginInfo = json_decode(file_get_contents($pluginInfoFile));
+            $pluginInfo = new \stdClass();
             foreach ($data as $key => $value) {
                 $pluginInfo->$key = $value;
             }
             file_put_contents($pluginInfoFile, json_encode($pluginInfo));
         }
     }
-    // {
-    //     $pluginPath = base_path('plugins') . DIRECTORY_SEPARATOR . $plugin->package;
-    //     $pluginFile = $pluginPath . DIRECTORY_SEPARATOR . 'index.php';
-    //     if (file_exists($pluginFile)) {
-    //         $pluginInfo = [
-    //             'name' => $plugin->package,
-    //             'display_name' => $plugin->displayName,
-    //             'description' => $plugin->description,
-    //             'version' => $plugin->version,
-    //             'author' => $plugin->author,
-    //             'website' => $plugin->website,
-    //             'copy_right' => $plugin->copyRight,
-    //             'license' => $plugin->license,
-    //             'help' => $plugin->help,
-    //             'icon' => $plugin->icon,
-    //             'status' => $plugin->status,
-    //         ];
-    //         $pluginInfoFile = $pluginPath . DIRECTORY_SEPARATOR . 'plugin.json';
-    //         file_put_contents($pluginInfoFile, json_encode($pluginInfo));
-    //     }
-    // }
 
     // get plugin information
     public static function getPluginInfo($package)
@@ -153,6 +133,19 @@ class SojebPluginManager
                 $pluginClass = ucfirst($pluginDir) . '_Plugin';
                 $plugin = new $pluginClass();
 
+                self::savePluginInfo($plugin, [
+                    'package' => $plugin->package,
+                    'name' => $plugin->name,
+                    'description' => $plugin->description,
+                    'version' => $plugin->version,
+                    'author' => $plugin->author,
+                    'website' => $plugin->website,
+                    'copy_right' => $plugin->copyRight,
+                    'license' => $plugin->license,
+                    'help' => $plugin->help,
+                    'icon' => $plugin->icon,
+                    'status' => $plugin->status,
+                ]);
                 $pluginInfo = self::getPluginInfo($plugin->package);
                 if ($pluginInfo) {
                     $plugin->status == 1;

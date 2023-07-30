@@ -77,14 +77,14 @@
                                                     <td>{{ $plugin->name }}</td>
                                                     @if ($plugin->status == 1)
                                                         <td class="text-center">
-                                                            <a href="{{ route('plugin.deactivate', $plugin->id) }}"
+                                                            <a href="{{ route('plugin.deactivate', $plugin->package) }}"
                                                                 class="badge bg-primary text-decoration-none shadow-none">
                                                                 Active
                                                             </a>
                                                         </td>
                                                     @else
                                                         <td class="text-center">
-                                                            <a href="{{ route('plugin.activate', $plugin->id) }}"
+                                                            <a href="{{ route('plugin.activate', $plugin->package) }}"
                                                                 class="badge bg-warning text-decoration-none shadow-none">
                                                                 Disabled
                                                             </a>
