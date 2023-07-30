@@ -3,6 +3,9 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Models\Cart\Cart;
+use App\Models\Order\Order;
+use App\Models\User\Role;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -42,6 +45,26 @@ class User extends Authenticatable implements JWTSubject
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+
+    protected $with = [
+        'roles',
+    ];
+
+    public function carts()
+    {
+        return $this->hasMany(Cart::class)->latest();
+    }
+
+    public function orders()
+    {
+        return $this->hasMany(Order::class)->latest();
+    }
+
+    public function roles()
+    {
+        return $this->belongsToMany(Role::class, 'role_users');
+    }
 
 
 

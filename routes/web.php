@@ -9,6 +9,7 @@ use App\Http\Controllers\Web\Admin\Cms\Footer\FooterItemController;
 use App\Http\Controllers\Web\Admin\Cms\Page\PageController;
 use App\Http\Controllers\Web\Admin\Coupon\CouponController;
 use App\Http\Controllers\Web\Admin\Customer\CustomerController;
+use App\Http\Controllers\Web\Admin\Customer\RoleController;
 use App\Http\Controllers\Web\Admin\Dashboard\DashboardController;
 use App\Http\Controllers\Web\Admin\Order\OrderController;
 use App\Http\Controllers\Web\Admin\Order\StatusController;
@@ -85,6 +86,7 @@ Route::middleware(['auth', 'admin'])->group(function () {
     // customer
     Route::get('customer/{id}/status', [CustomerController::class, 'status'])->name('customer.status');
     Route::resource('customer', CustomerController::class);
+    Route::resource('role', RoleController::class);
 
     //cms
     // page

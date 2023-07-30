@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Models\Newsletter\MailingList;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Hash;
 
 class CustomerController extends Controller
@@ -17,6 +19,8 @@ class CustomerController extends Controller
      */
     public function index(Request $request)
     {
+        abort_if(Gate::denies('user_management_read'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+
         // search query
         $q = $request->input('q');
 
@@ -39,6 +43,8 @@ class CustomerController extends Controller
      */
     public function create()
     {
+        abort_if(Gate::denies('user_management_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+
         return view('backend.customer.create');
     }
 
@@ -119,6 +125,8 @@ class CustomerController extends Controller
      */
     public function edit($id)
     {
+        abort_if(Gate::denies('user_management_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+
         $customer = User::findOrFail($id);
 
         return view('backend.customer.edit', compact('customer'));
@@ -179,6 +187,8 @@ class CustomerController extends Controller
      */
     public function destroy($id)
     {
+        abort_if(Gate::denies('user_management_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+
         $customer = User::findOrFail($id);
         if ($customer->type == 'su_admin') {
             if (auth()->user()->type != "su_admin") {
