@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.0
+-- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 06, 2023 at 01:19 PM
--- Server version: 10.4.27-MariaDB
--- PHP Version: 8.2.0
+-- Generation Time: Jul 30, 2023 at 11:08 AM
+-- Server version: 10.4.28-MariaDB
+-- PHP Version: 8.2.4
 
 SET FOREIGN_KEY_CHECKS=0;
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
@@ -82,18 +82,18 @@ INSERT INTO `categories` (`id`, `name`, `slug`, `parent_id`, `image`, `descripti
 -- Dumping data for table `checkouts`
 --
 
-INSERT INTO `checkouts` (`id`, `uuid`, `fname`, `lname`, `email`, `user_id`, `shipping_zone_id`, `created_at`, `updated_at`) VALUES
-(1, '63da8ddd5c5c85.86544173', 'sojeb', 'sikder', 'sojebsikder@gmail.com', NULL, 1, '2023-02-01 10:05:49', '2023-02-01 10:05:49'),
-(2, '63e0db53cc1228.22424906', 'sojeb', 'sikder', 'sojebsikder@gmail.com', NULL, 1, '2023-02-06 04:49:55', '2023-02-06 04:49:55');
+INSERT INTO `checkouts` (`id`, `uuid`, `fname`, `lname`, `phone_number`, `email`, `user_id`, `shipping_zone_id`, `created_at`, `updated_at`) VALUES
+(1, '63da8ddd5c5c85.86544173', 'sojeb', 'sikder', NULL, 'sojebsikder@gmail.com', NULL, 1, '2023-02-01 10:05:49', '2023-02-01 10:05:49'),
+(2, '63e0db53cc1228.22424906', 'sojeb', 'sikder', NULL, 'sojebsikder@gmail.com', NULL, 1, '2023-02-06 04:49:55', '2023-02-06 04:49:55');
 
 --
 -- Dumping data for table `checkout_items`
 --
 
 INSERT INTO `checkout_items` (`id`, `cart_id`, `checkout_id`, `product_id`, `discount`, `price`, `total_price`, `quantity`, `attribute`, `created_at`, `updated_at`) VALUES
-(1, NULL, 1, 81, '15.00', NULL, NULL, 2, NULL, '2023-02-01 10:05:49', '2023-02-01 10:05:49'),
+(1, NULL, 1, 81, 15.00, NULL, NULL, 2, NULL, '2023-02-01 10:05:49', '2023-02-01 10:05:49'),
 (2, NULL, 1, 2, NULL, NULL, NULL, 1, NULL, '2023-02-01 10:05:49', '2023-02-01 10:05:49'),
-(3, NULL, 2, 81, '15.00', NULL, NULL, 2, NULL, '2023-02-06 04:49:56', '2023-02-06 04:49:56'),
+(3, NULL, 2, 81, 15.00, NULL, NULL, 2, NULL, '2023-02-06 04:49:56', '2023-02-06 04:49:56'),
 (4, NULL, 2, 2, NULL, NULL, NULL, 3, NULL, '2023-02-06 04:49:56', '2023-02-06 04:49:56');
 
 --
@@ -353,7 +353,7 @@ INSERT INTO `countries` (`id`, `name`, `country_code`, `dial_code`, `flag`, `sta
 --
 
 INSERT INTO `coupons` (`id`, `method`, `code`, `title`, `name`, `description`, `amount`, `amount_type`, `uses`, `max_uses`, `max_uses_user`, `coupon_type`, `coupon_id`, `starts_at`, `expires_at`, `min_type`, `min_amount`, `min_qnty`, `status`, `deleted_at`, `created_at`, `updated_at`) VALUES
-(1, 'code', '8u2BFUitoyZAoLK9', NULL, NULL, NULL, '10.00', 'percentage', 0, NULL, NULL, 'order', NULL, NULL, NULL, 'none', NULL, NULL, 1, NULL, '2023-01-09 06:23:11', '2023-01-09 06:23:11');
+(1, 'code', '8u2BFUitoyZAoLK9', NULL, NULL, NULL, 10.00, 'percentage', 0, NULL, NULL, 'order', NULL, NULL, NULL, 'none', NULL, NULL, 1, NULL, '2023-01-09 06:23:11', '2023-01-09 06:23:11');
 
 --
 -- Dumping data for table `footers`
@@ -389,6 +389,22 @@ INSERT INTO `manufacturers` (`id`, `name`, `slug`, `image`, `description`, `meta
 (3, 'Amazon', 'amazon', NULL, NULL, NULL, NULL, NULL, 1, 0, '2023-01-05 06:08:20', '2023-01-05 06:08:20');
 
 --
+-- Dumping data for table `order_drafts`
+--
+
+INSERT INTO `order_drafts` (`id`, `user_id`, `comment`, `fname`, `lname`, `phone_number`, `email`, `country_id`, `country`, `address1`, `address2`, `city`, `state`, `zip`, `latitude`, `longitude`, `created_at`, `updated_at`) VALUES
+(1, 2, 'asas', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2023-07-30 02:47:43', '2023-07-30 02:47:43'),
+(2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2023-07-30 03:02:02', '2023-07-30 03:02:02');
+
+--
+-- Dumping data for table `order_draft_items`
+--
+
+INSERT INTO `order_draft_items` (`id`, `order_draft_id`, `product_type`, `product_id`, `quantity`, `attribute`, `created_at`, `updated_at`) VALUES
+(1, 2, 'product', 81, 1, NULL, '2023-07-30 03:06:19', '2023-07-30 03:06:19'),
+(2, 2, 'product', 81, 1, NULL, '2023-07-30 03:08:06', '2023-07-30 03:08:06');
+
+--
 -- Dumping data for table `pages`
 --
 
@@ -401,17 +417,189 @@ INSERT INTO `pages` (`id`, `title`, `slug`, `body`, `is_gjs`, `gjs_data`, `meta_
 --
 
 INSERT INTO `payment_providers` (`id`, `label`, `name`, `description`, `status`, `sort_order`, `created_at`, `updated_at`) VALUES
-(1, 'Cash on delivery', 'cod', 'Goods must be paid for at the time of delivery', 1, 0, '2023-02-05 06:42:51', '2023-02-05 06:47:57'),
-(2, 'Stripe', 'stripe', NULL, 1, 0, '2023-02-05 06:42:51', '2023-02-05 06:42:51'),
-(3, 'SSL Commerz', 'sslcommerz', NULL, 1, 0, '2023-02-05 06:42:51', '2023-02-05 06:42:51');
+(1, 'Cash on delivery', 'cod', 'Goods must be paid for at the time of delivery', 1, 0, '2023-07-30 02:12:00', '2023-07-30 02:12:00'),
+(2, 'Stripe', 'stripe', NULL, 1, 0, '2023-07-30 02:12:00', '2023-07-30 02:12:00'),
+(3, 'SSL Commerz', 'sslcommerz', NULL, 1, 0, '2023-07-30 02:12:00', '2023-07-30 02:12:00');
+
+--
+-- Dumping data for table `permissions`
+--
+
+INSERT INTO `permissions` (`id`, `title`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(1, 'user_management_read', NULL, NULL, NULL),
+(2, 'user_management_create', NULL, NULL, NULL),
+(3, 'user_management_edit', NULL, NULL, NULL),
+(4, 'user_management_show', NULL, NULL, NULL),
+(5, 'user_management_delete', NULL, NULL, NULL),
+(6, 'role_management_read', NULL, NULL, NULL),
+(7, 'role_management_create', NULL, NULL, NULL),
+(8, 'role_management_edit', NULL, NULL, NULL),
+(9, 'role_management_show', NULL, NULL, NULL),
+(10, 'role_management_delete', NULL, NULL, NULL),
+(11, 'order_management_read', NULL, NULL, NULL),
+(12, 'order_management_create', NULL, NULL, NULL),
+(13, 'order_management_edit', NULL, NULL, NULL),
+(14, 'order_management_show', NULL, NULL, NULL),
+(15, 'order_management_delete', NULL, NULL, NULL),
+(16, 'coupon_management_read', NULL, NULL, NULL),
+(17, 'coupon_management_create', NULL, NULL, NULL),
+(18, 'coupon_management_edit', NULL, NULL, NULL),
+(19, 'coupon_management_show', NULL, NULL, NULL),
+(20, 'coupon_management_delete', NULL, NULL, NULL),
+(21, 'product_management_read', NULL, NULL, NULL),
+(22, 'product_management_create', NULL, NULL, NULL),
+(23, 'product_management_edit', NULL, NULL, NULL),
+(24, 'product_management_show', NULL, NULL, NULL),
+(25, 'product_management_delete', NULL, NULL, NULL),
+(26, 'category_management_read', NULL, NULL, NULL),
+(27, 'category_management_create', NULL, NULL, NULL),
+(28, 'category_management_edit', NULL, NULL, NULL),
+(29, 'category_management_show', NULL, NULL, NULL),
+(30, 'category_management_delete', NULL, NULL, NULL),
+(31, 'manufacturer_management_read', NULL, NULL, NULL),
+(32, 'manufacturer_management_create', NULL, NULL, NULL),
+(33, 'manufacturer_management_edit', NULL, NULL, NULL),
+(34, 'manufacturer_management_show', NULL, NULL, NULL),
+(35, 'manufacturer_management_delete', NULL, NULL, NULL),
+(36, 'page_management_read', NULL, NULL, NULL),
+(37, 'page_management_create', NULL, NULL, NULL),
+(38, 'page_management_edit', NULL, NULL, NULL),
+(39, 'page_management_show', NULL, NULL, NULL),
+(40, 'page_management_delete', NULL, NULL, NULL),
+(41, 'setting_management_read', NULL, NULL, NULL),
+(42, 'setting_management_create', NULL, NULL, NULL),
+(43, 'setting_management_edit', NULL, NULL, NULL),
+(44, 'setting_management_show', NULL, NULL, NULL),
+(45, 'setting_management_delete', NULL, NULL, NULL);
+
+--
+-- Dumping data for table `permission_roles`
+--
+
+INSERT INTO `permission_roles` (`id`, `permission_id`, `role_id`, `created_at`, `updated_at`) VALUES
+(1, 1, 1, NULL, NULL),
+(2, 2, 1, NULL, NULL),
+(3, 3, 1, NULL, NULL),
+(4, 4, 1, NULL, NULL),
+(5, 5, 1, NULL, NULL),
+(6, 6, 1, NULL, NULL),
+(7, 7, 1, NULL, NULL),
+(8, 8, 1, NULL, NULL),
+(9, 9, 1, NULL, NULL),
+(10, 10, 1, NULL, NULL),
+(11, 11, 1, NULL, NULL),
+(12, 12, 1, NULL, NULL),
+(13, 13, 1, NULL, NULL),
+(14, 14, 1, NULL, NULL),
+(15, 15, 1, NULL, NULL),
+(16, 16, 1, NULL, NULL),
+(17, 17, 1, NULL, NULL),
+(18, 18, 1, NULL, NULL),
+(19, 19, 1, NULL, NULL),
+(20, 20, 1, NULL, NULL),
+(21, 21, 1, NULL, NULL),
+(22, 22, 1, NULL, NULL),
+(23, 23, 1, NULL, NULL),
+(24, 24, 1, NULL, NULL),
+(25, 25, 1, NULL, NULL),
+(26, 26, 1, NULL, NULL),
+(27, 27, 1, NULL, NULL),
+(28, 28, 1, NULL, NULL),
+(29, 29, 1, NULL, NULL),
+(30, 30, 1, NULL, NULL),
+(31, 31, 1, NULL, NULL),
+(32, 32, 1, NULL, NULL),
+(33, 33, 1, NULL, NULL),
+(34, 34, 1, NULL, NULL),
+(35, 35, 1, NULL, NULL),
+(36, 36, 1, NULL, NULL),
+(37, 37, 1, NULL, NULL),
+(38, 38, 1, NULL, NULL),
+(39, 39, 1, NULL, NULL),
+(40, 40, 1, NULL, NULL),
+(41, 41, 1, NULL, NULL),
+(42, 42, 1, NULL, NULL),
+(43, 43, 1, NULL, NULL),
+(44, 44, 1, NULL, NULL),
+(45, 45, 1, NULL, NULL),
+(46, 1, 2, NULL, NULL),
+(47, 2, 2, NULL, NULL),
+(48, 3, 2, NULL, NULL),
+(49, 4, 2, NULL, NULL),
+(50, 5, 2, NULL, NULL),
+(51, 11, 2, NULL, NULL),
+(52, 12, 2, NULL, NULL),
+(53, 13, 2, NULL, NULL),
+(54, 14, 2, NULL, NULL),
+(55, 15, 2, NULL, NULL),
+(56, 16, 2, NULL, NULL),
+(57, 17, 2, NULL, NULL),
+(58, 18, 2, NULL, NULL),
+(59, 19, 2, NULL, NULL),
+(60, 20, 2, NULL, NULL),
+(61, 21, 2, NULL, NULL),
+(62, 22, 2, NULL, NULL),
+(63, 23, 2, NULL, NULL),
+(64, 24, 2, NULL, NULL),
+(65, 25, 2, NULL, NULL),
+(66, 26, 2, NULL, NULL),
+(67, 27, 2, NULL, NULL),
+(68, 28, 2, NULL, NULL),
+(69, 29, 2, NULL, NULL),
+(70, 30, 2, NULL, NULL),
+(71, 31, 2, NULL, NULL),
+(72, 32, 2, NULL, NULL),
+(73, 33, 2, NULL, NULL),
+(74, 34, 2, NULL, NULL),
+(75, 35, 2, NULL, NULL),
+(76, 36, 2, NULL, NULL),
+(77, 37, 2, NULL, NULL),
+(78, 38, 2, NULL, NULL),
+(79, 39, 2, NULL, NULL),
+(80, 40, 2, NULL, NULL),
+(81, 41, 2, NULL, NULL),
+(82, 42, 2, NULL, NULL),
+(83, 43, 2, NULL, NULL),
+(84, 44, 2, NULL, NULL),
+(85, 45, 2, NULL, NULL),
+(86, 11, 3, NULL, NULL),
+(87, 12, 3, NULL, NULL),
+(88, 13, 3, NULL, NULL),
+(89, 14, 3, NULL, NULL),
+(90, 15, 3, NULL, NULL),
+(91, 16, 3, NULL, NULL),
+(92, 17, 3, NULL, NULL),
+(93, 18, 3, NULL, NULL),
+(94, 19, 3, NULL, NULL),
+(95, 20, 3, NULL, NULL),
+(96, 21, 3, NULL, NULL),
+(97, 22, 3, NULL, NULL),
+(98, 23, 3, NULL, NULL),
+(99, 24, 3, NULL, NULL),
+(100, 25, 3, NULL, NULL),
+(101, 26, 3, NULL, NULL),
+(102, 27, 3, NULL, NULL),
+(103, 28, 3, NULL, NULL),
+(104, 29, 3, NULL, NULL),
+(105, 30, 3, NULL, NULL),
+(106, 31, 3, NULL, NULL),
+(107, 32, 3, NULL, NULL),
+(108, 33, 3, NULL, NULL),
+(109, 34, 3, NULL, NULL),
+(110, 35, 3, NULL, NULL),
+(111, 36, 3, NULL, NULL),
+(112, 37, 3, NULL, NULL),
+(113, 38, 3, NULL, NULL),
+(114, 39, 3, NULL, NULL),
+(115, 40, 3, NULL, NULL);
 
 --
 -- Dumping data for table `products`
 --
 
 INSERT INTO `products` (`id`, `name`, `slug`, `meta_title`, `meta_description`, `meta_keyword`, `description`, `price`, `discount`, `track_quantity`, `quantity`, `sku`, `barcode`, `is_sale`, `cost_per_item`, `weight`, `weight_unit`, `manufacturer_id`, `option_set_id`, `user_id`, `views`, `status`, `created_at`, `updated_at`) VALUES
-(1, 'Fresh vegetables', 'fresh-vegetables', NULL, NULL, NULL, '<p>Fresh quality vegetables</p>', '15.00', '5.00', 1, 500, NULL, NULL, 1, NULL, '40.00', 'kg', 3, NULL, NULL, 0, 1, '2023-01-09 06:21:04', '2023-01-14 05:40:12'),
-(2, 'Beaf', 'beaf', NULL, NULL, NULL, '<p>Fresh quality meat</p>', '10.00', NULL, 0, NULL, NULL, NULL, 0, NULL, NULL, NULL, 1, NULL, NULL, 0, 1, '2023-01-10 05:36:48', '2023-01-24 03:53:18'),
+(1, 'Fresh vegetables', 'fresh-vegetables', NULL, NULL, NULL, '<p>Fresh quality vegetables</p>', 15.00, 5.00, 1, 500, NULL, NULL, 1, NULL, 40.00, 'kg', 3, NULL, NULL, 0, 1, '2023-01-09 06:21:04', '2023-01-14 05:40:12'),
+(2, 'Beaf', 'beaf', NULL, NULL, NULL, '<p>Fresh quality meat</p>', 10.00, NULL, 0, NULL, NULL, NULL, 0, NULL, NULL, NULL, 1, NULL, NULL, 0, 1, '2023-01-10 05:36:48', '2023-01-24 03:53:18'),
 (3, 'asas', 'asas', NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL, NULL, 0, 1, '2023-01-10 07:22:40', '2023-01-10 07:22:40'),
 (4, 'asasas', 'asasas', NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL, NULL, 0, 1, '2023-01-10 07:22:43', '2023-01-14 05:59:00'),
 (5, 'asasa', 'asasa', NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL, NULL, 0, 1, '2023-01-10 07:22:45', '2023-01-10 07:22:45'),
@@ -490,7 +678,7 @@ INSERT INTO `products` (`id`, `name`, `slug`, `meta_title`, `meta_description`, 
 (78, 'assas', 'assas', NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL, NULL, 0, 1, '2023-01-10 08:00:15', '2023-01-10 08:00:15'),
 (79, 'asasa', 'asasa', NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL, NULL, 0, 1, '2023-01-10 08:00:17', '2023-01-10 08:00:17'),
 (80, 'asasa', 'asasa', NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL, NULL, 0, 1, '2023-01-10 08:00:19', '2023-01-10 08:00:19'),
-(81, 'Ben & Jerry\'s Sundae Vegan Berry Revolutionary 427ml', 'ben-jerrys-sundae-vegan-berry-revolutionary-427ml', 'Buy ${product.name} from ${app.name} now | ${app.name}', 'Buy ${product.name} from ${app.name} now at affordable price', NULL, '<h2>description</h2>\r\n<p><strong>${product.name}</strong> this is description test</p>', '10.00', '15.00', 1, 500, NULL, NULL, 1, NULL, NULL, NULL, 3, NULL, NULL, 0, 1, '2023-01-11 07:23:09', '2023-01-14 09:59:56');
+(81, 'Ben & Jerry\'s Sundae Vegan Berry Revolutionary 427ml', 'ben-jerrys-sundae-vegan-berry-revolutionary-427ml', 'Buy ${product.name} from ${app.name} now | ${app.name}', 'Buy ${product.name} from ${app.name} now at affordable price', NULL, '<h2>description</h2>\r\n<p><strong>${product.name}</strong> this is description test</p>', 10.00, 15.00, 1, 500, NULL, NULL, 1, NULL, NULL, NULL, 3, NULL, NULL, 0, 1, '2023-01-11 07:23:09', '2023-01-14 09:59:56');
 
 --
 -- Dumping data for table `product_categories`
@@ -522,24 +710,40 @@ INSERT INTO `product_images` (`id`, `image`, `title`, `alt_text`, `product_id`, 
 (9, '1673713933-63c2d90dd6620.png', NULL, NULL, '81', 1, 3, '2023-01-14 10:32:13', '2023-01-14 10:33:13');
 
 --
+-- Dumping data for table `roles`
+--
+
+INSERT INTO `roles` (`id`, `title`, `name`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(1, 'Super Admin', 'su-admin', NULL, NULL, NULL),
+(2, 'Admin', 'admin', NULL, NULL, NULL),
+(3, 'Staff', 'staff', NULL, NULL, NULL);
+
+--
+-- Dumping data for table `role_users`
+--
+
+INSERT INTO `role_users` (`id`, `role_id`, `user_id`, `created_at`, `updated_at`) VALUES
+(1, 1, 1, NULL, NULL);
+
+--
 -- Dumping data for table `settings`
 --
 
 INSERT INTO `settings` (`id`, `setting_type_id`, `label`, `key`, `value`, `value_type`, `size`, `description`, `collection_name`, `collection_details`, `sort_order`, `created_at`, `updated_at`) VALUES
-(1, NULL, 'Meta Title', 'meta_title', 'example', 'text', NULL, 'Change website meta title', NULL, NULL, 0, '2023-01-05 04:42:52', '2023-01-05 04:42:52'),
-(2, NULL, 'Meta description', 'meta_description', 'example', 'textarea', NULL, 'Change website meta description', NULL, NULL, 0, '2023-01-05 04:42:52', '2023-01-05 04:42:52'),
-(3, NULL, 'Meta keyword', 'meta_keyword', 'example', 'text', NULL, 'Change website meta keyword', NULL, NULL, 0, '2023-01-05 04:42:52', '2023-01-05 04:42:52'),
-(4, NULL, 'name', 'name', 'example', 'text', NULL, 'Change website name', NULL, NULL, 0, '2023-01-05 04:42:52', '2023-01-05 04:42:52'),
-(5, NULL, 'slogan', 'slogan', 'example slogan', 'text', NULL, 'Change slogan', NULL, NULL, 0, '2023-01-05 04:42:52', '2023-01-05 04:42:52'),
-(6, NULL, 'Currency sign', 'currency_sign', '$', 'text', NULL, 'Change site currency sign', NULL, NULL, 0, '2023-01-05 04:42:52', '2023-01-05 04:42:52'),
-(7, NULL, 'Currency code', 'currency_code', 'usd', 'text', NULL, 'Change site currency code', NULL, NULL, 0, '2023-01-05 04:42:52', '2023-01-05 04:42:52'),
-(8, NULL, 'Address', 'address', 'Dhaka, Bangladesh', 'text', NULL, 'Change address', NULL, NULL, 0, '2023-01-05 04:42:52', '2023-01-05 04:42:52'),
-(9, NULL, 'Phone number', 'phone', 'phone', 'text', NULL, 'Change phone number', NULL, NULL, 0, '2023-01-05 04:42:52', '2023-01-05 04:42:52'),
-(10, NULL, 'Email', 'email', 'example@email.com', 'text', NULL, 'Change email', NULL, NULL, 0, '2023-01-05 04:42:52', '2023-01-05 04:42:52'),
-(11, NULL, 'Contact email', 'contact_email', 'example@email.com', 'text', NULL, 'Contact email used to get mail from user also show them.', NULL, NULL, 0, '2023-01-05 04:42:52', '2023-01-05 04:42:52'),
-(12, NULL, 'Copyright info', 'copyright', 'Copyright info', 'html', NULL, 'Change Copyright info', NULL, NULL, 0, '2023-01-05 04:42:52', '2023-01-05 04:42:52'),
-(13, NULL, 'Maintenance mode', 'maintenance_mode', '0', 'checkbox', NULL, 'Maintenance mode', NULL, NULL, 0, '2023-01-05 04:42:52', '2023-01-05 04:42:52'),
-(14, NULL, 'Maintenance mode message', 'maintenance_mode_message', 'Website is in maintenance', 'html', NULL, 'Maintenance mode message', NULL, NULL, 0, '2023-01-05 04:42:52', '2023-01-05 04:42:52');
+(1, NULL, 'Meta Title', 'meta_title', 'example', 'text', NULL, 'Change website meta title', NULL, NULL, 0, '2023-07-30 02:11:59', '2023-07-30 02:11:59'),
+(2, NULL, 'Meta description', 'meta_description', 'example', 'textarea', NULL, 'Change website meta description', NULL, NULL, 0, '2023-07-30 02:11:59', '2023-07-30 02:11:59'),
+(3, NULL, 'Meta keyword', 'meta_keyword', 'example', 'text', NULL, 'Change website meta keyword', NULL, NULL, 0, '2023-07-30 02:11:59', '2023-07-30 02:11:59'),
+(4, NULL, 'name', 'name', 'example', 'text', NULL, 'Change website name', NULL, NULL, 0, '2023-07-30 02:11:59', '2023-07-30 02:11:59'),
+(5, NULL, 'slogan', 'slogan', 'example slogan', 'text', NULL, 'Change slogan', NULL, NULL, 0, '2023-07-30 02:11:59', '2023-07-30 02:11:59'),
+(6, NULL, 'Currency sign', 'currency_sign', '$', 'text', NULL, 'Change site currency sign', NULL, NULL, 0, '2023-07-30 02:11:59', '2023-07-30 02:11:59'),
+(7, NULL, 'Currency code', 'currency_code', 'usd', 'text', NULL, 'Change site currency code', NULL, NULL, 0, '2023-07-30 02:11:59', '2023-07-30 02:11:59'),
+(8, NULL, 'Address', 'address', 'Dhaka, Bangladesh', 'text', NULL, 'Change address', NULL, NULL, 0, '2023-07-30 02:11:59', '2023-07-30 02:11:59'),
+(9, NULL, 'Phone number', 'phone', 'phone', 'text', NULL, 'Change phone number', NULL, NULL, 0, '2023-07-30 02:11:59', '2023-07-30 02:11:59'),
+(10, NULL, 'Email', 'email', 'example@email.com', 'text', NULL, 'Change email', NULL, NULL, 0, '2023-07-30 02:11:59', '2023-07-30 02:11:59'),
+(11, NULL, 'Contact email', 'contact_email', 'example@email.com', 'text', NULL, 'Contact email used to get mail from user also show them.', NULL, NULL, 0, '2023-07-30 02:12:00', '2023-07-30 02:12:00'),
+(12, NULL, 'Copyright info', 'copyright', 'Copyright info', 'html', NULL, 'Change Copyright info', NULL, NULL, 0, '2023-07-30 02:12:00', '2023-07-30 02:12:00'),
+(13, NULL, 'Maintenance mode', 'maintenance_mode', '0', 'checkbox', NULL, 'Maintenance mode', NULL, NULL, 0, '2023-07-30 02:12:00', '2023-07-30 02:12:00'),
+(14, NULL, 'Maintenance mode message', 'maintenance_mode_message', 'Website is in maintenance', 'html', NULL, 'Maintenance mode message', NULL, NULL, 0, '2023-07-30 02:12:00', '2023-07-30 02:12:00');
 
 --
 -- Dumping data for table `shippings`
@@ -553,7 +757,7 @@ INSERT INTO `shippings` (`id`, `name`, `status`, `sort_order`, `created_at`, `up
 --
 
 INSERT INTO `shipping_zones` (`id`, `shipping_id`, `name`, `price`, `shipping_time_start`, `shipping_time_end`, `status`, `sort_order`, `created_at`, `updated_at`) VALUES
-(1, 1, 'Express Shipping', '200.00', 2, 4, 0, 0, '2023-02-05 04:44:04', '2023-02-05 04:44:04');
+(1, 1, 'Express Shipping', 200.00, 2, 4, 0, 0, '2023-02-05 04:44:04', '2023-02-05 04:44:04');
 
 --
 -- Dumping data for table `shipping_zone_addresses`
@@ -578,7 +782,8 @@ INSERT INTO `shipping_zone_payment_providers` (`id`, `shipping_zone_id`, `paymen
 --
 
 INSERT INTO `users` (`id`, `fname`, `lname`, `name`, `email`, `phone_number`, `dial_code`, `email_verified_at`, `phone_verified_at`, `provider`, `provider_uid`, `avatar`, `type`, `status`, `password`, `remember_token`, `created_at`, `updated_at`) VALUES
-(1, 'admin', 'admin', NULL, 'admin@example.com', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'su_admin', 1, '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'kXDdJtoO6g05FnrbOccVqDA9o7WLdRq6wHToQhFz75nE7gaq5HV75zWsYoaH', '2023-01-05 04:42:52', '2023-01-05 04:42:52');
+(1, 'admin', 'admin', NULL, 'admin@example.com', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'su_admin', 1, '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', NULL, '2023-07-30 02:11:58', '2023-07-30 02:11:58'),
+(2, 'sd', 'sdsd', NULL, 'as@gmail.com', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'user', 1, '$2y$10$a5lUNEobpCWplDHP3WIr7eHejJ6CQc8G8LM4SNnzT7OxATaVwLER2', NULL, '2023-07-30 02:24:56', '2023-07-30 02:24:56');
 SET FOREIGN_KEY_CHECKS=1;
 COMMIT;
 

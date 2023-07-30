@@ -1,7 +1,7 @@
 @extends('backend.master')
 
 @section('title')
-    Customers
+    Drafts
 @endsection
 
 @section('style')
@@ -31,7 +31,7 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-md-12 fw-bold fs-3">
-                    Customers
+                    Drafts
                 </div>
             </div>
             <div class="row">
@@ -40,14 +40,9 @@
                         <div class="card">
                             <div class="card-header">
 
-                                <a href="{{ route('customer.create') }}" class="btn btn-sm btn-primary float-end mt-3 mr-4">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                        viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                        stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus">
-                                        <line x1="12" y1="5" x2="12" y2="19"></line>
-                                        <line x1="5" y1="12" x2="19" y2="12"></line>
-                                    </svg>
-                                    Create customer
+                                <a href="{{ route('order-draft.create') }}"
+                                    class="btn btn-sm btn-primary float-end mt-3 mr-4">
+                                    Create order
                                 </a>
 
                                 {{-- search --}}
@@ -64,63 +59,49 @@
                                     <table class="table-bordered table-hover table-striped table" style="width: 100%;">
                                         <thead>
                                             <tr>
-                                                <th>Name</th>
-                                                <th>Email</th>
-                                                <th>Type</th>
-                                                <th>Role</th>
-                                                <th>Created at</th>
-                                                <th class="text-center">Status</th>
+                                                <th>Date</th>
+                                                <th>Customer</th>
+                                                <th>Items</th>
+                                                <th>Order total</th>
                                                 <th class="text-center">Actions</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            @foreach ($customers as $customer)
+                                            @foreach ($order_drafts as $order_draft)
                                                 <tr>
-                                                    <td>{{ $customer->fname }} {{ $customer->lname }}</td>
-                                                    <td>{{ $customer->email }}</td>
-                                                    <td>{{ $customer->type }}</td>
-                                                    <td>{{ $customer->roles->first() && $customer->roles->first()->title }}</td>
-                                                    <td>{{ date('d-M-Y', strtotime($customer->created_at)) }}</td>
+                                                    <td>
+                                                        {{ date('d M Y', strtotime($order_draft->created_at)) }} at
+                                                        {{ date('h:i a', strtotime($order_draft->created_at)) }}
+                                                        ({{ $order_draft->created_at->diffForHumans() }})
+                                                    </td>
+                                                    <td>
+                                                        @if (isset($order_draft->user))
+                                                            {{ $order_draft->user->fname }} {{ $order_draft->user->lname }}
+                                                        @else
+                                                            —
+                                                        @endif
+                                                    </td>
+                                                    <td>
 
-                                                    @if ($customer->status == '1')
-                                                        <td class="text-center">
-                                                            <a href="{{ route('customer.status', $customer->id) }}"
-                                                                class="badge bg-primary text-decoration-none shadow-none">
-                                                                Active
-                                                            </a>
-                                                        </td>
-                                                    @else
-                                                        <td class="text-center">
-                                                            <a href="{{ route('customer.status', $customer->id) }}"
-                                                                class="badge bg-warning text-decoration-none shadow-none">
-                                                                Disabled
-                                                            </a>
-                                                        </td>
-                                                    @endif
+                                                    </td>
+                                                    <td>{{ $order_draft->order_total }}</td>
+
                                                     <td class="text-center">
                                                         <ul class="table-controls">
                                                             <li>
                                                                 <a class="btn btn-sm btn-primary"
-                                                                    href="{{ route('customer.edit', $customer->id) }}"
+                                                                    href="{{ route('order-draft.show', $order_draft->id) }}"
                                                                     data-bs-toggle="tooltip" data-bs-placement="top"
-                                                                    title="" data-bs-title="Edit">
-                                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24"
-                                                                        height="24" viewBox="0 0 24 24" fill="none"
-                                                                        stroke="currentColor" stroke-width="2"
-                                                                        stroke-linecap="round" stroke-linejoin="round"
-                                                                        class="feather feather-edit-2 br-6 mb-1 p-1">
-                                                                        <path
-                                                                            d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z">
-                                                                        </path>
-                                                                    </svg>
-                                                                    Edit
+                                                                    title="" data-bs-title="View">
+                                                                    <i class="bi bi-eye"></i>
+                                                                    View
                                                                 </a>
                                                             </li>
                                                             <li>
                                                                 <a class="btn btn-sm btn-danger" href="javascript:void(0);"
                                                                     onclick="event.preventDefault();
                                                                     if(confirm('Are you really want to delete?')){
-                                                                    document.getElementById('customer-delete-{{ $customer->id }}').submit()
+                                                                    document.getElementById('order-draft-delete-{{ $order_draft->id }}').submit()
                                                                     }"
                                                                     data-bs-toggle="tooltip" data-bs-placement="top"
                                                                     title="" data-bs-title="Delete">
@@ -138,12 +119,13 @@
                                                                 </a>
                                                                 {{-- delete  --}}
                                                                 <form method="post"
-                                                                    action="{{ route('customer.destroy', $customer->id) }}"
-                                                                    id="{{ 'customer-delete-' . $customer->id }}">
+                                                                    action="{{ route('order-draft.destroy', $order_draft->id) }}"
+                                                                    id="{{ 'order-draft-delete-' . $order_draft->id }}">
                                                                     @csrf
                                                                     @method('DELETE')
                                                                 </form>
                                                             </li>
+
                                                         </ul>
                                                     </td>
                                                 </tr>
@@ -153,7 +135,7 @@
 
 
                                     </table>
-                                    {{ $customers->appends(request()->query())->links('pagination::bootstrap-5') }}
+                                    {{ $order_drafts->appends(request()->query())->links('pagination::bootstrap-5') }}
                                 </div>
                             </div>
                         </div>

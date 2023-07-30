@@ -75,6 +75,12 @@
                                                 </a>
                                             </li>
                                             <li>
+                                                <a href="{{ route('order-draft.index') }}" class="nav-link px-3">
+                                                    <span class="me-2"><i class="bi bi-layout-split"></i></span>
+                                                    <span>Drafts</span>
+                                                </a>
+                                            </li>
+                                            <li>
                                                 <a href="{{ route('checkout.index') }}" class="nav-link px-3">
                                                     <span class="me-2"><i class="bi bi-layout-split"></i></span>
                                                     <span>Abandoned checkouts</span>
@@ -174,6 +180,12 @@
                                                 <a href="{{ route('coupon.index') }}" class="nav-link px-3">
                                                     <span class="me-2"><i class="bi bi-layout-split"></i></span>
                                                     <span>Coupons</span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="{{ route('sendmail.create') }}" class="nav-link px-3">
+                                                    <span class="me-2"><i class="bi bi-layout-split"></i></span>
+                                                    <span>Custom mail</span>
                                                 </a>
                                             </li>
 

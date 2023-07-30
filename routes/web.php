@@ -11,7 +11,9 @@ use App\Http\Controllers\Web\Admin\Coupon\CouponController;
 use App\Http\Controllers\Web\Admin\Customer\CustomerController;
 use App\Http\Controllers\Web\Admin\Customer\RoleController;
 use App\Http\Controllers\Web\Admin\Dashboard\DashboardController;
+use App\Http\Controllers\Web\Admin\Marketing\CustomMail\CustomMailController;
 use App\Http\Controllers\Web\Admin\Order\OrderController;
+use App\Http\Controllers\Web\Admin\Order\OrderDraft\OrderDraftController;
 use App\Http\Controllers\Web\Admin\Order\StatusController;
 use App\Http\Controllers\Web\Admin\Payment\PaymentProviderController;
 use App\Http\Controllers\Web\Admin\Product\ManufacturerController;
@@ -78,10 +80,19 @@ Route::middleware(['auth', 'admin'])->group(function () {
     // sales
     Route::resource('checkout', CheckoutController::class);
     Route::resource('order', OrderController::class);
+    // draft
+    Route::get('/order/{id}/invoice', [OrderController::class, 'view_invoice'])->name('order.invoice.index');
+    Route::get('/order/{id}/invoice/generate', [OrderController::class, 'invoice'])->name('order.invoice.generate');
+    Route::put('/order/{id}/user/shipping/details', [OrderController::class, 'saveUserShippingDetails'])->name('order.user.shipping.details');
+    Route::resource('order', OrderController::class);
+    Route::get('/order-draft/{id}/product/create', [OrderDraftController::class, 'create_product'])->name('order-draft.product.create');
+    Route::post('/order-draft/{id}/product/store', [OrderDraftController::class, 'store_item'])->name('order-draft.product.store');
+    Route::resource('order-draft', OrderDraftController::class);
 
     // promotions
     Route::get('coupon/{id}/status', [CouponController::class, 'status'])->name('coupon.status');
     Route::resource('coupon', CouponController::class);
+    Route::resource('marketing/sendmail', CustomMailController::class);
 
     // customer
     Route::get('customer/{id}/status', [CustomerController::class, 'status'])->name('customer.status');
