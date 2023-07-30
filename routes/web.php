@@ -16,6 +16,7 @@ use App\Http\Controllers\Web\Admin\Order\OrderController;
 use App\Http\Controllers\Web\Admin\Order\OrderDraft\OrderDraftController;
 use App\Http\Controllers\Web\Admin\Order\StatusController;
 use App\Http\Controllers\Web\Admin\Payment\PaymentProviderController;
+use App\Http\Controllers\Web\Admin\Plugin\PluginController;
 use App\Http\Controllers\Web\Admin\Product\ManufacturerController;
 use App\Http\Controllers\Web\Admin\Product\ProductController;
 use App\Http\Controllers\Web\Admin\Product\ProductDetailsController;
@@ -139,6 +140,10 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::resource('setting/shipping', ShippingController::class);
 
     Route::resource('setting', SettingController::class);
+
+    // plugin
+    Route::get('plugin/{id}/status', [PluginController::class, 'status'])->name('plugin.status');
+    Route::resource('plugin', PluginController::class);
 });
 
 

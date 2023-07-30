@@ -264,6 +264,12 @@
                                                     <span>Order status</span>
                                                 </a>
                                             </li>
+                                            <li>
+                                                <a href="{{ route('plugin.index') }}" class="nav-link px-3">
+                                                    <span class="me-2"><i class="bi bi-layout-split"></i></span>
+                                                    <span>Plugins</span>
+                                                </a>
+                                            </li>
 
                                         </ul>
                                     </div>
