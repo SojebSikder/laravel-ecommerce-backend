@@ -4,6 +4,9 @@ namespace App\Lib\Plugins;
 
 class SojebPluginManager
 {
+    private static $pluginMenus = [];
+
+
     // save plugin information
     public static function savePluginInfo($plugin, $data = [])
     {
@@ -213,21 +216,31 @@ class SojebPluginManager
         return null;
     }
 
-    // private $pluginMenus = [];
 
-    // public static function initPlugin()
-    // {
-    //     $plugins = self::getPlugins();
+    public static function initPlugin()
+    {
+        $plugins = self::getPlugins();
 
-    //     foreach ($plugins as $plugin) {
-    //         if ($plugin->status == 1) {
-    //             $plugin->onInit();
+        foreach ($plugins as $plugin) {
+            if ($plugin->status == 1) {
+                $plugin->onInit();
 
-    //             // add plugin menus
-    //             // $menus = $plugin->getMenus();
-    //         }
-    //     }
-    // }
+                // add plugin menus
+                $menus = $plugin->getMenus();
+                if ($menus) {
+                    foreach ($menus as $menu) {
+                        // push menu to plugin menus
+                        self::$pluginMenus[] = $menu;
+                    }
+                }
+            }
+        }
+    }
+
+    public static function getPluginMenus()
+    {
+        return self::$pluginMenus;
+    }
 
     public static function initRoutes()
     {
