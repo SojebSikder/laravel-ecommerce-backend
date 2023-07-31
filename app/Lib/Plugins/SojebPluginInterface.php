@@ -4,6 +4,12 @@ namespace App\Lib\Plugins;
 
 interface SojebPluginInterface
 {
+
+    /**
+     * Invoke when Init plugin
+     */
+    public static function onInit();
+
     /**
      * Invoke when Install plugin
      */

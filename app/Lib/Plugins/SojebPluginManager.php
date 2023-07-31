@@ -202,4 +202,18 @@ class SojebPluginManager
         }
         return null;
     }
+
+    public static function initPlugin()
+    {
+        $plugins = self::getPlugins();
+
+        foreach ($plugins as $plugin) {
+            if ($plugin->status == 1) {
+                $plugin->onInit();
+
+                // add plugin menus
+                
+            }
+        }
+    }
 }

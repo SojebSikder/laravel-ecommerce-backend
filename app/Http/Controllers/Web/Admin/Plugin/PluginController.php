@@ -17,6 +17,9 @@ class PluginController extends Controller
     {
         $plugins = SojebPluginManager::getPlugins();
 
+        // initialize plugins, testing purpose
+        SojebPluginManager::initPlugin();
+
 
         // dd($plugins);
         return view('backend.plugin.index', compact('plugins'));

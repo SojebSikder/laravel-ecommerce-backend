@@ -20,4 +20,35 @@ abstract class SojebPlugin
     // temporary
     public $id = 1; // plugin id
     public $status = 0; // plugin status
+
+
+    private static $menus = [];
+
+    /// add menu
+    public static function addMenu($menu)
+    {
+        self::$menus[] = $menu;
+
+        // sort menu
+        usort(self::$menus, function ($a, $b) {
+            return $a['order'] <=> $b['order'];
+        });
+    }
+
+    /// get menus
+    public static function getMenus()
+    {
+        return self::$menus;
+    }
+
+    /// get menu by name
+    public static function getMenu($name)
+    {
+        foreach (self::$menus as $menu) {
+            if ($menu['name'] == $name) {
+                return $menu;
+            }
+        }
+        return null;
+    }
 }
