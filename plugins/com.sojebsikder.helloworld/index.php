@@ -13,10 +13,19 @@ class Com_sojebsikder_helloworld_plugin extends SojebPlugin implements SojebPlug
         $this->version = "1.0";
     }
 
-    public static function install()
+    public static function onInstall()
     {
     }
-    public static function uninstall()
+
+    public static function onUninstall()
+    {
+    }
+
+    public static function onActivate()
+    {
+    }
+
+    public static function onDeactivate()
     {
     }
 }

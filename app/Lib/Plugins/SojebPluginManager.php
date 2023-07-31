@@ -9,14 +9,14 @@ class SojebPluginManager
     {
         $pluginPath = base_path('plugins') . DIRECTORY_SEPARATOR . $plugin->package;
         $pluginInfoFile = $pluginPath . DIRECTORY_SEPARATOR . 'plugin.json';
-        if (file_exists($pluginInfoFile)) {
-            // $pluginInfo = json_decode(file_get_contents($pluginInfoFile));
-            $pluginInfo = new \stdClass();
-            foreach ($data as $key => $value) {
-                $pluginInfo->$key = $value;
-            }
-            file_put_contents($pluginInfoFile, json_encode($pluginInfo));
+        // if (file_exists($pluginInfoFile)) {
+        // $pluginInfo = json_decode(file_get_contents($pluginInfoFile));
+        $pluginInfo = new \stdClass();
+        foreach ($data as $key => $value) {
+            $pluginInfo->$key = $value;
         }
+        file_put_contents($pluginInfoFile, json_encode($pluginInfo));
+        // }
     }
 
     // get plugin information
@@ -36,7 +36,7 @@ class SojebPluginManager
     {
         $plugin = self::getPlugin($package);
         if ($plugin) {
-            $plugin->install();
+            $plugin->onInstall();
 
             // save plugin information
             $pluginInfo = [
@@ -51,7 +51,7 @@ class SojebPluginManager
     {
         $plugin = self::getPlugin($package);
         if ($plugin) {
-            $plugin->uninstall();
+            $plugin->onUninstall();
 
             // save plugin information
             $pluginInfo = [
@@ -95,11 +95,19 @@ class SojebPluginManager
         $plugin = self::getPlugin($package);
         if ($plugin) {
             // return $plugin->activate();
-            $pluginInfo = self::getPluginInfo($package);
-            if ($pluginInfo) {
-                $pluginInfo->status = 1;
-                self::savePluginInfo($plugin, $pluginInfo);
-            }
+            // $pluginInfo = self::getPluginInfo($package);
+            // if ($pluginInfo) {
+            //     $pluginInfo->status = 1;
+            //     self::savePluginInfo($plugin, $pluginInfo);
+            // }
+
+            // save plugin information
+            $pluginInfo = [
+                'status' => 1,
+            ];
+            self::savePluginInfo($plugin, $pluginInfo);
+
+            $plugin->onActivate();
         }
     }
 
@@ -109,11 +117,19 @@ class SojebPluginManager
         $plugin = self::getPlugin($package);
         if ($plugin) {
             // return $plugin->deactivate();
-            $pluginInfo = self::getPluginInfo($package);
-            if ($pluginInfo) {
-                $pluginInfo->status = 0;
-                self::savePluginInfo($plugin, $pluginInfo);
-            }
+            // $pluginInfo = self::getPluginInfo($package);
+            // if ($pluginInfo) {
+            //     $pluginInfo->status = 0;
+            //     self::savePluginInfo($plugin, $pluginInfo);
+            // }
+
+            // save plugin information
+            $pluginInfo = [
+                'status' => 0,
+            ];
+            self::savePluginInfo($plugin, $pluginInfo);
+
+            $plugin->onDeactivate();
         }
     }
 
@@ -133,26 +149,12 @@ class SojebPluginManager
                 $pluginClass = ucfirst($pluginDir) . '_plugin';
                 $plugin = new $pluginClass();
 
-                // self::savePluginInfo($plugin, [
-                //     'package' => $plugin->package,
-                //     'name' => $plugin->name,
-                //     'description' => $plugin->description,
-                //     'version' => $plugin->version,
-                //     'author' => $plugin->author,
-                //     'website' => $plugin->website,
-                //     'copy_right' => $plugin->copyRight,
-                //     'license' => $plugin->license,
-                //     'help' => $plugin->help,
-                //     'icon' => $plugin->icon,
-                //     'status' => $plugin->status,
-                // ]);
-                // $pluginInfo = self::getPluginInfo($plugin->package);
-                // if ($pluginInfo) {
-                //     $plugin->status == 1;
-                // } else {
-                //     $plugin->status == 0;
-                // }
-                // $plugin->status = self::isPluginActive($plugin->package);
+                // get plugin information
+                $pluginInfo = self::getPluginInfo($plugin->package);
+                if ($pluginInfo) {
+                    $plugin->status = $pluginInfo->status;
+                }
+
                 $plugins[] = $plugin;
             }
         }

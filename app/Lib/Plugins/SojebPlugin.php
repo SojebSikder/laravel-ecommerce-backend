@@ -19,5 +19,5 @@ abstract class SojebPlugin
     public $icon; // plugin icon
     // temporary
     public $id = 1; // plugin id
-    public $status = 1; // plugin status
+    public $status = 0; // plugin status
 }
