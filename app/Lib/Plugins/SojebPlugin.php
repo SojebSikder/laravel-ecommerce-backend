@@ -17,8 +17,7 @@ abstract class SojebPlugin
     public $license; // plugin license
     public $help; // plugin help
     public $icon; // plugin icon
-    // temporary
-    public $id = 1; // plugin id
+
     public $status = 0; // plugin status
 
 

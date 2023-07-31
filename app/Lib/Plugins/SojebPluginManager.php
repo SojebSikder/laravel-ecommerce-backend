@@ -31,36 +31,6 @@ class SojebPluginManager
         return null;
     }
 
-    // install plugin
-    public static function installPlugin($package)
-    {
-        $plugin = self::getPlugin($package);
-        if ($plugin) {
-            $plugin->onInstall();
-
-            // save plugin information
-            $pluginInfo = [
-                'status' => 1,
-            ];
-            self::savePluginInfo($plugin, $pluginInfo);
-        }
-    }
-
-    // uninstall plugin
-    public static function uninstallPlugin($package)
-    {
-        $plugin = self::getPlugin($package);
-        if ($plugin) {
-            $plugin->onUninstall();
-
-            // save plugin information
-            $pluginInfo = [
-                'status' => 1,
-            ];
-            self::savePluginInfo($plugin, $pluginInfo);
-        }
-    }
-
     // check if plugin is installed
     public static function isPluginInstalled($package)
     {
@@ -134,7 +104,7 @@ class SojebPluginManager
     }
 
     // get all plugins
-    public static function getPlugins()
+    public static function getPlugins($status = null)
     {
         $plugins = [];
         $pluginPath = base_path('plugins');
@@ -155,7 +125,12 @@ class SojebPluginManager
                     $plugin->status = $pluginInfo->status;
                 }
 
-                $plugins[] = $plugin;
+                // return only active plugins
+                if ($status == null || $plugin->status == $status) {
+                    $plugins[] = $plugin;
+                }
+
+                // $plugins[] = $plugin;
             }
         }
         return $plugins;
@@ -171,6 +146,41 @@ class SojebPluginManager
             }
         }
         return null;
+    }
+
+    // delete plugin
+    public static function deletePlugin($package)
+    {
+        $plugin = self::getPlugin($package);
+        if ($plugin) {
+            $plugin->onUninstall();
+
+            // delete plugin directory
+            $pluginPath = base_path('plugins') . DIRECTORY_SEPARATOR . $plugin->package;
+            if (file_exists($pluginPath)) {
+                self::deleteDirectory($pluginPath);
+            }
+        }
+    }
+
+    // delete directory
+    private static function deleteDirectory($dir)
+    {
+        if (!file_exists($dir)) {
+            return true;
+        }
+        if (!is_dir($dir)) {
+            return unlink($dir);
+        }
+        foreach (scandir($dir) as $item) {
+            if ($item == '.' || $item == '..') {
+                continue;
+            }
+            if (!self::deleteDirectory($dir . DIRECTORY_SEPARATOR . $item)) {
+                return false;
+            }
+        }
+        return rmdir($dir);
     }
 
     // get plugin path
@@ -203,20 +213,20 @@ class SojebPluginManager
         return null;
     }
 
-    public static function initPlugin()
-    {
-        $plugins = self::getPlugins();
+    // public static function initPlugin()
+    // {
+    //     $plugins = self::getPlugins();
 
-        foreach ($plugins as $plugin) {
-            if ($plugin->status == 1) {
-                $plugin->onInit();
+    //     foreach ($plugins as $plugin) {
+    //         if ($plugin->status == 1) {
+    //             $plugin->onInit();
 
-                // add plugin menus
-                // $menus = $plugin->getMenus();
-                // $routes = $plugin->getRoutes();
-            }
-        }
-    }
+    //             // add plugin menus
+    //             // $menus = $plugin->getMenus();
+    //             // $routes = $plugin->getRoutes();
+    //         }
+    //     }
+    // }
 
     public static function initRoutes()
     {

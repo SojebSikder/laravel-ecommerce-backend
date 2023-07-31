@@ -19,11 +19,11 @@ class Com_sojebsikder_helloworld_plugin extends SojebPlugin implements SojebPlug
     {
         // add menu
         $menu = [
-            'label' => 'Hello World',
+            'label' => 'Calculator (Plugin example)',
             'name' => 'HelloWorld',
             'icon' => 'bi bi-layout-split',
             'route' => 'hello',
-            'order' => 1,
+            'order' => 4,
             'parent' => 'sales',
         ];
         $this->addMenu($menu);
@@ -45,13 +45,10 @@ class Com_sojebsikder_helloworld_plugin extends SojebPlugin implements SojebPlug
         })->name('hello');
     }
 
-    public function onInstall()
+    public function onDelete()
     {
     }
 
-    public function onUninstall()
-    {
-    }
 
     public function onActivate()
     {

@@ -65,7 +65,6 @@
                                         <thead>
                                             <tr>
                                                 <th>Plugin</th>
-                                                <th>Name</th>
                                                 <th class="text-center">Status</th>
                                                 <th class="text-center">Actions</th>
                                             </tr>
@@ -73,11 +72,12 @@
                                         <tbody>
                                             @foreach ($plugins as $plugin)
                                                 <tr>
-                                                    <td>{{ $plugin->package }} - {{ $plugin->version }} <br />
+                                                    <td>
+                                                        {{ $plugin->name }} <br />
+                                                        {{ $plugin->package }} - {{ $plugin->version }} <br />
                                                         <small>{{ $plugin->description }}</small>
 
                                                     </td>
-                                                    <td>{{ $plugin->name }}</td>
                                                     @if ($plugin->status == 1)
                                                         <td class="text-center">
                                                             <a href="{{ route('plugin.deactivate', $plugin->package) }}"
@@ -97,7 +97,7 @@
                                                         <ul class="table-controls">
                                                             <li>
                                                                 <a class="btn btn-sm btn-primary"
-                                                                    href="{{ route('plugin.edit', $plugin->id) }}"
+                                                                    href="{{ route('plugin.edit', $plugin->package) }}"
                                                                     data-bs-toggle="tooltip" data-bs-placement="top"
                                                                     title="" data-bs-title="Edit">
                                                                     <svg xmlns="http://www.w3.org/2000/svg" width="24"
@@ -116,7 +116,7 @@
                                                                 <a class="btn btn-sm btn-danger" href="javascript:void(0);"
                                                                     onclick="event.preventDefault();
                                                                     if(confirm('Are you really want to delete?')){
-                                                                    document.getElementById('plugin-delete-{{ $plugin->id }}').submit()
+                                                                    document.getElementById('plugin-delete-{{ $plugin->package }}').submit()
                                                                     }"
                                                                     data-bs-toggle="tooltip" data-bs-placement="top"
                                                                     title="" data-bs-title="Delete">
@@ -134,8 +134,8 @@
                                                                 </a>
                                                                 {{-- delete  --}}
                                                                 <form method="post"
-                                                                    action="{{ route('plugin.destroy', $plugin->id) }}"
-                                                                    id="{{ 'plugin-delete-' . $plugin->id }}">
+                                                                    action="{{ route('plugin.destroy', $plugin->package) }}"
+                                                                    id="{{ 'plugin-delete-' . $plugin->package }}">
                                                                     @csrf
                                                                     @method('DELETE')
                                                                 </form>

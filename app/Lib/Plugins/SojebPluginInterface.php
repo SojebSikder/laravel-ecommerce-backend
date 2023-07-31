@@ -11,14 +11,9 @@ interface SojebPluginInterface
     public function onInit();
 
     /**
-     * Invoke when Install plugin
+     * Invoke when delete plugin
      */
-    public function onInstall();
-    
-    /**
-     * Invoke when Uninstall plugin
-     */
-    public function onUninstall();
+    public function onDelete();
 
     /**
      * Invoke when Activate plugin

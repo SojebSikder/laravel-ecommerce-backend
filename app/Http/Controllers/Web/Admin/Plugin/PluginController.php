@@ -17,11 +17,6 @@ class PluginController extends Controller
     {
         $plugins = SojebPluginManager::getPlugins();
 
-        // initialize plugins, testing purpose
-        SojebPluginManager::initPlugin();
-
-
-        // dd($plugins);
         return view('backend.plugin.index', compact('plugins'));
     }
 
@@ -181,6 +176,13 @@ class PluginController extends Controller
      */
     public function destroy($id)
     {
-        //
+        // delete plugin
+        try {
+            $plugin = SojebPluginManager::deletePlugin($id);
+            return back()->with('success', 'Deleted successfully');
+        } catch (\Throwable $th) {
+            return back()->with('warning', $th->getMessage());
+        }
+
     }
 }
