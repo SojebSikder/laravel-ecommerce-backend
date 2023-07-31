@@ -170,5 +170,5 @@ Route::middleware('auth')->group(function () {
     // Route::resource('user', UserController::class);
 });
 
-// setup plugin routes from sojebplugin manager
-SojebPluginManager::setupRoutes();
+// init plugin routes from sojebplugin manager
+SojebPluginManager::initRoutes();

@@ -29,8 +29,13 @@ class Com_sojebsikder_helloworld_plugin extends SojebPlugin implements SojebPlug
 
     public function setupRoutes()
     {
+        view()->addNamespace('my_views', __DIR__ . '/views');
+
         Route::get('hello-world', function () {
             return "Hello World";
+        });
+        Route::get('hello', function () {
+            return view('my_views::index');
         });
     }
 

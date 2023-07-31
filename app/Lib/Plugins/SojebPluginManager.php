@@ -218,7 +218,7 @@ class SojebPluginManager
         }
     }
 
-    public static function setupRoutes()
+    public static function initRoutes()
     {
         $plugins = self::getPlugins();
 
