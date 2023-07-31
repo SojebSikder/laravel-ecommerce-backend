@@ -213,6 +213,7 @@ return [
         // custom helper
         'StringHelper'   => App\Helper\StringHelper::class,
         'SettingHelper'   => App\Helper\SettingHelper::class,
+        'SojebPluginManager'   => App\Lib\Plugins\SojebPluginManager::class,
         //
     ])->toArray(),
 

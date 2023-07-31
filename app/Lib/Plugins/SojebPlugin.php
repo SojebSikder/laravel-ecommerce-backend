@@ -17,7 +17,37 @@ abstract class SojebPlugin
     public $license; // plugin license
     public $help; // plugin help
     public $icon; // plugin icon
-    // temporary
-    public $id = 1; // plugin id
-    public $status = 1; // plugin status
+
+    public $status = 0; // plugin status
+
+
+    private $menus = [];
+
+    /// add menu
+    public function addMenu($menu)
+    {
+        $this->menus[] = $menu;
+
+        // sort menu
+        usort($this->menus, function ($a, $b) {
+            return $a['order'] <=> $b['order'];
+        });
+    }
+
+    /// get menus
+    public function getMenus()
+    {
+        return $this->menus;
+    }
+
+    // get menu by name
+    public function getMenu($name)
+    {
+        foreach ($this->menus as $menu) {
+            if ($menu['name'] == $name) {
+                return $menu;
+            }
+        }
+        return null;
+    }
 }

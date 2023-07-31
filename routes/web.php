@@ -23,6 +23,7 @@ use App\Http\Controllers\Web\Admin\Product\ProductDetailsController;
 use App\Http\Controllers\Web\Admin\Setting\SettingController;
 use App\Http\Controllers\Web\Admin\Shipping\ShippingController;
 use App\Http\Controllers\Web\Admin\Shipping\ShippingZoneController;
+use App\Lib\Plugins\SojebPluginManager;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -168,3 +169,6 @@ Route::middleware('auth')->group(function () {
 
     // Route::resource('user', UserController::class);
 });
+
+// init plugin routes from sojebplugin manager
+SojebPluginManager::initRoutes();

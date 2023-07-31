@@ -4,12 +4,30 @@ namespace App\Lib\Plugins;
 
 interface SojebPluginInterface
 {
+
     /**
-     * Invoke when Install plugin
+     * Invoke when Init plugin, in sidebar menu
      */
-    public static function install();
+    public function onInit();
+
     /**
-     * Invoke when Uninstall plugin
+     * Invoke when delete plugin
      */
-    public static function uninstall();
+    public function onDelete();
+
+    /**
+     * Invoke when Activate plugin
+     */
+    public function onActivate();
+
+    /**
+     * Invoke when Deactivate plugin
+     */
+    public function onDeactivate();
+
+    /**
+     * Setup routes
+     * Invoke when plugin setup routes in web.php
+     */
+    public function setupRoutes();
 }
