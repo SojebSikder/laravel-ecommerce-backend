@@ -1,3 +1,199 @@
+<?php
+$menus = [
+    [
+        'label' => 'Sales',
+        'name' => 'sales',
+        'icon' => 'bi bi-cart3',
+        'order' => 1,
+        'permission' => 'order_management_read',
+        'children' => [
+            [
+                'label' => 'Orders',
+                'name' => 'orders',
+                'icon' => 'bi bi-layout-split',
+                'route' => 'order.index',
+                'order' => 1,
+                'parent' => 'sales',
+            ],
+            [
+                'label' => 'Drafts',
+                'name' => 'drafts',
+                'icon' => 'bi bi-layout-split',
+                'route' => 'order-draft.index',
+                'order' => 2,
+                'parent' => 'sales',
+            ],
+            [
+                'label' => 'Abandoned checkouts',
+                'name' => 'abandoned-checkouts',
+                'icon' => 'bi bi-layout-split',
+                'route' => 'checkout.index',
+                'order' => 3,
+                'parent' => 'sales',
+            ],
+        ],
+    ],
+    [
+        'label' => 'Products',
+        'name' => 'products',
+        'icon' => 'bi bi-journal-album',
+        'order' => 2,
+        'permission' => 'product_management_read',
+        'children' => [
+            [
+                'label' => 'Inventory',
+                'name' => 'inventory',
+                'icon' => 'bi bi-layout-split',
+                'route' => 'product.index',
+                'order' => 1,
+                'parent' => 'products',
+            ],
+            [
+                'label' => 'Categories',
+                'name' => 'categories',
+                'icon' => 'bi bi-layout-split',
+                'route' => 'category.index',
+                'order' => 2,
+                'parent' => 'products',
+            ],
+            [
+                'label' => 'Manufacturers',
+                'name' => 'manufacturers',
+                'icon' => 'bi bi-layout-split',
+                'route' => 'manufacturer.index',
+                'order' => 3,
+                'parent' => 'products',
+            ],
+        ],
+    ],
+    [
+        'label' => 'Customers',
+        'name' => 'customers',
+        'icon' => 'bi bi-people',
+        'order' => 3,
+        'permission' => 'user_management_read',
+        'children' => [
+            [
+                'label' => 'Customers',
+                'name' => 'customers',
+                'icon' => 'bi bi-layout-split',
+                'route' => 'customer.index',
+                'order' => 1,
+                'parent' => 'customers',
+            ],
+            [
+                'label' => 'Customer roles',
+                'name' => 'customer-roles',
+                'icon' => 'bi bi-layout-split',
+                'route' => 'role.index',
+                'order' => 2,
+                'parent' => 'customers',
+            ],
+        ],
+    ],
+    [
+        'label' => 'Promotions',
+        'name' => 'promotions',
+        'icon' => 'bi bi-tags',
+        'order' => 4,
+        'permission' => 'coupon_management_read',
+        'children' => [
+            [
+                'label' => 'Coupons',
+                'name' => 'coupons',
+                'icon' => 'bi bi-layout-split',
+                'route' => 'coupon.index',
+                'order' => 1,
+                'parent' => 'promotions',
+            ],
+            [
+                'label' => 'Custom mail',
+                'name' => 'custom-mail',
+                'icon' => 'bi bi-layout-split',
+                'route' => 'sendmail.create',
+                'order' => 1,
+                'parent' => 'promotions',
+            ],
+        ],
+    ],
+    [
+        'label' => 'Content management',
+        'name' => 'cms',
+        'icon' => 'bi bi-body-text',
+        'order' => 5,
+        'permission' => 'page_management_read',
+        'children' => [
+            [
+                'label' => 'Pages',
+                'name' => 'pages',
+                'icon' => 'bi bi-layout-split',
+                'route' => 'page.index',
+                'order' => 1,
+                'parent' => 'cms',
+            ],
+            [
+                'label' => 'Footer',
+                'name' => 'footer',
+                'icon' => 'bi bi-layout-split',
+                'route' => 'footer.index',
+                'order' => 2,
+                'parent' => 'cms',
+            ],
+        ],
+    ],
+    [
+        'label' => 'Settings',
+        'name' => 'settings',
+        'icon' => 'bi bi-gear',
+        'order' => 6,
+        'permission' => 'setting_management_read',
+        'children' => [
+            [
+                'label' => 'Basic',
+                'name' => 'basic',
+                'icon' => 'bi bi-layout-split',
+                'route' => 'setting.index',
+                'order' => 1,
+                'parent' => 'settings',
+            ],
+            [
+                'label' => 'Shipping',
+                'name' => 'shipping',
+                'icon' => 'bi bi-layout-split',
+                'route' => 'shipping.index',
+                'order' => 2,
+                'parent' => 'settings',
+            ],
+            [
+                'label' => 'Payment method',
+                'name' => 'payment-method',
+                'icon' => 'bi bi-layout-split',
+                'route' => 'payment-provider.index',
+                'order' => 3,
+                'parent' => 'settings',
+            ],
+            [
+                'label' => 'Order status',
+                'name' => 'order-status',
+                'icon' => 'bi bi-layout-split',
+                'route' => 'status.index',
+                'order' => 4,
+                'parent' => 'settings',
+            ],
+            [
+                'label' => 'Plugins',
+                'name' => 'plugins',
+                'icon' => 'bi bi-layout-split',
+                'route' => 'plugin.index',
+                'order' => 4,
+                'parent' => 'settings',
+            ],
+        ],
+    ],
+];
+
+?>
+
 <div>
     @if (in_array(auth()->user()->type, ['admin', 'su_admin']))
         @php
@@ -55,231 +251,47 @@
                                 </div>
                             </div>
                         </li> --}}
-                        @can('order_management_read')
-                            <li>
-                                <a class="nav-link sidebar-link px-3" data-bs-toggle="collapse" href="#sales"
-                                    role="button" aria-expanded="false" aria-controls="sales">
-                                    <span class="me-2"><i class="bi bi-cart3"></i></span>
-                                    <span>Sales</span>
-                                    <span class="right-icon ms-auto">
-                                        <i class="bi bi-chevron-down"></i>
-                                    </span>
-                                </a>
-                                <div class="collapse" id="sales">
-                                    <div>
-                                        <ul class="navbar-nav ps-3">
-                                            <li>
-                                                <a href="{{ route('order.index') }}" class="nav-link px-3">
-                                                    <span class="me-2"><i class="bi bi-layout-split"></i></span>
-                                                    <span>Orders</span>
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href="{{ route('order-draft.index') }}" class="nav-link px-3">
-                                                    <span class="me-2"><i class="bi bi-layout-split"></i></span>
-                                                    <span>Drafts</span>
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href="{{ route('checkout.index') }}" class="nav-link px-3">
-                                                    <span class="me-2"><i class="bi bi-layout-split"></i></span>
-                                                    <span>Abandoned checkouts</span>
-                                                </a>
-                                            </li>
 
-                                        </ul>
+                        @foreach ($menus as $item)
+                            @can($item['permission'])
+                                <li>
+                                    <a class="nav-link sidebar-link px-3" data-bs-toggle="collapse"
+                                        href="#{{ $item['name'] }}" role="button" aria-expanded="false"
+                                        aria-controls="{{ $item['name'] }}">
+                                        <span class="me-2"><i class="bi bi-cart3"></i></span>
+                                        <span>{{ $item['label'] }}</span>
+                                        <span class="right-icon ms-auto">
+                                            <i class="bi bi-chevron-down"></i>
+                                        </span>
+                                    </a>
+                                    <div class="collapse" id="{{ $item['name'] }}">
+                                        <div>
+                                            <ul class="navbar-nav ps-3">
+                                                @if (isset($item['children']) && count($item['children']) > 0)
+                                                    @foreach ($item['children'] as $child)
+                                                        {{-- @can($child['permission']) --}}
+                                                        <li>
+                                                            <a href="{{ route($child['route']) }}" class="nav-link px-3">
+                                                                <span class="me-2"><i
+                                                                        class="bi bi-layout-split"></i></span>
+                                                                <span>{{ $child['label'] }}</span>
+                                                            </a>
+                                                        </li>
+                                                        {{-- @endcan --}}
+                                                    @endforeach
+                                                @endif
+                                            </ul>
+                                        </div>
                                     </div>
-                                </div>
-                            </li>
-                        @endcan
+                                </li>
+                            @endcan
+                        @endforeach
 
-                        @can('product_management_read')
-                            <li>
-                                <a class="nav-link sidebar-link px-3" data-bs-toggle="collapse" href="#products"
-                                    role="button" aria-expanded="false" aria-controls="products">
-                                    <span class="me-2"><i class="bi bi-journal-album"></i></span>
-                                    <span>Products</span>
-                                    <span class="right-icon ms-auto">
-                                        <i class="bi bi-chevron-down"></i>
-                                    </span>
-                                </a>
-                                <div class="collapse" id="products">
-                                    <div>
-                                        <ul class="navbar-nav ps-3">
-                                            <li>
-                                                <a href="{{ route('product.index') }}" class="nav-link px-3">
-                                                    <span class="me-2"><i class="bi bi-layout-split"></i></span>
-                                                    <span>Inventory</span>
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href="{{ route('category.index') }}" class="nav-link px-3">
-                                                    <span class="me-2"><i class="bi bi-layout-split"></i></span>
-                                                    <span>Categories</span>
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href="{{ route('manufacturer.index') }}" class="nav-link px-3">
-                                                    <span class="me-2"><i class="bi bi-layout-split"></i></span>
-                                                    <span>Manufacturers</span>
-                                                </a>
-                                            </li>
 
-                                        </ul>
-                                    </div>
-                                </div>
-                            </li>
-                        @endcan
-
-                        @can('user_management_read')
-                            <li>
-                                <a class="nav-link sidebar-link px-3" data-bs-toggle="collapse" href="#customer"
-                                    role="button" aria-expanded="false" aria-controls="customer">
-                                    <span class="me-2"><i class="bi bi-people"></i></i></span>
-                                    <span>Customers</span>
-                                    <span class="right-icon ms-auto">
-                                        <i class="bi bi-chevron-down"></i>
-                                    </span>
-                                </a>
-                                <div class="collapse" id="customer">
-                                    <div>
-                                        <ul class="navbar-nav ps-3">
-                                            <li>
-                                                <a href="{{ route('customer.index') }}" class="nav-link px-3">
-                                                    <span class="me-2"><i class="bi bi-layout-split"></i></span>
-                                                    <span>Customers</span>
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href="{{ route('role.index') }}" class="nav-link px-3">
-                                                    <span class="me-2"><i class="bi bi-layout-split"></i></span>
-                                                    <span>Customer roles</span>
-                                                </a>
-                                            </li>
-
-                                        </ul>
-                                    </div>
-                                </div>
-                            </li>
-                        @endcan
-
-                        @can('coupon_management_read')
-                            <li>
-                                <a class="nav-link sidebar-link px-3" data-bs-toggle="collapse" href="#promotion"
-                                    role="button" aria-expanded="false" aria-controls="promotion">
-                                    <span class="me-2"><i class="bi bi-tags"></i></i></span>
-                                    <span>Promotions</span>
-                                    <span class="right-icon ms-auto">
-                                        <i class="bi bi-chevron-down"></i>
-                                    </span>
-                                </a>
-                                <div class="collapse" id="promotion">
-                                    <div>
-                                        <ul class="navbar-nav ps-3">
-                                            <li>
-                                                <a href="{{ route('coupon.index') }}" class="nav-link px-3">
-                                                    <span class="me-2"><i class="bi bi-layout-split"></i></span>
-                                                    <span>Coupons</span>
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href="{{ route('sendmail.create') }}" class="nav-link px-3">
-                                                    <span class="me-2"><i class="bi bi-layout-split"></i></span>
-                                                    <span>Custom mail</span>
-                                                </a>
-                                            </li>
-
-                                        </ul>
-                                    </div>
-                                </div>
-                            </li>
-                        @endcan
-
-                        @can('page_management_read')
-                            <li>
-                                <a class="nav-link sidebar-link px-3" data-bs-toggle="collapse" href="#cms"
-                                    role="button" aria-expanded="false" aria-controls="cms">
-                                    <span class="me-2"><i class="bi bi-body-text"></i></i></span>
-                                    <span>Content management</span>
-                                    <span class="right-icon ms-auto">
-                                        <i class="bi bi-chevron-down"></i>
-                                    </span>
-                                </a>
-                                <div class="collapse" id="cms">
-                                    <div>
-                                        <ul class="navbar-nav ps-3">
-                                            <li>
-                                                <a href="{{ route('page.index') }}" class="nav-link px-3">
-                                                    <span class="me-2"><i class="bi bi-layout-split"></i></span>
-                                                    <span>Pages</span>
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href="{{ route('footer.index') }}" class="nav-link px-3">
-                                                    <span class="me-2"><i class="bi bi-layout-split"></i></span>
-                                                    <span>Footer</span>
-                                                </a>
-                                            </li>
-
-                                        </ul>
-                                    </div>
-                                </div>
-                            </li>
-                        @endcan
-
-                        @can('setting_management_read')
-                            <li>
-                                <a class="nav-link sidebar-link px-3" data-bs-toggle="collapse" href="#settings"
-                                    role="button" aria-expanded="false" aria-controls="settings">
-                                    <span class="me-2"><i class="bi bi-gear"></i></span>
-                                    <span>Settings</span>
-                                    <span class="right-icon ms-auto">
-                                        <i class="bi bi-chevron-down"></i>
-                                    </span>
-                                </a>
-                                <div class="collapse" id="settings">
-                                    <div>
-                                        <ul class="navbar-nav ps-3">
-                                            <li>
-                                                <a href="{{ route('setting.index') }}" class="nav-link px-3">
-                                                    <span class="me-2"><i class="bi bi-layout-split"></i></span>
-                                                    <span>Basic</span>
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href="{{ route('shipping.index') }}" class="nav-link px-3">
-                                                    <span class="me-2"><i class="bi bi-layout-split"></i></span>
-                                                    <span>Shipping</span>
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href="{{ route('payment-provider.index') }}" class="nav-link px-3">
-                                                    <span class="me-2"><i class="bi bi-layout-split"></i></span>
-                                                    <span>Payment method</span>
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href="{{ route('status.index') }}" class="nav-link px-3">
-                                                    <span class="me-2"><i class="bi bi-layout-split"></i></span>
-                                                    <span>Order status</span>
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href="{{ route('plugin.index') }}" class="nav-link px-3">
-                                                    <span class="me-2"><i class="bi bi-layout-split"></i></span>
-                                                    <span>Plugins</span>
-                                                </a>
-                                            </li>
-
-                                        </ul>
-                                    </div>
-                                </div>
-                            </li>
-                        @endcan
 
                         <li>
-                            <a class="nav-link sidebar-link px-3" target="__blank"
-                                href="{{ env('CLIENT_APP_URL') }}" role="button">
+                            <a class="nav-link sidebar-link px-3" target="__blank" href="{{ env('CLIENT_APP_URL') }}"
+                                role="button">
                                 <span class="me-2"><i class="bi bi-shop"></i></span>
                                 <span>View store</span>
                                 <span class="right-icon ms-auto">
