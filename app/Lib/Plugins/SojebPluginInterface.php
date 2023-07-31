@@ -8,24 +8,24 @@ interface SojebPluginInterface
     /**
      * Invoke when Init plugin
      */
-    public static function onInit();
+    public function onInit();
 
     /**
      * Invoke when Install plugin
      */
-    public static function onInstall();
+    public function onInstall();
     /**
      * Invoke when Uninstall plugin
      */
-    public static function onUninstall();
+    public function onUninstall();
 
     /**
      * Invoke when Activate plugin
      */
-    public static function onActivate();
+    public function onActivate();
 
     /**
      * Invoke when Deactivate plugin
      */
-    public static function onDeactivate();
+    public function onDeactivate();
 }

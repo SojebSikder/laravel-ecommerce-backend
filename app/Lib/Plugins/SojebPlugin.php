@@ -22,33 +22,46 @@ abstract class SojebPlugin
     public $status = 0; // plugin status
 
 
-    private static $menus = [];
+    private $menus = [];
+    private $routes = [];
 
     /// add menu
-    public static function addMenu($menu)
+    public function addMenu($menu)
     {
-        self::$menus[] = $menu;
+        $this->menus[] = $menu;
 
         // sort menu
-        usort(self::$menus, function ($a, $b) {
+        usort($this->menus, function ($a, $b) {
             return $a['order'] <=> $b['order'];
         });
     }
 
     /// get menus
-    public static function getMenus()
+    public function getMenus()
     {
-        return self::$menus;
+        return $this->menus;
     }
 
-    /// get menu by name
-    public static function getMenu($name)
+    // get menu by name
+    public function getMenu($name)
     {
-        foreach (self::$menus as $menu) {
+        foreach ($this->menus as $menu) {
             if ($menu['name'] == $name) {
                 return $menu;
             }
         }
         return null;
+    }
+
+    // add route
+    public function addRoute($route)
+    {
+        $this->routes[] = $route;
+    }
+
+    // get routes
+    public function getRoutes()
+    {
+        return $this->routes;
     }
 }

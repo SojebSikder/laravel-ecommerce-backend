@@ -14,7 +14,7 @@ class Com_sojebsikder_helloworld_plugin extends SojebPlugin implements SojebPlug
         $this->version = "1.0";
     }
 
-    public static function onInit()
+    public function onInit()
     {
         // add menu
         $menu = [
@@ -24,28 +24,34 @@ class Com_sojebsikder_helloworld_plugin extends SojebPlugin implements SojebPlug
             'order' => 1,
             'parent' => 'dashboard',
         ];
-        self::addMenu($menu);
+        $this->addMenu($menu);
 
         // add route
-        Route::get('hello-world', function () {
-            return "Hello World";
-            // return view('com.sojebsikder.helloworld::index');
-        });
+        $route = [
+            'name' => 'hello-world',
+            'route' => 'hello-world',
+            'method' => 'get',
+            'callback' => function () {
+                return "Hello World";
+                // return view('com.sojebsikder.helloworld::index');
+            },
+        ];
+        $this->addRoute($route);
     }
 
-    public static function onInstall()
+    public function onInstall()
     {
     }
 
-    public static function onUninstall()
+    public function onUninstall()
     {
     }
 
-    public static function onActivate()
+    public function onActivate()
     {
     }
 
-    public static function onDeactivate()
+    public function onDeactivate()
     {
     }
 }

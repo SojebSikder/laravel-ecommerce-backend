@@ -212,7 +212,8 @@ class SojebPluginManager
                 $plugin->onInit();
 
                 // add plugin menus
-                
+                // $menus = $plugin->getMenus();
+                // $routes = $plugin->getRoutes();
             }
         }
     }
