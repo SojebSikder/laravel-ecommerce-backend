@@ -18,25 +18,20 @@ class Com_sojebsikder_helloworld_plugin extends SojebPlugin implements SojebPlug
     {
         // add menu
         $menu = [
-            'name' => 'Hello World',
+            'name' => 'HelloWorld',
             'icon' => 'fa fa-home',
             'route' => 'hello-world',
             'order' => 1,
-            'parent' => 'dashboard',
+            'parent' => 'Sales',
         ];
         $this->addMenu($menu);
+    }
 
-        // add route
-        $route = [
-            'name' => 'hello-world',
-            'route' => 'hello-world',
-            'method' => 'get',
-            'callback' => function () {
-                return "Hello World";
-                // return view('com.sojebsikder.helloworld::index');
-            },
-        ];
-        $this->addRoute($route);
+    public function setupRoutes()
+    {
+        Route::get('hello-world', function () {
+            return "Hello World";
+        });
     }
 
     public function onInstall()

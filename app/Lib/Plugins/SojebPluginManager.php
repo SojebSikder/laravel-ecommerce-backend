@@ -217,4 +217,15 @@ class SojebPluginManager
             }
         }
     }
+
+    public static function setupRoutes()
+    {
+        $plugins = self::getPlugins();
+
+        foreach ($plugins as $plugin) {
+            if ($plugin->status == 1) {
+                $plugin->setupRoutes();
+            }
+        }
+    }
 }

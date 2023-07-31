@@ -28,4 +28,10 @@ interface SojebPluginInterface
      * Invoke when Deactivate plugin
      */
     public function onDeactivate();
+
+    /**
+     * Setup routes
+     * Invoke when plugin setup routes in web.php
+     */
+    public function setupRoutes();
 }
