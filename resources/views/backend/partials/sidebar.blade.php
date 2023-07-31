@@ -192,6 +192,39 @@ $menus = [
     ],
 ];
 
+// plugin menus
+$plugins = SojebPluginManager::getPlugins();
+foreach ($plugins as $plugin) {
+    if ($plugin->status == 1) {
+        $plugin->onInit();
+        $pluginMenus = $plugin->getMenus();
+        if ($pluginMenus) {
+            // insert plugin menus into specific position based on parent and order
+            foreach ($pluginMenus as $pluginMenu) {
+                $parent = $pluginMenu['parent'];
+                $order = $pluginMenu['order'];
+                $index = 0;
+                foreach ($menus as $menu) {
+                    if ($menu['name'] == $parent) {
+                        if (isset($menu['children'])) {
+                            $menu['children'] = array_merge(array_slice($menu['children'], 0, $order - 1), [$pluginMenu], array_slice($menu['children'], $order - 1));
+                        } else {
+                            $menu['children'] = [$pluginMenu];
+                        }
+                        $menus[$index] = $menu;
+                        break;
+                    }
+
+                    $index++;
+                }
+
+                // $menus = array_merge(array_slice($menus, 0, $index + 1), [$pluginMenu], array_slice($menus, $index + 1));
+            }
+        }
+    }
+}
+// end plugin menus
+
 ?>
 
 <div>

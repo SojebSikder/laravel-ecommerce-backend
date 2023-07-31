@@ -19,11 +19,12 @@ class Com_sojebsikder_helloworld_plugin extends SojebPlugin implements SojebPlug
     {
         // add menu
         $menu = [
+            'label' => 'Hello World',
             'name' => 'HelloWorld',
-            'icon' => 'fa fa-home',
-            'route' => 'hello-world',
+            'icon' => 'bi bi-layout-split',
+            'route' => 'hello',
             'order' => 1,
-            'parent' => 'Sales',
+            'parent' => 'sales',
         ];
         $this->addMenu($menu);
     }
@@ -32,9 +33,6 @@ class Com_sojebsikder_helloworld_plugin extends SojebPlugin implements SojebPlug
     {
         view()->addNamespace('my_views', __DIR__ . '/views');
 
-        Route::get('hello-world', function () {
-            return "Hello World";
-        });
         Route::get('hello', function () {
             return view('my_views::index');
         })->name('hello');
