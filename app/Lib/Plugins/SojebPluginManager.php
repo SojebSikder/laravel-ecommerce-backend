@@ -213,6 +213,8 @@ class SojebPluginManager
         return null;
     }
 
+    // private $pluginMenus = [];
+
     // public static function initPlugin()
     // {
     //     $plugins = self::getPlugins();
@@ -223,7 +225,6 @@ class SojebPluginManager
 
     //             // add plugin menus
     //             // $menus = $plugin->getMenus();
-    //             // $routes = $plugin->getRoutes();
     //         }
     //     }
     // }

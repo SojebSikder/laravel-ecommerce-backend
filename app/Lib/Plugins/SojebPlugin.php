@@ -22,7 +22,6 @@ abstract class SojebPlugin
 
 
     private $menus = [];
-    private $routes = [];
 
     /// add menu
     public function addMenu($menu)
@@ -50,17 +49,5 @@ abstract class SojebPlugin
             }
         }
         return null;
-    }
-
-    // add route
-    public function addRoute($route)
-    {
-        $this->routes[] = $route;
-    }
-
-    // get routes
-    public function getRoutes()
-    {
-        return $this->routes;
     }
 }
