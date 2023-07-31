@@ -1,7 +1,7 @@
 @extends('backend.master')
 
 @section('title')
-    Categories
+    Plugins
 @endsection
 
 @section('style')
@@ -40,7 +40,7 @@
                         <div class="card">
                             <div class="card-header">
 
-                                <a href="{{ route('category.create') }}" class="btn btn-sm btn-primary float-end mr-4 mt-3">
+                                <a href="{{ route('plugin.create') }}" class="btn btn-sm btn-primary float-end mr-4 mt-3">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                         viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                                         stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus">
@@ -73,7 +73,10 @@
                                         <tbody>
                                             @foreach ($plugins as $plugin)
                                                 <tr>
-                                                    <td>{{ $plugin->package }} - {{ $plugin->version }}</td>
+                                                    <td>{{ $plugin->package }} - {{ $plugin->version }} <br />
+                                                        <small>{{ $plugin->description }}</small>
+
+                                                    </td>
                                                     <td>{{ $plugin->name }}</td>
                                                     @if ($plugin->status == 1)
                                                         <td class="text-center">

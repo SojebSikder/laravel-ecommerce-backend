@@ -128,30 +128,30 @@ class SojebPluginManager
             if (file_exists($pluginFile)) {
                 require_once $pluginFile;
                 // replace '.' with '' in plugin name
-                $pluginDir = str_replace('.', '', $pluginDir);
+                $pluginDir = str_replace('.', '_', $pluginDir);
 
-                $pluginClass = ucfirst($pluginDir) . '_Plugin';
+                $pluginClass = ucfirst($pluginDir) . '_plugin';
                 $plugin = new $pluginClass();
 
-                self::savePluginInfo($plugin, [
-                    'package' => $plugin->package,
-                    'name' => $plugin->name,
-                    'description' => $plugin->description,
-                    'version' => $plugin->version,
-                    'author' => $plugin->author,
-                    'website' => $plugin->website,
-                    'copy_right' => $plugin->copyRight,
-                    'license' => $plugin->license,
-                    'help' => $plugin->help,
-                    'icon' => $plugin->icon,
-                    'status' => $plugin->status,
-                ]);
-                $pluginInfo = self::getPluginInfo($plugin->package);
-                if ($pluginInfo) {
-                    $plugin->status == 1;
-                } else {
-                    $plugin->status == 0;
-                }
+                // self::savePluginInfo($plugin, [
+                //     'package' => $plugin->package,
+                //     'name' => $plugin->name,
+                //     'description' => $plugin->description,
+                //     'version' => $plugin->version,
+                //     'author' => $plugin->author,
+                //     'website' => $plugin->website,
+                //     'copy_right' => $plugin->copyRight,
+                //     'license' => $plugin->license,
+                //     'help' => $plugin->help,
+                //     'icon' => $plugin->icon,
+                //     'status' => $plugin->status,
+                // ]);
+                // $pluginInfo = self::getPluginInfo($plugin->package);
+                // if ($pluginInfo) {
+                //     $plugin->status == 1;
+                // } else {
+                //     $plugin->status == 0;
+                // }
                 // $plugin->status = self::isPluginActive($plugin->package);
                 $plugins[] = $plugin;
             }
