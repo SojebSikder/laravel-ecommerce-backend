@@ -2,6 +2,7 @@
 
 use App\Lib\Plugins\SojebPlugin;
 use App\Lib\Plugins\SojebPluginInterface;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 class Com_sojebsikder_helloworld_plugin extends SojebPlugin implements SojebPluginInterface
@@ -36,7 +37,14 @@ class Com_sojebsikder_helloworld_plugin extends SojebPlugin implements SojebPlug
         });
         Route::get('hello', function () {
             return view('my_views::index');
-        });
+        })->name('hello');
+        Route::post('hello', function (Request $request) {
+            $num1 = $request->input('num1');
+            $num2 = $request->input('num2');
+            $calc = $num1 + $num2;
+
+            return back()->with('result', 'The sum is ' . $calc);
+        })->name('hello');
     }
 
     public function onInstall()
