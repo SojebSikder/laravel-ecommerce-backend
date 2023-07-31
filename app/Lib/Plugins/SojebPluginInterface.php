@@ -6,7 +6,7 @@ interface SojebPluginInterface
 {
 
     /**
-     * Invoke when Init plugin
+     * Invoke when Init plugin, in sidebar menu
      */
     public function onInit();
 
@@ -14,6 +14,7 @@ interface SojebPluginInterface
      * Invoke when Install plugin
      */
     public function onInstall();
+    
     /**
      * Invoke when Uninstall plugin
      */
