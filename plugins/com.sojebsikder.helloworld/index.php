@@ -20,9 +20,9 @@ class Com_sojebsikder_helloworld_plugin extends SojebPlugin implements SojebPlug
         // add menu
         $menu = [
             'label' => 'Calculator (Plugin example)',
-            'name' => 'HelloWorld',
+            'name' => 'Calculator',
             'icon' => 'bi bi-layout-split',
-            'route' => 'hello',
+            'route' => 'calculator',
             'order' => 4,
             'parent' => 'sales',
         ];
@@ -33,16 +33,17 @@ class Com_sojebsikder_helloworld_plugin extends SojebPlugin implements SojebPlug
     {
         view()->addNamespace('my_views', __DIR__ . '/views');
 
-        Route::get('hello', function () {
+        Route::get('calculator', function () {
             return view('my_views::index');
-        })->name('hello');
-        Route::post('hello', function (Request $request) {
+        })->name('calculator');
+
+        Route::post('calculate', function (Request $request) {
             $num1 = $request->input('num1');
             $num2 = $request->input('num2');
             $calc = $num1 + $num2;
 
             return back()->with('result', 'The sum is ' . $calc);
-        })->name('hello');
+        })->name('calculate');
     }
 
     public function onDelete()

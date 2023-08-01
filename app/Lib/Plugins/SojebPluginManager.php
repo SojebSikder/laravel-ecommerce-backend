@@ -6,6 +6,30 @@ class SojebPluginManager
 {
     private static $pluginMenus = [];
 
+    // upload plugin
+    public static function uploadPlugin($file)
+    {
+        try {
+            //code...
+
+            $pluginPath = base_path('plugins');
+
+            $file = $file;
+            $filename = $file->getClientOriginalName();
+            $file->move($pluginPath, $filename);
+
+            $zip = new \ZipArchive();
+            $zip->open(base_path('plugins/' . $filename));
+            $zip->extractTo($pluginPath);
+            $zip->close();
+
+            unlink(base_path('plugins/' . $filename));
+
+            return $filename;
+        } catch (\Throwable $th) {
+            throw $th;
+        }
+    }
 
     // save plugin information
     public static function savePluginInfo($plugin, $data = [])

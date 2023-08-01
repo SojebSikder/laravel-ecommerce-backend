@@ -286,7 +286,7 @@ if ($pluginMenus) {
                                     <a class="nav-link sidebar-link px-3" data-bs-toggle="collapse"
                                         href="#{{ $item['name'] }}" role="button" aria-expanded="false"
                                         aria-controls="{{ $item['name'] }}">
-                                        <span class="me-2"><i class="bi bi-cart3"></i></span>
+                                        <span class="me-2"><i class="{{ $item['icon'] }}"></i></span>
                                         <span>{{ $item['label'] }}</span>
                                         <span class="right-icon ms-auto">
                                             <i class="bi bi-chevron-down"></i>

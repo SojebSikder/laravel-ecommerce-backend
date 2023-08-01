@@ -1,6 +1,24 @@
 # jeckmarket-backend
 
-An ecommerce application backend with plugin architecture.
+Laravel E-commerce application backend with plugin architecture.
+
+# Setup
+
+Enable zip extension from php.ini
+
+# Install
+
+Install Laravel packages
+
+```
+composer install
+```
+
+# Running
+
+```
+php artisan serve
+```
 
 ## Guide for plugin development
 

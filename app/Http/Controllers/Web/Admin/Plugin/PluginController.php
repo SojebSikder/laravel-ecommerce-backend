@@ -81,22 +81,20 @@ class PluginController extends Controller
 
     public function upload(Request $request)
     {
-        $request->validate([
-            'plugin' => 'required|mimes:zip'
-        ]);
+        try {
+            $request->validate([
+                'plugin' => 'required|mimes:zip'
+            ]);
 
-        $file = $request->file('plugin');
-        $filename = $file->getClientOriginalName();
-        $file->move(public_path('plugins'), $filename);
+            $file = $request->file('plugin');
 
-        $zip = new \ZipArchive();
-        $zip->open(public_path('plugins/' . $filename));
-        $zip->extractTo(public_path('plugins'));
-        $zip->close();
+            $plugin = SojebPluginManager::uploadPlugin($file);
 
-        unlink(public_path('plugins/' . $filename));
-
-        return back()->with('success', 'Plugin uploaded successfully');
+            return back()->with('success', 'Plugin uploaded successfully');
+        } catch (\Throwable $th) {
+            return back()->with('warning', $th->getMessage());
+            // throw $th;
+        }
     }
 
     /**
@@ -183,6 +181,5 @@ class PluginController extends Controller
         } catch (\Throwable $th) {
             return back()->with('warning', $th->getMessage());
         }
-
     }
 }

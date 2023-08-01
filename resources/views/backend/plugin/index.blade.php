@@ -40,7 +40,7 @@
                         <div class="card">
                             <div class="card-header">
 
-                                <a href="{{ route('plugin.create') }}" class="btn btn-sm btn-primary float-end mr-4 mt-3">
+                                {{-- <a href="{{ route('plugin.create') }}" class="btn btn-sm btn-primary float-end mr-4 mt-3">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                         viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                                         stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus">
@@ -48,13 +48,27 @@
                                         <line x1="5" y1="12" x2="19" y2="12"></line>
                                     </svg>
                                     Add plugin
-                                </a>
+                                </a> --}}
 
-                                {{-- search --}}
-                                <form method="get">
+                                {{-- upload plugins --}}
+                                <form class="float-end" method="post" action="{{ route('plugin.upload') }}"
+                                    enctype="multipart/form-data">
+                                    @csrf
                                     <div>
-                                        <input class="form-control-sm float-end me-3 mt-3" name="q"
-                                            value="{{ request('q') }}" type="text" placeholder="search">
+                                        <input type="file" name="plugin" class="form-control-sm float-end me-3 mt-3" />
+                                    </div>
+                                    <div>
+                                        <button type="submit" href="{{ route('plugin.create') }}"
+                                            class="btn btn-sm btn-primary mr-4 mt-3">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                                stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus">
+                                                <line x1="12" y1="5" x2="12" y2="19"></line>
+                                                <line x1="5" y1="12" x2="19" y2="12"></line>
+                                            </svg>
+                                            Upload plugin
+                                        </button>
+
                                     </div>
                                 </form>
 
@@ -95,23 +109,6 @@
                                                     @endif
                                                     <td class="text-center">
                                                         <ul class="table-controls">
-                                                            <li>
-                                                                <a class="btn btn-sm btn-primary"
-                                                                    href="{{ route('plugin.edit', $plugin->package) }}"
-                                                                    data-bs-toggle="tooltip" data-bs-placement="top"
-                                                                    title="" data-bs-title="Edit">
-                                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24"
-                                                                        height="24" viewBox="0 0 24 24" fill="none"
-                                                                        stroke="currentColor" stroke-width="2"
-                                                                        stroke-linecap="round" stroke-linejoin="round"
-                                                                        class="feather feather-edit-2 br-6 mb-1 p-1">
-                                                                        <path
-                                                                            d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z">
-                                                                        </path>
-                                                                    </svg>
-                                                                    Edit
-                                                                </a>
-                                                            </li>
                                                             <li>
                                                                 <a class="btn btn-sm btn-danger" href="javascript:void(0);"
                                                                     onclick="event.preventDefault();
