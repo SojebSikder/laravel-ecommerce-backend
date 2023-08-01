@@ -2,9 +2,29 @@
 
 Laravel E-commerce application backend with plugin architecture.
 
+# Features
+
+-   Sales management
+    -   Order management
+    -   Draft
+    -   Abandoned checkouts
+-   Inventory management
+-   Customer management
+    -   Roles management
+-   Promotions
+    -   Coupons management
+    -   Custom mail
+-   Content management
+    -   Custom page
+-   Shipping
+-   Payment
+-   Order status
+-   Plugin system
+
+And many more.
 # Setup
 
-Enable zip extension from php.ini
+Enable `zip` extension in `php.ini`
 
 # Install
 
@@ -30,8 +50,8 @@ Create new plugin
 
 -   Inside your plugin directory, create `index.php` file.
 
--   create class with convention like this: if your package name like this `com.sojebsikder.demoplugin` then your class name should be `Com_sojebsikder_demoplugin`
-    just replace dot(.) with underscore(\_)
+-   create class with convention like this: if your package name like this `com.sojebsikder.demoplugin` then your class name should be `Com_sojebsikder_demoplugin_plugin`
+    just replace dot(.) with underscore(\_) and add `_plugin`.
     Here is an example of simple plugin:
 
 ```php
@@ -44,13 +64,14 @@ use Illuminate\Support\Facades\Route;
 
 class Com_sojebsikder_helloworld_plugin extends SojebPlugin implements SojebPluginInterface
 {
-public function __construct()
-{
-$this->package = "com.sojebsikder.helloworld";
-$this->name = "Hello World";
-$this->description = "Hello World Plugin";
-$this->version = "1.0";
-}
+
+    public function __construct()
+    {
+        $this->package = "com.sojebsikder.helloworld";
+        $this->name = "Hello World";
+        $this->description = "Hello World Plugin";
+        $this->version = "1.0";
+    }
 
     public function onInit()
     {

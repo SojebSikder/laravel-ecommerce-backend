@@ -50,4 +50,80 @@ abstract class SojebPlugin
         }
         return null;
     }
+
+    /**
+     * Key value store
+     */
+    public function kv(): SojebKV
+    {
+        return new SojebKV(base_path('plugins/' . $this->package . '/' . $this->package . '.json'));
+    }
+}
+
+
+/**
+ * Key value store in json file
+ * @example
+ * $kv = new SojebKV(base_path('plugins/' . $this->package . '.json'));
+ * $kv->set('title', 'Hello world');
+ * echo $kv->get('title');
+ */
+class SojebKV
+{
+    private $file;
+    private $data = [];
+
+    public function __construct($file)
+    {
+        $this->file = $file;
+        $this->load();
+    }
+
+    public function load()
+    {
+        if (file_exists($this->file)) {
+            $this->data = json_decode(file_get_contents($this->file), true);
+        }
+    }
+
+    public function save()
+    {
+        file_put_contents($this->file, json_encode($this->data));
+    }
+
+    public function get($key, $default = null)
+    {
+        if (isset($this->data[$key])) {
+            return $this->data[$key];
+        }
+        return $default;
+    }
+
+    public function has($key)
+    {
+        return isset($this->data[$key]);
+    }
+
+    public function delete($key)
+    {
+        unset($this->data[$key]);
+        $this->save();
+    }
+
+    public function clear()
+    {
+        $this->data = [];
+        $this->save();
+    }
+
+    public function getAll()
+    {
+        return $this->data;
+    }
+
+    public function set($key, $value)
+    {
+        $this->data[$key] = $value;
+        $this->save();
+    }
 }
