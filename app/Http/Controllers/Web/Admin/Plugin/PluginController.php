@@ -92,7 +92,8 @@ class PluginController extends Controller
 
             return back()->with('success', 'Plugin uploaded successfully');
         } catch (\Throwable $th) {
-            throw $th;
+            return back()->with('warning', $th->getMessage());
+            // throw $th;
         }
     }
 
