@@ -86,15 +86,8 @@ class PluginController extends Controller
         ]);
 
         $file = $request->file('plugin');
-        $filename = $file->getClientOriginalName();
-        $file->move(public_path('plugins'), $filename);
 
-        $zip = new \ZipArchive();
-        $zip->open(public_path('plugins/' . $filename));
-        $zip->extractTo(public_path('plugins'));
-        $zip->close();
-
-        unlink(public_path('plugins/' . $filename));
+        $plugin = SojebPluginManager::uploadPlugin($file);
 
         return back()->with('success', 'Plugin uploaded successfully');
     }
@@ -183,6 +176,5 @@ class PluginController extends Controller
         } catch (\Throwable $th) {
             return back()->with('warning', $th->getMessage());
         }
-
     }
 }
