@@ -81,15 +81,19 @@ class PluginController extends Controller
 
     public function upload(Request $request)
     {
-        $request->validate([
-            'plugin' => 'required|mimes:zip'
-        ]);
+        try {
+            $request->validate([
+                'plugin' => 'required|mimes:zip'
+            ]);
 
-        $file = $request->file('plugin');
+            $file = $request->file('plugin');
 
-        $plugin = SojebPluginManager::uploadPlugin($file);
+            $plugin = SojebPluginManager::uploadPlugin($file);
 
-        return back()->with('success', 'Plugin uploaded successfully');
+            return back()->with('success', 'Plugin uploaded successfully');
+        } catch (\Throwable $th) {
+            throw $th;
+        }
     }
 
     /**

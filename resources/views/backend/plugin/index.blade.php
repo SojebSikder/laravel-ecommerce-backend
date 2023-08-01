@@ -51,7 +51,8 @@
                                 </a> --}}
 
                                 {{-- upload plugins --}}
-                                <form class="float-end" method="post" action="{{ route('plugin.upload') }}">
+                                <form class="float-end" method="post" action="{{ route('plugin.upload') }}"
+                                    enctype="multipart/form-data">
                                     @csrf
                                     <div>
                                         <input type="file" name="plugin" class="form-control-sm float-end me-3 mt-3" />
