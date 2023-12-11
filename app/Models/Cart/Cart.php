@@ -6,6 +6,7 @@ use App\Helper\SettingHelper;
 use App\Helper\StringHelper;
 use App\Models\Coupon\TempRedeem;
 use App\Models\Product\Product;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 

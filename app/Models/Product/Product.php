@@ -11,6 +11,25 @@ class Product extends Model
 {
     use HasFactory;
 
+    /**
+     * The attributes that should be hidden for serialization.
+     *
+     * @var array<int, string>
+     */
+    protected $hidden = [
+        'cost_per_item',
+        'quantity',
+        'weight',
+        'weight_unit',
+        'track_quantity',
+        'barcode',
+        'sku',
+        'status',
+        'views',
+        'created_at',
+        'updated_at',
+    ];
+
     protected $appends = ['currency_sign', 'currency_code', 'availability'];
 
     // custom currency attribute
