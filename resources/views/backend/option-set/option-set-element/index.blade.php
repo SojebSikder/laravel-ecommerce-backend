@@ -1,7 +1,7 @@
 @extends('backend.master')
 
 @section('title')
-    Subcategories
+    Option set elements
 @endsection
 
 @section('style')
@@ -31,7 +31,7 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-md-12 fw-bold fs-3">
-                    Subcategories → {{ $category->name }}
+                    Element → {{ $option_set->name }}
                 </div>
             </div>
             <div class="row">
@@ -40,15 +40,15 @@
                         <div class="card">
                             <div class="card-header">
 
-                                <a href="{{ route('category.create') }}?parent_id={{ $category->id }}"
-                                    class="btn btn-sm btn-primary float-end mt-3 mr-4">
+                                <a href="{{ route('element.create') }}/{{ $option_set->id }}"
+                                    class="btn btn-sm btn-primary float-end mr-4 mt-3">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                         viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                                         stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus">
                                         <line x1="12" y1="5" x2="12" y2="19"></line>
                                         <line x1="5" y1="12" x2="19" y2="12"></line>
                                     </svg>
-                                    Create category
+                                    Create element
                                 </a>
 
                             </div>
@@ -57,34 +57,45 @@
                                     <table class="table-bordered table-hover table-striped table" style="width: 100%;">
                                         <thead>
                                             <tr>
-                                                <th>Category</th>
-                                                <th>Slug</th>
-                                                <th>Subcategories</th>
+                                                <th>Type</th>
+                                                <th>Name</th>
+                                                <th>Sorting Order</th>
                                                 <th class="text-center">Status</th>
                                                 <th class="text-center">Actions</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            @foreach ($category->sub_categories as $category)
+                                            @foreach ($option_set_elements as $option_set_element)
                                                 <tr>
-                                                    <td>{{ $category->name }}</td>
-                                                    <td>{{ $category->slug }}</td>
+                                                    <td>{{ $option_set_element->type }}</td>
+                                                    <td>{{ $option_set_element->name }}</td>
                                                     <td>
-                                                        <a href="{{ route('category.subcategory', $category->id) }}"
-                                                            class="btn btn-sm btn-light">
-                                                            {{ count($category->sub_categories) }} subcategories
-                                                        </a>
+                                                        {{-- update sorting order --}}
+                                                        <form method="post"
+                                                            action="{{ route('element.sortingOrder', $option_set_element->id) }}">
+                                                            @csrf
+                                                            @method('PUT')
+                                                            <div class="form-group">
+                                                                <input style="max-width: 130px;" type="number"
+                                                                    class="form-control form-control-sm"
+                                                                    id="sort{{ $option_set_element->id }}" name="sort"
+                                                                    placeholder="sort order"
+                                                                    value="{{ $option_set_element->sort_order }}">
+                                                            </div>
+                                                            <button type="submit"
+                                                                class="btn btn-sm btn-primary">Save</button>
+                                                        </form>
                                                     </td>
-                                                    @if ($category->status == '1')
+                                                    @if ($option_set_element->status == '1')
                                                         <td class="text-center">
-                                                            <a href="{{ route('category.status', $category->id) }}"
+                                                            <a href="{{ route('option-set.status', $option_set_element->id) }}"
                                                                 class="badge bg-primary text-decoration-none shadow-none">
                                                                 Active
                                                             </a>
                                                         </td>
                                                     @else
                                                         <td class="text-center">
-                                                            <a href="{{ route('category.status', $category->id) }}"
+                                                            <a href="{{ route('option-set.status', $option_set_element->id) }}"
                                                                 class="badge bg-warning text-decoration-none shadow-none">
                                                                 Disabled
                                                             </a>
@@ -94,7 +105,7 @@
                                                         <ul class="table-controls">
                                                             <li>
                                                                 <a class="btn btn-sm btn-primary"
-                                                                    href="{{ route('category.edit', $category->id) }}"
+                                                                    href="{{ route('element.edit', $option_set_element->id) }}"
                                                                     data-bs-toggle="tooltip" data-bs-placement="top"
                                                                     title="" data-bs-title="Edit">
                                                                     <svg xmlns="http://www.w3.org/2000/svg" width="24"
@@ -113,7 +124,7 @@
                                                                 <a class="btn btn-sm btn-danger" href="javascript:void(0);"
                                                                     onclick="event.preventDefault();
                                                                     if(confirm('Are you really want to delete?')){
-                                                                    document.getElementById('category-delete-{{ $category->id }}').submit()
+                                                                    document.getElementById('category-delete-{{ $option_set_element->id }}').submit()
                                                                     }"
                                                                     data-bs-toggle="tooltip" data-bs-placement="top"
                                                                     title="" data-bs-title="Delete">
@@ -131,8 +142,8 @@
                                                                 </a>
                                                                 {{-- delete  --}}
                                                                 <form method="post"
-                                                                    action="{{ route('category.destroy', $category->id) }}"
-                                                                    id="{{ 'category-delete-' . $category->id }}">
+                                                                    action="{{ route('option-set.destroy', $option_set_element->id) }}"
+                                                                    id="{{ 'category-delete-' . $option_set_element->id }}">
                                                                     @csrf
                                                                     @method('DELETE')
                                                                 </form>

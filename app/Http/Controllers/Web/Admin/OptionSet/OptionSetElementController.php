@@ -28,7 +28,7 @@ class OptionSetElementController extends Controller
     {
         $option_set = OptionSet::findOrFail($id);
         $elements = OptionSetElement::where('option_set_id', $id)->get();
-        return view('backend.option-set.option-set-element.add', compact('option_set', 'elements'));
+        return view('backend.option-set.option-set-element.create', compact('option_set', 'elements'));
     }
 
     /**
@@ -44,8 +44,8 @@ class OptionSetElementController extends Controller
         $label = $request->input('label');
         $name = $request->input('name');
         $help_text = $request->input('help_text');
-        $is_condition = $request->input('is_condition') == 1 ? "true" : "false";
-        $condition = json_encode($request->input('condition'));
+        $is_condition = $request->input('is_condition') == 1 ? 1 : 0;
+        $condition_data = json_encode($request->input('condition'));
         // text
         $limit = $request->input('limit');
         $placeholder = $request->input('placeholder');
@@ -68,9 +68,9 @@ class OptionSetElementController extends Controller
         $element->help_text = $help_text;
         $element->placeholder = $placeholder;
         if ($is_condition == "true") {
-            $element->condition = $condition;
+            $element->condition_data = $condition_data;
         } else {
-            $element->condition = null;
+            $element->condition_data = null;
         }
         $element->is_condition = $is_condition;
         if ($type == "select") {
@@ -111,7 +111,7 @@ class OptionSetElementController extends Controller
         }
         $element->save();
 
-        return back()->with('sms', 'Element Added Successfully');
+        return back()->with('success', 'Element Added Successfully');
     }
 
     /**
@@ -151,8 +151,8 @@ class OptionSetElementController extends Controller
         $label = $request->input('label');
         $name = $request->input('name');
         $help_text = $request->input('help_text');
-        $is_condition = $request->input('is_condition') == 1 ? "true" : "false";
-        $condition = json_encode($request->input('condition'));
+        $is_condition = $request->input('is_condition') == 1 ? 1 : 0;
+        $condition_data = json_encode($request->input('condition'));
         // text
         $limit = $request->input('limit');
         $placeholder = $request->input('placeholder');
@@ -174,9 +174,9 @@ class OptionSetElementController extends Controller
         $element->help_text = $help_text;
         $element->placeholder = $placeholder;
         if ($is_condition == "true") {
-            $element->condition = $condition;
+            $element->condition_data = $condition_data;
         } else {
-            $element->condition = null;
+            $element->condition_data = null;
         }
         $element->is_condition = $is_condition;
         if ($type == "select") {
@@ -217,7 +217,7 @@ class OptionSetElementController extends Controller
         }
         $element->save();
 
-        return back()->with('sms', 'Element Updated Successfully');
+        return back()->with('success', 'Element Updated Successfully');
     }
 
     // create duplicate element
@@ -229,7 +229,7 @@ class OptionSetElementController extends Controller
         $newElement->name = "new " . $element->name;
         $newElement->save();
 
-        return back()->with('sms', 'Element dupilcated');
+        return back()->with('success', 'Element dupilcated');
     }
 
     public function status($id)
@@ -238,11 +238,11 @@ class OptionSetElementController extends Controller
         if ($element->status == '1') {
             $element->status = 0;
             $element->save();
-            return back()->with('sms', 'Deactivated');
+            return back()->with('success', 'Deactivated');
         } else {
             $element->status = 1;
             $element->save();
-            return back()->with('sms', 'Activated');
+            return back()->with('success', 'Activated');
         }
     }
 
@@ -253,7 +253,7 @@ class OptionSetElementController extends Controller
 
         $element->sort_order = $sortValue;
         $element->save();
-        return back()->with('sms', 'Element sorted');
+        return back()->with('success', 'Element sorted');
     }
 
     /**
@@ -266,6 +266,6 @@ class OptionSetElementController extends Controller
     {
         $element = OptionSetElement::where('id', $id)->first();
         $element->delete();
-        return back()->with('sms', 'Element Deleted Successfully');
+        return back()->with('success', 'Element Deleted Successfully');
     }
 }

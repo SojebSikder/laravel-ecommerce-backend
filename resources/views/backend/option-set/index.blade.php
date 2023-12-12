@@ -109,6 +109,7 @@
                                             <tr>
                                                 <th>Option Set</th>
                                                 <th>Description</th>
+                                                <th>Option set elements</th>
                                                 <th class="text-center">Status</th>
                                                 <th class="text-center">Actions</th>
                                             </tr>
@@ -118,138 +119,155 @@
                                                 <tr>
                                                     <td>{{ $option_set->name }}</td>
                                                     <td>{{ $option_set->description }}</td>
-                                                    @if ($option_set->status == 1)
-                                                        <td class="text-center">
-                                                            <a href="{{ route('option-set.status', $option_set->id) }}"
-                                                                class="badge bg-primary text-decoration-none shadow-none">
-                                                                Active
-                                                            </a>
-                                                        </td>
-                                                    @else
-                                                        <td class="text-center">
-                                                            <a href="{{ route('option-set.status', $option_set->id) }}"
-                                                                class="badge bg-warning text-decoration-none shadow-none">
-                                                                Disabled
-                                                            </a>
-                                                        </td>
-                                                    @endif
+                                                    <td>
+                                                        <a href="{{ route('option-set.show', $option_set->id) }}"
+                                                            class="btn btn-sm btn-light">
+                                                            {{ count($option_set->elements) }} elements
+                                                        </a>
+                                                        @if ($option_set->status == 1)
                                                     <td class="text-center">
-                                                        <ul class="table-controls">
-                                                            <li>
-                                                                <a class="btn btn-sm btn-primary"
-                                                                    href="{{ route('option-set.edit', $option_set->id) }}"
-                                                                    data-bs-toggle="modal"
-                                                                    data-bs-target="#optionSetEdit{{ $option_set->id }}"
-                                                                    data-bs-toggle="tooltip" data-bs-placement="top"
-                                                                    title="" data-bs-title="Edit">
-                                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24"
-                                                                        height="24" viewBox="0 0 24 24" fill="none"
-                                                                        stroke="currentColor" stroke-width="2"
-                                                                        stroke-linecap="round" stroke-linejoin="round"
-                                                                        class="feather feather-edit-2 br-6 mb-1 p-1">
-                                                                        <path
-                                                                            d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z">
-                                                                        </path>
-                                                                    </svg>
-                                                                    Edit
-                                                                </a>
-                                                            </li>
-                                                            <li>
-                                                                <a class="btn btn-sm btn-danger"
-                                                                    href="javascript:void(0);"
-                                                                    onclick="event.preventDefault();
+                                                        <a href="{{ route('option-set.status', $option_set->id) }}"
+                                                            class="badge bg-primary text-decoration-none shadow-none">
+                                                            Active
+                                                        </a>
+                                                    </td>
+                                                @else
+                                                    <td class="text-center">
+                                                        <a href="{{ route('option-set.status', $option_set->id) }}"
+                                                            class="badge bg-warning text-decoration-none shadow-none">
+                                                            Disabled
+                                                        </a>
+                                                    </td>
+                                            @endif
+                                            <td class="text-center">
+                                                <ul class="table-controls">
+                                                    <li>
+                                                        <a class="btn btn-sm btn-primary"
+                                                            href="{{ route('option-set.edit', $option_set->id) }}"
+                                                            data-bs-toggle="modal"
+                                                            data-bs-target="#optionSetEdit{{ $option_set->id }}"
+                                                            data-bs-toggle="tooltip" data-bs-placement="top"
+                                                            title="" data-bs-title="Edit">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" width="24"
+                                                                height="24" viewBox="0 0 24 24" fill="none"
+                                                                stroke="currentColor" stroke-width="2"
+                                                                stroke-linecap="round" stroke-linejoin="round"
+                                                                class="feather feather-edit-2 br-6 mb-1 p-1">
+                                                                <path
+                                                                    d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z">
+                                                                </path>
+                                                            </svg>
+                                                            Edit
+                                                        </a>
+                                                    </li>
+                                                    <li>
+                                                        <a class="btn btn-sm btn-secondary"
+                                                            href="{{ route('option-set.duplicate', $option_set->id) }}"
+                                                            data-bs-toggle="tooltip" data-bs-placement="top"
+                                                            title="" data-bs-title="Duplicate">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" width="24"
+                                                                height="24" viewBox="0 0 24 24" fill="none"
+                                                                stroke="currentColor" stroke-width="2"
+                                                                stroke-linecap="round" stroke-linejoin="round"
+                                                                class="feather feather-plus">
+                                                                <line x1="12" y1="5" x2="12"
+                                                                    y2="19"></line>
+                                                                <line x1="5" y1="12" x2="19"
+                                                                    y2="12"></line>
+                                                            </svg>
+                                                            Duplicate
+                                                        </a>
+                                                    </li>
+                                                    <li>
+                                                        <a class="btn btn-sm btn-danger" href="javascript:void(0);"
+                                                            onclick="event.preventDefault();
                                                                     if(confirm('Are you really want to delete?')){
                                                                     document.getElementById('category-delete-{{ $option_set->id }}').submit()
                                                                     }"
-                                                                    data-bs-toggle="tooltip" data-bs-placement="top"
-                                                                    title="" data-bs-title="Delete">
-                                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24"
-                                                                        height="24" viewBox="0 0 24 24" fill="none"
-                                                                        stroke="currentColor" stroke-width="2"
-                                                                        stroke-linecap="round" stroke-linejoin="round"
-                                                                        class="feather feather-trash br-6 mb-1 p-1">
-                                                                        <polyline points="3 6 5 6 21 6"></polyline>
-                                                                        <path
-                                                                            d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2">
-                                                                        </path>
-                                                                    </svg>
-                                                                    Delete
-                                                                </a>
-                                                                {{-- delete  --}}
-                                                                <form method="post"
-                                                                    action="{{ route('option-set.destroy', $option_set->id) }}"
-                                                                    id="{{ 'category-delete-' . $option_set->id }}">
-                                                                    @csrf
-                                                                    @method('DELETE')
-                                                                </form>
+                                                            data-bs-toggle="tooltip" data-bs-placement="top"
+                                                            title="" data-bs-title="Delete">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" width="24"
+                                                                height="24" viewBox="0 0 24 24" fill="none"
+                                                                stroke="currentColor" stroke-width="2"
+                                                                stroke-linecap="round" stroke-linejoin="round"
+                                                                class="feather feather-trash br-6 mb-1 p-1">
+                                                                <polyline points="3 6 5 6 21 6"></polyline>
+                                                                <path
+                                                                    d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2">
+                                                                </path>
+                                                            </svg>
+                                                            Delete
+                                                        </a>
+                                                        {{-- delete  --}}
+                                                        <form method="post"
+                                                            action="{{ route('option-set.destroy', $option_set->id) }}"
+                                                            id="{{ 'category-delete-' . $option_set->id }}">
+                                                            @csrf
+                                                            @method('DELETE')
+                                                        </form>
 
-                                                                {{-- modal --}}
+                                                        {{-- modal --}}
 
-                                                                <div class="modal fade text-start"
-                                                                    id="optionSetEdit{{ $option_set->id }}"
-                                                                    tabindex="-1" role="dialog"
-                                                                    aria-labelledby="exampleModalCenterTitle"
-                                                                    aria-hidden="true">
-                                                                    <div class="modal-dialog modal-dialog-centered"
-                                                                        role="document">
-                                                                        <div class="modal-content">
-                                                                            <div class="modal-header">
-                                                                                <h5 class="modal-title"
-                                                                                    id="exampleModalLongTitle">Edit Option set</h5>
-                                                                                <button type="button" class="btn-close"
-                                                                                    data-bs-dismiss="modal"
-                                                                                    aria-label="Close"></button>
+                                                        <div class="modal fade text-start"
+                                                            id="optionSetEdit{{ $option_set->id }}" tabindex="-1"
+                                                            role="dialog" aria-labelledby="exampleModalCenterTitle"
+                                                            aria-hidden="true">
+                                                            <div class="modal-dialog modal-dialog-centered"
+                                                                role="document">
+                                                                <div class="modal-content">
+                                                                    <div class="modal-header">
+                                                                        <h5 class="modal-title"
+                                                                            id="exampleModalLongTitle">Edit Option set</h5>
+                                                                        <button type="button" class="btn-close"
+                                                                            data-bs-dismiss="modal"
+                                                                            aria-label="Close"></button>
+                                                                    </div>
+                                                                    <div class="modal-body">
+                                                                        <form
+                                                                            action="{{ route('option-set.update', $option_set) }}"
+                                                                            method="post" enctype="multipart/form-data">
+                                                                            @csrf
+                                                                            @method('PUT')
+
+                                                                            <div class="form-group">
+                                                                                <label for="name">Name</label>
+                                                                                <input type="text"
+                                                                                    placeholder="Enter Name"
+                                                                                    class="form-control @error('name') is-invalid @enderror"
+                                                                                    name="name"
+                                                                                    value="{{ $option_set->name }}">
+                                                                                @error('name')
+                                                                                    <div class="alert alert-danger mt-1">
+                                                                                        {{ $message }}</div>
+                                                                                @enderror
                                                                             </div>
-                                                                            <div class="modal-body">
-                                                                                <form
-                                                                                    action="{{ route('option-set.update', $option_set) }}"
-                                                                                    method="post"
-                                                                                    enctype="multipart/form-data">
-                                                                                    @csrf
-                                                                                    @method('PUT')
-
-                                                                                    <div class="form-group">
-                                                                                        <label for="name">Name</label>
-                                                                                        <input type="text"
-                                                                                            placeholder="Enter Name"
-                                                                                            class="form-control @error('name') is-invalid @enderror"
-                                                                                            name="name"
-                                                                                            value="{{ $option_set->name }}">
-                                                                                        @error('name')
-                                                                                            <div
-                                                                                                class="alert alert-danger mt-1">
-                                                                                                {{ $message }}</div>
-                                                                                        @enderror
-                                                                                    </div>
-                                                                                    <div class="form-group">
-                                                                                        <label
-                                                                                            for="description">Description
-                                                                                            (Optional)
-                                                                                        </label>
-                                                                                        <input type="text"
-                                                                                            placeholder="Description"
-                                                                                            class="form-control @error('description') is-invalid @enderror"
-                                                                                            name="description"
-                                                                                            value="{{ $option_set->description }}">
-                                                                                        @error('description')
-                                                                                            <div
-                                                                                                class="alert alert-danger mt-1">
-                                                                                                {{ $message }}</div>
-                                                                                        @enderror
-                                                                                    </div>
-                                                                                    <button type="submit"
-                                                                                        class="btn btn-sm btn-primary float-right">Update</button>
-                                                                                </form>
+                                                                            <div class="form-group">
+                                                                                <label for="description">Description
+                                                                                    (Optional)
+                                                                                </label>
+                                                                                <input type="text"
+                                                                                    placeholder="Description"
+                                                                                    class="form-control @error('description') is-invalid @enderror"
+                                                                                    name="description"
+                                                                                    value="{{ $option_set->description }}">
+                                                                                @error('description')
+                                                                                    <div class="alert alert-danger mt-1">
+                                                                                        {{ $message }}</div>
+                                                                                @enderror
                                                                             </div>
-                                                                        </div>
+                                                                            <button type="submit"
+                                                                                class="btn btn-sm btn-primary float-right">Update</button>
+                                                                        </form>
                                                                     </div>
                                                                 </div>
+                                                            </div>
+                                                        </div>
 
-                                                                {{-- // modal --}}
-                                                            </li>
-                                                        </ul>
-                                                    </td>
-                                                </tr>
+                                                        {{-- // modal --}}
+                                                    </li>
+                                                </ul>
+                                            </td>
+                                            </tr>
                                             @endforeach
 
                                         </tbody>

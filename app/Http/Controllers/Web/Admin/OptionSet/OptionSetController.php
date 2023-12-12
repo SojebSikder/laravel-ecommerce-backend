@@ -25,7 +25,8 @@ class OptionSetController extends Controller
             $option_sets = $option_sets->orWhere('name', 'like', '%' . $q . '%');
         }
 
-        $option_sets = $option_sets->latest()->paginate(15);
+        $option_sets = $option_sets->with('elements')
+            ->latest()->paginate(15);
 
         return view('backend.option-set.index', compact('option_sets'));
     }
