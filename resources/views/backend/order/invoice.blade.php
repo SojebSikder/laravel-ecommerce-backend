@@ -344,7 +344,9 @@
                         <hr>
                         <div>
                             <label>Shipping zone:</label>
-                            <a>{{ $order->shipping_zone->name }}</a>
+                            @if (isset($order->shipping_zone))
+                                <a>{{ $order->shipping_zone->name }}</a>
+                            @endif
                         </div>
 
                     </div>

@@ -12,6 +12,8 @@ use App\Http\Controllers\Web\Admin\Customer\CustomerController;
 use App\Http\Controllers\Web\Admin\Customer\RoleController;
 use App\Http\Controllers\Web\Admin\Dashboard\DashboardController;
 use App\Http\Controllers\Web\Admin\Marketing\CustomMail\CustomMailController;
+use App\Http\Controllers\Web\Admin\OptionSet\OptionSetController;
+use App\Http\Controllers\Web\Admin\OptionSet\OptionSetElementController;
 use App\Http\Controllers\Web\Admin\Order\OrderController;
 use App\Http\Controllers\Web\Admin\Order\OrderDraft\OrderDraftController;
 use App\Http\Controllers\Web\Admin\Order\StatusController;
@@ -69,6 +71,17 @@ Route::middleware(['auth', 'admin'])->group(function () {
     // product
     Route::get('product/{id}/status', [ProductController::class, 'status'])->name('product.status');
     Route::resource('product', ProductController::class);
+
+    // option set
+    Route::get('option-set/duplicate/{id}', [OptionSetController::class, 'duplicate'])->name('option-set.duplicate');
+    Route::resource('option-set', OptionSetController::class);
+    Route::get('option-set/status/{id}', [OptionSetController::class, 'status'])->name('option-set.status');
+    Route::get('option-set/element/create/{id}', [OptionSetElementController::class, 'create'])->name('element.create');
+    Route::resource('option-set/element', OptionSetElementController::class);
+
+    Route::get('option-set/element/duplicate/{id}', [OptionSetElementController::class, 'duplicate'])->name('element.duplicate');
+    Route::get('option-set/element/status/{id}', [OptionSetElementController::class, 'status'])->name('element.status');
+    Route::put('option-set/element/sort/{id}', [OptionSetElementController::class, 'sortingOrder'])->name('element.sortingOrder');
 
     // Category
     Route::get('category/{id}/status', [CategoryController::class, 'status'])->name('category.status');
