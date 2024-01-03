@@ -42,8 +42,12 @@ class RoleController extends Controller
     {
         abort_if(Gate::denies('role_management_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
+        // get logged user role
+        $loggedUserRole = auth()->user()->roles()->first();
+
         $permissions = Role::withoutGlobalScopes()
-            ->findOrFail(3)
+            // ->findOrFail(3)
+            ->findOrFail($loggedUserRole->id)
             ->permissions()
             ->get();
 
