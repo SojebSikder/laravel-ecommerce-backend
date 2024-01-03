@@ -4,6 +4,7 @@ namespace App\Models\Product;
 
 use App\Helper\SettingHelper;
 use App\Models\Category\Category;
+use App\Models\OptionSet\OptionSet;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -70,6 +71,11 @@ class Product extends Model
     public function categories()
     {
         return $this->belongsToMany(Category::class, 'product_categories');
+    }
+
+    public function option_sets()
+    {
+        return $this->belongsToMany(OptionSet::class, 'product_option_sets');
     }
 
     public function details()

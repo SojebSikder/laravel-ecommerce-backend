@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Web\Admin\Product;
 
 use App\Http\Controllers\Controller;
 use App\Models\Category\Category;
+use App\Models\OptionSet\OptionSet;
 use App\Models\Product\Manufacturer;
 use App\Models\Product\Product;
 use App\Models\Product\ProductCategory;
@@ -44,8 +45,10 @@ class ProductController extends Controller
     public function create()
     {
         $categories = Category::where('status', 1)->where('parent_id', null)->orderBy('name', 'asc')->get();
+        $option_sets = OptionSet::where('status', 1)->orderBy('name', 'asc')->get();
         $manufacturers = Manufacturer::where('status', 1)->orderBy('name', 'asc')->get();
-        return view('backend.product.create', compact('categories', 'manufacturers'));
+
+        return view('backend.product.create', compact('categories', 'option_sets', 'manufacturers'));
     }
 
     /**
@@ -66,6 +69,7 @@ class ProductController extends Controller
             $name = $request->input('name');
             $slug = $request->input('slug');
             $category_id = $request->input('category_id');
+            $option_set_id = $request->input('option_set_id');
             $manufacturer_id = $request->input('manufacturer_id');
             $price = $request->input('price');
             $cost_per_item = $request->input('cost_per_item');
@@ -129,6 +133,8 @@ class ProductController extends Controller
             $product->save();
             // save categories
             $product->categories()->sync($category_id);
+            // save option sets
+            $product->option_sets()->sync($option_set_id);
             // if ($category_id) {
             //     foreach ($category_id as $category) {
             //         // insert into product categories
@@ -168,15 +174,15 @@ class ProductController extends Controller
      */
     public function edit(Request $request, $id)
     {
-
         $categories = Category::where('status', 1)->where('parent_id', null)->orderBy('name', 'asc')->get();
+        $option_sets = OptionSet::where('status', 1)->orderBy('name', 'asc')->get();
         $manufacturers = Manufacturer::where('status', 1)->orderBy('name', 'asc')->get();
-        $product = Product::with('categories', 'details')->findOrFail($id);
+        $product = Product::with('categories', 'option_sets', 'details')->findOrFail($id);
         $productImages = ProductImage::where('product_id', $product->id)
             ->orderBy('sort_order', 'asc')
             ->paginate(15);
 
-        return view('backend.product.edit', compact('categories', 'manufacturers', 'productImages', 'product'));
+        return view('backend.product.edit', compact('categories', 'option_sets', 'manufacturers', 'productImages', 'product'));
     }
 
     /**
@@ -196,6 +202,7 @@ class ProductController extends Controller
             $name = $request->input('name');
             $slug = $request->input('slug');
             $category_id = $request->input('category_id');
+            $option_set_id = $request->input('option_set_id');
             $manufacturer_id = $request->input('manufacturer_id');
             $price = $request->input('price');
             $cost_per_item = $request->input('cost_per_item');
@@ -262,6 +269,8 @@ class ProductController extends Controller
             $product->save();
             // save categories
             $product->categories()->sync($category_id);
+            // save option sets
+            $product->option_sets()->sync($option_set_id);
             // if ($category_id) {
             //     foreach ($category_id as $category) {
             //         // insert into product categories
