@@ -114,7 +114,7 @@ class OptionSetElementController extends Controller
                 // $element->option_value = $option_value;
                 foreach ($option_value as $item) {
                     $option_set_element_item = new OptionSetElementItem();
-                    $option_set_element_item->option_set_element_id = $item->id;
+                    $option_set_element_item->option_set_element_id = $element->id;
                     $option_set_element_item->label = $item->text;
                     $option_set_element_item->name = $item->value;
                     $option_set_element_item->amount = $item->price ?  $item->price : 0;

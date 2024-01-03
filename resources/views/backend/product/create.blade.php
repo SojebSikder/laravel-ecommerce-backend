@@ -131,6 +131,27 @@
 
                                                 <div class="col mb-4">
                                                     <div class="form-group mb-3">
+                                                        <label for="option_set_id">Option sets</label>
+                                                        <select id="option_set-select2" class="form-select mb-3"
+                                                            name="option_set_id[]" multiple="multiple">
+                                                            {{-- <option value="0">None</option> --}}
+                                                            @if (count($option_sets) > 0)
+                                                                @foreach ($option_sets as $option_set)
+                                                                    <?php $dash = ''; ?>
+                                                                    <option value={{ $option_set->id }}>
+                                                                        {{ $option_set->name }}
+                                                                    </option>
+                                                                @endforeach
+                                                            @endif
+                                                        </select>
+                                                    </div>
+                                                    @error('option_set_id')
+                                                        <div class="alert alert-danger">{{ $message }}</div>
+                                                    @enderror
+                                                </div>
+
+                                                <div class="col mb-4">
+                                                    <div class="form-group mb-3">
                                                         <label for="manufacturer_id">Manufacturer</label>
                                                         <select id="select2" class="form-select mb-3"
                                                             name="manufacturer_id">
@@ -337,6 +358,14 @@
         $(document).ready(function() {
             $(".tagsselect2").select2({
                 placeholder: "Select categories",
+                allowClear: true,
+                tags: true
+            });
+        });
+
+        $(document).ready(function() {
+            $("#option_set-select2").select2({
+                placeholder: "Select option sets",
                 allowClear: true,
                 tags: true
             });
