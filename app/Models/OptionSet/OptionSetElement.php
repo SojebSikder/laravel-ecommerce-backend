@@ -18,4 +18,9 @@ class OptionSetElement extends Model
     {
         return json_decode(json_decode($value));
     }
+
+    public function items()
+    {
+        return $this->hasMany(OptionSetElementItem::class)->orderBy('sort_order', 'ASC');
+    }
 }

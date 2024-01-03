@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Web\Admin\OptionSet;
 use App\Http\Controllers\Controller;
 use App\Models\OptionSet\OptionSet;
 use App\Models\OptionSet\OptionSetElement;
+use App\Models\OptionSet\OptionSetElementItem;
 use Illuminate\Http\Request;
 
 class OptionSetElementController extends Controller
@@ -56,7 +57,8 @@ class OptionSetElementController extends Controller
         $font_id = $request->input('font_id');
         $color = $request->input('color');
         // select
-        $option_value = json_encode($request->input("option_value")); // values [{value:value}]
+        // $option_value = json_encode($request->input("option_value")); // values [{value:value}] as string
+        $option_value = json_decode($request->input("option_value")); // values [{value:value}] as stdclass object
 
 
         $element = new OptionSetElement();
@@ -73,14 +75,7 @@ class OptionSetElementController extends Controller
             $element->condition_data = null;
         }
         $element->is_condition = $is_condition;
-        if ($type == "select") {
-            // select type
-            if ($option_value == null) {
-                $element->option_value = null;
-            } else {
-                $element->option_value = $option_value;
-            }
-        } else if ($type == "dialog") {
+        if ($type == "dialog") {
             // dialog type
             if ($dialog_title) {
                 $element->dialog_title = $dialog_title;
@@ -111,6 +106,23 @@ class OptionSetElementController extends Controller
         }
         $element->save();
 
+        if ($type == "select") {
+            // select type
+            if ($option_value == null) {
+                // $element->option_value = null;
+            } else {
+                // $element->option_value = $option_value;
+                foreach ($option_value as $item) {
+                    $option_set_element_item = new OptionSetElementItem();
+                    $option_set_element_item->option_set_element_id = $item->id;
+                    $option_set_element_item->label = $item->text;
+                    $option_set_element_item->name = $item->value;
+                    $option_set_element_item->amount = $item->price ?  $item->price : 0;
+                    $option_set_element_item->save();
+                }
+            }
+        }
+
         return back()->with('success', 'Element Added Successfully');
     }
 
@@ -133,8 +145,9 @@ class OptionSetElementController extends Controller
      */
     public function edit($id)
     {
-        $element = OptionSetElement::findOrFail($id);
+        $element = OptionSetElement::with('items')->findOrFail($id);
         $elements = OptionSetElement::where('option_set_id', $element->option_set_id)->get();
+
         return view('backend.option-set.option-set-element.edit', compact('element', 'elements'));
     }
 
@@ -162,8 +175,8 @@ class OptionSetElementController extends Controller
         // fontpreview
         $font_id = $request->input('font_id');
         $color = $request->input('color');
-        // select
-        $option_value = json_encode($request->input("option_value")); // values [{value:value}]
+        // $option_value = json_encode($request->input("option_value")); // values [{value:value}] as string
+        $option_value = json_decode($request->input("option_value")); // values [{value:value}] as stdclass object
 
 
         $element = OptionSetElement::where('id', $id)->first();
@@ -179,14 +192,7 @@ class OptionSetElementController extends Controller
             $element->condition_data = null;
         }
         $element->is_condition = $is_condition;
-        if ($type == "select") {
-            // select type
-            if ($option_value == null) {
-                $element->option_value = null;
-            } else {
-                $element->option_value = $option_value;
-            }
-        } else if ($type == "dialog") {
+        if ($type == "dialog") {
             // dialog type
             if ($dialog_title) {
                 $element->dialog_title = $dialog_title;
@@ -216,6 +222,28 @@ class OptionSetElementController extends Controller
             $element->limit = null;
         }
         $element->save();
+
+        if ($type == "select") {
+            // select type
+            if ($option_value == null) {
+                // $element->option_value = null;
+                // delete all previous items
+                OptionSetElementItem::where('option_set_element_id', $element->id)->delete();
+            } else {
+                // $element->option_value = $option_value;
+                // delete all previous items
+                OptionSetElementItem::where('option_set_element_id', $element->id)->delete();
+                // add new items
+                foreach ($option_value as $item) {
+                    $option_set_element_item = new OptionSetElementItem();
+                    $option_set_element_item->option_set_element_id = $element->id;
+                    $option_set_element_item->label = $item->text;
+                    $option_set_element_item->name = $item->value;
+                    $option_set_element_item->amount = $item->price ?  $item->price : 0;
+                    $option_set_element_item->save();
+                }
+            }
+        }
 
         return back()->with('success', 'Element Updated Successfully');
     }

@@ -115,22 +115,22 @@
                                                         <div id="optionContainer">
                                                             <label for="option">Option values</label>
                                                             <?php $id = 0; ?>
-                                                            @if ($element->type == 'select' && $element->option_value != null)
-                                                                @foreach ($element->option_value as $option)
+                                                            @if ($element->type == 'select' && count($element->items) > 0)
+                                                                @foreach ($element->items as $option)
                                                                     <div data-id="{{ $id }}"
                                                                         class="option-value form-group col mb-3">
                                                                         <div class="row">
                                                                             <div class="col">
                                                                                 <input type="text" placeholder="value"
                                                                                     id="optionItem"
-                                                                                    value="{{ isset($option->value) ? $option->value : '' }}"
+                                                                                    value="{{ isset($option->name) ? $option->name : '' }}"
                                                                                     class="form-control" name="option" />
                                                                             </div>
 
                                                                             <div class="col">
                                                                                 <input type="number" placeholder="price"
                                                                                     id="optionItemPrice"
-                                                                                    value="{{ isset($option->price) ? $option->price : 0.0 }}"
+                                                                                    value="{{ isset($option->amount) ? $option->amount : 0.0 }}"
                                                                                     class="form-control" name="price" />
                                                                             </div>
                                                                         </div>
