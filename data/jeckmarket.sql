@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 03, 2024 at 07:48 PM
+-- Generation Time: Jan 03, 2024 at 08:02 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -76,7 +76,8 @@ INSERT INTO `categories` (`id`, `name`, `slug`, `parent_id`, `image`, `descripti
 (47, 'vfgr', 'vfgr', NULL, NULL, NULL, NULL, NULL, NULL, 1, 0, '2023-01-15 03:48:16', '2023-01-15 03:48:16'),
 (48, 'jkjn', 'jkjn', NULL, NULL, NULL, NULL, NULL, NULL, 1, 0, '2023-01-15 03:48:19', '2023-01-15 03:48:19'),
 (49, 'jhyugjhjhj', 'jhyugjhjhj', NULL, NULL, NULL, NULL, NULL, NULL, 1, 0, '2023-01-15 03:48:22', '2023-01-15 03:48:22'),
-(50, 'jkhuiui', 'jkhuiui', NULL, NULL, NULL, NULL, NULL, NULL, 1, 0, '2023-01-15 03:48:24', '2023-01-15 03:48:24');
+(50, 'jkhuiui', 'jkhuiui', NULL, NULL, NULL, NULL, NULL, NULL, 1, 0, '2023-01-15 03:48:24', '2023-01-15 03:48:24'),
+(51, 'T-shirt', 'tshirt', NULL, NULL, '<p>Cool tshirt on the way</p>', NULL, NULL, NULL, 1, 0, '2024-01-03 12:55:54', '2024-01-03 12:55:54');
 
 --
 -- Dumping data for table `checkouts`
@@ -387,6 +388,69 @@ INSERT INTO `manufacturers` (`id`, `name`, `slug`, `image`, `description`, `meta
 (1, 'Apple', 'apple', NULL, NULL, NULL, NULL, NULL, 1, 0, '2023-01-05 06:08:08', '2023-01-05 06:08:08'),
 (2, 'Google', 'google', NULL, NULL, NULL, NULL, NULL, 1, 0, '2023-01-05 06:08:12', '2023-01-05 06:08:12'),
 (3, 'Amazon', 'amazon', NULL, NULL, NULL, NULL, NULL, 1, 0, '2023-01-05 06:08:20', '2023-01-05 06:08:20');
+
+--
+-- Dumping data for table `migrations`
+--
+
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
+(1, '2014_10_12_000000_create_users_table', 1),
+(2, '2014_10_12_100000_create_password_resets_table', 1),
+(3, '2019_08_19_000000_create_failed_jobs_table', 1),
+(4, '2019_12_14_000001_create_personal_access_tokens_table', 1),
+(5, '2022_12_28_054015_create_jobs_table', 1),
+(6, '2022_12_28_054020_create_user_devices_table', 1),
+(7, '2022_12_28_054025_create_roles_table', 1),
+(8, '2022_12_28_054026_create_permissions_table', 1),
+(9, '2022_12_28_054027_create_permission_roles_table', 1),
+(10, '2022_12_28_054028_create_role_users_table', 1),
+(11, '2022_12_28_055340_create_currencies_table', 1),
+(12, '2022_12_28_055350_create_categories_table', 1),
+(13, '2022_12_28_055642_create_coupons_table', 1),
+(14, '2022_12_28_060145_create_temp_redeems_table', 1),
+(15, '2022_12_28_060529_create_option_sets_table', 1),
+(16, '2022_12_28_060530_create_option_set_elements_table', 1),
+(17, '2022_12_28_060531_create_option_set_element_items_table', 1),
+(18, '2022_12_28_060548_create_manufacturers_table', 1),
+(19, '2022_12_28_060549_create_products_table', 1),
+(20, '2022_12_28_060550_create_product_details_table', 1),
+(21, '2022_12_28_082055_create_product_categories_table', 1),
+(22, '2022_12_28_082056_create_product_images_table', 1),
+(23, '2022_12_28_082343_create_mailing_lists_table', 1),
+(24, '2022_12_28_082430_create_newsletters_table', 1),
+(25, '2022_12_28_082606_create_ucodes_table', 1),
+(26, '2022_12_28_082944_create_carts_table', 1),
+(27, '2022_12_28_083203_create_setting_types_table', 1),
+(28, '2022_12_28_083229_create_settings_table', 1),
+(29, '2022_12_28_083335_create_setting_allowed_values_table', 1),
+(30, '2022_12_28_085338_create_shippings_table', 1),
+(31, '2022_12_28_090640_create_shipping_zones_table', 1),
+(32, '2022_12_29_122359_create_countries_table', 1),
+(33, '2022_12_29_122410_create_states_table', 1),
+(34, '2022_12_29_122418_create_cities_table', 1),
+(35, '2022_12_29_122518_create_user_shipping_addresses_table', 1),
+(36, '2022_12_29_122528_create_order_shipping_addresses_table', 1),
+(37, '2022_12_29_123332_create_payment_providers_table', 1),
+(38, '2022_12_29_123454_create_orders_table', 1),
+(39, '2022_12_29_124138_create_order_items_table', 1),
+(40, '2022_12_29_124308_create_order_coupons_table', 1),
+(41, '2022_12_29_125048_create_shipping_zone_payment_providers_table', 1),
+(42, '2022_12_29_125234_create_custom_pages_table', 1),
+(43, '2022_12_29_125325_create_custom_page_images_table', 1),
+(44, '2022_12_29_125512_create_payment_transactions_table', 1),
+(45, '2022_12_29_125702_create_statuses_table', 1),
+(46, '2022_12_29_125825_create_order_statuses_table', 1),
+(47, '2022_12_29_130201_create_order_status_histories_table', 1),
+(48, '2023_01_05_091827_create_pages_table', 1),
+(49, '2023_01_05_103716_create_footers_table', 1),
+(50, '2023_01_05_103736_create_footer_items_table', 1),
+(51, '2023_01_15_170944_create_general_settings_table', 1),
+(52, '2023_01_31_125413_create_checkouts_table', 1),
+(53, '2023_01_31_125612_create_checkout_items_table', 1),
+(54, '2023_02_05_101632_create_shipping_zone_addresses_table', 1),
+(55, '2023_03_03_234515_create_order_drafts_table', 1),
+(56, '2023_03_03_234837_create_order_draft_items_table', 1),
+(57, '2024_01_03_181104_create_product_option_sets_table', 1);
 
 --
 -- Dumping data for table `option_sets`
@@ -730,7 +794,8 @@ INSERT INTO `products` (`id`, `name`, `slug`, `meta_title`, `meta_description`, 
 (78, 'assas', 'assas', NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL, NULL, 0, 1, '2023-01-10 08:00:15', '2023-01-10 08:00:15'),
 (79, 'asasa', 'asasa', NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL, NULL, 0, 1, '2023-01-10 08:00:17', '2023-01-10 08:00:17'),
 (80, 'asasa', 'asasa', NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL, NULL, 0, 1, '2023-01-10 08:00:19', '2023-01-10 08:00:19'),
-(81, 'Ben & Jerry\'s Sundae Vegan Berry Revolutionary 427ml', 'ben-jerrys-sundae-vegan-berry-revolutionary-427ml', 'Buy ${product.name} from ${app.name} now | ${app.name}', 'Buy ${product.name} from ${app.name} now at affordable price', NULL, '<h2>description</h2>\r\n<p><strong>${product.name}</strong> this is description test</p>', 10.00, 15.00, 1, 500, NULL, NULL, 1, NULL, NULL, NULL, 3, NULL, NULL, 0, 1, '2023-01-11 07:23:09', '2023-07-30 07:32:10');
+(81, 'Ben & Jerry\'s Sundae Vegan Berry Revolutionary 427ml', 'ben-jerrys-sundae-vegan-berry-revolutionary-427ml', 'Buy ${product.name} from ${app.name} now | ${app.name}', 'Buy ${product.name} from ${app.name} now at affordable price', NULL, '<h2>description</h2>\r\n<p><strong>${product.name}</strong> this is description test</p>', 10.00, 15.00, 1, 500, NULL, NULL, 1, NULL, NULL, NULL, 3, NULL, NULL, 0, 1, '2023-01-11 07:23:09', '2023-07-30 07:32:10'),
+(82, 'Black T-shirt', 'black-tshirt', NULL, NULL, NULL, '<p>Cool black tshirt</p>', 350.00, NULL, 1, 200, NULL, NULL, 0, 60.00, 0.50, 'kg', NULL, NULL, NULL, 0, 1, '2024-01-03 12:57:38', '2024-01-03 13:00:38');
 
 --
 -- Dumping data for table `product_categories`
@@ -740,7 +805,8 @@ INSERT INTO `product_categories` (`id`, `product_id`, `category_id`, `created_at
 (1, 1, 1, NULL, NULL),
 (2, 2, 2, NULL, NULL),
 (3, 81, 3, NULL, NULL),
-(4, 81, 4, NULL, NULL);
+(4, 81, 4, NULL, NULL),
+(5, 82, 51, NULL, NULL);
 
 --
 -- Dumping data for table `product_details`
@@ -759,14 +825,16 @@ INSERT INTO `product_images` (`id`, `image`, `title`, `alt_text`, `product_id`, 
 (3, '1673354123-63bd5b8b098e9.png', NULL, NULL, '2', 1, 0, '2023-01-10 06:35:23', '2023-01-10 06:35:23'),
 (7, '1673703604-63c2b0b476105.png', NULL, NULL, '81', 1, 1, '2023-01-14 07:40:04', '2023-01-14 07:40:34'),
 (8, '1673713933-63c2d90dbed3b.jpg', NULL, NULL, '81', 1, 2, '2023-01-14 10:32:13', '2023-01-14 10:33:05'),
-(9, '1673713933-63c2d90dd6620.png', NULL, NULL, '81', 1, 3, '2023-01-14 10:32:13', '2023-01-14 10:33:13');
+(9, '1673713933-63c2d90dd6620.png', NULL, NULL, '81', 1, 3, '2023-01-14 10:32:13', '2023-01-14 10:33:13'),
+(10, '1704308464-6595aef0a5066.jpg', NULL, NULL, '82', 1, 0, '2024-01-03 13:01:04', '2024-01-03 13:01:04');
 
 --
 -- Dumping data for table `product_option_sets`
 --
 
 INSERT INTO `product_option_sets` (`id`, `product_id`, `option_set_id`, `created_at`, `updated_at`) VALUES
-(2, 81, 2, NULL, NULL);
+(2, 81, 2, NULL, NULL),
+(3, 82, 2, NULL, NULL);
 
 --
 -- Dumping data for table `roles`
