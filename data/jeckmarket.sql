@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 30, 2023 at 04:02 PM
+-- Generation Time: Jan 03, 2024 at 07:48 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -389,13 +389,42 @@ INSERT INTO `manufacturers` (`id`, `name`, `slug`, `image`, `description`, `meta
 (3, 'Amazon', 'amazon', NULL, NULL, NULL, NULL, NULL, 1, 0, '2023-01-05 06:08:20', '2023-01-05 06:08:20');
 
 --
+-- Dumping data for table `option_sets`
+--
+
+INSERT INTO `option_sets` (`id`, `name`, `description`, `status`, `sort_order`, `created_at`, `updated_at`) VALUES
+(2, 'tshirt', 'this is for tshirt', 1, 0, '2024-01-03 12:28:26', '2024-01-03 12:28:26'),
+(3, 'shirt', NULL, 1, 0, '2024-01-03 12:29:00', '2024-01-03 12:29:00');
+
+--
+-- Dumping data for table `option_set_elements`
+--
+
+INSERT INTO `option_set_elements` (`id`, `option_set_id`, `type`, `label`, `name`, `is_required`, `placeholder`, `help_text`, `limit`, `is_condition`, `condition_data`, `status`, `sort_order`, `created_at`, `updated_at`) VALUES
+(3, 2, 'textarea', NULL, 'Size', 0, NULL, NULL, NULL, 0, NULL, 1, 0, '2024-01-03 12:28:38', '2024-01-03 12:28:38');
+
+--
 -- Dumping data for table `orders`
 --
 
-INSERT INTO `orders` (`id`, `invoice_number`, `payment_ref_id`, `properties`, `sub_total`, `order_total`, `shipping_zone_id`, `shipping_zone_name`, `shipping_charge`, `payment_provider_id`, `payment_provider`, `payment_provider_charge_type`, `payment_provider_charge`, `payment_status`, `payment_raw_status`, `paid_amount`, `paid_currency`, `status`, `fulfillment_status`, `currency`, `comment`, `order_shipping_address_id`, `order_billing_address_id`, `user_id`, `latitude`, `longitude`, `fname`, `lname`, `phone_number`, `email`, `deleted_at`, `created_at`, `updated_at`) VALUES
-(1, '1000', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'percentage', NULL, NULL, NULL, NULL, NULL, NULL, 'unfulfilled', NULL, 'asas', NULL, NULL, 2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2023-07-30 03:41:28', '2023-07-30 03:41:28'),
-(2, '1001', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'percentage', NULL, NULL, NULL, NULL, NULL, NULL, 'unfulfilled', NULL, 'hh', NULL, NULL, 2, NULL, NULL, 'sd', 'sdsd', NULL, 'as@gmail.com', NULL, '2023-07-30 07:42:22', '2023-07-30 07:42:22'),
-(3, '1002', NULL, NULL, NULL, 8.50, NULL, NULL, NULL, NULL, NULL, 'percentage', NULL, 'paid', NULL, NULL, NULL, 'processing', 'unfulfilled', NULL, NULL, 1, NULL, 2, NULL, NULL, 'sd', 'sdsd', NULL, 'as@gmail.com', NULL, '2023-07-30 07:53:17', '2023-07-30 07:59:02');
+INSERT INTO `orders` (`id`, `invoice_number`, `payment_ref_id`, `properties`, `tracking_number`, `courier_provider`, `sub_total`, `order_total`, `shipping_zone_id`, `shipping_zone_name`, `shipping_charge`, `payment_provider_id`, `payment_provider`, `payment_provider_charge_type`, `payment_provider_charge`, `payment_status`, `payment_raw_status`, `paid_amount`, `paid_currency`, `status`, `fulfillment_status`, `currency`, `comment`, `order_shipping_address_id`, `order_billing_address_id`, `user_id`, `latitude`, `longitude`, `fname`, `lname`, `phone_number`, `email`, `deleted_at`, `created_at`, `updated_at`) VALUES
+(1, '1000', NULL, NULL, NULL, 'call_courier', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'percentage', NULL, NULL, NULL, NULL, NULL, NULL, 'unfulfilled', NULL, 'asas', NULL, NULL, 2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2023-07-30 03:41:28', '2023-07-30 03:41:28'),
+(2, '1001', NULL, NULL, NULL, 'call_courier', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'percentage', NULL, NULL, NULL, NULL, NULL, NULL, 'unfulfilled', NULL, 'hh', NULL, NULL, 2, NULL, NULL, 'sd', 'sdsd', NULL, 'as@gmail.com', NULL, '2023-07-30 07:42:22', '2023-07-30 07:42:22'),
+(3, '1002', NULL, NULL, NULL, 'call_courier', NULL, 8.50, NULL, NULL, NULL, NULL, NULL, 'percentage', NULL, 'paid', NULL, NULL, NULL, 'processing', 'unfulfilled', NULL, NULL, 1, NULL, 2, NULL, NULL, 'sd', 'sdsd', NULL, 'as@gmail.com', NULL, '2023-07-30 07:53:17', '2023-07-30 07:59:02');
+
+--
+-- Dumping data for table `order_drafts`
+--
+
+INSERT INTO `order_drafts` (`id`, `user_id`, `comment`, `fname`, `lname`, `phone_number`, `email`, `country_id`, `country`, `address1`, `address2`, `city`, `state`, `zip`, `latitude`, `longitude`, `created_at`, `updated_at`) VALUES
+(1, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2024-01-03 12:42:19', '2024-01-03 12:42:19');
+
+--
+-- Dumping data for table `order_draft_items`
+--
+
+INSERT INTO `order_draft_items` (`id`, `order_draft_id`, `product_id`, `quantity`, `attribute`, `created_at`, `updated_at`) VALUES
+(1, 1, 81, 1, NULL, '2024-01-03 12:42:29', '2024-01-03 12:42:29');
 
 --
 -- Dumping data for table `order_items`
@@ -733,6 +762,13 @@ INSERT INTO `product_images` (`id`, `image`, `title`, `alt_text`, `product_id`, 
 (9, '1673713933-63c2d90dd6620.png', NULL, NULL, '81', 1, 3, '2023-01-14 10:32:13', '2023-01-14 10:33:13');
 
 --
+-- Dumping data for table `product_option_sets`
+--
+
+INSERT INTO `product_option_sets` (`id`, `product_id`, `option_set_id`, `created_at`, `updated_at`) VALUES
+(2, 81, 2, NULL, NULL);
+
+--
 -- Dumping data for table `roles`
 --
 
@@ -815,7 +851,7 @@ INSERT INTO `statuses` (`id`, `label`, `name`, `description`, `image`, `alt_text
 
 INSERT INTO `users` (`id`, `fname`, `lname`, `name`, `email`, `phone_number`, `dial_code`, `email_verified_at`, `phone_verified_at`, `provider`, `provider_uid`, `avatar`, `type`, `status`, `password`, `remember_token`, `created_at`, `updated_at`) VALUES
 (1, 'admin', 'admin', NULL, 'admin@example.com', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'su_admin', 1, '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', NULL, '2023-07-30 02:11:58', '2023-07-30 02:11:58'),
-(2, 'sd', 'sdsd', NULL, 'as@gmail.com', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'user', 1, '$2y$10$a5lUNEobpCWplDHP3WIr7eHejJ6CQc8G8LM4SNnzT7OxATaVwLER2', NULL, '2023-07-30 02:24:56', '2023-07-30 02:24:56');
+(2, 'sd', 'sdsd', NULL, 'as@gmail.com', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'su_admin', 1, '$2y$10$a5lUNEobpCWplDHP3WIr7eHejJ6CQc8G8LM4SNnzT7OxATaVwLER2', NULL, '2023-07-30 02:24:56', '2024-01-03 12:44:11');
 SET FOREIGN_KEY_CHECKS=1;
 COMMIT;
 
