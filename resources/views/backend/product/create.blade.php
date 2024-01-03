@@ -237,7 +237,7 @@
                                                     <div class="col me-1">
                                                         <div class="form-group mb-3">
                                                             <label for="weight">Weight</label>
-                                                            <input type="number" id="weight"
+                                                            <input type="text" id="weight"
                                                                 class="form-control @error('weight') is-invalid @enderror"
                                                                 value="{{ old('weight') }}" name="weight">
                                                         </div>

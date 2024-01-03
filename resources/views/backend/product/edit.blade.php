@@ -245,7 +245,7 @@
                                                     <div class="col me-1">
                                                         <div class="form-group mb-3">
                                                             <label for="weight">Weight</label>
-                                                            <input type="number" id="weight"
+                                                            <input type="text" id="weight"
                                                                 class="form-control @error('weight') is-invalid @enderror"
                                                                 value="{{ $product->weight }}" name="weight">
                                                         </div>
@@ -268,8 +268,7 @@
                                                                 class="form-control @error('weight_unit') is-invalid @enderror"
                                                                 name="weight_unit" id="weight_unit">
                                                                 @foreach ($weight_units as $key => $value)
-                                                                    <option value={{ $key }}>{{ $value }}
-                                                                    </option>
+                                                                    <option value={{ $key }} @if($product->weight_unit == $key) selected @endif>{{ $value }}</option>
                                                                 @endforeach
                                                             </select>
                                                         </div>
