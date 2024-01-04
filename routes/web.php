@@ -24,6 +24,7 @@ use App\Http\Controllers\Web\Admin\Product\ProductController;
 use App\Http\Controllers\Web\Admin\Product\ProductDetailsController;
 use App\Http\Controllers\Web\Admin\Product\TagController;
 use App\Http\Controllers\Web\Admin\Review\ReviewController;
+use App\Http\Controllers\Web\Admin\Setting\CurrencyController;
 use App\Http\Controllers\Web\Admin\Setting\SettingController;
 use App\Http\Controllers\Web\Admin\Shipping\ShippingController;
 use App\Http\Controllers\Web\Admin\Shipping\ShippingZoneController;
@@ -151,6 +152,12 @@ Route::middleware(['auth', 'admin'])->group(function () {
 
     Route::get('setting/payment-provider/{id}/status', [PaymentProviderController::class, 'status'])->name('payment-provider.status');
     Route::resource('setting/payment-provider', PaymentProviderController::class);
+
+    // currency
+    Route::get('setting/currency/status/{id}', [CurrencyController::class, 'status'])->name('currency.status');
+    Route::get('setting/currency/markPrimaryExchange/{id}', [CurrencyController::class, 'markPrimaryExchange'])->name('currency.markPrimaryExchange');
+    Route::get('setting/currency/markPrimaryStore/{id}', [CurrencyController::class, 'markPrimaryStore'])->name('currency.markPrimaryStore');
+    Route::resource('setting/currency', CurrencyController::class);
 
     // payment
     Route::get('setting/shipping-zone/{shipping_id}/payment-provider/{shipping_zone_id}/edit', [ShippingZoneController::class, 'paymentProviderEdit']);
