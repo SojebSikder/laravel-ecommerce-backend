@@ -165,7 +165,28 @@
                                                             @endif
                                                         </select>
                                                     </div>
-                                                    @error('category_id')
+                                                    @error('manufacturer_id')
+                                                        <div class="alert alert-danger">{{ $message }}</div>
+                                                    @enderror
+                                                </div>
+
+                                                <div class="col mb-4">
+                                                    <div class="form-group mb-3">
+                                                        <label for="tags-select2">Tags</label>
+                                                        <select id="tags-select2" class="form-select mb-3"
+                                                            name="tags[]" multiple="multiple">
+                                                            {{-- <option value="0">None</option> --}}
+                                                            @if (count($tags) > 0)
+                                                                @foreach ($tags as $tag)
+                                                                    <?php $dash = ''; ?>
+                                                                    <option value={{ $tag->name }}>
+                                                                        {{ $tag->name }}
+                                                                    </option>
+                                                                @endforeach
+                                                            @endif
+                                                        </select>
+                                                    </div>
+                                                    @error('tags')
                                                         <div class="alert alert-danger">{{ $message }}</div>
                                                     @enderror
                                                 </div>
@@ -354,6 +375,14 @@
     <script src="{{ asset('assets') }}/tinymce/tinymce.min.js"></script>
     <script src="{{ asset('assets') }}/select2/js/select2.min.js"></script>
     <script>
+        // tags
+        $(document).ready(function() {
+            $("#tags-select2").select2({
+                placeholder: "Find or create tags",
+                allowClear: true,
+                tags: true
+            });
+        });
         // select2
         $(document).ready(function() {
             $(".tagsselect2").select2({

@@ -10,6 +10,8 @@ use App\Models\Product\Product;
 use App\Models\Product\ProductCategory;
 use App\Models\Product\ProductDetails;
 use App\Models\Product\ProductImage;
+use App\Models\Product\ProductTag;
+use App\Models\Product\Tag;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
@@ -44,11 +46,12 @@ class ProductController extends Controller
      */
     public function create()
     {
+        $tags = Tag::orderBy('name', 'asc')->get();
         $categories = Category::where('status', 1)->where('parent_id', null)->orderBy('name', 'asc')->get();
         $option_sets = OptionSet::where('status', 1)->orderBy('name', 'asc')->get();
         $manufacturers = Manufacturer::where('status', 1)->orderBy('name', 'asc')->get();
 
-        return view('backend.product.create', compact('categories', 'option_sets', 'manufacturers'));
+        return view('backend.product.create', compact('categories', 'option_sets', 'manufacturers', 'tags'));
     }
 
     /**
@@ -71,6 +74,7 @@ class ProductController extends Controller
             $category_id = $request->input('category_id');
             $option_set_id = $request->input('option_set_id');
             $manufacturer_id = $request->input('manufacturer_id');
+            $tags = $request->input('tags');
             $price = $request->input('price');
             $cost_per_item = $request->input('cost_per_item');
             $description = $request->input('description');
@@ -135,6 +139,9 @@ class ProductController extends Controller
             $product->categories()->sync($category_id);
             // save option sets
             $product->option_sets()->sync($option_set_id);
+            // save tags
+            $this->saveTags($tags, $product);
+
             // if ($category_id) {
             //     foreach ($category_id as $category) {
             //         // insert into product categories
@@ -174,6 +181,7 @@ class ProductController extends Controller
      */
     public function edit(Request $request, $id)
     {
+        $tags = Tag::orderBy('name', 'asc')->get();
         $categories = Category::where('status', 1)->where('parent_id', null)->orderBy('name', 'asc')->get();
         $option_sets = OptionSet::where('status', 1)->orderBy('name', 'asc')->get();
         $manufacturers = Manufacturer::where('status', 1)->orderBy('name', 'asc')->get();
@@ -182,7 +190,7 @@ class ProductController extends Controller
             ->orderBy('sort_order', 'asc')
             ->paginate(15);
 
-        return view('backend.product.edit', compact('categories', 'option_sets', 'manufacturers', 'productImages', 'product'));
+        return view('backend.product.edit', compact('categories', 'option_sets', 'manufacturers', 'productImages', 'product', 'tags'));
     }
 
     /**
@@ -204,6 +212,7 @@ class ProductController extends Controller
             $category_id = $request->input('category_id');
             $option_set_id = $request->input('option_set_id');
             $manufacturer_id = $request->input('manufacturer_id');
+            $tags = $request->input('tags');
             $price = $request->input('price');
             $cost_per_item = $request->input('cost_per_item');
             $description = $request->input('description');
@@ -271,6 +280,9 @@ class ProductController extends Controller
             $product->categories()->sync($category_id);
             // save option sets
             $product->option_sets()->sync($option_set_id);
+            // save tags
+            $this->saveTags($tags, $product);
+
             // if ($category_id) {
             //     foreach ($category_id as $category) {
             //         // insert into product categories
@@ -288,6 +300,38 @@ class ProductController extends Controller
             return back()->with('success', 'Updated successfully');
         } catch (\Throwable $th) {
             return back()->with('warning', $th->getMessage());
+        }
+    }
+
+
+    // save tags
+    private function saveTags($tags, $product)
+    {
+        // remove first product tags record
+        if ($tags) {
+            ProductTag::where('product_id', $product->id)->delete();
+            foreach ($tags as $tag) {
+                $existTag = Tag::where('name', $tag)->first();
+                if (!$existTag) {
+                    $insertTag = new Tag();
+                    $insertTag->name = $tag;
+                    $insertTag->save();
+
+                    // insert tag into product tag
+                    $productTag1 = new ProductTag();
+                    $productTag1->product_id = $product->id;
+                    $productTag1->tag_id = $insertTag->id;
+                    $productTag1->save();
+                } else {
+                    // insert tag into product tag
+                    $productTag2 = new ProductTag();
+                    $productTag2->product_id = $product->id;
+                    $productTag2->tag_id = $existTag->id;
+                    $productTag2->save();
+                }
+            }
+        } else {
+            ProductTag::where('product_id', $product->id)->delete();
         }
     }
 

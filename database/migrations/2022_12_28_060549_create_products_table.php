@@ -19,6 +19,12 @@ return new class extends Migration
             $table->string('name'); // max limit 70
             $table->string('slug')->nullable();
 
+            // product type
+            // simple - a simple product with no variants
+            // grouped - a product with variants
+            // bundle - a product that is a collection of other products
+            $table->string('product_type')->nullable()->default('simple');
+
             /**
              * SEO
              */
@@ -49,7 +55,6 @@ return new class extends Migration
 
             //
             $table->foreignId('manufacturer_id')->nullable()->constrained()->onDelete('set null');
-            $table->foreignId('option_set_id')->nullable()->constrained('option_sets')->onDelete('set null');
 
             $table->foreignId('user_id')->nullable()->constrained()->onDelete('set null');
             $table->bigInteger("views")->nullable()->default(0);

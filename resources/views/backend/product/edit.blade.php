@@ -171,7 +171,29 @@
                                                             @endif
                                                         </select>
                                                     </div>
-                                                    @error('category_id')
+                                                    @error('manufacturer_id')
+                                                        <div class="alert alert-danger">{{ $message }}</div>
+                                                    @enderror
+                                                </div>
+
+
+                                                <div class="col mb-4">
+                                                    <div class="form-group mb-3">
+                                                        <label for="tags-select2">Tags</label>
+                                                        <select id="tags-select2" class="form-select mb-3"
+                                                            name="tags[]" multiple="multiple">
+                                                            {{-- <option value="0">None</option> --}}
+                                                            @if (count($tags) > 0)
+                                                                @foreach ($tags as $tag)
+                                                                    <?php $dash = ''; ?>
+                                                                    <option value={{ $tag->name }}>
+                                                                        {{ $tag->name }}
+                                                                    </option>
+                                                                @endforeach
+                                                            @endif
+                                                        </select>
+                                                    </div>
+                                                    @error('tags')
                                                         <div class="alert alert-danger">{{ $message }}</div>
                                                     @enderror
                                                 </div>
@@ -725,6 +747,21 @@
         }
     </script>
     <script>
+        // tags
+        $(document).ready(function() {
+            const tags = $("#tags-select2");
+            const selectedValues = <?php echo json_encode($product->tags); ?>;
+            const newSelectedValues = selectedValues.map((selectedValue) => selectedValue.name)
+
+            tags.select2({
+                placeholder: "Find or create tags",
+                allowClear: true,
+                tags: true
+            });
+
+            tags.val(newSelectedValues).trigger('change');
+        });
+
         // categoris
         $(document).ready(function() {
             const categoriesSelect2 = $("#categories-select2");
