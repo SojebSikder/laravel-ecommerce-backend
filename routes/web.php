@@ -22,6 +22,7 @@ use App\Http\Controllers\Web\Admin\Plugin\PluginController;
 use App\Http\Controllers\Web\Admin\Product\ManufacturerController;
 use App\Http\Controllers\Web\Admin\Product\ProductController;
 use App\Http\Controllers\Web\Admin\Product\ProductDetailsController;
+use App\Http\Controllers\Web\Admin\Product\TagController;
 use App\Http\Controllers\Web\Admin\Setting\SettingController;
 use App\Http\Controllers\Web\Admin\Shipping\ShippingController;
 use App\Http\Controllers\Web\Admin\Shipping\ShippingZoneController;
@@ -71,6 +72,10 @@ Route::middleware(['auth', 'admin'])->group(function () {
     // product
     Route::get('product/{id}/status', [ProductController::class, 'status'])->name('product.status');
     Route::resource('product', ProductController::class);
+
+    // tag
+    Route::get('tag/{id}/status', [TagController::class, 'status'])->name('tag.status');
+    Route::resource('tag', TagController::class);
 
     // option set
     Route::get('option-set/duplicate/{id}', [OptionSetController::class, 'duplicate'])->name('option-set.duplicate');

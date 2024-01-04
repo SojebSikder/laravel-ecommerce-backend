@@ -78,6 +78,11 @@ class Product extends Model
         return $this->belongsToMany(OptionSet::class, 'product_option_sets');
     }
 
+    public function tags()
+    {
+        return $this->belongsToMany(Tag::class, 'product_tags');
+    }
+
     public function details()
     {
         return $this->hasMany(ProductDetails::class)->orderBy('sort_order', 'asc');
