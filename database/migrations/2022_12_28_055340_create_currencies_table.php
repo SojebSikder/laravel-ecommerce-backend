@@ -23,8 +23,8 @@ return new class extends Migration
             // The exchange rate against the primary exchange rate currency.
             $table->decimal('rate')->nullable();
 
-            $table->tinyInteger('is_primary_exchange_rate_currency')->nullable()->default(0);
-            $table->tinyInteger('is_primary_store_currency')->nullable()->default(0);
+            $table->tinyInteger('is_primary_exchange')->nullable()->default(0);
+            $table->tinyInteger('is_primary_store')->nullable()->default(0);
 
             $table->tinyInteger('status')->nullable()->default(1); // 1-> active, 0-> deactive
             $table->integer('sort_order')->nullable()->default(0);

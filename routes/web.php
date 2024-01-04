@@ -23,6 +23,9 @@ use App\Http\Controllers\Web\Admin\Product\ManufacturerController;
 use App\Http\Controllers\Web\Admin\Product\ProductController;
 use App\Http\Controllers\Web\Admin\Product\ProductDetailsController;
 use App\Http\Controllers\Web\Admin\Product\TagController;
+use App\Http\Controllers\Web\Admin\Review\ReviewController;
+use App\Http\Controllers\Web\Admin\Setting\CurrencyController;
+use App\Http\Controllers\Web\Admin\Setting\GeneralSettingController;
 use App\Http\Controllers\Web\Admin\Setting\SettingController;
 use App\Http\Controllers\Web\Admin\Shipping\ShippingController;
 use App\Http\Controllers\Web\Admin\Shipping\ShippingZoneController;
@@ -97,6 +100,10 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('manufacturer/{id}/status', [ManufacturerController::class, 'status'])->name('manufacturer.status');
     Route::resource('manufacturer', ManufacturerController::class);
 
+    // review
+    Route::get('review/{id}/status', [ReviewController::class, 'status'])->name('review.status');
+    Route::resource('review', ReviewController::class);
+
     // sales
     Route::prefix('order')->group(function () {
         Route::get('invoice-view/{id}', [OrderController::class, 'invoice'])->name('order_invoice');
@@ -147,6 +154,12 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('setting/payment-provider/{id}/status', [PaymentProviderController::class, 'status'])->name('payment-provider.status');
     Route::resource('setting/payment-provider', PaymentProviderController::class);
 
+    // currency
+    Route::get('setting/currency/status/{id}', [CurrencyController::class, 'status'])->name('currency.status');
+    Route::get('setting/currency/markPrimaryExchange/{id}', [CurrencyController::class, 'markPrimaryExchange'])->name('currency.markPrimaryExchange');
+    Route::get('setting/currency/markPrimaryStore/{id}', [CurrencyController::class, 'markPrimaryStore'])->name('currency.markPrimaryStore');
+    Route::resource('setting/currency', CurrencyController::class);
+
     // payment
     Route::get('setting/shipping-zone/{shipping_id}/payment-provider/{shipping_zone_id}/edit', [ShippingZoneController::class, 'paymentProviderEdit']);
     Route::put('setting/shipping-zone/payment-provider/{id}', [ShippingZoneController::class, 'paymentProviderUpdate'])->name('payment-provider.update');
@@ -158,6 +171,7 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('setting/shipping/{id}/status', [ShippingController::class, 'status'])->name('shipping.status');
     Route::resource('setting/shipping', ShippingController::class);
 
+    Route::resource('setting/general-setting', GeneralSettingController::class);
     Route::resource('setting', SettingController::class);
 
     // plugin
