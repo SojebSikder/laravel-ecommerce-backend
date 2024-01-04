@@ -173,11 +173,19 @@ $menus = [
         'permission' => 'setting_management_read',
         'children' => [
             [
+                'label' => 'General Settings',
+                'name' => 'general-settings',
+                'icon' => 'bi bi-layout-split',
+                'route' => 'general-setting.index',
+                'order' => 1,
+                'parent' => 'settings',
+            ],
+            [
                 'label' => 'Basic',
                 'name' => 'basic',
                 'icon' => 'bi bi-layout-split',
                 'route' => 'setting.index',
-                'order' => 1,
+                'order' => 2,
                 'parent' => 'settings',
             ],
             [
@@ -185,7 +193,7 @@ $menus = [
                 'name' => 'shipping',
                 'icon' => 'bi bi-layout-split',
                 'route' => 'shipping.index',
-                'order' => 2,
+                'order' => 3,
                 'parent' => 'settings',
             ],
             [
@@ -193,7 +201,7 @@ $menus = [
                 'name' => 'payment-method',
                 'icon' => 'bi bi-layout-split',
                 'route' => 'payment-provider.index',
-                'order' => 3,
+                'order' => 4,
                 'parent' => 'settings',
             ],
             [
@@ -201,7 +209,7 @@ $menus = [
                 'name' => 'order-status',
                 'icon' => 'bi bi-layout-split',
                 'route' => 'status.index',
-                'order' => 4,
+                'order' => 5,
                 'parent' => 'settings',
             ],
             [
@@ -209,7 +217,7 @@ $menus = [
                 'name' => 'currency',
                 'icon' => 'bi bi-layout-split',
                 'route' => 'currency.index',
-                'order' => 5,
+                'order' => 6,
                 'parent' => 'settings',
             ],
             [
@@ -217,7 +225,7 @@ $menus = [
                 'name' => 'plugins',
                 'icon' => 'bi bi-layout-split',
                 'route' => 'plugin.index',
-                'order' => 6,
+                'order' => 7,
                 'parent' => 'settings',
             ],
         ],

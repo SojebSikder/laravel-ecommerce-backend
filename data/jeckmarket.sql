@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 03, 2024 at 08:02 PM
+-- Generation Time: Jan 04, 2024 at 08:37 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -357,6 +357,14 @@ INSERT INTO `coupons` (`id`, `method`, `code`, `title`, `name`, `description`, `
 (1, 'code', '8u2BFUitoyZAoLK9', NULL, NULL, NULL, 10.00, 'percentage', 0, NULL, NULL, 'order', NULL, NULL, NULL, 'none', NULL, NULL, 1, NULL, '2023-01-09 06:23:11', '2023-01-09 06:23:11');
 
 --
+-- Dumping data for table `currencies`
+--
+
+INSERT INTO `currencies` (`id`, `name`, `currency_code`, `currency_sign`, `rate`, `is_primary_exchange`, `is_primary_store`, `status`, `sort_order`, `created_at`, `updated_at`) VALUES
+(1, 'US Dollar', 'USD', '$', 1.00, 0, 0, 1, 0, '2024-01-04 13:08:56', '2024-01-04 13:09:26'),
+(2, 'BD Taka', 'BDT', 'TK', 110.00, 1, 1, 1, 0, '2024-01-04 13:09:17', '2024-01-04 13:09:36');
+
+--
 -- Dumping data for table `footers`
 --
 
@@ -374,6 +382,13 @@ INSERT INTO `footer_items` (`id`, `footer_id`, `name`, `link`, `status`, `sort_o
 (3, 1, 'Privacy', '/privacy', 1, 0, '2023-01-11 09:40:37', '2023-01-12 08:45:30');
 
 --
+-- Dumping data for table `general_settings`
+--
+
+INSERT INTO `general_settings` (`id`, `name`, `meta_title`, `meta_description`, `meta_keyword`, `email`, `phone`, `address`, `logo`, `favicon`, `header_custom_html`, `footer_custom_html`, `robots_txt`, `created_at`, `updated_at`) VALUES
+(1, 'Ecommerce site', 'Ecommerce site', 'Ecommerce site', 'Ecommerce site', NULL, NULL, NULL, '1704396972-659708ac4a205.jpg', NULL, NULL, NULL, NULL, '2024-01-04 13:34:48', '2024-01-04 13:36:52');
+
+--
 -- Dumping data for table `mailing_lists`
 --
 
@@ -388,7 +403,6 @@ INSERT INTO `manufacturers` (`id`, `name`, `slug`, `image`, `description`, `meta
 (1, 'Apple', 'apple', NULL, NULL, NULL, NULL, NULL, 1, 0, '2023-01-05 06:08:08', '2023-01-05 06:08:08'),
 (2, 'Google', 'google', NULL, NULL, NULL, NULL, NULL, 1, 0, '2023-01-05 06:08:12', '2023-01-05 06:08:12'),
 (3, 'Amazon', 'amazon', NULL, NULL, NULL, NULL, NULL, 1, 0, '2023-01-05 06:08:20', '2023-01-05 06:08:20');
-
 
 --
 -- Dumping data for table `option_sets`
@@ -651,8 +665,8 @@ INSERT INTO `permission_roles` (`id`, `permission_id`, `role_id`, `created_at`, 
 -- Dumping data for table `products`
 --
 
-INSERT INTO `products` (`id`, `name`, `slug`, `meta_title`, `meta_description`, `meta_keyword`, `description`, `price`, `discount`, `track_quantity`, `quantity`, `sku`, `barcode`, `is_sale`, `cost_per_item`, `weight`, `weight_unit`, `manufacturer_id`, `user_id`, `views`, `status`, `created_at`, `updated_at`) VALUES
-(82, 'Black T-shirt', 'black-tshirt', NULL, NULL, NULL, '<p>Cool black tshirt</p>', 350.00, NULL, 1, 200, NULL, NULL, 0, 60.00, 0.50, 'kg', NULL, NULL, 0, 1, '2024-01-03 12:57:38', '2024-01-03 13:00:38');
+INSERT INTO `products` (`id`, `name`, `slug`, `product_type`, `meta_title`, `meta_description`, `meta_keyword`, `description`, `price`, `discount`, `track_quantity`, `quantity`, `sku`, `barcode`, `is_sale`, `cost_per_item`, `weight`, `weight_unit`, `manufacturer_id`, `user_id`, `views`, `status`, `created_at`, `updated_at`) VALUES
+(82, 'Black T-shirt', 'black-tshirt', 'simple', NULL, NULL, NULL, '<p>Cool black tshirt</p>', 350.00, NULL, 1, 200, NULL, NULL, 0, 60.00, 0.50, 'kg', NULL, NULL, 0, 1, '2024-01-03 12:57:38', '2024-01-03 13:00:38');
 
 --
 -- Dumping data for table `product_categories`

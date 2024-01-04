@@ -25,6 +25,7 @@ use App\Http\Controllers\Web\Admin\Product\ProductDetailsController;
 use App\Http\Controllers\Web\Admin\Product\TagController;
 use App\Http\Controllers\Web\Admin\Review\ReviewController;
 use App\Http\Controllers\Web\Admin\Setting\CurrencyController;
+use App\Http\Controllers\Web\Admin\Setting\GeneralSettingController;
 use App\Http\Controllers\Web\Admin\Setting\SettingController;
 use App\Http\Controllers\Web\Admin\Shipping\ShippingController;
 use App\Http\Controllers\Web\Admin\Shipping\ShippingZoneController;
@@ -170,6 +171,7 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('setting/shipping/{id}/status', [ShippingController::class, 'status'])->name('shipping.status');
     Route::resource('setting/shipping', ShippingController::class);
 
+    Route::resource('setting/general-setting', GeneralSettingController::class);
     Route::resource('setting', SettingController::class);
 
     // plugin

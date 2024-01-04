@@ -2,6 +2,7 @@
 
 return [
     'uploads' => [
+        'site' => 'site',
         'product' => 'product',
         'category' => 'category',
         'manufacturer' => 'manufacturer',
