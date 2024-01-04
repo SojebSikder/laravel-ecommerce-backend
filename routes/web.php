@@ -23,6 +23,7 @@ use App\Http\Controllers\Web\Admin\Product\ManufacturerController;
 use App\Http\Controllers\Web\Admin\Product\ProductController;
 use App\Http\Controllers\Web\Admin\Product\ProductDetailsController;
 use App\Http\Controllers\Web\Admin\Product\TagController;
+use App\Http\Controllers\Web\Admin\Review\ReviewController;
 use App\Http\Controllers\Web\Admin\Setting\SettingController;
 use App\Http\Controllers\Web\Admin\Shipping\ShippingController;
 use App\Http\Controllers\Web\Admin\Shipping\ShippingZoneController;
@@ -96,6 +97,10 @@ Route::middleware(['auth', 'admin'])->group(function () {
     // Manufacturer
     Route::get('manufacturer/{id}/status', [ManufacturerController::class, 'status'])->name('manufacturer.status');
     Route::resource('manufacturer', ManufacturerController::class);
+
+    // review
+    Route::get('review/{id}/status', [ReviewController::class, 'status'])->name('review.status');
+    Route::resource('review', ReviewController::class);
 
     // sales
     Route::prefix('order')->group(function () {
