@@ -6,10 +6,18 @@ use App\Models\Shipping\ShippingZone;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Activitylog\LogOptions;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 class Order extends Model
 {
     use HasFactory;
+    // LogsActivity;
+
+    // public function getActivitylogOptions(): LogOptions
+    // {
+    //     return LogOptions::defaults()->logOnly(['*'])->logOnlyDirty();
+    // }
 
     /**
      * The relationships that should always be loaded.

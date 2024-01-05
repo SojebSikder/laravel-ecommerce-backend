@@ -164,6 +164,14 @@ class OrderController extends Controller
         // delete order draft
         $order_draft->delete();
 
+        // log activity
+        activity()
+            ->performedOn($order)
+            ->causedBy(auth()->user())
+            ->withProperties(['order_id' => $order->id])
+            ->log('order_created');
+
+
         //commit the transaction
         DB::commit();
 
@@ -263,6 +271,14 @@ class OrderController extends Controller
         }
 
         $shippingAddress->save();
+
+        // log activity
+        activity()
+            ->performedOn($shippingAddress)
+            ->causedBy(auth()->user())
+            ->withProperties(['order_id' => $shippingAddress->id])
+            ->log('order_shipping_address_updated');
+
         return back()->with('success', 'Changed successfully');
     }
 
@@ -291,6 +307,13 @@ class OrderController extends Controller
             $order_status_history->status_id = $status;
             $order_status_history->save();
 
+            // log activity
+            activity()
+                ->performedOn($order)
+                ->causedBy(auth()->user())
+                ->withProperties(['order_id' => $order->id])
+                ->log('order_status_changed');
+
             //commit the transaction
             DB::commit();
             return back()->with('success', 'Order status changed');
@@ -305,6 +328,13 @@ class OrderController extends Controller
         $order_status = OrderStatus::find($id);
         $order_status->delete();
 
+        // log activity
+        activity()
+            ->performedOn($order_status)
+            ->causedBy(auth()->user())
+            ->withProperties(['order_id' => $order_status->order_id])
+            ->log('order_status_deleted');
+
         return back()->with('success', 'Deleted successfully');
     }
 
@@ -315,6 +345,14 @@ class OrderController extends Controller
         $order = Order::findOrFail($id);
         $order->payment_status = $payment_status;
         $order->save();
+
+        // log activity
+        activity()
+            ->performedOn($order)
+            ->causedBy(auth()->user())
+            ->withProperties(['order_id' => $order->id])
+            ->log('order_payment_status_changed');
+
         return back()->with('success', 'Payment status changed');
     }
 
@@ -369,6 +407,13 @@ class OrderController extends Controller
                 Mail::to($customerTo)->send(new OrderFulfilled($data));
             }
         }
+
+        // log activity
+        activity()
+            ->performedOn($order)
+            ->causedBy(auth()->user())
+            ->withProperties(['order_id' => $order->id])
+            ->log('order_fulfillment_status_changed');
 
         return back()->with('success', 'Fulfillment status changed');
     }
