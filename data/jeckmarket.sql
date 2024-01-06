@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 04, 2024 at 08:37 PM
+-- Generation Time: Jan 06, 2024 at 05:30 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -21,6 +21,34 @@ SET time_zone = "+00:00";
 --
 -- Database: `jeckmarket`
 --
+
+--
+-- Dumping data for table `activity_log`
+--
+
+INSERT INTO `activity_log` (`id`, `log_name`, `description`, `subject_type`, `event`, `subject_id`, `causer_type`, `causer_id`, `properties`, `batch_uuid`, `created_at`, `updated_at`) VALUES
+(6, 'default', 'order_status_changed', 'App\\Models\\Order\\Order', NULL, 4, 'App\\Models\\User', 1, '{\"order_id\":4}', NULL, '2024-01-05 14:39:46', '2024-01-05 14:39:46');
+
+--
+-- Dumping data for table `attributes`
+--
+
+INSERT INTO `attributes` (`id`, `name`, `status`, `sort_order`, `created_at`, `updated_at`) VALUES
+(1, 'Size', 1, 0, '2024-01-06 04:50:17', '2024-01-06 04:51:52'),
+(2, 'Color', 1, 0, '2024-01-06 06:49:16', '2024-01-06 06:49:16');
+
+--
+-- Dumping data for table `attribute_values`
+--
+
+INSERT INTO `attribute_values` (`id`, `attribute_id`, `name`, `status`, `sort_order`, `created_at`, `updated_at`) VALUES
+(3, 1, 'S', 1, 0, '2024-01-06 05:21:33', '2024-01-06 05:32:43'),
+(4, 1, 'M', 1, 0, '2024-01-06 05:21:41', '2024-01-06 05:21:41'),
+(5, 1, 'L', 1, 0, '2024-01-06 05:21:50', '2024-01-06 05:21:50'),
+(6, 1, 'XL', 1, 0, '2024-01-06 05:21:54', '2024-01-06 05:21:54'),
+(7, 2, 'White', 1, 0, '2024-01-06 06:49:25', '2024-01-06 06:49:25'),
+(8, 2, 'Black', 1, 0, '2024-01-06 06:49:29', '2024-01-06 06:49:29'),
+(9, 2, 'Red', 1, 0, '2024-01-06 06:49:33', '2024-01-06 06:49:33');
 
 --
 -- Dumping data for table `categories`
@@ -424,53 +452,46 @@ INSERT INTO `option_set_elements` (`id`, `option_set_id`, `type`, `label`, `name
 --
 
 INSERT INTO `orders` (`id`, `invoice_number`, `payment_ref_id`, `properties`, `tracking_number`, `courier_provider`, `sub_total`, `order_total`, `shipping_zone_id`, `shipping_zone_name`, `shipping_charge`, `payment_provider_id`, `payment_provider`, `payment_provider_charge_type`, `payment_provider_charge`, `payment_status`, `payment_raw_status`, `paid_amount`, `paid_currency`, `status`, `fulfillment_status`, `currency`, `comment`, `order_shipping_address_id`, `order_billing_address_id`, `user_id`, `latitude`, `longitude`, `fname`, `lname`, `phone_number`, `email`, `deleted_at`, `created_at`, `updated_at`) VALUES
-(1, '1000', NULL, NULL, NULL, 'call_courier', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'percentage', NULL, NULL, NULL, NULL, NULL, NULL, 'unfulfilled', NULL, 'asas', NULL, NULL, 2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2023-07-30 03:41:28', '2023-07-30 03:41:28'),
-(2, '1001', NULL, NULL, NULL, 'call_courier', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'percentage', NULL, NULL, NULL, NULL, NULL, NULL, 'unfulfilled', NULL, 'hh', NULL, NULL, 2, NULL, NULL, 'sd', 'sdsd', NULL, 'as@gmail.com', NULL, '2023-07-30 07:42:22', '2023-07-30 07:42:22'),
-(3, '1002', NULL, NULL, NULL, 'call_courier', NULL, 8.50, NULL, NULL, NULL, NULL, NULL, 'percentage', NULL, 'paid', NULL, NULL, NULL, 'processing', 'unfulfilled', NULL, NULL, 1, NULL, 2, NULL, NULL, 'sd', 'sdsd', NULL, 'as@gmail.com', NULL, '2023-07-30 07:53:17', '2023-07-30 07:59:02');
-
---
--- Dumping data for table `order_drafts`
---
-
-INSERT INTO `order_drafts` (`id`, `user_id`, `comment`, `fname`, `lname`, `phone_number`, `email`, `country_id`, `country`, `address1`, `address2`, `city`, `state`, `zip`, `latitude`, `longitude`, `created_at`, `updated_at`) VALUES
-(1, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2024-01-03 12:42:19', '2024-01-03 12:42:19');
-
---
--- Dumping data for table `order_draft_items`
---
-
-INSERT INTO `order_draft_items` (`id`, `order_draft_id`, `product_id`, `quantity`, `attribute`, `created_at`, `updated_at`) VALUES
-(1, 1, 81, 1, NULL, '2024-01-03 12:42:29', '2024-01-03 12:42:29');
+(4, '1000', NULL, NULL, NULL, 'call_courier', NULL, 350.00, NULL, NULL, NULL, NULL, NULL, 'percentage', NULL, 'unpaid', NULL, NULL, NULL, 'order_delivered', 'unfulfilled', NULL, 'Order from customer', 2, NULL, 1, NULL, NULL, 'admin', 'admin', NULL, 'admin@example.com', NULL, '2024-01-05 14:08:23', '2024-01-05 14:39:46');
 
 --
 -- Dumping data for table `order_items`
 --
 
 INSERT INTO `order_items` (`id`, `order_id`, `product_id`, `discount`, `price`, `total_price`, `quantity`, `weight`, `weight_unit`, `attribute`, `deleted_at`, `created_at`, `updated_at`) VALUES
-(1, 2, 81, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL, '2023-07-30 07:42:22', '2023-07-30 07:42:22'),
-(2, 2, 81, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL, '2023-07-30 07:42:22', '2023-07-30 07:42:22'),
-(3, 3, 81, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL, '2023-07-30 07:53:17', '2023-07-30 07:53:17');
+(4, 4, 82, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL, '2024-01-05 14:08:23', '2024-01-05 14:08:23');
 
 --
 -- Dumping data for table `order_shipping_addresses`
 --
 
 INSERT INTO `order_shipping_addresses` (`id`, `fname`, `lname`, `phone_number`, `email`, `country_id`, `country`, `address1`, `address2`, `city`, `state`, `zip`, `latitude`, `longitude`, `user_id`, `status`, `deleted_at`, `created_at`, `updated_at`) VALUES
-(1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, NULL, '2023-07-30 07:53:17', '2023-07-30 07:53:17');
+(1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, NULL, '2023-07-30 07:53:17', '2023-07-30 07:53:17'),
+(2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, NULL, '2024-01-05 14:08:23', '2024-01-05 14:08:23');
 
 --
 -- Dumping data for table `order_statuses`
 --
 
 INSERT INTO `order_statuses` (`id`, `order_id`, `status_id`, `created_at`, `updated_at`) VALUES
-(1, 3, 2, '2023-07-30 07:59:02', '2023-07-30 07:59:02');
+(2, 4, 2, '2024-01-05 14:24:55', '2024-01-05 14:24:55'),
+(3, 4, 3, '2024-01-05 14:25:33', '2024-01-05 14:25:33'),
+(4, 4, 1, '2024-01-05 14:28:24', '2024-01-05 14:28:24'),
+(5, 4, 3, '2024-01-05 14:28:49', '2024-01-05 14:28:49'),
+(6, 4, 1, '2024-01-05 14:33:09', '2024-01-05 14:33:09'),
+(7, 4, 3, '2024-01-05 14:39:46', '2024-01-05 14:39:46');
 
 --
 -- Dumping data for table `order_status_histories`
 --
 
 INSERT INTO `order_status_histories` (`id`, `order_id`, `status_id`, `created_at`, `updated_at`) VALUES
-(1, 3, 2, '2023-07-30 07:59:02', '2023-07-30 07:59:02');
+(2, 4, 2, '2024-01-05 14:24:55', '2024-01-05 14:24:55'),
+(3, 4, 3, '2024-01-05 14:25:33', '2024-01-05 14:25:33'),
+(4, 4, 1, '2024-01-05 14:28:24', '2024-01-05 14:28:24'),
+(5, 4, 3, '2024-01-05 14:28:49', '2024-01-05 14:28:49'),
+(6, 4, 1, '2024-01-05 14:33:09', '2024-01-05 14:33:09'),
+(7, 4, 3, '2024-01-05 14:39:46', '2024-01-05 14:39:46');
 
 --
 -- Dumping data for table `pages`
@@ -789,8 +810,31 @@ INSERT INTO `statuses` (`id`, `label`, `name`, `description`, `image`, `alt_text
 --
 
 INSERT INTO `users` (`id`, `fname`, `lname`, `name`, `email`, `phone_number`, `dial_code`, `email_verified_at`, `phone_verified_at`, `provider`, `provider_uid`, `avatar`, `type`, `status`, `password`, `remember_token`, `created_at`, `updated_at`) VALUES
-(1, 'admin', 'admin', NULL, 'admin@example.com', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'su_admin', 1, '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', NULL, '2023-07-30 02:11:58', '2023-07-30 02:11:58'),
+(1, 'admin', 'admin', NULL, 'admin@example.com', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'su_admin', 1, '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'JHwH0HdQC1XuHGGOx63TegQJqgQBATibjg69rT7SQRoF23qB1ceHv5hqi7SV', '2023-07-30 02:11:58', '2023-07-30 02:11:58'),
 (2, 'sd', 'sdsd', NULL, 'as@gmail.com', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'su_admin', 1, '$2y$10$a5lUNEobpCWplDHP3WIr7eHejJ6CQc8G8LM4SNnzT7OxATaVwLER2', NULL, '2023-07-30 02:24:56', '2024-01-03 12:44:11');
+
+--
+-- Dumping data for table `variants`
+--
+
+INSERT INTO `variants` (`id`, `product_id`, `price`, `discount`, `track_quantity`, `quantity`, `sku`, `barcode`, `is_sale`, `cost_per_item`, `weight`, `weight_unit`, `status`, `sort_order`, `created_at`, `updated_at`) VALUES
+(3, 82, 350.00, 10.00, 0, 40, NULL, NULL, 0, 60.00, 200.00, 'kg', 1, 0, '2024-01-06 10:18:06', '2024-01-06 10:20:06');
+
+--
+-- Dumping data for table `variant_attributes`
+--
+
+INSERT INTO `variant_attributes` (`id`, `variant_id`, `attribute_id`, `attribute_value_id`, `created_at`, `updated_at`) VALUES
+(3, NULL, 1, 3, '2024-01-06 10:03:23', '2024-01-06 10:03:23'),
+(5, 3, 1, 3, '2024-01-06 10:28:56', '2024-01-06 10:28:56'),
+(6, 3, 2, 8, '2024-01-06 10:29:04', '2024-01-06 10:29:04');
+
+--
+-- Dumping data for table `variant_images`
+--
+
+INSERT INTO `variant_images` (`id`, `variant_id`, `image`, `alt_text`, `status`, `sort_order`, `created_at`, `updated_at`) VALUES
+(2, 3, '1704558522-65997fbaeb537.jpg', NULL, 1, 0, '2024-01-06 10:28:42', '2024-01-06 10:28:42');
 SET FOREIGN_KEY_CHECKS=1;
 COMMIT;
 

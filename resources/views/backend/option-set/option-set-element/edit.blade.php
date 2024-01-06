@@ -1,7 +1,7 @@
 @extends('backend.master')
 
 @section('title')
-    Edit category
+    Edit element
 @endsection
 
 @section('style')
@@ -32,7 +32,7 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-md-12 fw-bold fs-3">
-                    Categories
+                    Elements
                 </div>
             </div>
             <div class="row">
@@ -40,7 +40,7 @@
                     <div class="col-md-12 mt-3">
                         <div class="card">
                             <div class="card-header">
-                                <h5 class="float-start">Edit category</h5>
+                                <h5 class="float-start">Edit element</h5>
                                 <a href="{{ route('option-set.show', $element->option_set_id) }}"
                                     class="btn btn-sm btn-primary float-end mr-4 mt-3">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"

@@ -23,6 +23,10 @@ use App\Http\Controllers\Web\Admin\Product\ManufacturerController;
 use App\Http\Controllers\Web\Admin\Product\ProductController;
 use App\Http\Controllers\Web\Admin\Product\ProductDetailsController;
 use App\Http\Controllers\Web\Admin\Product\TagController;
+use App\Http\Controllers\Web\Admin\Product\Variant\AttributeController;
+use App\Http\Controllers\Web\Admin\Product\Variant\AttributeValueController;
+use App\Http\Controllers\Web\Admin\Product\Variant\VariantAttributeController;
+use App\Http\Controllers\Web\Admin\Product\Variant\VariantController;
 use App\Http\Controllers\Web\Admin\Review\ReviewController;
 use App\Http\Controllers\Web\Admin\Setting\CurrencyController;
 use App\Http\Controllers\Web\Admin\Setting\GeneralSettingController;
@@ -76,6 +80,19 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('product/{id}/status', [ProductController::class, 'status'])->name('product.status');
     Route::resource('product', ProductController::class);
 
+    // product variant
+    Route::get('product/variant-status/{id}', [VariantController::class, 'status'])->name('variant_status');
+    Route::get('product/{id}/variant/create', [VariantController::class, 'create'])->name('variant_create');
+    Route::resource('product/variant', VariantController::class);
+
+    // product variant attribute
+    Route::get('variant/{id}/variant_attribute/create', [VariantAttributeController::class, 'create'])->name('variant_attribute_create');
+    Route::resource('variant/variant_attribute', VariantAttributeController::class);
+
+    // product variant image
+    Route::put('product/variant/image/{id}', [VariantController::class, 'updateImage'])->name('variant.image.update');
+    Route::delete('product/variant/image/{id}/delete', [VariantController::class, 'deleteImage'])->name('variant.image.destroy');
+
     // tag
     Route::get('tag/{id}/status', [TagController::class, 'status'])->name('tag.status');
     Route::resource('tag', TagController::class);
@@ -90,6 +107,15 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('option-set/element/duplicate/{id}', [OptionSetElementController::class, 'duplicate'])->name('element.duplicate');
     Route::get('option-set/element/status/{id}', [OptionSetElementController::class, 'status'])->name('element.status');
     Route::put('option-set/element/sort/{id}', [OptionSetElementController::class, 'sortingOrder'])->name('element.sortingOrder');
+
+    // attribute
+    Route::get('attribute/status/{id}', [AttributeController::class, 'status'])->name('attribute.status');
+    Route::resource('attribute', AttributeController::class);
+
+    Route::get('attribute/attribute_value/create/{id}', [AttributeValueController::class, 'create'])->name('attribute_value.create');
+    Route::get('attribute/attribute_value/status/{id}', [AttributeValueController::class, 'status'])->name('attribute_value.status');
+    Route::put('attribute/attribute_value/sort/{id}', [AttributeValueController::class, 'sortingOrder'])->name('attribute_value.sortingOrder');
+    Route::resource('attribute/attribute_value', AttributeValueController::class);
 
     // Category
     Route::get('category/{id}/status', [CategoryController::class, 'status'])->name('category.status');

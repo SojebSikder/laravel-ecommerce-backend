@@ -38,8 +38,7 @@ class ManufacturerController extends Controller
      */
     public function create()
     {
-        $parent_categories = Manufacturer::latest()->get();
-        return view('backend.manufacturer.create', compact('parent_categories'));
+        return view('backend.manufacturer.create');
     }
 
     /**

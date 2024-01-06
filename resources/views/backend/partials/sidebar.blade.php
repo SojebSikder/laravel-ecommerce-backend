@@ -88,6 +88,14 @@ $menus = [
                 'order' => 6,
                 'parent' => 'products',
             ],
+            [
+                'label' => 'Attributes',
+                'name' => 'attributes',
+                'icon' => 'bi bi-layout-split',
+                'route' => 'attribute.index',
+                'order' => 7,
+                'parent' => 'products',
+            ],
         ],
     ],
     [

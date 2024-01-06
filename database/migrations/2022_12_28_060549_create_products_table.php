@@ -32,7 +32,7 @@ return new class extends Migration
             $table->text('meta_description')->nullable(); // max limit 320
             $table->text('meta_keyword')->nullable();
 
-            // product details
+            // product details for simple products
             $table->longText('description')->nullable();
             $table->decimal('price')->nullable();
             $table->decimal('discount')->nullable();
@@ -41,10 +41,10 @@ return new class extends Migration
             $table->string('sku')->nullable(); // stock keeping unit
             $table->string('barcode')->nullable();
             $table->tinyInteger('is_sale')->nullable()->default(0);
-            // for internal use
+            // for internal use for simple products
             $table->decimal('cost_per_item')->nullable();
 
-            // shipping details
+            // shipping details for simple products
             $table->decimal('weight')->nullable();
             // available values:
             // kg - kilogram, 

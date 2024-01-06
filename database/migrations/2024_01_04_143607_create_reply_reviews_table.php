@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
 
             $table->string('user_id')->references('id')->on('users')->onDelete('set null');
-            $table->foreignId('review_id')->references('id')->on('reviews')->onDelete('cascade');
+            $table->foreignId('review_id')->nullable()->constrained('reviews')->onDelete('cascade');
 
             $table->string('title')->nullable();
             $table->text('body')->nullable();
