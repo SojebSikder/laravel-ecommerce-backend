@@ -185,7 +185,11 @@ class ProductController extends Controller
         $categories = Category::where('status', 1)->where('parent_id', null)->orderBy('name', 'asc')->get();
         $option_sets = OptionSet::where('status', 1)->orderBy('name', 'asc')->get();
         $manufacturers = Manufacturer::where('status', 1)->orderBy('name', 'asc')->get();
-        $product = Product::with('categories', 'option_sets', 'details')->findOrFail($id);
+        $product = Product::with(['variants' => function ($variant) {
+            $variant->with(['variant_attributes' => function ($query) {
+                $query->with(['attribute', 'attribute_value']);
+            }, 'images']);
+        }, 'categories', 'option_sets', 'details'])->findOrFail($id);
         $productImages = ProductImage::where('product_id', $product->id)
             ->orderBy('sort_order', 'asc')
             ->paginate(15);

@@ -22,8 +22,8 @@ return new class extends Migration
             // $table->string('size')->nullable();
             // $table->string('color')->nullable();
             // $table->string('material')->nullable();
-            $table->foreignId('attribute_id')->nullable()->constrained('attributes')->onDelete('set null');
-            $table->foreignId('attribute_value_id')->nullable()->constrained('attribute_values')->onDelete('set null');
+            // $table->foreignId('attribute_id')->nullable()->constrained('attributes')->onDelete('set null');
+            // $table->foreignId('attribute_value_id')->nullable()->constrained('attribute_values')->onDelete('set null');
 
             // price and quantity
             $table->decimal('price')->nullable();

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 05, 2024 at 09:40 PM
+-- Generation Time: Jan 06, 2024 at 02:37 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -28,6 +28,27 @@ SET time_zone = "+00:00";
 
 INSERT INTO `activity_log` (`id`, `log_name`, `description`, `subject_type`, `event`, `subject_id`, `causer_type`, `causer_id`, `properties`, `batch_uuid`, `created_at`, `updated_at`) VALUES
 (6, 'default', 'order_status_changed', 'App\\Models\\Order\\Order', NULL, 4, 'App\\Models\\User', 1, '{\"order_id\":4}', NULL, '2024-01-05 14:39:46', '2024-01-05 14:39:46');
+
+--
+-- Dumping data for table `attributes`
+--
+
+INSERT INTO `attributes` (`id`, `name`, `status`, `sort_order`, `created_at`, `updated_at`) VALUES
+(1, 'Size', 1, 0, '2024-01-06 04:50:17', '2024-01-06 04:51:52'),
+(2, 'Color', 1, 0, '2024-01-06 06:49:16', '2024-01-06 06:49:16');
+
+--
+-- Dumping data for table `attribute_values`
+--
+
+INSERT INTO `attribute_values` (`id`, `attribute_id`, `name`, `status`, `sort_order`, `created_at`, `updated_at`) VALUES
+(3, 1, 'S', 1, 0, '2024-01-06 05:21:33', '2024-01-06 05:32:43'),
+(4, 1, 'M', 1, 0, '2024-01-06 05:21:41', '2024-01-06 05:21:41'),
+(5, 1, 'L', 1, 0, '2024-01-06 05:21:50', '2024-01-06 05:21:50'),
+(6, 1, 'XL', 1, 0, '2024-01-06 05:21:54', '2024-01-06 05:21:54'),
+(7, 2, 'White', 1, 0, '2024-01-06 06:49:25', '2024-01-06 06:49:25'),
+(8, 2, 'Black', 1, 0, '2024-01-06 06:49:29', '2024-01-06 06:49:29'),
+(9, 2, 'Red', 1, 0, '2024-01-06 06:49:33', '2024-01-06 06:49:33');
 
 --
 -- Dumping data for table `categories`
@@ -791,6 +812,13 @@ INSERT INTO `statuses` (`id`, `label`, `name`, `description`, `image`, `alt_text
 INSERT INTO `users` (`id`, `fname`, `lname`, `name`, `email`, `phone_number`, `dial_code`, `email_verified_at`, `phone_verified_at`, `provider`, `provider_uid`, `avatar`, `type`, `status`, `password`, `remember_token`, `created_at`, `updated_at`) VALUES
 (1, 'admin', 'admin', NULL, 'admin@example.com', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'su_admin', 1, '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'JHwH0HdQC1XuHGGOx63TegQJqgQBATibjg69rT7SQRoF23qB1ceHv5hqi7SV', '2023-07-30 02:11:58', '2023-07-30 02:11:58'),
 (2, 'sd', 'sdsd', NULL, 'as@gmail.com', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'su_admin', 1, '$2y$10$a5lUNEobpCWplDHP3WIr7eHejJ6CQc8G8LM4SNnzT7OxATaVwLER2', NULL, '2023-07-30 02:24:56', '2024-01-03 12:44:11');
+
+--
+-- Dumping data for table `variants`
+--
+
+INSERT INTO `variants` (`id`, `product_id`, `price`, `discount`, `track_quantity`, `quantity`, `sku`, `barcode`, `is_sale`, `cost_per_item`, `weight`, `weight_unit`, `status`, `sort_order`, `created_at`, `updated_at`) VALUES
+(1, 82, 350.00, 10.00, 0, 40, NULL, NULL, 0, 60.00, 500.00, 'kg', 1, 0, '2024-01-06 07:08:18', '2024-01-06 07:34:01');
 SET FOREIGN_KEY_CHECKS=1;
 COMMIT;
 

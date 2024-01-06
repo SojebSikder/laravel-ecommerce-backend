@@ -180,8 +180,8 @@
                                                 <div class="col mb-4">
                                                     <div class="form-group mb-3">
                                                         <label for="tags-select2">Tags</label>
-                                                        <select id="tags-select2" class="form-select mb-3"
-                                                            name="tags[]" multiple="multiple">
+                                                        <select id="tags-select2" class="form-select mb-3" name="tags[]"
+                                                            multiple="multiple">
                                                             {{-- <option value="0">None</option> --}}
                                                             @if (count($tags) > 0)
                                                                 @foreach ($tags as $tag)
@@ -205,6 +205,123 @@
                                                         <textarea name="description" id="description">{{ $product->description }}</textarea>
                                                     </div>
                                                 </div>
+                                            </fieldset>
+
+                                            <fieldset>
+                                                <legend>Variants</legend>
+
+                                                <div class="col mb-4">
+                                                    <div class="form-group">
+                                                        <a href="{{ route('variant_create', $product->id) }}"
+                                                            class="btn btn-primary me-1 mt-3">Add variant</a>
+
+                                                    </div>
+                                                </div>
+                                                <div class="card-body">
+                                                    <div>
+                                                        <table class="table-bordered table-hover table-striped table"
+                                                            style="width: 100%;">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th>Picture</th>
+                                                                    <th>Variant</th>
+                                                                    <th>Price</th>
+                                                                    <th>Quantity</th>
+                                                                    <th class="text-center">Actions</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                @foreach ($product->variants as $variant)
+                                                                    <tr>
+                                                                        <td>
+                                                                            @if (count($variant->images) > 0)
+                                                                                <a href="{{ $variant->images[0]->image_url }}"
+                                                                                    target="_blank"
+                                                                                    rel="noopener noreferrer">
+                                                                                    <img style="width:50px; min-width: 50px;"
+                                                                                        class="img-thumbnail"
+                                                                                        src="{{ $variant->images[0]->image_url }}"
+                                                                                        alt="{{ $variant->images[0]->alt_text }}">
+                                                                                </a>
+                                                                            @endif
+                                                                        </td>
+                                                                        {{-- <td>{{ $variant->attribute_value->name }}</td> --}}
+                                                                        <td></td>
+                                                                        <td>{{ $variant->price }}</td>
+                                                                        <td>{{ $variant->quantity }}</td>
+
+                                                                        <td class="text-center">
+                                                                            <ul class="table-controls">
+                                                                                <li>
+                                                                                    <a class="btn btn-sm btn-primary"
+                                                                                        href="{{ route('variant.edit', $variant->id) }}"
+                                                                                        data-bs-toggle="tooltip"
+                                                                                        data-bs-placement="top"
+                                                                                        title=""
+                                                                                        data-bs-title="Edit">
+                                                                                        <svg xmlns="http://www.w3.org/2000/svg"
+                                                                                            width="24" height="24"
+                                                                                            viewBox="0 0 24 24"
+                                                                                            fill="none"
+                                                                                            stroke="currentColor"
+                                                                                            stroke-width="2"
+                                                                                            stroke-linecap="round"
+                                                                                            stroke-linejoin="round"
+                                                                                            class="feather feather-edit-2 br-6 mb-1 p-1">
+                                                                                            <path
+                                                                                                d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z">
+                                                                                            </path>
+                                                                                        </svg>
+                                                                                        Edit
+                                                                                    </a>
+                                                                                </li>
+                                                                                <li>
+                                                                                    <a class="btn btn-sm btn-danger"
+                                                                                        href="javascript:void(0);"
+                                                                                        onclick="event.preventDefault();
+                                                                                        if(confirm('Are you really want to delete?')){
+                                                                                        document.getElementById('product-variant-delete-{{ $variant->id }}').submit() }"
+                                                                                        data-bs-toggle="tooltip"
+                                                                                        data-bs-placement="top"
+                                                                                        title=""
+                                                                                        data-bs-title="Delete">
+                                                                                        <svg xmlns="http://www.w3.org/2000/svg"
+                                                                                            width="24" height="24"
+                                                                                            viewBox="0 0 24 24"
+                                                                                            fill="none"
+                                                                                            stroke="currentColor"
+                                                                                            stroke-width="2"
+                                                                                            stroke-linecap="round"
+                                                                                            stroke-linejoin="round"
+                                                                                            class="feather feather-trash br-6 mb-1 p-1">
+                                                                                            <polyline
+                                                                                                points="3 6 5 6 21 6">
+                                                                                            </polyline>
+                                                                                            <path
+                                                                                                d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2">
+                                                                                            </path>
+                                                                                        </svg>
+                                                                                        Delete
+                                                                                    </a>
+                                                                                    {{-- delete  --}}
+                                                                                    <form method="post"
+                                                                                        action="{{ route('variant.destroy', $variant->id) }}"
+                                                                                        id="{{ 'product-variant-delete-' . $variant->id }}">
+                                                                                        @csrf
+                                                                                        @method('DELETE')
+                                                                                    </form>
+
+                                                                                </li>
+                                                                            </ul>
+                                                                        </td>
+                                                                    </tr>
+                                                                @endforeach
+
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+
                                             </fieldset>
 
                                             <fieldset>
@@ -290,7 +407,9 @@
                                                                 class="form-control @error('weight_unit') is-invalid @enderror"
                                                                 name="weight_unit" id="weight_unit">
                                                                 @foreach ($weight_units as $key => $value)
-                                                                    <option value={{ $key }} @if($product->weight_unit == $key) selected @endif>{{ $value }}</option>
+                                                                    <option value={{ $key }}
+                                                                        @if ($product->weight_unit == $key) selected @endif>
+                                                                        {{ $value }}</option>
                                                                 @endforeach
                                                             </select>
                                                         </div>

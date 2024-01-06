@@ -5,6 +5,7 @@ namespace App\Models\Product;
 use App\Helper\SettingHelper;
 use App\Models\Category\Category;
 use App\Models\OptionSet\OptionSet;
+use App\Models\Product\Variant\Variant;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -66,6 +67,11 @@ class Product extends Model
     public function images()
     {
         return $this->hasMany(ProductImage::class)->orderBy('sort_order', 'asc');
+    }
+
+    public function variants()
+    {
+        return $this->hasMany(Variant::class);
     }
 
     public function categories()

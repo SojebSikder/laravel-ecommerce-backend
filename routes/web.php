@@ -25,6 +25,8 @@ use App\Http\Controllers\Web\Admin\Product\ProductDetailsController;
 use App\Http\Controllers\Web\Admin\Product\TagController;
 use App\Http\Controllers\Web\Admin\Product\Variant\AttributeController;
 use App\Http\Controllers\Web\Admin\Product\Variant\AttributeValueController;
+use App\Http\Controllers\Web\Admin\Product\Variant\VariantAttributeController;
+use App\Http\Controllers\Web\Admin\Product\Variant\VariantController;
 use App\Http\Controllers\Web\Admin\Review\ReviewController;
 use App\Http\Controllers\Web\Admin\Setting\CurrencyController;
 use App\Http\Controllers\Web\Admin\Setting\GeneralSettingController;
@@ -77,6 +79,19 @@ Route::middleware(['auth', 'admin'])->group(function () {
     // product
     Route::get('product/{id}/status', [ProductController::class, 'status'])->name('product.status');
     Route::resource('product', ProductController::class);
+
+    // product variant
+    Route::get('product/variant-status/{id}', [VariantController::class, 'status'])->name('variant_status');
+    Route::get('product/{id}/variant/create', [VariantController::class, 'create'])->name('variant_create');
+    Route::resource('product/variant', VariantController::class);
+
+    // product variant attribute
+    Route::get('variant/{id}/variant_attribute/create', [VariantAttributeController::class, 'create'])->name('variant_attribute_create');
+    Route::resource('variant/variant_attribute', VariantAttributeController::class);
+
+    // product variant image
+    Route::put('product/variant/image/{id}', [VariantController::class, 'variantImageUpdate'])->name('variant.image.update');
+    Route::delete('product/variant/image/delete/{id}', [VariantController::class, 'deleteImage'])->name('variant_image_destroy');
 
     // tag
     Route::get('tag/{id}/status', [TagController::class, 'status'])->name('tag.status');
