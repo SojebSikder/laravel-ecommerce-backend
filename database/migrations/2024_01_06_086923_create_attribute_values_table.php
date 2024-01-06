@@ -13,17 +13,14 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('reviews', function (Blueprint $table) {
+        Schema::create('attribute_values', function (Blueprint $table) {
             $table->id();
 
-            $table->foreignId('user_id')->nullable()->constrained('users')->onDelete('cascade');
-            $table->foreignId('product_id')->nullable()->constrained('products')->onDelete('cascade');
+            $table->foreignId('attribute_id')->nullable()->constrained('attributes')->onDelete('cascade');
 
-            $table->decimal('rating_value')->nullable(); // 1 to 5
-            $table->string('title')->nullable();
-            $table->text('body')->nullable();
-
+            $table->string('name')->nullable();
             $table->tinyInteger('status')->nullable()->default(1); // 1-> active, 0-> deactive
+            $table->integer('sort_order')->nullable()->default(0);
 
             $table->timestamps();
         });
@@ -36,6 +33,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('reviews');
+        Schema::dropIfExists('attribute_values');
     }
 };

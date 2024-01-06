@@ -23,6 +23,8 @@ use App\Http\Controllers\Web\Admin\Product\ManufacturerController;
 use App\Http\Controllers\Web\Admin\Product\ProductController;
 use App\Http\Controllers\Web\Admin\Product\ProductDetailsController;
 use App\Http\Controllers\Web\Admin\Product\TagController;
+use App\Http\Controllers\Web\Admin\Product\Variant\AttributeController;
+use App\Http\Controllers\Web\Admin\Product\Variant\AttributeValueController;
 use App\Http\Controllers\Web\Admin\Review\ReviewController;
 use App\Http\Controllers\Web\Admin\Setting\CurrencyController;
 use App\Http\Controllers\Web\Admin\Setting\GeneralSettingController;
@@ -90,6 +92,15 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('option-set/element/duplicate/{id}', [OptionSetElementController::class, 'duplicate'])->name('element.duplicate');
     Route::get('option-set/element/status/{id}', [OptionSetElementController::class, 'status'])->name('element.status');
     Route::put('option-set/element/sort/{id}', [OptionSetElementController::class, 'sortingOrder'])->name('element.sortingOrder');
+
+    // attribute
+    Route::get('attribute/status/{id}', [AttributeController::class, 'status'])->name('attribute.status');
+    Route::resource('attribute', AttributeController::class);
+
+    Route::get('attribute/attribute_value/create/{id}', [AttributeValueController::class, 'create'])->name('attribute_value.create');
+    Route::get('attribute/attribute_value/status/{id}', [AttributeValueController::class, 'status'])->name('attribute_value.status');
+    Route::put('attribute/attribute_value/sort/{id}', [AttributeValueController::class, 'sortingOrder'])->name('attribute_value.sortingOrder');
+    Route::resource('attribute/attribute_value', AttributeValueController::class);
 
     // Category
     Route::get('category/{id}/status', [CategoryController::class, 'status'])->name('category.status');
