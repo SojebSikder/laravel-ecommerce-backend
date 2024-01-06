@@ -355,7 +355,7 @@ class ProductController extends Controller
                 // // resize image
                 // $resizedimg = ImageHelper::resize(file_get_contents($file_tmp->getRealPath()), 1000, 1000);
                 // Storage::put($file_path, (string) $resizedimg->encode());
-                // resize image
+
                 $resizedimg = file_get_contents($file_tmp->getRealPath());
                 Storage::put($file_path, (string) $resizedimg);
 

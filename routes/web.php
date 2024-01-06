@@ -90,8 +90,8 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::resource('variant/variant_attribute', VariantAttributeController::class);
 
     // product variant image
-    Route::put('product/variant/image/{id}', [VariantController::class, 'variantImageUpdate'])->name('variant.image.update');
-    Route::delete('product/variant/image/delete/{id}', [VariantController::class, 'deleteImage'])->name('variant_image_destroy');
+    Route::put('product/variant/image/{id}', [VariantController::class, 'updateImage'])->name('variant.image.update');
+    Route::delete('product/variant/image/{id}/delete', [VariantController::class, 'deleteImage'])->name('variant.image.destroy');
 
     // tag
     Route::get('tag/{id}/status', [TagController::class, 'status'])->name('tag.status');

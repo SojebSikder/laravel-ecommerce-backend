@@ -5,7 +5,6 @@
 @endsection
 
 @section('style')
-    <link rel="stylesheet" href="{{ asset('assets') }}/select2/css/select2.min.css">
 @endsection
 
 @section('content')
@@ -84,45 +83,6 @@
                                                     </div>
                                                 </div>
 
-                                                <div class="col mb-4">
-                                                    <div class="form-group mb-3">
-                                                        <label for="attribute_id">Attribute</label>
-                                                        <select id="attribute-select2" class="form-select mb-3"
-                                                            name="attribute_id">
-                                                            <option value="0">None</option>
-                                                            @if (count($attributes) > 0)
-                                                                @foreach ($attributes as $attribute)
-                                                                    <?php $dash = ''; ?>
-                                                                    <option value={{ $attribute->id }}>
-                                                                        {{ $attribute->name }}</option>
-                                                                @endforeach
-                                                            @endif
-                                                        </select>
-                                                    </div>
-                                                    @error('attribute_id')
-                                                        <div class="alert alert-danger">{{ $message }}</div>
-                                                    @enderror
-                                                </div>
-
-                                                <div class="col mb-4">
-                                                    <div class="form-group mb-3">
-                                                        <label for="attribute_value_id">Attribute value</label>
-                                                        <select id="attribute-value-select2" class="form-select mb-3"
-                                                            name="attribute_value_id">
-                                                            <option value="0">None</option>
-                                                            {{-- @if (count($attributes) > 0)
-                                                                @foreach ($attributes as $attribute)
-                                                                   
-                                                                    <option value={{ $attribute->id }}>
-                                                                        {{ $attribute->name }}</option>
-                                                                @endforeach
-                                                            @endif --}}
-                                                        </select>
-                                                    </div>
-                                                    @error('attribute_value_id')
-                                                        <div class="alert alert-danger">{{ $message }}</div>
-                                                    @enderror
-                                                </div>
 
 
                                                 <div class="col mb-4">
@@ -146,7 +106,6 @@
                                                             </thead>
                                                             <tbody>
                                                                 @if (count($variant->variant_attributes) > 0)
-                                                                    :
                                                                     @foreach ($variant->variant_attributes as $variant_attribute)
                                                                         <tr>
                                                                             <td>{{ $variant_attribute->attribute->name }}
@@ -361,6 +320,191 @@
                                                 </div>
                                             </fieldset>
 
+                                            <fieldset>
+                                                <legend>Multimedia</legend>
+
+                                                {{-- image upload --}}
+                                                <div class="col mb-4">
+                                                    <div class="form-group">
+                                                        <label for="name">Picture</label>
+                                                        <label class="btn btn-success">
+                                                            Upload files <input type="file" accept="image/*" multiple
+                                                                name="image[]" id="uploadImage" class="d-none">
+                                                        </label>
+
+                                                        @error('image')
+                                                            <div class="alert alert-danger mt-1">{{ $message }}</div>
+                                                        @enderror
+                                                    </div>
+                                                </div>
+                                                <div class="card-body">
+                                                    <div>
+                                                        <table class="table-bordered table-hover table-striped table"
+                                                            style="width: 100%;">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th>Picture</th>
+                                                                    <th>Display order</th>
+                                                                    <th>Alt</th>
+                                                                    <th>Title</th>
+                                                                    <th class="text-center">Actions</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                @foreach ($variantImages as $variantImage)
+                                                                    <tr>
+                                                                        <td>
+                                                                            <a href="{{ $variantImage->image_url }}"
+                                                                                target="_blank" rel="noopener noreferrer">
+                                                                                <img width="150" class="img-thumbnail"
+                                                                                    src="{{ $variantImage->image_url }}"
+                                                                                    alt="{{ $variantImage->alt_text }}"
+                                                                                    title="{{ $variantImage->title }}">
+                                                                            </a>
+                                                                        </td>
+                                                                        <td>{{ $variantImage->sort_order }}</td>
+                                                                        <td>{{ $variantImage->alt_text }}</td>
+                                                                        <td>{{ $variantImage->title }}</td>
+
+                                                                        <td class="text-center">
+                                                                            <ul class="table-controls">
+                                                                                <li>
+                                                                                    <a class="btn btn-sm btn-primary"
+                                                                                        href="javascript:void(0);"
+                                                                                        data-bs-toggle="modal"
+                                                                                        data-bs-target="#settingEdit{{ $variantImage->id }}"
+                                                                                        data-bs-toggle="tooltip"
+                                                                                        data-bs-placement="top"
+                                                                                        title=""
+                                                                                        data-bs-title="Edit">
+                                                                                        <svg xmlns="http://www.w3.org/2000/svg"
+                                                                                            width="24" height="24"
+                                                                                            viewBox="0 0 24 24"
+                                                                                            fill="none"
+                                                                                            stroke="currentColor"
+                                                                                            stroke-width="2"
+                                                                                            stroke-linecap="round"
+                                                                                            stroke-linejoin="round"
+                                                                                            class="feather feather-edit-2 br-6 mb-1 p-1">
+                                                                                            <path
+                                                                                                d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z">
+                                                                                            </path>
+                                                                                        </svg>
+                                                                                        Edit
+                                                                                    </a>
+                                                                                </li>
+                                                                                <li>
+                                                                                    <a class="btn btn-sm btn-danger"
+                                                                                        href="javascript:void(0);"
+                                                                                        {{-- onclick="event.preventDefault();
+                                                                                        if(confirm('Are you really want to delete?')){
+                                                                                        document.getElementById('product-delete-{{ $variantImage->id }}').submit() }" --}}
+                                                                                        onclick="deleteImage({{ $variantImage->id }})"
+                                                                                        data-bs-toggle="tooltip"
+                                                                                        data-bs-placement="top"
+                                                                                        title=""
+                                                                                        data-bs-title="Delete">
+                                                                                        <svg xmlns="http://www.w3.org/2000/svg"
+                                                                                            width="24" height="24"
+                                                                                            viewBox="0 0 24 24"
+                                                                                            fill="none"
+                                                                                            stroke="currentColor"
+                                                                                            stroke-width="2"
+                                                                                            stroke-linecap="round"
+                                                                                            stroke-linejoin="round"
+                                                                                            class="feather feather-trash br-6 mb-1 p-1">
+                                                                                            <polyline
+                                                                                                points="3 6 5 6 21 6">
+                                                                                            </polyline>
+                                                                                            <path
+                                                                                                d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2">
+                                                                                            </path>
+                                                                                        </svg>
+                                                                                        Delete
+                                                                                    </a>
+
+
+                                                                                </li>
+                                                                            </ul>
+                                                                        </td>
+                                                                        {{-- modal --}}
+                                                                        <div class="modal fade"
+                                                                            id="settingEdit{{ $variantImage->id }}"
+                                                                            tabindex="-1" role="dialog"
+                                                                            aria-labelledby="exampleModalCenterTitle"
+                                                                            aria-hidden="true">
+                                                                            <div class="modal-dialog modal-dialog-centered"
+                                                                                role="document">
+                                                                                <div class="modal-content">
+                                                                                    <div class="modal-header">
+                                                                                        <h5 class="modal-title"
+                                                                                            id="exampleModalLongTitle">
+                                                                                            Info</h5>
+                                                                                        <button type="button"
+                                                                                            class="btn-close"
+                                                                                            data-bs-dismiss="modal"
+                                                                                            aria-label="Close"></button>
+                                                                                    </div>
+                                                                                    <div class="modal-body">
+
+
+                                                                                        <div class="form-group">
+                                                                                            <label
+                                                                                                for="sort_order{{ $variantImage->id }}">Display
+                                                                                                order</label>
+                                                                                            <input type="number"
+                                                                                                class="form-control"
+                                                                                                id="sort_order{{ $variantImage->id }}"
+                                                                                                name="title"
+                                                                                                value="{{ $variantImage->sort_order }}">
+                                                                                        </div>
+                                                                                        <div class="form-group">
+                                                                                            <label
+                                                                                                for="title{{ $variantImage->id }}">Title</label>
+                                                                                            <input type="text"
+                                                                                                class="form-control"
+                                                                                                id="title{{ $variantImage->id }}"
+                                                                                                name="title"
+                                                                                                value="{{ $variantImage->title }}">
+                                                                                        </div>
+                                                                                        <div class="form-group">
+                                                                                            <label
+                                                                                                for="alt_text{{ $variantImage->id }}">Alt</label>
+                                                                                            <input type="text"
+                                                                                                class="form-control"
+                                                                                                id="alt_text{{ $variantImage->id }}"
+                                                                                                name="alt_text"
+                                                                                                value="{{ $variantImage->alt_text }}">
+                                                                                        </div>
+
+                                                                                        <button
+                                                                                            onclick="updateImageDetails(
+                                                                                                {{ $variantImage->id }},
+                                                                                              document.querySelector('#sort_order{{ $variantImage->id }}').value, 
+                                                                                              document.querySelector('#alt_text{{ $variantImage->id }}').value, 
+                                                                                              document.querySelector('#title{{ $variantImage->id }}').value                                                                                                
+                                                                                            )"
+                                                                                            type="button"
+                                                                                            class="btn btn-sm btn-primary float-right">Update</button>
+
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        {{-- // modal --}}
+                                                                    </tr>
+                                                                @endforeach
+
+                                                            </tbody>
+
+
+                                                        </table>
+                                                        {{ $variantImages->appends(request()->query())->links('pagination::bootstrap-5') }}
+                                                    </div>
+                                                </div>
+
+                                            </fieldset>
+
                                         </div>
 
                                     </div>
@@ -377,32 +521,21 @@
 @endsection
 
 @section('script')
-    <script src="{{ asset('assets') }}/select2/js/select2.min.js"></script>
     <script>
-        $(document).ready(function() {
-            const attributeSelect = $("#attribute-select2");
-            attributeSelect.select2();
-
-            const attributeValueSelect = $("#attribute-value-select2");
-
-            attributeSelect.change(function() {
-                const attributeId = $(this).val();
-
-                const attributesList = <?php echo json_encode($attributes); ?>;
-                const selectedAttributes = attributesList.find((attribute) => attribute.id == attributeId);
-
-                const mappedAttributes = selectedAttributes.attribute_values.map((selectedValue) => {
-                    return {
-                        id: selectedValue.id,
-                        text: selectedValue.name
-                    }
-                })
-
-                attributeValueSelect.select2({
-                    data: mappedAttributes
-                });
-            });
-
-        });
+        // delete image
+        async function deleteImage(id) {
+            try {
+                if (!confirm('Are you sure?')) {
+                    return;
+                }
+                const delete_Image = await fetch(
+                    `/product/variant/image/${id}/delete?_method=DELETE&_token={{ csrf_token() }}`, {
+                        method: 'DELETE',
+                    })
+                window.location.reload()
+            } catch (error) {
+                alert("Something went wrong")
+            }
+        }
     </script>
 @endsection

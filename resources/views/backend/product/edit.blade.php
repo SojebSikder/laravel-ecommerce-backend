@@ -245,8 +245,14 @@
                                                                                 </a>
                                                                             @endif
                                                                         </td>
-                                                                        {{-- <td>{{ $variant->attribute_value->name }}</td> --}}
-                                                                        <td></td>
+                                                                        <td>
+                                                                            @foreach ($variant->variant_attributes as $variant_attribute)
+                                                                                {{ $variant_attribute->attribute->name }}:
+                                                                                {{ $variant_attribute->attribute_value->name }}
+                                                                                <br>
+                                                                            @endforeach
+                                                                        
+                                                                        </td>
                                                                         <td>{{ $variant->price }}</td>
                                                                         <td>{{ $variant->quantity }}</td>
 

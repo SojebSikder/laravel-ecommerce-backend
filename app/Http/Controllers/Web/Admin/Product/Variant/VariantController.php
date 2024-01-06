@@ -43,55 +43,55 @@ class VariantController extends Controller
      */
     public function store(Request $request)
     {
-        $product_id = $request->input('product_id');
-        $attribute_id = $request->input('attribute_id');
-        $attribute_value_id = $request->input('attribute_value_id');
+        try {
+            $product_id = $request->input('product_id');
 
-        $price = $request->input('price');
-        $cost_per_item = $request->input('cost_per_item');
-        $track_quantity = $request->input('track_quantity') == 1 ? 1 : 0;
-        $quantity = $request->input('quantity');
-        $sku = $request->input('sku');
-        $weight = $request->input('weight');
-        $weight_unit = $request->input('weight_unit');
-        $discount = $request->input('discount');
-        $is_sale = $request->input('is_sale') == 1 ? 1 : 0;
-        $status = $request->input('status') == 1 ? 1 : 0;
+            $price = $request->input('price');
+            $cost_per_item = $request->input('cost_per_item');
+            $track_quantity = $request->input('track_quantity') == 1 ? 1 : 0;
+            $quantity = $request->input('quantity');
+            $sku = $request->input('sku');
+            $weight = $request->input('weight');
+            $weight_unit = $request->input('weight_unit');
+            $discount = $request->input('discount');
+            $is_sale = $request->input('is_sale') == 1 ? 1 : 0;
+            $status = $request->input('status') == 1 ? 1 : 0;
 
 
-        $variant = new Variant();
+            $variant = new Variant();
 
-        $variant->product_id = $product_id;
-        $variant->attribute_id = $attribute_id;
-        $variant->attribute_value_id = $attribute_value_id;
+            $variant->product_id = $product_id;
 
-        $variant->price = $price;
-        $variant->cost_per_item = $cost_per_item;
-        $variant->track_quantity = $track_quantity;
-        $variant->quantity = $quantity;
-        $variant->sku = $sku;
-        if ($weight) {
-            $variant->weight = $weight;
-            $variant->weight_unit = $weight_unit;
-        } else {
-            $variant->weight = null;
-            $variant->weight_unit = null;
+            $variant->price = $price;
+            $variant->cost_per_item = $cost_per_item;
+            $variant->track_quantity = $track_quantity;
+            $variant->quantity = $quantity;
+            $variant->sku = $sku;
+            if ($weight) {
+                $variant->weight = $weight;
+                $variant->weight_unit = $weight_unit;
+            } else {
+                $variant->weight = null;
+                $variant->weight_unit = null;
+            }
+            if ($discount) {
+                $variant->discount = $discount;
+            } else {
+                $variant->discount = null;
+            }
+            $variant->is_sale = $is_sale;
+            $variant->status = $status;
+            $variant->save();
+
+            if ($request->hasFile('image')) {
+                // update images to variant image
+                $this->storeImage($request->file('image'), $variant->id);
+            }
+
+            return back()->with('success', 'Created Successfully');
+        } catch (\Throwable $th) {
+            return back()->with('warning', $th->getMessage());
         }
-        if ($discount) {
-            $variant->discount = $discount;
-        } else {
-            $variant->discount = null;
-        }
-        $variant->is_sale = $is_sale;
-        $variant->status = $status;
-        $variant->save();
-
-        if ($request->hasFile('image')) {
-            // update images to variant image
-            $this->variantImageStore($request->file('image'), $variant->id);
-        }
-
-        return back()->with('success', 'Created Successfully');
     }
 
     /**
@@ -117,7 +117,9 @@ class VariantController extends Controller
         $variant = Variant::with(['variant_attributes' => function ($query) {
             $query->with('attribute', 'attribute_value');
         }])->findOrFail($id);
-        $variantImages = VariantImage::where("variant_id", $variant->id)->get();
+
+        $variantImages = VariantImage::where("variant_id", $variant->id)->orderBy('sort_order', 'asc')
+            ->paginate(15);
 
         return view('backend.product.variant.edit', compact('variant', 'variantImages', 'attributes'));
     }
@@ -131,47 +133,51 @@ class VariantController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $price = $request->input('price');
-        $cost_per_item = $request->input('cost_per_item');
-        $track_quantity = $request->input('track_quantity') == 1 ? 1 : 0;
-        $quantity = $request->input('quantity');
-        $sku = $request->input('sku');
-        $weight = $request->input('weight');
-        $weight_unit = $request->input('weight_unit');
-        $discount = $request->input('discount');
-        $is_sale = $request->input('is_sale') == 1 ? 1 : 0;
-        $status = $request->input('status') == 1 ? 1 : 0;
+        try {
+            $price = $request->input('price');
+            $cost_per_item = $request->input('cost_per_item');
+            $track_quantity = $request->input('track_quantity') == 1 ? 1 : 0;
+            $quantity = $request->input('quantity');
+            $sku = $request->input('sku');
+            $weight = $request->input('weight');
+            $weight_unit = $request->input('weight_unit');
+            $discount = $request->input('discount');
+            $is_sale = $request->input('is_sale') == 1 ? 1 : 0;
+            $status = $request->input('status') == 1 ? 1 : 0;
 
 
-        $variant = Variant::find($id);
+            $variant = Variant::find($id);
 
-        $variant->price = $price;
-        $variant->cost_per_item = $cost_per_item;
-        $variant->track_quantity = $track_quantity;
-        $variant->quantity = $quantity;
-        $variant->sku = $sku;
-        if ($weight) {
-            $variant->weight = $weight;
-            $variant->weight_unit = $weight_unit;
-        } else {
-            $variant->weight = null;
-            $variant->weight_unit = null;
+            $variant->price = $price;
+            $variant->cost_per_item = $cost_per_item;
+            $variant->track_quantity = $track_quantity;
+            $variant->quantity = $quantity;
+            $variant->sku = $sku;
+            if ($weight) {
+                $variant->weight = $weight;
+                $variant->weight_unit = $weight_unit;
+            } else {
+                $variant->weight = null;
+                $variant->weight_unit = null;
+            }
+            if ($discount) {
+                $variant->discount = $discount;
+            } else {
+                $variant->discount = null;
+            }
+            $variant->is_sale = $is_sale;
+            $variant->status = $status;
+            $variant->save();
+
+            if ($request->hasFile('image')) {
+                // update images to variant image
+                $this->storeImage($request->file('image'), $variant->id);
+            }
+
+            return back()->with('success', 'Updated Successfully');
+        } catch (\Throwable $th) {
+            return back()->with('warning', $th->getMessage());
         }
-        if ($discount) {
-            $variant->discount = $discount;
-        } else {
-            $variant->discount = null;
-        }
-        $variant->is_sale = $is_sale;
-        $variant->status = $status;
-        $variant->save();
-
-        if ($request->hasFile('image')) {
-            // update images to variant image
-            $this->variantImageStore($request->file('image'), $variant->id);
-        }
-
-        return back()->with('success', 'Updated Successfully');
     }
 
     public function status($id)
@@ -189,21 +195,21 @@ class VariantController extends Controller
     }
 
 
-    private function variantImageStore($file, $variant_id)
+    private function storeImage($file, $variant_id)
     {
         if ($file) {
             $count = count($file);
             // upload new image
             for ($i = 0; $i < $count; $i++) {
                 $file_tmp =  $file[$i];
-                $file_name = time() . '-' . uniqid() . '.' . $file_tmp->getClientOriginalExtension();
+                $file_name = time() . '-' . uniqid() . '.' . $file_tmp->extension();
                 $file_path = config('constants.uploads.product') . "/" . $file_name;
 
                 // resize image
                 // $resizedimg = ImageHelper::resize(file_get_contents($file_tmp->getRealPath()), 1000, 1000);
                 // Storage::put($file_path, (string) $resizedimg->encode());
 
-                $resizedimg = file_get_contents($file->getRealPath());
+                $resizedimg = file_get_contents($file_tmp->getRealPath());
                 Storage::put($file_path, (string) $resizedimg);
 
                 // insert into variant image
@@ -215,7 +221,7 @@ class VariantController extends Controller
         }
     }
 
-    public function variantImageUpdate(Request $request, $id)
+    public function updateImage(Request $request, $id)
     {
         $alt_text = $request->input('alt_text');
 
@@ -238,10 +244,10 @@ class VariantController extends Controller
             }
             // remove record from database
             $varianImage->delete();
-            return redirect()->back()->with('sms', 'Variant Image Deleted Successfully');
+            return back()->with('success', 'Variant Image Deleted Successfully');
         } catch (\Throwable $th) {
             //throw $th;
-            return redirect()->back()->with('sms', 'Variant Image Not Deleted. Something went wrong :(');
+            return back()->with('warning', $th->getMessage());
         }
     }
 

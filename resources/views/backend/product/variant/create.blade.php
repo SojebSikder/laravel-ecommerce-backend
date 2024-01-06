@@ -57,7 +57,8 @@
 
                             </div>
                             <div class="card-body">
-                                <form action="{{ route('variant.store') }}" method="POST" enctype="multipart/form-data">
+                                <form action="{{ route('variant.store') }}?product_id={{ $product->id }}" method="POST"
+                                    enctype="multipart/form-data">
                                     @csrf
                                     <div class="row">
                                         <div class="col">
@@ -81,45 +82,6 @@
                                                     </div>
                                                 </div>
 
-                                                <div class="col mb-4">
-                                                    <div class="form-group mb-3">
-                                                        <label for="attribute_id">Attribute</label>
-                                                        <select id="attribute-select2" class="form-select mb-3"
-                                                            name="attribute_id">
-                                                            <option value="0">None</option>
-                                                            @if (count($attributes) > 0)
-                                                                @foreach ($attributes as $attribute)
-                                                                    <?php $dash = ''; ?>
-                                                                    <option value={{ $attribute->id }}>
-                                                                        {{ $attribute->name }}</option>
-                                                                @endforeach
-                                                            @endif
-                                                        </select>
-                                                    </div>
-                                                    @error('attribute_id')
-                                                        <div class="alert alert-danger">{{ $message }}</div>
-                                                    @enderror
-                                                </div>
-
-                                                <div class="col mb-4">
-                                                    <div class="form-group mb-3">
-                                                        <label for="attribute_value_id">Attribute value</label>
-                                                        <select id="attribute-value-select2" class="form-select mb-3"
-                                                            name="attribute_value_id">
-                                                            <option value="0">None</option>
-                                                            {{-- @if (count($attributes) > 0)
-                                                                @foreach ($attributes as $attribute)
-                                                                   
-                                                                    <option value={{ $attribute->id }}>
-                                                                        {{ $attribute->name }}</option>
-                                                                @endforeach
-                                                            @endif --}}
-                                                        </select>
-                                                    </div>
-                                                    @error('attribute_value_id')
-                                                        <div class="alert alert-danger">{{ $message }}</div>
-                                                    @enderror
-                                                </div>
                                             </fieldset>
 
                                             <fieldset>
@@ -129,8 +91,7 @@
                                                         <label for="price">Price</label>
                                                         <input type="number" id="price"
                                                             class="form-control @error('price') is-invalid @enderror"
-                                                            value="{{ old('price') }}" name="price"
-                                                            placeholder='0.00'>
+                                                            value="{{ old('price') }}" name="price" placeholder='0.00'>
                                                     </div>
                                                     @error('price')
                                                         <div class="alert alert-danger">{{ $message }}</div>
