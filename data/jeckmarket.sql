@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 06, 2024 at 02:37 PM
+-- Generation Time: Jan 06, 2024 at 05:30 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -818,7 +818,23 @@ INSERT INTO `users` (`id`, `fname`, `lname`, `name`, `email`, `phone_number`, `d
 --
 
 INSERT INTO `variants` (`id`, `product_id`, `price`, `discount`, `track_quantity`, `quantity`, `sku`, `barcode`, `is_sale`, `cost_per_item`, `weight`, `weight_unit`, `status`, `sort_order`, `created_at`, `updated_at`) VALUES
-(1, 82, 350.00, 10.00, 0, 40, NULL, NULL, 0, 60.00, 500.00, 'kg', 1, 0, '2024-01-06 07:08:18', '2024-01-06 07:34:01');
+(3, 82, 350.00, 10.00, 0, 40, NULL, NULL, 0, 60.00, 200.00, 'kg', 1, 0, '2024-01-06 10:18:06', '2024-01-06 10:20:06');
+
+--
+-- Dumping data for table `variant_attributes`
+--
+
+INSERT INTO `variant_attributes` (`id`, `variant_id`, `attribute_id`, `attribute_value_id`, `created_at`, `updated_at`) VALUES
+(3, NULL, 1, 3, '2024-01-06 10:03:23', '2024-01-06 10:03:23'),
+(5, 3, 1, 3, '2024-01-06 10:28:56', '2024-01-06 10:28:56'),
+(6, 3, 2, 8, '2024-01-06 10:29:04', '2024-01-06 10:29:04');
+
+--
+-- Dumping data for table `variant_images`
+--
+
+INSERT INTO `variant_images` (`id`, `variant_id`, `image`, `alt_text`, `status`, `sort_order`, `created_at`, `updated_at`) VALUES
+(2, 3, '1704558522-65997fbaeb537.jpg', NULL, 1, 0, '2024-01-06 10:28:42', '2024-01-06 10:28:42');
 SET FOREIGN_KEY_CHECKS=1;
 COMMIT;
 
