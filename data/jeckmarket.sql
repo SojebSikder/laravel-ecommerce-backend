@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 06, 2024 at 05:30 PM
+-- Generation Time: Jan 07, 2024 at 07:19 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -27,7 +27,22 @@ SET time_zone = "+00:00";
 --
 
 INSERT INTO `activity_log` (`id`, `log_name`, `description`, `subject_type`, `event`, `subject_id`, `causer_type`, `causer_id`, `properties`, `batch_uuid`, `created_at`, `updated_at`) VALUES
-(6, 'default', 'order_status_changed', 'App\\Models\\Order\\Order', NULL, 4, 'App\\Models\\User', 1, '{\"order_id\":4}', NULL, '2024-01-05 14:39:46', '2024-01-05 14:39:46');
+(6, 'default', 'order_status_changed', 'App\\Models\\Order\\Order', NULL, 4, 'App\\Models\\User', 1, '{\"order_id\":4}', NULL, '2024-01-05 14:39:46', '2024-01-05 14:39:46'),
+(7, 'default', 'order_status_changed', 'App\\Models\\Order\\Order', NULL, 4, 'App\\Models\\User', 1, '{\"order_id\":4}', NULL, '2024-01-07 12:09:40', '2024-01-07 12:09:40'),
+(8, 'default', 'order_status_changed', 'App\\Models\\Order\\Order', NULL, 4, 'App\\Models\\User', 1, '{\"order_id\":4}', NULL, '2024-01-07 12:10:00', '2024-01-07 12:10:00'),
+(9, 'default', 'order_status_deleted', 'App\\Models\\Order\\OrderStatus', NULL, 10, 'App\\Models\\User', 1, '{\"order_id\":4}', NULL, '2024-01-07 12:14:19', '2024-01-07 12:14:19'),
+(10, 'default', 'order_status_deleted', 'App\\Models\\Order\\OrderStatus', NULL, 9, 'App\\Models\\User', 1, '{\"order_id\":4}', NULL, '2024-01-07 12:14:23', '2024-01-07 12:14:23'),
+(11, 'default', 'order_status_deleted', 'App\\Models\\Order\\OrderStatus', NULL, 7, 'App\\Models\\User', 1, '{\"order_id\":4}', NULL, '2024-01-07 12:14:26', '2024-01-07 12:14:26'),
+(12, 'default', 'order_status_deleted', 'App\\Models\\Order\\OrderStatus', NULL, 6, 'App\\Models\\User', 1, '{\"order_id\":4}', NULL, '2024-01-07 12:14:30', '2024-01-07 12:14:30'),
+(13, 'default', 'order_status_deleted', 'App\\Models\\Order\\OrderStatus', NULL, 5, 'App\\Models\\User', 1, '{\"order_id\":4}', NULL, '2024-01-07 12:14:34', '2024-01-07 12:14:34'),
+(14, 'default', 'order_status_deleted', 'App\\Models\\Order\\OrderStatus', NULL, 4, 'App\\Models\\User', 1, '{\"order_id\":4}', NULL, '2024-01-07 12:14:37', '2024-01-07 12:14:37'),
+(15, 'default', 'order_status_deleted', 'App\\Models\\Order\\OrderStatus', NULL, 3, 'App\\Models\\User', 1, '{\"order_id\":4}', NULL, '2024-01-07 12:14:43', '2024-01-07 12:14:43'),
+(16, 'default', 'order_status_deleted', 'App\\Models\\Order\\OrderStatus', NULL, 2, 'App\\Models\\User', 1, '{\"order_id\":4}', NULL, '2024-01-07 12:14:47', '2024-01-07 12:14:47'),
+(17, 'default', 'order_status_changed', 'App\\Models\\Order\\Order', NULL, 4, 'App\\Models\\User', 1, '{\"order_id\":4}', NULL, '2024-01-07 12:14:51', '2024-01-07 12:14:51'),
+(18, 'default', 'order_status_deleted', 'App\\Models\\Order\\OrderStatus', NULL, 11, 'App\\Models\\User', 1, '{\"order_id\":4}', NULL, '2024-01-07 12:15:49', '2024-01-07 12:15:49'),
+(19, 'default', 'order_status_changed', 'App\\Models\\Order\\Order', NULL, 4, 'App\\Models\\User', 1, '{\"order_id\":4}', NULL, '2024-01-07 12:15:54', '2024-01-07 12:15:54'),
+(20, 'default', 'order_status_deleted', 'App\\Models\\Order\\OrderStatus', NULL, 12, 'App\\Models\\User', 1, '{\"order_id\":4}', NULL, '2024-01-07 18:16:50', '2024-01-07 18:16:50'),
+(21, 'default', 'order_status_changed', 'App\\Models\\Order\\Order', NULL, 4, 'App\\Models\\User', 1, '{\"order_id\":4}', NULL, '2024-01-07 18:17:01', '2024-01-07 18:17:01');
 
 --
 -- Dumping data for table `attributes`
@@ -452,7 +467,7 @@ INSERT INTO `option_set_elements` (`id`, `option_set_id`, `type`, `label`, `name
 --
 
 INSERT INTO `orders` (`id`, `invoice_number`, `payment_ref_id`, `properties`, `tracking_number`, `courier_provider`, `sub_total`, `order_total`, `shipping_zone_id`, `shipping_zone_name`, `shipping_charge`, `payment_provider_id`, `payment_provider`, `payment_provider_charge_type`, `payment_provider_charge`, `payment_status`, `payment_raw_status`, `paid_amount`, `paid_currency`, `status`, `fulfillment_status`, `currency`, `comment`, `order_shipping_address_id`, `order_billing_address_id`, `user_id`, `latitude`, `longitude`, `fname`, `lname`, `phone_number`, `email`, `deleted_at`, `created_at`, `updated_at`) VALUES
-(4, '1000', NULL, NULL, NULL, 'call_courier', NULL, 350.00, NULL, NULL, NULL, NULL, NULL, 'percentage', NULL, 'unpaid', NULL, NULL, NULL, 'order_delivered', 'unfulfilled', NULL, 'Order from customer', 2, NULL, 1, NULL, NULL, 'admin', 'admin', NULL, 'admin@example.com', NULL, '2024-01-05 14:08:23', '2024-01-05 14:39:46');
+(4, '1000', NULL, NULL, NULL, 'call_courier', NULL, 350.00, NULL, NULL, NULL, NULL, NULL, 'percentage', NULL, 'unpaid', NULL, NULL, NULL, 'order_placed', 'unfulfilled', NULL, 'Order from customer', 2, NULL, 1, NULL, NULL, 'admin', 'admin', NULL, 'admin@example.com', NULL, '2024-01-05 14:08:23', '2024-01-07 12:14:51');
 
 --
 -- Dumping data for table `order_items`
@@ -474,24 +489,15 @@ INSERT INTO `order_shipping_addresses` (`id`, `fname`, `lname`, `phone_number`, 
 --
 
 INSERT INTO `order_statuses` (`id`, `order_id`, `status_id`, `created_at`, `updated_at`) VALUES
-(2, 4, 2, '2024-01-05 14:24:55', '2024-01-05 14:24:55'),
-(3, 4, 3, '2024-01-05 14:25:33', '2024-01-05 14:25:33'),
-(4, 4, 1, '2024-01-05 14:28:24', '2024-01-05 14:28:24'),
-(5, 4, 3, '2024-01-05 14:28:49', '2024-01-05 14:28:49'),
-(6, 4, 1, '2024-01-05 14:33:09', '2024-01-05 14:33:09'),
-(7, 4, 3, '2024-01-05 14:39:46', '2024-01-05 14:39:46');
+(13, 4, 1, '2024-01-07 18:17:01', '2024-01-07 18:17:01');
 
 --
--- Dumping data for table `order_status_histories`
+-- Dumping data for table `order_timelines`
 --
 
-INSERT INTO `order_status_histories` (`id`, `order_id`, `status_id`, `created_at`, `updated_at`) VALUES
-(2, 4, 2, '2024-01-05 14:24:55', '2024-01-05 14:24:55'),
-(3, 4, 3, '2024-01-05 14:25:33', '2024-01-05 14:25:33'),
-(4, 4, 1, '2024-01-05 14:28:24', '2024-01-05 14:28:24'),
-(5, 4, 3, '2024-01-05 14:28:49', '2024-01-05 14:28:49'),
-(6, 4, 1, '2024-01-05 14:33:09', '2024-01-05 14:33:09'),
-(7, 4, 3, '2024-01-05 14:39:46', '2024-01-05 14:39:46');
+INSERT INTO `order_timelines` (`id`, `order_id`, `user_id`, `type`, `body`, `created_at`, `updated_at`) VALUES
+(7, 4, NULL, 'status', 'Order placed', '2024-01-07 18:17:01', '2024-01-07 18:17:01'),
+(8, 4, 1, 'comment', 'Hey, need to fulfill this order', '2024-01-07 18:19:24', '2024-01-07 18:19:24');
 
 --
 -- Dumping data for table `pages`

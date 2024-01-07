@@ -16,6 +16,7 @@ use App\Http\Controllers\Web\Admin\OptionSet\OptionSetController;
 use App\Http\Controllers\Web\Admin\OptionSet\OptionSetElementController;
 use App\Http\Controllers\Web\Admin\Order\OrderController;
 use App\Http\Controllers\Web\Admin\Order\OrderDraft\OrderDraftController;
+use App\Http\Controllers\Web\Admin\Order\OrderTimeline\OrderTimelineController;
 use App\Http\Controllers\Web\Admin\Order\StatusController;
 use App\Http\Controllers\Web\Admin\Payment\PaymentProviderController;
 use App\Http\Controllers\Web\Admin\Plugin\PluginController;
@@ -143,6 +144,7 @@ Route::middleware(['auth', 'admin'])->group(function () {
     });
     Route::resource('checkout', CheckoutController::class);
     Route::resource('order', OrderController::class);
+    Route::resource('order-timeline', OrderTimelineController::class);
     // draft
     Route::get('/order/{id}/invoice', [OrderController::class, 'view_invoice'])->name('order.invoice.index');
     Route::get('/order/{id}/invoice/generate', [OrderController::class, 'invoice'])->name('order.invoice.generate');

@@ -15,7 +15,7 @@ use App\Models\Order\OrderCoupon;
 use App\Models\Order\OrderItem;
 use App\Models\Order\OrderShippingAddress;
 use App\Models\Order\OrderStatus;
-use App\Models\Order\OrderStatusHistory;
+use App\Models\Order\OrderTimeline\OrderTimeline;
 use App\Models\Order\Status;
 use App\Models\Payment\PaymentProvider;
 use App\Models\Product\Product;
@@ -284,10 +284,11 @@ class OrderController extends Controller
                 $order_status->save();
 
                 // keep order status history
-                $order_status_history = new OrderStatusHistory();
-                $order_status_history->order_id = $order->id;
-                $order_status_history->status_id = $status_info->id;
-                $order_status_history->save();
+                $orderTimeline = new OrderTimeline();
+                $orderTimeline->order_id = $order->id;
+                $orderTimeline->type = "status";
+                $orderTimeline->body = $status_info->label;
+                $orderTimeline->save();
             }
 
             if ($checkout->user_id) {
