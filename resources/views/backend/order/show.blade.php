@@ -470,8 +470,8 @@
 
                                                                             <div class="row">
                                                                                 <div class="form-group">
-                                                                                    <label
-                                                                                        for="billing_address1">Address 1</label>
+                                                                                    <label for="billing_address1">Address
+                                                                                        1</label>
                                                                                     <input type="text"
                                                                                         placeholder="Street address"
                                                                                         class="form-control"
@@ -480,8 +480,8 @@
                                                                                         value="{{ $order->order_billing_address->address1 }}">
                                                                                 </div>
                                                                                 <div class="form-group">
-                                                                                    <label
-                                                                                        for="billing_address2">Address 2</label>
+                                                                                    <label for="billing_address2">Address
+                                                                                        2</label>
                                                                                     <input type="text"
                                                                                         placeholder="address2"
                                                                                         class="form-control"
@@ -970,22 +970,83 @@
 
                                             </div>
 
-                                            {{-- order status activity --}}
-                                            <div class="col hide-print">
-                                                <h5>Order status activity</h5>
-                                                @if ($order->order_statuses)
-                                                    @foreach ($order->order_statuses as $status)
-                                                        @if ($status->status)
-                                                            <div class="p-2">
-                                                                <div>
-                                                                    {{ $status->status->label }} -
-                                                                    {{ date('d M Y', strtotime($status->created_at)) }} at
-                                                                    {{ date('h:i a', strtotime($status->created_at)) }}
+                                            <div class="d-flex">
+                                                {{-- order timeline --}}
+                                                <div class="col hide-print">
+                                                    <h5>Timeline</h5>
+                                                    <div class="card-body">
+                                                        <form
+                                                            action="{{ route('order-timeline.store') }}?order_id={{ $order->id }}"
+                                                            method="POST" enctype="multipart/form-data">
+                                                            @csrf
+                                                            <div class="row">
+                                                                <div class="col">
+
+                                                                    <div class="col">
+                                                                        <div class="form-group mb-3">
+                                                                            <label for="body">Comment</label>
+                                                                            <textarea id="body" placeholder="Leave a comment" class="form-control @error('name') is-invalid @enderror"
+                                                                                value="{{ old('body') }}" name="body"></textarea>
+
+                                                                        </div>
+                                                                        @error('body')
+                                                                            <div class="alert alert-danger">
+                                                                                {{ $message }}
+                                                                            </div>
+                                                                        @enderror
+                                                                    </div>
+
+                                                                    <div class="row">
+                                                                        <div class="col">
+                                                                            <div class="form-group mb-3">
+                                                                                <button id="submit" type="submit"
+                                                                                    class="btn btn-primary mt-3">Save</button>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
                                                                 </div>
 
+                                                            </div>
+                                                        </form>
+                                                    </div>
+
+
+                                                    @if ($order->order_timelines)
+                                                        @foreach ($order->order_timelines as $order_timeline)
+                                                            <div class="p-2">
+                                                                @if ($order_timeline->type == 'comment')
+                                                                    <div>
+                                                                        <div class="fw-bold">
+                                                                            {{ $order_timeline->user ? $order_timeline->user->fname : '' }}
+                                                                            {{ $order_timeline->user ? $order_timeline->user->lname : '' }}
+
+
+                                                                        </div>
+                                                                        <div class="fw-light">
+                                                                            {{ date('d M Y', strtotime($order_timeline->created_at)) }}
+                                                                            at
+                                                                            {{ date('h:i a', strtotime($order_timeline->created_at)) }}
+                                                                        </div>
+                                                                        <div>
+                                                                            {{ $order_timeline->body }}
+                                                                        </div>
+                                                                    </div>
+                                                                @else
+                                                                    <div>
+                                                                        <div class="fw-light">
+                                                                            {{ date('d M Y', strtotime($order_timeline->created_at)) }}
+                                                                            at
+                                                                            {{ date('h:i a', strtotime($order_timeline->created_at)) }}
+                                                                        </div>
+                                                                        <div>
+                                                                            {{ $order_timeline->body }}
+                                                                        </div>
+                                                                    </div>
+                                                                @endif
+
                                                                 <div class="col">
-                                                                    <form id="delete_order_status"
-                                                                        action="{{ route('order_status.destroy', $status->id) }}"
+                                                                    <form id="delete_order_timeline"
+                                                                        action="{{ route('order-timeline.destroy', $order_timeline->id) }}"
                                                                         method="post">
                                                                         @csrf
                                                                         @method('DELETE')
@@ -993,17 +1054,55 @@
                                                                             <button
                                                                                 onclick="event.preventDefault();
                                                                             if(confirm('Are you really want to delete status?')){
-                                                                                document.getElementById('delete_order_status').submit()
+                                                                                document.getElementById('delete_order_timeline').submit()
                                                                             }"
                                                                                 class="btn btn-sm btn-warning">Delete</button>
                                                                         </div>
                                                                     </form>
                                                                 </div>
                                                             </div>
-                                                        @endif
-                                                    @endforeach
-                                                @endif
+                                                        @endforeach
+                                                    @endif
+                                                </div>
+
+                                                {{-- order status activity --}}
+                                                <div class="col hide-print">
+                                                    <h5>Order status activity</h5>
+                                                    @if ($order->order_statuses)
+                                                        @foreach ($order->order_statuses as $status)
+                                                            @if ($status->status)
+                                                                <div class="p-2">
+                                                                    <div>
+                                                                        {{ $status->status->label }} -
+                                                                        {{ date('d M Y', strtotime($status->created_at)) }}
+                                                                        at
+                                                                        {{ date('h:i a', strtotime($status->created_at)) }}
+                                                                    </div>
+
+                                                                    <div class="col">
+                                                                        <form id="delete_order_status"
+                                                                            action="{{ route('order_status.destroy', $status->id) }}"
+                                                                            method="post">
+                                                                            @csrf
+                                                                            @method('DELETE')
+                                                                            <div class="form-group">
+                                                                                <button
+                                                                                    onclick="event.preventDefault();
+                                                                            if(confirm('Are you really want to delete status?')){
+                                                                                document.getElementById('delete_order_status').submit()
+                                                                            }"
+                                                                                    class="btn btn-sm btn-warning">Delete</button>
+                                                                            </div>
+                                                                        </form>
+                                                                    </div>
+                                                                </div>
+                                                            @endif
+                                                        @endforeach
+                                                    @endif
+                                                </div>
                                             </div>
+
+
 
                                             <hr>
                                             <div class="col">

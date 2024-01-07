@@ -10,7 +10,7 @@ use App\Models\Order\OrderDraft\OrderDraft;
 use App\Models\Order\OrderItem;
 use App\Models\Order\OrderShippingAddress;
 use App\Models\Order\OrderStatus;
-use App\Models\Order\OrderStatusHistory;
+use App\Models\Order\OrderTimeline\OrderTimeline;
 use App\Models\Order\Status;
 use App\Models\User;
 use Carbon\Carbon;
@@ -190,6 +190,9 @@ class OrderController extends Controller
         $statuses = Status::orderBy('sort_order', 'asc')->get();
         $order = Order::with([
             'user',
+            'order_timelines' => function ($query) {
+                $query->with('user')->latest();
+            },
             'order_shipping_address',
             'order_billing_address',
             'order_statuses' => function ($query) {
@@ -302,10 +305,11 @@ class OrderController extends Controller
             $order_status->save();
 
             // keep order status history
-            $order_status_history = new OrderStatusHistory();
-            $order_status_history->order_id = $id;
-            $order_status_history->status_id = $status;
-            $order_status_history->save();
+            $orderTimeline = new OrderTimeline();
+            $orderTimeline->order_id = $id;
+            $orderTimeline->type = "status";
+            $orderTimeline->body =$db_status->label;
+            $orderTimeline->save();
 
             // log activity
             activity()

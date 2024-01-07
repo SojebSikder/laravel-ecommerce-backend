@@ -2,6 +2,7 @@
 
 namespace App\Models\Order;
 
+use App\Models\Order\OrderTimeline\OrderTimeline;
 use App\Models\Shipping\ShippingZone;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -35,6 +36,11 @@ class Order extends Model
     public function order_items()
     {
         return $this->hasMany(OrderItem::class)->with('product');
+    }
+
+    public function order_timelines()
+    {
+        return $this->hasMany(OrderTimeline::class);
     }
 
     public function order_statuses()
