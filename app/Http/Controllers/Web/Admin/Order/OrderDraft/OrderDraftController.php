@@ -74,7 +74,9 @@ class OrderDraftController extends Controller
      */
     public function show($id)
     {
-        $order_draft = OrderDraft::findOrFail($id);
+        $order_draft = OrderDraft::with(['order_draft_items' => function ($query) {
+            $query->with(['product', 'variant']);
+        }])->findOrFail($id);
         return view('backend.order.draft.show', compact('order_draft'));
     }
 

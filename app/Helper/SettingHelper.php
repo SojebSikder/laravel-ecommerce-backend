@@ -2,6 +2,7 @@
 
 namespace App\Helper;
 
+use App\Models\Setting\Currency\Currency;
 use App\Models\Setting\Setting\Setting;
 
 /**
@@ -28,7 +29,12 @@ class SettingHelper
      */
     public static function currency_sign()
     {
-        return self::get("currency_sign");
+        $currency = Currency::where('is_primary_store', 1)->first();
+        if ($currency) {
+            return $currency->currency_sign;
+        } else {
+            return self::get("currency_sign");
+        }
     }
 
     /**
@@ -36,6 +42,11 @@ class SettingHelper
      */
     public static function currency_code()
     {
-        return self::get("currency_code");
+        $currency = Currency::where('is_primary_store', 1)->first();
+        if ($currency) {
+            return $currency->currency_code;
+        } else {
+            return self::get("currency_code");
+        }
     }
 }

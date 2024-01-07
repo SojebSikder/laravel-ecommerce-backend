@@ -142,9 +142,10 @@
                                                                                     <li>
                                                                                         <a class="btn btn-sm btn-danger"
                                                                                             href="javascript:void(0);"
-                                                                                            onclick="event.preventDefault();
-                                                                                        if(confirm('Are you really want to delete?')){
-                                                                                        document.getElementById('variant-attribute-delete-{{ $variant_attribute->id }}').submit() }"
+                                                                                            {{-- onclick="event.preventDefault();
+                                                                                            if(confirm('Are you really want to delete?')){
+                                                                                            document.getElementById('variant-attribute-delete-{{ $variant_attribute->id }}').submit() }" --}}
+                                                                                            onclick="deleteAttribute({{ $variant_attribute->id }})"
                                                                                             data-bs-toggle="tooltip"
                                                                                             data-bs-placement="top"
                                                                                             title=""
@@ -169,12 +170,12 @@
                                                                                             Delete
                                                                                         </a>
                                                                                         {{-- delete  --}}
-                                                                                        <form method="post"
+                                                                                        {{-- <form method="post"
                                                                                             action="{{ route('variant_attribute.destroy', $variant->id) }}"
                                                                                             id="{{ 'variant-attribute-delete-' . $variant->id }}">
                                                                                             @csrf
                                                                                             @method('DELETE')
-                                                                                        </form>
+                                                                                        </form> --}}
 
                                                                                     </li>
                                                                                 </ul>
@@ -524,6 +525,21 @@
 
 @section('script')
     <script>
+        // delete attribute
+        async function deleteAttribute(id) {
+            try {
+                if (!confirm('Are you sure?')) {
+                    return;
+                }
+                const response = await fetch(
+                    `/variant/variant_attribute/${id}?_method=DELETE&_token={{ csrf_token() }}`, {
+                        method: 'DELETE',
+                    })
+                window.location.reload()
+            } catch (error) {
+                alert("Something went wrong")
+            }
+        }
         // delete image
         async function deleteImage(id) {
             try {

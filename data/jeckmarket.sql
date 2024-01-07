@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 07, 2024 at 07:19 PM
+-- Generation Time: Jan 07, 2024 at 08:58 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -463,18 +463,11 @@ INSERT INTO `option_set_elements` (`id`, `option_set_id`, `type`, `label`, `name
 (3, 2, 'textarea', NULL, 'Size', 0, NULL, NULL, NULL, 0, NULL, 1, 0, '2024-01-03 12:28:38', '2024-01-03 12:28:38');
 
 --
--- Dumping data for table `orders`
+-- Dumping data for table `order_drafts`
 --
 
-INSERT INTO `orders` (`id`, `invoice_number`, `payment_ref_id`, `properties`, `tracking_number`, `courier_provider`, `sub_total`, `order_total`, `shipping_zone_id`, `shipping_zone_name`, `shipping_charge`, `payment_provider_id`, `payment_provider`, `payment_provider_charge_type`, `payment_provider_charge`, `payment_status`, `payment_raw_status`, `paid_amount`, `paid_currency`, `status`, `fulfillment_status`, `currency`, `comment`, `order_shipping_address_id`, `order_billing_address_id`, `user_id`, `latitude`, `longitude`, `fname`, `lname`, `phone_number`, `email`, `deleted_at`, `created_at`, `updated_at`) VALUES
-(4, '1000', NULL, NULL, NULL, 'call_courier', NULL, 350.00, NULL, NULL, NULL, NULL, NULL, 'percentage', NULL, 'unpaid', NULL, NULL, NULL, 'order_placed', 'unfulfilled', NULL, 'Order from customer', 2, NULL, 1, NULL, NULL, 'admin', 'admin', NULL, 'admin@example.com', NULL, '2024-01-05 14:08:23', '2024-01-07 12:14:51');
-
---
--- Dumping data for table `order_items`
---
-
-INSERT INTO `order_items` (`id`, `order_id`, `product_id`, `discount`, `price`, `total_price`, `quantity`, `weight`, `weight_unit`, `attribute`, `deleted_at`, `created_at`, `updated_at`) VALUES
-(4, 4, 82, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL, '2024-01-05 14:08:23', '2024-01-05 14:08:23');
+INSERT INTO `order_drafts` (`id`, `user_id`, `comment`, `fname`, `lname`, `phone_number`, `email`, `country_id`, `country`, `address1`, `address2`, `city`, `state`, `zip`, `latitude`, `longitude`, `created_at`, `updated_at`) VALUES
+(1, 2, 'I\'m creating this order from draft', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2024-01-07 19:45:20', '2024-01-07 19:45:20');
 
 --
 -- Dumping data for table `order_shipping_addresses`
@@ -483,21 +476,6 @@ INSERT INTO `order_items` (`id`, `order_id`, `product_id`, `discount`, `price`, 
 INSERT INTO `order_shipping_addresses` (`id`, `fname`, `lname`, `phone_number`, `email`, `country_id`, `country`, `address1`, `address2`, `city`, `state`, `zip`, `latitude`, `longitude`, `user_id`, `status`, `deleted_at`, `created_at`, `updated_at`) VALUES
 (1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, NULL, '2023-07-30 07:53:17', '2023-07-30 07:53:17'),
 (2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, NULL, '2024-01-05 14:08:23', '2024-01-05 14:08:23');
-
---
--- Dumping data for table `order_statuses`
---
-
-INSERT INTO `order_statuses` (`id`, `order_id`, `status_id`, `created_at`, `updated_at`) VALUES
-(13, 4, 1, '2024-01-07 18:17:01', '2024-01-07 18:17:01');
-
---
--- Dumping data for table `order_timelines`
---
-
-INSERT INTO `order_timelines` (`id`, `order_id`, `user_id`, `type`, `body`, `created_at`, `updated_at`) VALUES
-(7, 4, NULL, 'status', 'Order placed', '2024-01-07 18:17:01', '2024-01-07 18:17:01'),
-(8, 4, 1, 'comment', 'Hey, need to fulfill this order', '2024-01-07 18:19:24', '2024-01-07 18:19:24');
 
 --
 -- Dumping data for table `pages`
@@ -693,7 +671,8 @@ INSERT INTO `permission_roles` (`id`, `permission_id`, `role_id`, `created_at`, 
 --
 
 INSERT INTO `products` (`id`, `name`, `slug`, `product_type`, `meta_title`, `meta_description`, `meta_keyword`, `description`, `price`, `discount`, `track_quantity`, `quantity`, `sku`, `barcode`, `is_sale`, `cost_per_item`, `weight`, `weight_unit`, `manufacturer_id`, `user_id`, `views`, `status`, `created_at`, `updated_at`) VALUES
-(82, 'Black T-shirt', 'black-tshirt', 'simple', NULL, NULL, NULL, '<p>Cool black tshirt</p>', 350.00, NULL, 1, 200, NULL, NULL, 0, 60.00, 0.50, 'kg', NULL, NULL, 0, 1, '2024-01-03 12:57:38', '2024-01-03 13:00:38');
+(82, 'Black T-shirt', 'black-tshirt', 'simple', NULL, NULL, NULL, '<p>Cool black tshirt</p>', 350.00, NULL, 1, 200, NULL, NULL, 0, 60.00, 0.50, 'kg', NULL, NULL, 0, 1, '2024-01-03 12:57:38', '2024-01-03 13:00:38'),
+(83, 'Logo', 'logo', 'simple', NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, 0, NULL, NULL, NULL, 3, NULL, 0, 1, '2024-01-07 19:52:00', '2024-01-07 19:52:00');
 
 --
 -- Dumping data for table `product_categories`
@@ -704,7 +683,8 @@ INSERT INTO `product_categories` (`id`, `product_id`, `category_id`, `created_at
 (2, 2, 2, NULL, NULL),
 (3, 81, 3, NULL, NULL),
 (4, 81, 4, NULL, NULL),
-(5, 82, 51, NULL, NULL);
+(5, 82, 51, NULL, NULL),
+(6, 83, 4, NULL, NULL);
 
 --
 -- Dumping data for table `product_details`
@@ -732,7 +712,8 @@ INSERT INTO `product_images` (`id`, `image`, `title`, `alt_text`, `product_id`, 
 
 INSERT INTO `product_option_sets` (`id`, `product_id`, `option_set_id`, `created_at`, `updated_at`) VALUES
 (2, 81, 2, NULL, NULL),
-(3, 82, 2, NULL, NULL);
+(3, 82, 2, NULL, NULL),
+(4, 83, 2, NULL, NULL);
 
 --
 -- Dumping data for table `roles`
@@ -824,7 +805,8 @@ INSERT INTO `users` (`id`, `fname`, `lname`, `name`, `email`, `phone_number`, `d
 --
 
 INSERT INTO `variants` (`id`, `product_id`, `price`, `discount`, `track_quantity`, `quantity`, `sku`, `barcode`, `is_sale`, `cost_per_item`, `weight`, `weight_unit`, `status`, `sort_order`, `created_at`, `updated_at`) VALUES
-(3, 82, 350.00, 10.00, 0, 40, NULL, NULL, 0, 60.00, 200.00, 'kg', 1, 0, '2024-01-06 10:18:06', '2024-01-06 10:20:06');
+(3, 82, 350.00, 10.00, 0, 40, NULL, NULL, 0, 60.00, 200.00, 'kg', 1, 0, '2024-01-06 10:18:06', '2024-01-06 10:20:06'),
+(4, 83, 500.00, NULL, 0, NULL, NULL, NULL, 0, NULL, NULL, NULL, 1, 0, '2024-01-07 19:52:17', '2024-01-07 19:52:17');
 
 --
 -- Dumping data for table `variant_attributes`
@@ -840,7 +822,8 @@ INSERT INTO `variant_attributes` (`id`, `variant_id`, `attribute_id`, `attribute
 --
 
 INSERT INTO `variant_images` (`id`, `variant_id`, `image`, `alt_text`, `status`, `sort_order`, `created_at`, `updated_at`) VALUES
-(2, 3, '1704558522-65997fbaeb537.jpg', NULL, 1, 0, '2024-01-06 10:28:42', '2024-01-06 10:28:42');
+(2, 3, '1704558522-65997fbaeb537.jpg', NULL, 1, 0, '2024-01-06 10:28:42', '2024-01-06 10:28:42'),
+(3, 4, '1704657152-659b010031c81.jpg', NULL, 1, 0, '2024-01-07 19:52:32', '2024-01-07 19:52:32');
 SET FOREIGN_KEY_CHECKS=1;
 COMMIT;
 

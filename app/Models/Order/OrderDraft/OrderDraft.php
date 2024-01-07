@@ -21,7 +21,7 @@ class OrderDraft extends Model
 
     public function order_draft_items()
     {
-        return $this->hasMany(OrderDraftItem::class)->with('product');
+        return $this->hasMany(OrderDraftItem::class);
     }
 
     public function getOrderTotalAttribute()
@@ -31,9 +31,17 @@ class OrderDraft extends Model
 
         foreach ($order_draft_items as $order_draft_item) {
             if ($order_draft_item->product->is_sale == 1) {
-                $total += StringHelper::discount($order_draft_item->product->price, $order_draft_item->product->discount);
+                if ($order_draft_item->variant_id) {
+                    $total += StringHelper::discount($order_draft_item->variant->price, $order_draft_item->variant->discount);
+                } else {
+                    $total += StringHelper::discount($order_draft_item->product->price, $order_draft_item->product->discount);
+                }
             } else {
-                $total += $order_draft_item->product->price;
+                if ($order_draft_item->variant_id) {
+                    $total += $order_draft_item->variant->price;
+                } else {
+                    $total += $order_draft_item->product->price;
+                }
             }
         }
 

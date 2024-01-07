@@ -140,7 +140,12 @@
                                                                                             </ul>
                                                                                         @endif
                                                                                     </td>
-                                                                                    <td>{{ $order_draft->currency }}{{ $item->product->price }}
+                                                                                    <td>{{ $order_draft->currency }}
+                                                                                        @if ($item->variant_id)
+                                                                                            {{ $item->variant->price }}
+                                                                                        @else
+                                                                                            {{ $item->product->price }}
+                                                                                        @endif
                                                                                     </td>
                                                                                 </tr>
                                                                             @endforeach
@@ -378,10 +383,11 @@
 
                                             <hr>
                                             <div class="col">
-                                                <form action="{{ route('order.store') }}?order_draft_id={{ $order_draft->id }}"
+                                                <form
+                                                    action="{{ route('order.store') }}?order_draft_id={{ $order_draft->id }}"
                                                     id="place_order" method="post">
                                                     @csrf
-                                        
+
                                                     <div class="form-group mb-3">
                                                         <button
                                                             onclick="event.preventDefault();
