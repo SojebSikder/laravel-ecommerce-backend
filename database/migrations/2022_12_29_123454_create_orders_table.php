@@ -28,7 +28,7 @@ return new class extends Migration
             $table->longText('properties')->nullable();
             // tracking number provided by courier company
             $table->string('tracking_number')->nullable();
-            $table->string('courier_provider')->nullable()->default('call_courier');
+            $table->string('courier_provider')->nullable()->default('pathao');
             /**
              * price
              */

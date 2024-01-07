@@ -103,6 +103,7 @@ class OrderDraftController extends Controller
     {
         $order_draft_id = $request->input('order_draft_id');
         $product_id = $request->input('product_id');
+        $variant_id = $request->input('variant_id');
 
         $order_draft = OrderDraft::findOrFail($order_draft_id);
 
@@ -110,12 +111,18 @@ class OrderDraftController extends Controller
         $order_draft_item->order_draft_id = $order_draft->id;
 
 
-        $product = Product::findOrFail($product_id);
+        $product = Product::with('variants')->findOrFail($product_id);
         if (!$product) {
             return back()->with('warning', 'Product not found');
         }
         $order_draft_item->product_id = $product->id;
-
+        if ($variant_id) {
+            $variant = $product->variants()->where('id', $variant_id)->first();
+            if (!$variant) {
+                return back()->with('warning', 'Product variant not found');
+            }
+            $order_draft_item->variant_id = $variant->id;
+        }
 
         $order_draft_item->save();
 
@@ -155,6 +162,7 @@ class OrderDraftController extends Controller
     {
         $order_draft = OrderDraft::findOrFail($id);
         $order_draft->delete();
+
         return back()->with('success', 'Order Draft Deleted Successfully');
     }
 }

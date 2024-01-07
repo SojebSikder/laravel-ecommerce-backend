@@ -87,7 +87,7 @@ class AuthController extends Controller
             ]);
         } catch (\Throwable $th) {
             return response()->json([
-                'error' => true,
+                'success' => false,
                 'message' => $th->getMessage()
             ]);
         }
@@ -132,7 +132,7 @@ class AuthController extends Controller
             ]);
         } catch (\Throwable $th) {
             return response()->json([
-                'error' => true,
+                'success' => false,
                 'message' => $th->getMessage(),
             ]);
         }
@@ -194,7 +194,7 @@ class AuthController extends Controller
             ]);
         } catch (\Throwable $th) {
             return response()->json([
-                'error' => true,
+                'success' => false,
                 'message' => $th->getMessage(),
             ]);
         }
@@ -210,7 +210,7 @@ class AuthController extends Controller
             ]);
         } catch (\Throwable $th) {
             return response()->json([
-                'error' => true,
+                'success' => false,
                 'message' => $th->getMessage(),
             ]);
         }

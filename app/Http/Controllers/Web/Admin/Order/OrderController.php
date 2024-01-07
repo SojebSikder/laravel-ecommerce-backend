@@ -156,6 +156,9 @@ class OrderController extends Controller
             $order_item = new OrderItem();
             $order_item->order_id = $order->id;
             $order_item->product_id = $order_draft_item->product_id;
+            if ($order_draft_item->variant_id) {
+                $order_item->variant_id = $order_draft_item->variant_id;
+            }
             $order_item->quantity = $order_draft_item->quantity;
             $order_item->price = $order_draft_item->price;
             $order_item->save();
@@ -308,7 +311,7 @@ class OrderController extends Controller
             $orderTimeline = new OrderTimeline();
             $orderTimeline->order_id = $id;
             $orderTimeline->type = "status";
-            $orderTimeline->body =$db_status->label;
+            $orderTimeline->body = $db_status->label;
             $orderTimeline->save();
 
             // log activity
@@ -364,6 +367,7 @@ class OrderController extends Controller
     {
         $fulfillment_status = $request->input('fulfillment_status');
         $tracking_number = $request->input('tracking_number');
+        $courier_provider = $request->input('courier_provider');
         $fulfill_mail = $request->input('fulfill_mail') == 1 ? 1 : 0;
         $inline_shipping = $request->input('inline_shipping') == 1 ? 1 : 0;
 
@@ -373,6 +377,9 @@ class OrderController extends Controller
         }
         if ($tracking_number) {
             $order->tracking_number = $tracking_number;
+        }
+        if ($courier_provider) {
+            $order->courier_provider = $courier_provider;
         }
         if ($fulfillment_status == 'fulfilled') {
             $order->status = 'order_processing';

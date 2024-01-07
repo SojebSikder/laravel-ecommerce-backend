@@ -103,7 +103,7 @@ class CouponController extends Controller
         // Make sure voucher exist
         if (!$voucher) {
             return response()->json([
-                'error' => true,
+                'success' => false,
                 'message' => 'Coupon is not exists',
             ]);
         }
@@ -113,12 +113,12 @@ class CouponController extends Controller
             $item = Product::where('id', $itemId)->first();
             if (!$item) {
                 return response()->json([
-                    'error' => true,
+                    'success' => false,
                     'message' => 'Product is not available',
                 ]);
             } else if ($item->status != 1) {
                 return response()->json([
-                    'error' => true,
+                    'success' => false,
                     'message' => 'Product is active',
                 ]);
             }
@@ -127,12 +127,12 @@ class CouponController extends Controller
             $item = Category::where('id', $itemId)->first();
             if (!$item) {
                 return response()->json([
-                    'error' => true,
+                    'success' => false,
                     'message' => 'Category is not available',
                 ]);
             } else if ($item->status != 1) {
                 return response()->json([
-                    'error' => true,
+                    'success' => false,
                     'message' => 'Category is not active',
                 ]);
             }
@@ -142,7 +142,7 @@ class CouponController extends Controller
         // Make sure is voucher active, not expired and available.
         if ($voucher->status == 0 || $voucher->isExpired() || !$voucher->isAvailable()) {
             return response()->json([
-                'error' => true,
+                'success' => false,
                 'message' => 'Coupon is not active or it has expired',
             ]);
         }
@@ -155,7 +155,7 @@ class CouponController extends Controller
                 ->count();
             if ($total_usages >= $voucher->max_uses) {
                 return response()->json([
-                    'error' => true,
+                    'success' => false,
                     'message' => 'Coupon is exceeded maximum usage',
                 ]);
             }
@@ -170,7 +170,7 @@ class CouponController extends Controller
 
             if ($user_usages >= $voucher->max_uses_user) {
                 return response()->json([
-                    'error' => true,
+                    'success' => false,
                     'message' => 'Coupon is exceeded maximum usage of user',
                 ]);
             }
@@ -181,7 +181,7 @@ class CouponController extends Controller
         if ($voucher->min_type == "amount") {
             if (Cart::subtotal() < $voucher->min_amount) {
                 return response()->json([
-                    'error' => true,
+                    'success' => false,
                     'message' => 'Coupon is not applied for minimum purchase amount',
                 ]);
             }
@@ -189,7 +189,7 @@ class CouponController extends Controller
             $cartCount = Cart::where('user_id', $redeemerId)->get()->count();
             if ($cartCount < $voucher->min_qnty) {
                 return response()->json([
-                    'error' => true,
+                    'success' => false,
                     'message' => 'Coupon is not applied for minimum quantity of items',
                 ]);
             }

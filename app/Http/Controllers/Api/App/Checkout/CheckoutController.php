@@ -87,6 +87,9 @@ class CheckoutController extends Controller
 
                 if ($loggedInUser) {
                     $checkoutItem->product_id = $cart->product_id;
+                    if (isset($cart->variant_id)) {
+                        $checkoutItem->variant_id = $cart->variant_id;
+                    }
                     if ($cart->product->is_sale == 1) {
                         $checkoutItem->discount = $cart->product->discount;
                     }
@@ -94,6 +97,9 @@ class CheckoutController extends Controller
                     $checkoutItem->attribute = isset($cart->attribute) ? json_encode($cart->attribute) : null;
                 } else {
                     $checkoutItem->product_id = $cart['product_id'];
+                    if (isset($cart['variant_id'])) {
+                        $checkoutItem->variant_id = $cart['variant_id'];
+                    }
                     if ($cart['product']['is_sale'] == 1) {
                         $checkoutItem->discount = $cart['product']['discount'];
                     }
@@ -129,11 +135,10 @@ class CheckoutController extends Controller
             ]);
         } catch (\Throwable $th) {
             DB::rollBack();
-            throw $th;
-            // return response()->json([
-            //     'error' => true,
-            //     'message' => "Something went wrong :(",
-            // ]);
+            return response()->json([
+                'success' => false,
+                'message' => "Something went wrong :(",
+            ]);
         }
     }
 
@@ -190,7 +195,7 @@ class CheckoutController extends Controller
             ]);
         } else {
             return response()->json([
-                'error' => true,
+                'success' => false,
                 'message' => 'Not found :(',
             ]);
         }
@@ -238,7 +243,7 @@ class CheckoutController extends Controller
             ]);
         } else {
             return response()->json([
-                'error' => true,
+                'success' => false,
                 'message' => 'Not found',
             ]);
         }

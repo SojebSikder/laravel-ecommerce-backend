@@ -66,13 +66,13 @@ class PageController extends Controller
                 ]);
             } else {
                 return response()->json([
-                    'error' => true,
+                    'success' => false,
                     'message' => "Page not found",
                 ]);
             }
         } catch (\Throwable $th) {
             return response()->json([
-                'error' => true,
+                'success' => false,
                 'message' => "Page not found",
             ]);
         }

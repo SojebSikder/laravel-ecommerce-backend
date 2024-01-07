@@ -18,7 +18,9 @@ return new class extends Migration
 
             $table->foreignId('order_draft_id')->nullable()->constrained('order_drafts')->onDelete('cascade');
             // product type
-            $table->foreignId('product_id')->nullable()->constrained()->onDelete('cascade');
+            $table->foreignId('product_id')->nullable()->constrained('products')->onDelete('cascade');
+            // if product is variant then variant_id will be set
+            $table->foreignId('variant_id')->nullable()->constrained('variants')->onDelete('cascade');
 
             $table->bigInteger('quantity')->nullable()->default(1);
             $table->text('attribute')->nullable(); // store product option sets
