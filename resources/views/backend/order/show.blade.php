@@ -1016,19 +1016,42 @@
                                                             <div class="p-2">
                                                                 @if ($order_timeline->type == 'comment')
                                                                     <div>
-                                                                        <div class="fw-bold">
-                                                                            {{ $order_timeline->user ? $order_timeline->user->fname : '' }}
-                                                                            {{ $order_timeline->user ? $order_timeline->user->lname : '' }}
+                                                                        <div class="card" style="width: 18rem;">
+                                                                            {{-- <img src="..." class="card-img-top" alt="..."> --}}
+                                                                            <div class="card-body">
+                                                                                <h5 class="card-title">
+                                                                                    <div>
+                                                                                        {{ $order_timeline->user ? $order_timeline->user->fname : '' }}
+                                                                                        {{ $order_timeline->user ? $order_timeline->user->lname : '' }}
+                                                                                    </div>
 
+                                                                                    <div class="fw-light">
+                                                                                        {{ date('d M Y', strtotime($order_timeline->created_at)) }}
+                                                                                        at
+                                                                                        {{ date('h:i a', strtotime($order_timeline->created_at)) }}
+                                                                                    </div>
+                                                                                </h5>
+                                                                                <p class="card-text">
+                                                                                    {{ $order_timeline->body }}
+                                                                                </p>
+                                                                                <div class="col">
+                                                                                    <form id="delete_order_timeline"
+                                                                                        action="{{ route('order-timeline.destroy', $order_timeline->id) }}"
+                                                                                        method="post">
+                                                                                        @csrf
+                                                                                        @method('DELETE')
+                                                                                        <div class="form-group">
+                                                                                            <button
+                                                                                                onclick="event.preventDefault();
+                                                                                            if(confirm('Are you really want to delete status?')){
+                                                                                                document.getElementById('delete_order_timeline').submit()
+                                                                                            }"
+                                                                                                class="btn btn-sm btn-warning">Delete</button>
+                                                                                        </div>
+                                                                                    </form>
+                                                                                </div>
 
-                                                                        </div>
-                                                                        <div class="fw-light">
-                                                                            {{ date('d M Y', strtotime($order_timeline->created_at)) }}
-                                                                            at
-                                                                            {{ date('h:i a', strtotime($order_timeline->created_at)) }}
-                                                                        </div>
-                                                                        <div>
-                                                                            {{ $order_timeline->body }}
+                                                                            </div>
                                                                         </div>
                                                                     </div>
                                                                 @else
@@ -1044,22 +1067,6 @@
                                                                     </div>
                                                                 @endif
 
-                                                                <div class="col">
-                                                                    <form id="delete_order_timeline"
-                                                                        action="{{ route('order-timeline.destroy', $order_timeline->id) }}"
-                                                                        method="post">
-                                                                        @csrf
-                                                                        @method('DELETE')
-                                                                        <div class="form-group">
-                                                                            <button
-                                                                                onclick="event.preventDefault();
-                                                                            if(confirm('Are you really want to delete status?')){
-                                                                                document.getElementById('delete_order_timeline').submit()
-                                                                            }"
-                                                                                class="btn btn-sm btn-warning">Delete</button>
-                                                                        </div>
-                                                                    </form>
-                                                                </div>
                                                             </div>
                                                         @endforeach
                                                     @endif
