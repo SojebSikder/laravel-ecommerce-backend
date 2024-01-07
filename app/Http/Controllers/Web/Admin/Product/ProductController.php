@@ -251,7 +251,6 @@ class ProductController extends Controller
                 $product->manufacturer_id = null;
             }
             if ($description) {
-
                 $product->description = $description;
             } else {
                 $product->description = null;
@@ -303,7 +302,8 @@ class ProductController extends Controller
 
             return back()->with('success', 'Updated successfully');
         } catch (\Throwable $th) {
-            return back()->with('warning', $th->getMessage());
+            // return back()->with('warning', $th->getMessage());
+            throw $th;
         }
     }
 

@@ -94,7 +94,11 @@ class OrderDraftController extends Controller
                 ->orWhere('slug', 'like', '%' . $q . '%');
         }
 
-        $products = $products->latest()->where('status', 1)->paginate(15);
+        $products = $products->with(['variants' => function ($variant) {
+            $variant->with(['variant_attributes' => function ($query) {
+                $query->with(['attribute', 'attribute_value']);
+            }, 'images']);
+        },])->latest()->where('status', 1)->paginate(15);
 
         return view('backend.order.draft.product.create', compact('order_draft', 'products'));
     }

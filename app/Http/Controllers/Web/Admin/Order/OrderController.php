@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Mail\User\Order\OrderFulfilled;
 use App\Models\Address\Country;
 use App\Models\Order\Order;
+use App\Models\Order\OrderCoupon;
 use App\Models\Order\OrderDraft\OrderDraft;
 use App\Models\Order\OrderItem;
 use App\Models\Order\OrderShippingAddress;
@@ -399,7 +400,8 @@ class OrderController extends Controller
                     $data = new \stdClass();
                     $data->order = $order;
                     $data->inline_shipping = $inline_shipping;
-                    $data->courier_shipping = 'https://callcourier.com.pk/tracking/?tc=';
+                    // $data->courier_shipping = 'https://callcourier.com.pk/tracking/?tc=';
+                    $data->courier_shipping = $tracking_number;
 
                     Mail::to($user)->send(new OrderFulfilled($data));
                 }
@@ -413,7 +415,8 @@ class OrderController extends Controller
                 $data = new \stdClass();
                 $data->order = $order;
                 $data->inline_shipping = $inline_shipping;
-                $data->courier_shipping = 'https://callcourier.com.pk/tracking/?tc=';
+                // $data->courier_shipping = 'https://callcourier.com.pk/tracking/?tc=';
+                $data->courier_shipping = $tracking_number;
 
                 Mail::to($customerTo)->send(new OrderFulfilled($data));
             }
@@ -437,6 +440,24 @@ class OrderController extends Controller
      */
     public function destroy($id)
     {
-        //
+        try {
+            //start the transaction
+            DB::beginTransaction();
+
+            $order = Order::findOrFail($id);
+            // remove order item
+            OrderItem::where('order_id', $order->id)->delete();
+            // remove order coupon
+            OrderCoupon::where('order_id', $order->id)->delete();
+            // remove order
+            $order->delete();
+
+            //commit the transaction
+            DB::commit();
+            return redirect('/order?date=today')->with('success', 'Order Deleted');
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            return back()->with('warning', $th->getMessage());
+        }
     }
 }

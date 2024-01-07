@@ -44,6 +44,8 @@ class VariantController extends Controller
     public function store(Request $request)
     {
         try {
+            $saveContinue = $request->input('save_continue');
+
             $product_id = $request->input('product_id');
 
             $price = $request->input('price');
@@ -88,7 +90,11 @@ class VariantController extends Controller
                 $this->storeImage($request->file('image'), $variant->id);
             }
 
-            return back()->with('success', 'Created Successfully');
+            if ($saveContinue) {
+                return redirect("/product/variant/$variant->id/edit")->with('success', 'Created successfully');
+            } else {
+                return back()->with('success', 'Created Successfully');
+            }
         } catch (\Throwable $th) {
             return back()->with('warning', $th->getMessage());
         }
