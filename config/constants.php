@@ -3,6 +3,8 @@
 return [
     'uploads' => [
         'site' => 'site',
+        'menu' => 'menu',
+        'sublink' => 'sublink',
         'product' => 'product',
         'category' => 'category',
         'manufacturer' => 'manufacturer',
