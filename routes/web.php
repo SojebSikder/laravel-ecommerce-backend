@@ -6,6 +6,8 @@ use App\Http\Controllers\Web\Admin\Category\CategoryController;
 use App\Http\Controllers\Web\Admin\Checkout\CheckoutController;
 use App\Http\Controllers\Web\Admin\Cms\Footer\FooterController;
 use App\Http\Controllers\Web\Admin\Cms\Footer\FooterItemController;
+use App\Http\Controllers\Web\Admin\Cms\Menu\MenuController;
+use App\Http\Controllers\Web\Admin\Cms\Menu\SublinkController;
 use App\Http\Controllers\Web\Admin\Cms\Page\PageController;
 use App\Http\Controllers\Web\Admin\Coupon\CouponController;
 use App\Http\Controllers\Web\Admin\Customer\CustomerController;
@@ -174,6 +176,14 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::resource('footer', FooterController::class);
     Route::get('footer-item/{id}/status', [FooterItemController::class, 'status'])->name('footer-item.status');
     Route::resource('footer-item', FooterItemController::class);
+
+    // Menu
+    Route::resource('menu', MenuController::class);
+    Route::get('menu-status/{id}', [MenuController::class, 'status'])->name('menu.status');
+    Route::put('menu/sort/{id}', [MenuController::class, 'sortingOrder'])->name('menu.sortingOrder');
+    Route::resource('menu/sublink', SublinkController::class);
+    Route::get('menu/sublink-status/{id}', [SublinkController::class, 'status'])->name('sublink.status');
+    Route::put('menu/sublink/sort/{id}', [SublinkController::class, 'sortingOrder'])->name('sublink.sortingOrder');
 
     // setting
     Route::get('setting/order/status/{id}/status', [StatusController::class, 'status'])->name('status.status');

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 08, 2024 at 08:00 PM
+-- Generation Time: Jan 08, 2024 at 09:40 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -416,6 +416,13 @@ INSERT INTO `manufacturers` (`id`, `name`, `slug`, `image`, `description`, `meta
 (4, 'Cust Universe', 'cust-universe', NULL, '<p>Cust Universe is a fashion band.</p>', NULL, NULL, NULL, 1, 0, '2024-01-07 20:12:39', '2024-01-07 20:12:39');
 
 --
+-- Dumping data for table `menus`
+--
+
+INSERT INTO `menus` (`id`, `name`, `sub_menu`, `parent_id`, `category_id`, `is_link`, `link`, `is_right`, `head`, `text`, `image`, `alt_text`, `right_link`, `meta_title`, `meta_description`, `meta_keyword`, `style`, `status`, `sort_order`, `created_at`, `updated_at`) VALUES
+(1, 'Fashion', 0, NULL, NULL, 1, NULL, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '#000000', 1, 0, '2024-01-08 20:19:16', '2024-01-08 20:26:53');
+
+--
 -- Dumping data for table `option_sets`
 --
 
@@ -433,8 +440,8 @@ INSERT INTO `option_set_elements` (`id`, `option_set_id`, `type`, `label`, `name
 -- Dumping data for table `orders`
 --
 
-INSERT INTO `orders` (`id`, `invoice_number`, `payment_ref_id`, `properties`, `tracking_number`, `courier_provider`, `sub_total`, `order_total`, `shipping_zone_id`, `shipping_zone_name`, `shipping_charge`, `payment_provider_id`, `payment_provider`, `payment_provider_charge_type`, `payment_provider_charge`, `payment_status`, `payment_raw_status`, `paid_amount`, `paid_currency`, `status`, `fulfillment_status`, `currency`, `comment`, `order_shipping_address_id`, `order_billing_address_id`, `user_id`, `latitude`, `longitude`, `fname`, `lname`, `phone_number`, `email`, `deleted_at`, `created_at`, `updated_at`) VALUES
-(5, '1000', NULL, NULL, NULL, 'pathao', NULL, 475.00, NULL, NULL, NULL, NULL, NULL, 'percentage', NULL, 'unpaid', NULL, NULL, NULL, 'order_placed', 'unfulfilled', 'BDT', NULL, 7, NULL, 2, NULL, NULL, 'sd', 'sdsd', NULL, 'as@gmail.com', NULL, '2024-01-08 18:58:40', '2024-01-08 18:58:40');
+INSERT INTO `orders` (`id`, `invoice_number`, `payment_ref_id`, `properties`, `tracking_number`, `courier_provider`, `sub_total`, `order_total`, `shipping_zone_id`, `shipping_zone_name`, `shipping_charge`, `payment_provider_id`, `payment_provider`, `payment_provider_charge_type`, `payment_provider_charge`, `payment_status`, `payment_raw_status`, `paid_amount`, `paid_currency`, `status`, `fulfillment_status`, `currency`, `currency_sign`, `comment`, `order_shipping_address_id`, `order_billing_address_id`, `user_id`, `latitude`, `longitude`, `fname`, `lname`, `phone_number`, `email`, `deleted_at`, `created_at`, `updated_at`) VALUES
+(5, '1000', NULL, NULL, NULL, 'pathao', NULL, 475.00, NULL, NULL, NULL, NULL, NULL, 'percentage', NULL, 'unpaid', NULL, NULL, NULL, 'order_placed', 'unfulfilled', 'BDT', NULL, NULL, 7, NULL, 2, NULL, NULL, 'sd', 'sdsd', NULL, 'as@gmail.com', NULL, '2024-01-08 18:58:40', '2024-01-08 18:58:40');
 
 --
 -- Dumping data for table `order_items`
@@ -776,6 +783,14 @@ INSERT INTO `statuses` (`id`, `label`, `name`, `description`, `image`, `alt_text
 (1, 'Order placed', 'order_placed', NULL, NULL, NULL, 1, NULL, 1, 0, '2023-07-30 07:58:14', '2023-07-30 07:58:14'),
 (2, 'Processing', 'processing', NULL, NULL, NULL, 1, NULL, 1, 0, '2023-07-30 07:58:33', '2023-07-30 07:58:33'),
 (3, 'Order Delivered', 'order_delivered', NULL, NULL, NULL, 1, NULL, 1, 0, '2023-07-30 07:58:47', '2023-07-30 07:58:47');
+
+--
+-- Dumping data for table `sublinks`
+--
+
+INSERT INTO `sublinks` (`id`, `head`, `name`, `description`, `image`, `menu_id`, `category_id`, `is_link`, `link`, `parent_id`, `meta_title`, `meta_description`, `meta_keyword`, `style`, `status`, `sort_order`, `created_at`, `updated_at`) VALUES
+(1, 'Fashion', NULL, NULL, NULL, 1, NULL, 1, NULL, NULL, NULL, NULL, NULL, NULL, 1, 0, '2024-01-08 20:35:43', '2024-01-08 20:39:41'),
+(2, NULL, 'Tshirt', NULL, NULL, 1, NULL, 0, NULL, 1, NULL, NULL, NULL, NULL, 1, 0, '2024-01-08 20:38:22', '2024-01-08 20:39:32');
 
 --
 -- Dumping data for table `tags`
