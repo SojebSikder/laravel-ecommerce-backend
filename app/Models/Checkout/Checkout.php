@@ -80,10 +80,18 @@ class Checkout extends Model
                 }, 0.0);
             }
 
-            if ($cart['product']['is_sale'] == 1) {
-                return $price + StringHelper::discount($cart['product']['price'], $cart['product']['discount']);
+            if ($cart['variant_id']) {
+                if ($cart['variant']['is_sale'] == 1) {
+                    return $price + StringHelper::discount($cart['variant']['price'], $cart['variant']['discount']);
+                } else {
+                    return $price + (float) $cart['variant']['price'];
+                }
             } else {
-                return $price + (float) $cart['product']['price'];
+                if ($cart['product']['is_sale'] == 1) {
+                    return $price + StringHelper::discount($cart['product']['price'], $cart['product']['discount']);
+                } else {
+                    return $price + (float) $cart['product']['price'];
+                }
             }
         }, $carts->toArray());
 

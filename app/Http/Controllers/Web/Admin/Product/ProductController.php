@@ -35,7 +35,7 @@ class ProductController extends Controller
                 ->orWhere('slug', 'like', '%' . $q . '%');
         }
 
-        $products = $products->latest()->paginate(15);
+        $products = $products->with(['variants'])->latest()->paginate(15);
         return view('backend.product.index', compact('products'));
     }
 

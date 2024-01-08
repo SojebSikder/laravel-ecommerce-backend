@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 07, 2024 at 08:58 PM
+-- Generation Time: Jan 08, 2024 at 08:00 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -42,7 +42,17 @@ INSERT INTO `activity_log` (`id`, `log_name`, `description`, `subject_type`, `ev
 (18, 'default', 'order_status_deleted', 'App\\Models\\Order\\OrderStatus', NULL, 11, 'App\\Models\\User', 1, '{\"order_id\":4}', NULL, '2024-01-07 12:15:49', '2024-01-07 12:15:49'),
 (19, 'default', 'order_status_changed', 'App\\Models\\Order\\Order', NULL, 4, 'App\\Models\\User', 1, '{\"order_id\":4}', NULL, '2024-01-07 12:15:54', '2024-01-07 12:15:54'),
 (20, 'default', 'order_status_deleted', 'App\\Models\\Order\\OrderStatus', NULL, 12, 'App\\Models\\User', 1, '{\"order_id\":4}', NULL, '2024-01-07 18:16:50', '2024-01-07 18:16:50'),
-(21, 'default', 'order_status_changed', 'App\\Models\\Order\\Order', NULL, 4, 'App\\Models\\User', 1, '{\"order_id\":4}', NULL, '2024-01-07 18:17:01', '2024-01-07 18:17:01');
+(21, 'default', 'order_status_changed', 'App\\Models\\Order\\Order', NULL, 4, 'App\\Models\\User', 1, '{\"order_id\":4}', NULL, '2024-01-07 18:17:01', '2024-01-07 18:17:01'),
+(22, 'default', 'order_created', 'App\\Models\\Order\\Order', NULL, 1, 'App\\Models\\User', 1, '{\"order_id\":1}', NULL, '2024-01-07 21:06:24', '2024-01-07 21:06:24'),
+(23, 'default', 'order_fulfillment_status_changed', 'App\\Models\\Order\\Order', NULL, 1, 'App\\Models\\User', 1, '{\"order_id\":1}', NULL, '2024-01-08 16:39:13', '2024-01-08 16:39:13'),
+(24, 'default', 'order_fulfillment_status_changed', 'App\\Models\\Order\\Order', NULL, 1, 'App\\Models\\User', 1, '{\"order_id\":1}', NULL, '2024-01-08 16:39:24', '2024-01-08 16:39:24'),
+(25, 'default', 'order_status_changed', 'App\\Models\\Order\\Order', NULL, 1, 'App\\Models\\User', 1, '{\"order_id\":1}', NULL, '2024-01-08 16:40:29', '2024-01-08 16:40:29'),
+(26, 'default', 'order_fulfillment_status_changed', 'App\\Models\\Order\\Order', NULL, 1, 'App\\Models\\User', 1, '{\"order_id\":1}', NULL, '2024-01-08 16:41:20', '2024-01-08 16:41:20'),
+(27, 'default', 'order_fulfillment_status_changed', 'App\\Models\\Order\\Order', NULL, 1, 'App\\Models\\User', 1, '{\"order_id\":1}', NULL, '2024-01-08 16:41:50', '2024-01-08 16:41:50'),
+(28, 'default', 'order_created', 'App\\Models\\Order\\Order', NULL, 2, 'App\\Models\\User', 1, '{\"order_id\":2}', NULL, '2024-01-08 16:52:14', '2024-01-08 16:52:14'),
+(29, 'default', 'order_created', 'App\\Models\\Order\\Order', NULL, 3, 'App\\Models\\User', 1, '{\"order_id\":3}', NULL, '2024-01-08 17:47:34', '2024-01-08 17:47:34'),
+(30, 'default', 'order_created', 'App\\Models\\Order\\Order', NULL, 4, 'App\\Models\\User', 1, '{\"order_id\":4}', NULL, '2024-01-08 18:53:50', '2024-01-08 18:53:50'),
+(31, 'default', 'order_created', 'App\\Models\\Order\\Order', NULL, 5, 'App\\Models\\User', 1, '{\"order_id\":5}', NULL, '2024-01-08 18:58:40', '2024-01-08 18:58:40');
 
 --
 -- Dumping data for table `attributes`
@@ -70,57 +80,7 @@ INSERT INTO `attribute_values` (`id`, `attribute_id`, `name`, `status`, `sort_or
 --
 
 INSERT INTO `categories` (`id`, `name`, `slug`, `parent_id`, `image`, `description`, `meta_title`, `meta_description`, `meta_keyword`, `status`, `sort_order`, `created_at`, `updated_at`) VALUES
-(1, 'Vegetables', 'vegetables', NULL, '1673794961-63c41591ec10c.jpg', '<p>Vegetables is good thing.</p>', NULL, NULL, NULL, 1, 0, '2023-01-05 06:07:12', '2023-01-15 09:02:42'),
-(2, 'Meat', 'meat', NULL, NULL, NULL, NULL, NULL, NULL, 1, 0, '2023-01-05 06:07:15', '2023-01-05 06:07:15'),
-(3, 'Carbohydrate', 'carbohidrate', NULL, '1673795002-63c415ba75d40.jpg', NULL, NULL, NULL, NULL, 1, 0, '2023-01-05 06:07:51', '2023-01-15 09:03:22'),
-(4, 'High calorie', 'high-callorie', 3, '1673794988-63c415ac36722.jpg', NULL, NULL, NULL, NULL, 1, 0, '2023-01-11 05:35:19', '2023-01-15 09:03:08'),
-(5, 'Low calorie', 'low-calorie', 3, NULL, NULL, NULL, NULL, NULL, 1, 0, '2023-01-11 05:35:34', '2023-01-11 05:35:34'),
-(6, 'asasas', 'asasas', NULL, NULL, NULL, NULL, NULL, NULL, 1, 0, '2023-01-15 03:46:25', '2023-01-15 03:46:25'),
-(7, 'qwqw', 'qwqw', NULL, NULL, NULL, NULL, NULL, NULL, 1, 0, '2023-01-15 03:46:27', '2023-01-15 03:46:27'),
-(8, 'rere', 'rere', NULL, NULL, NULL, NULL, NULL, NULL, 1, 0, '2023-01-15 03:46:29', '2023-01-15 03:46:29'),
-(9, 'rtrt', 'rtrt', NULL, NULL, NULL, NULL, NULL, NULL, 1, 0, '2023-01-15 03:46:31', '2023-01-15 03:46:31'),
-(10, 'ytyty', 'ytyty', NULL, NULL, NULL, NULL, NULL, NULL, 1, 0, '2023-01-15 03:46:33', '2023-01-15 03:46:33'),
-(11, 'yuyu', 'yuyu', NULL, NULL, NULL, NULL, NULL, NULL, 1, 0, '2023-01-15 03:46:35', '2023-01-15 03:46:35'),
-(12, 'ioioio', 'ioioio', NULL, NULL, NULL, NULL, NULL, NULL, 1, 0, '2023-01-15 03:46:37', '2023-01-15 03:46:37'),
-(13, 'p[[', 'p', NULL, NULL, NULL, NULL, NULL, NULL, 1, 0, '2023-01-15 03:46:39', '2023-01-15 03:46:39'),
-(14, 'vbvb', 'vbvb', NULL, NULL, NULL, NULL, NULL, NULL, 1, 0, '2023-01-15 03:46:42', '2023-01-15 03:46:42'),
-(15, 'mnmn', 'mnmn', NULL, NULL, NULL, NULL, NULL, NULL, 1, 0, '2023-01-15 03:46:44', '2023-01-15 03:46:44'),
-(16, 'nbb', 'nbb', NULL, NULL, NULL, NULL, NULL, NULL, 1, 0, '2023-01-15 03:46:46', '2023-01-15 03:46:46'),
-(17, 'mnmbm', 'mnmbm', NULL, NULL, NULL, NULL, NULL, NULL, 1, 0, '2023-01-15 03:46:47', '2023-01-15 03:46:47'),
-(18, 'bvbvb', 'bvbvb', NULL, NULL, NULL, NULL, NULL, NULL, 1, 0, '2023-01-15 03:46:49', '2023-01-15 03:46:49'),
-(19, 'cvc', 'cvc', NULL, NULL, NULL, NULL, NULL, NULL, 1, 0, '2023-01-15 03:46:52', '2023-01-15 03:46:52'),
-(20, 'nmnmm', 'nmnmm', NULL, NULL, NULL, NULL, NULL, NULL, 1, 0, '2023-01-15 03:46:54', '2023-01-15 03:46:54'),
-(21, 'ffgfg', 'ffgfg', NULL, NULL, NULL, NULL, NULL, NULL, 1, 0, '2023-01-15 03:46:56', '2023-01-15 03:46:56'),
-(22, 'gfgfg', 'gfgfg', NULL, NULL, NULL, NULL, NULL, NULL, 1, 0, '2023-01-15 03:46:59', '2023-01-15 03:46:59'),
-(23, 'ghgh', 'ghgh', NULL, NULL, NULL, NULL, NULL, NULL, 1, 0, '2023-01-15 03:47:01', '2023-01-15 03:47:01'),
-(24, 'gff', 'gf', NULL, NULL, NULL, NULL, NULL, NULL, 1, 0, '2023-01-15 03:47:03', '2023-01-15 03:47:03'),
-(25, 'jhjhj', 'jhjhj', NULL, NULL, NULL, NULL, NULL, NULL, 1, 0, '2023-01-15 03:47:05', '2023-01-15 03:47:05'),
-(26, 'ghghgh', 'ghghgh', NULL, NULL, NULL, NULL, NULL, NULL, 1, 0, '2023-01-15 03:47:07', '2023-01-15 03:47:07'),
-(27, 'hghh', 'hghh', NULL, NULL, NULL, NULL, NULL, NULL, 1, 0, '2023-01-15 03:47:09', '2023-01-15 03:47:09'),
-(28, 'tyty', 'tyty', NULL, NULL, NULL, NULL, NULL, NULL, 1, 0, '2023-01-15 03:47:16', '2023-01-15 03:47:16'),
-(29, 'iuiui', 'iuiui', NULL, NULL, NULL, NULL, NULL, NULL, 1, 0, '2023-01-15 03:47:19', '2023-01-15 03:47:19'),
-(30, 'uiuiui', 'uiuiui', NULL, NULL, NULL, NULL, NULL, NULL, 1, 0, '2023-01-15 03:47:22', '2023-01-15 03:47:22'),
-(31, 'oioio', 'oioio', NULL, NULL, NULL, NULL, NULL, NULL, 1, 0, '2023-01-15 03:47:24', '2023-01-15 03:47:24'),
-(32, 'ioioioop', 'ioioioop', NULL, NULL, NULL, NULL, NULL, NULL, 1, 0, '2023-01-15 03:47:31', '2023-01-15 03:47:31'),
-(33, 'ioio', 'ioio', NULL, NULL, NULL, NULL, NULL, NULL, 1, 0, '2023-01-15 03:47:34', '2023-01-15 03:47:34'),
-(34, 'yuyup', 'yuyup', NULL, NULL, NULL, NULL, NULL, NULL, 1, 0, '2023-01-15 03:47:40', '2023-01-15 03:47:40'),
-(35, 'hggh', 'hggh', NULL, NULL, NULL, NULL, NULL, NULL, 1, 0, '2023-01-15 03:47:43', '2023-01-15 03:47:43'),
-(36, 'hjhjhjjh', 'hjhjhjjh', NULL, NULL, NULL, NULL, NULL, NULL, 1, 0, '2023-01-15 03:47:46', '2023-01-15 03:47:46'),
-(37, 'jkhjhjh', 'jkhjhjh', NULL, NULL, NULL, NULL, NULL, NULL, 1, 0, '2023-01-15 03:47:48', '2023-01-15 03:47:48'),
-(38, 'hjhgjhg', 'hjhgjhg', NULL, NULL, NULL, NULL, NULL, NULL, 1, 0, '2023-01-15 03:47:50', '2023-01-15 03:47:50'),
-(39, 'gfgfgf', 'gfgfgf', NULL, NULL, NULL, NULL, NULL, NULL, 1, 0, '2023-01-15 03:47:53', '2023-01-15 03:47:53'),
-(40, 'nmnmmj', 'nmnmmj', NULL, NULL, NULL, NULL, NULL, NULL, 1, 0, '2023-01-15 03:47:55', '2023-01-15 03:47:55'),
-(41, 'jhjkhhjlkjl', 'jhjkhhjlkjl', NULL, NULL, NULL, NULL, NULL, NULL, 1, 0, '2023-01-15 03:47:58', '2023-01-15 03:47:58'),
-(42, 'hhjjghhg', 'hhjjghhg', NULL, NULL, NULL, NULL, NULL, NULL, 1, 0, '2023-01-15 03:48:01', '2023-01-15 03:48:01'),
-(43, 'hjhjhjjkj', 'hjhjhjjk', NULL, NULL, NULL, NULL, NULL, NULL, 1, 0, '2023-01-15 03:48:04', '2023-01-15 03:48:04'),
-(44, 'ioiou', 'ioiou', NULL, NULL, NULL, NULL, NULL, NULL, 1, 0, '2023-01-15 03:48:07', '2023-01-15 03:48:07'),
-(45, 'ygg', 'ygg', NULL, NULL, NULL, NULL, NULL, NULL, 1, 0, '2023-01-15 03:48:10', '2023-01-15 03:48:10'),
-(46, 'gghv', 'gghv', NULL, NULL, NULL, NULL, NULL, NULL, 1, 0, '2023-01-15 03:48:13', '2023-01-15 03:48:13'),
-(47, 'vfgr', 'vfgr', NULL, NULL, NULL, NULL, NULL, NULL, 1, 0, '2023-01-15 03:48:16', '2023-01-15 03:48:16'),
-(48, 'jkjn', 'jkjn', NULL, NULL, NULL, NULL, NULL, NULL, 1, 0, '2023-01-15 03:48:19', '2023-01-15 03:48:19'),
-(49, 'jhyugjhjhj', 'jhyugjhjhj', NULL, NULL, NULL, NULL, NULL, NULL, 1, 0, '2023-01-15 03:48:22', '2023-01-15 03:48:22'),
-(50, 'jkhuiui', 'jkhuiui', NULL, NULL, NULL, NULL, NULL, NULL, 1, 0, '2023-01-15 03:48:24', '2023-01-15 03:48:24'),
-(51, 'T-shirt', 'tshirt', NULL, NULL, '<p>Cool tshirt on the way</p>', NULL, NULL, NULL, 1, 0, '2024-01-03 12:55:54', '2024-01-03 12:55:54');
+(52, 'T-shirt', 't-shirt', NULL, NULL, '<p>Cool T-shirt</p>', NULL, NULL, NULL, 1, 0, '2024-01-07 20:12:01', '2024-01-07 20:12:01');
 
 --
 -- Dumping data for table `checkouts`
@@ -134,11 +94,11 @@ INSERT INTO `checkouts` (`id`, `uuid`, `fname`, `lname`, `phone_number`, `email`
 -- Dumping data for table `checkout_items`
 --
 
-INSERT INTO `checkout_items` (`id`, `cart_id`, `checkout_id`, `product_id`, `discount`, `price`, `total_price`, `quantity`, `attribute`, `created_at`, `updated_at`) VALUES
-(1, NULL, 1, 81, 15.00, NULL, NULL, 2, NULL, '2023-02-01 10:05:49', '2023-02-01 10:05:49'),
-(2, NULL, 1, 2, NULL, NULL, NULL, 1, NULL, '2023-02-01 10:05:49', '2023-02-01 10:05:49'),
-(3, NULL, 2, 81, 15.00, NULL, NULL, 2, NULL, '2023-02-06 04:49:56', '2023-02-06 04:49:56'),
-(4, NULL, 2, 2, NULL, NULL, NULL, 3, NULL, '2023-02-06 04:49:56', '2023-02-06 04:49:56');
+INSERT INTO `checkout_items` (`id`, `cart_id`, `checkout_id`, `product_id`, `variant_id`, `discount`, `price`, `total_price`, `quantity`, `attribute`, `created_at`, `updated_at`) VALUES
+(1, NULL, 1, 81, NULL, 15.00, NULL, NULL, 2, NULL, '2023-02-01 10:05:49', '2023-02-01 10:05:49'),
+(2, NULL, 1, 2, NULL, NULL, NULL, NULL, 1, NULL, '2023-02-01 10:05:49', '2023-02-01 10:05:49'),
+(3, NULL, 2, 81, NULL, 15.00, NULL, NULL, 2, NULL, '2023-02-06 04:49:56', '2023-02-06 04:49:56'),
+(4, NULL, 2, 2, NULL, NULL, NULL, NULL, 3, NULL, '2023-02-06 04:49:56', '2023-02-06 04:49:56');
 
 --
 -- Dumping data for table `countries`
@@ -432,6 +392,13 @@ INSERT INTO `general_settings` (`id`, `name`, `meta_title`, `meta_description`, 
 (1, 'Ecommerce site', 'Ecommerce site', 'Ecommerce site', 'Ecommerce site', NULL, NULL, NULL, '1704396972-659708ac4a205.jpg', NULL, NULL, NULL, NULL, '2024-01-04 13:34:48', '2024-01-04 13:36:52');
 
 --
+-- Dumping data for table `jobs`
+--
+
+INSERT INTO `jobs` (`id`, `queue`, `payload`, `attempts`, `reserved_at`, `available_at`, `created_at`) VALUES
+(1, 'default', '{\"uuid\":\"57d8b08a-f0e5-4c33-8fa3-cbf9679b7c85\",\"displayName\":\"App\\\\Mail\\\\User\\\\Order\\\\OrderFulfilled\",\"job\":\"Illuminate\\\\Queue\\\\CallQueuedHandler@call\",\"maxTries\":null,\"maxExceptions\":null,\"failOnTimeout\":false,\"backoff\":null,\"timeout\":null,\"retryUntil\":null,\"data\":{\"commandName\":\"Illuminate\\\\Mail\\\\SendQueuedMailable\",\"command\":\"O:34:\\\"Illuminate\\\\Mail\\\\SendQueuedMailable\\\":15:{s:8:\\\"mailable\\\";O:34:\\\"App\\\\Mail\\\\User\\\\Order\\\\OrderFulfilled\\\":3:{s:4:\\\"data\\\";O:8:\\\"stdClass\\\":3:{s:5:\\\"order\\\";O:22:\\\"App\\\\Models\\\\Order\\\\Order\\\":30:{s:13:\\\"\\u0000*\\u0000connection\\\";s:5:\\\"mysql\\\";s:8:\\\"\\u0000*\\u0000table\\\";s:6:\\\"orders\\\";s:13:\\\"\\u0000*\\u0000primaryKey\\\";s:2:\\\"id\\\";s:10:\\\"\\u0000*\\u0000keyType\\\";s:3:\\\"int\\\";s:12:\\\"incrementing\\\";b:1;s:7:\\\"\\u0000*\\u0000with\\\";a:6:{i:0;s:14:\\\"order_statuses\\\";i:1;s:11:\\\"order_items\\\";i:2;s:7:\\\"coupons\\\";i:3;s:13:\\\"shipping_zone\\\";i:4;s:22:\\\"order_shipping_address\\\";i:5;s:21:\\\"order_billing_address\\\";}s:12:\\\"\\u0000*\\u0000withCount\\\";a:0:{}s:19:\\\"preventsLazyLoading\\\";b:0;s:10:\\\"\\u0000*\\u0000perPage\\\";i:15;s:6:\\\"exists\\\";b:1;s:18:\\\"wasRecentlyCreated\\\";b:0;s:28:\\\"\\u0000*\\u0000escapeWhenCastingToString\\\";b:0;s:13:\\\"\\u0000*\\u0000attributes\\\";a:35:{s:2:\\\"id\\\";i:1;s:14:\\\"invoice_number\\\";s:4:\\\"1000\\\";s:14:\\\"payment_ref_id\\\";N;s:10:\\\"properties\\\";N;s:15:\\\"tracking_number\\\";s:3:\\\"123\\\";s:16:\\\"courier_provider\\\";s:6:\\\"pathao\\\";s:9:\\\"sub_total\\\";N;s:11:\\\"order_total\\\";s:6:\\\"617.50\\\";s:16:\\\"shipping_zone_id\\\";N;s:18:\\\"shipping_zone_name\\\";N;s:15:\\\"shipping_charge\\\";N;s:19:\\\"payment_provider_id\\\";N;s:16:\\\"payment_provider\\\";N;s:28:\\\"payment_provider_charge_type\\\";s:10:\\\"percentage\\\";s:23:\\\"payment_provider_charge\\\";N;s:14:\\\"payment_status\\\";s:6:\\\"unpaid\\\";s:18:\\\"payment_raw_status\\\";N;s:11:\\\"paid_amount\\\";N;s:13:\\\"paid_currency\\\";N;s:6:\\\"status\\\";s:12:\\\"order_placed\\\";s:18:\\\"fulfillment_status\\\";s:11:\\\"unfulfilled\\\";s:8:\\\"currency\\\";N;s:7:\\\"comment\\\";s:34:\\\"I\'m creating this order from draft\\\";s:25:\\\"order_shipping_address_id\\\";i:3;s:24:\\\"order_billing_address_id\\\";N;s:7:\\\"user_id\\\";i:2;s:8:\\\"latitude\\\";N;s:9:\\\"longitude\\\";N;s:5:\\\"fname\\\";s:2:\\\"sd\\\";s:5:\\\"lname\\\";s:4:\\\"sdsd\\\";s:12:\\\"phone_number\\\";N;s:5:\\\"email\\\";s:12:\\\"as@gmail.com\\\";s:10:\\\"deleted_at\\\";N;s:10:\\\"created_at\\\";s:19:\\\"2024-01-08 03:06:24\\\";s:10:\\\"updated_at\\\";s:19:\\\"2024-01-08 22:39:13\\\";}s:11:\\\"\\u0000*\\u0000original\\\";a:35:{s:2:\\\"id\\\";i:1;s:14:\\\"invoice_number\\\";s:4:\\\"1000\\\";s:14:\\\"payment_ref_id\\\";N;s:10:\\\"properties\\\";N;s:15:\\\"tracking_number\\\";s:3:\\\"123\\\";s:16:\\\"courier_provider\\\";s:6:\\\"pathao\\\";s:9:\\\"sub_total\\\";N;s:11:\\\"order_total\\\";s:6:\\\"617.50\\\";s:16:\\\"shipping_zone_id\\\";N;s:18:\\\"shipping_zone_name\\\";N;s:15:\\\"shipping_charge\\\";N;s:19:\\\"payment_provider_id\\\";N;s:16:\\\"payment_provider\\\";N;s:28:\\\"payment_provider_charge_type\\\";s:10:\\\"percentage\\\";s:23:\\\"payment_provider_charge\\\";N;s:14:\\\"payment_status\\\";s:6:\\\"unpaid\\\";s:18:\\\"payment_raw_status\\\";N;s:11:\\\"paid_amount\\\";N;s:13:\\\"paid_currency\\\";N;s:6:\\\"status\\\";s:12:\\\"order_placed\\\";s:18:\\\"fulfillment_status\\\";s:11:\\\"unfulfilled\\\";s:8:\\\"currency\\\";N;s:7:\\\"comment\\\";s:34:\\\"I\'m creating this order from draft\\\";s:25:\\\"order_shipping_address_id\\\";i:3;s:24:\\\"order_billing_address_id\\\";N;s:7:\\\"user_id\\\";i:2;s:8:\\\"latitude\\\";N;s:9:\\\"longitude\\\";N;s:5:\\\"fname\\\";s:2:\\\"sd\\\";s:5:\\\"lname\\\";s:4:\\\"sdsd\\\";s:12:\\\"phone_number\\\";N;s:5:\\\"email\\\";s:12:\\\"as@gmail.com\\\";s:10:\\\"deleted_at\\\";N;s:10:\\\"created_at\\\";s:19:\\\"2024-01-08 03:06:24\\\";s:10:\\\"updated_at\\\";s:19:\\\"2024-01-08 22:39:13\\\";}s:10:\\\"\\u0000*\\u0000changes\\\";a:0:{}s:8:\\\"\\u0000*\\u0000casts\\\";a:0:{}s:17:\\\"\\u0000*\\u0000classCastCache\\\";a:0:{}s:21:\\\"\\u0000*\\u0000attributeCastCache\\\";a:0:{}s:8:\\\"\\u0000*\\u0000dates\\\";a:0:{}s:13:\\\"\\u0000*\\u0000dateFormat\\\";N;s:10:\\\"\\u0000*\\u0000appends\\\";a:0:{}s:19:\\\"\\u0000*\\u0000dispatchesEvents\\\";a:0:{}s:14:\\\"\\u0000*\\u0000observables\\\";a:0:{}s:12:\\\"\\u0000*\\u0000relations\\\";a:6:{s:14:\\\"order_statuses\\\";O:39:\\\"Illuminate\\\\Database\\\\Eloquent\\\\Collection\\\":2:{s:8:\\\"\\u0000*\\u0000items\\\";a:0:{}s:28:\\\"\\u0000*\\u0000escapeWhenCastingToString\\\";b:0;}s:11:\\\"order_items\\\";O:39:\\\"Illuminate\\\\Database\\\\Eloquent\\\\Collection\\\":2:{s:8:\\\"\\u0000*\\u0000items\\\";a:2:{i:0;O:26:\\\"App\\\\Models\\\\Order\\\\OrderItem\\\":30:{s:13:\\\"\\u0000*\\u0000connection\\\";s:5:\\\"mysql\\\";s:8:\\\"\\u0000*\\u0000table\\\";s:11:\\\"order_items\\\";s:13:\\\"\\u0000*\\u0000primaryKey\\\";s:2:\\\"id\\\";s:10:\\\"\\u0000*\\u0000keyType\\\";s:3:\\\"int\\\";s:12:\\\"incrementing\\\";b:1;s:7:\\\"\\u0000*\\u0000with\\\";a:0:{}s:12:\\\"\\u0000*\\u0000withCount\\\";a:0:{}s:19:\\\"preventsLazyLoading\\\";b:0;s:10:\\\"\\u0000*\\u0000perPage\\\";i:15;s:6:\\\"exists\\\";b:1;s:18:\\\"wasRecentlyCreated\\\";b:0;s:28:\\\"\\u0000*\\u0000escapeWhenCastingToString\\\";b:0;s:13:\\\"\\u0000*\\u0000attributes\\\";a:14:{s:2:\\\"id\\\";i:1;s:8:\\\"order_id\\\";i:1;s:10:\\\"product_id\\\";i:92;s:10:\\\"variant_id\\\";i:17;s:8:\\\"discount\\\";N;s:5:\\\"price\\\";N;s:11:\\\"total_price\\\";N;s:8:\\\"quantity\\\";i:1;s:6:\\\"weight\\\";N;s:11:\\\"weight_unit\\\";N;s:9:\\\"attribute\\\";N;s:10:\\\"deleted_at\\\";N;s:10:\\\"created_at\\\";s:19:\\\"2024-01-08 03:06:24\\\";s:10:\\\"updated_at\\\";s:19:\\\"2024-01-08 03:06:24\\\";}s:11:\\\"\\u0000*\\u0000original\\\";a:14:{s:2:\\\"id\\\";i:1;s:8:\\\"order_id\\\";i:1;s:10:\\\"product_id\\\";i:92;s:10:\\\"variant_id\\\";i:17;s:8:\\\"discount\\\";N;s:5:\\\"price\\\";N;s:11:\\\"total_price\\\";N;s:8:\\\"quantity\\\";i:1;s:6:\\\"weight\\\";N;s:11:\\\"weight_unit\\\";N;s:9:\\\"attribute\\\";N;s:10:\\\"deleted_at\\\";N;s:10:\\\"created_at\\\";s:19:\\\"2024-01-08 03:06:24\\\";s:10:\\\"updated_at\\\";s:19:\\\"2024-01-08 03:06:24\\\";}s:10:\\\"\\u0000*\\u0000changes\\\";a:0:{}s:8:\\\"\\u0000*\\u0000casts\\\";a:0:{}s:17:\\\"\\u0000*\\u0000classCastCache\\\";a:0:{}s:21:\\\"\\u0000*\\u0000attributeCastCache\\\";a:0:{}s:8:\\\"\\u0000*\\u0000dates\\\";a:0:{}s:13:\\\"\\u0000*\\u0000dateFormat\\\";N;s:10:\\\"\\u0000*\\u0000appends\\\";a:0:{}s:19:\\\"\\u0000*\\u0000dispatchesEvents\\\";a:0:{}s:14:\\\"\\u0000*\\u0000observables\\\";a:0:{}s:12:\\\"\\u0000*\\u0000relations\\\";a:1:{s:7:\\\"product\\\";O:26:\\\"App\\\\Models\\\\Product\\\\Product\\\":30:{s:13:\\\"\\u0000*\\u0000connection\\\";s:5:\\\"mysql\\\";s:8:\\\"\\u0000*\\u0000table\\\";s:8:\\\"products\\\";s:13:\\\"\\u0000*\\u0000primaryKey\\\";s:2:\\\"id\\\";s:10:\\\"\\u0000*\\u0000keyType\\\";s:3:\\\"int\\\";s:12:\\\"incrementing\\\";b:1;s:7:\\\"\\u0000*\\u0000with\\\";a:0:{}s:12:\\\"\\u0000*\\u0000withCount\\\";a:0:{}s:19:\\\"preventsLazyLoading\\\";b:0;s:10:\\\"\\u0000*\\u0000perPage\\\";i:15;s:6:\\\"exists\\\";b:1;s:18:\\\"wasRecentlyCreated\\\";b:0;s:28:\\\"\\u0000*\\u0000escapeWhenCastingToString\\\";b:0;s:13:\\\"\\u0000*\\u0000attributes\\\";a:24:{s:2:\\\"id\\\";i:92;s:4:\\\"name\\\";s:7:\\\"T-shirt\\\";s:4:\\\"slug\\\";s:7:\\\"t-shirt\\\";s:12:\\\"product_type\\\";s:6:\\\"simple\\\";s:10:\\\"meta_title\\\";N;s:16:\\\"meta_description\\\";N;s:12:\\\"meta_keyword\\\";N;s:11:\\\"description\\\";s:26:\\\"<p>Cool tshirt buy now<\\/p>\\\";s:5:\\\"price\\\";s:6:\\\"200.00\\\";s:8:\\\"discount\\\";s:4:\\\"5.00\\\";s:14:\\\"track_quantity\\\";i:1;s:8:\\\"quantity\\\";i:40;s:3:\\\"sku\\\";N;s:7:\\\"barcode\\\";N;s:7:\\\"is_sale\\\";i:1;s:13:\\\"cost_per_item\\\";s:5:\\\"60.00\\\";s:6:\\\"weight\\\";s:6:\\\"200.00\\\";s:11:\\\"weight_unit\\\";s:1:\\\"g\\\";s:15:\\\"manufacturer_id\\\";i:4;s:7:\\\"user_id\\\";N;s:5:\\\"views\\\";i:0;s:6:\\\"status\\\";i:1;s:10:\\\"created_at\\\";s:19:\\\"2024-01-08 02:45:50\\\";s:10:\\\"updated_at\\\";s:19:\\\"2024-01-08 02:51:35\\\";}s:11:\\\"\\u0000*\\u0000original\\\";a:24:{s:2:\\\"id\\\";i:92;s:4:\\\"name\\\";s:7:\\\"T-shirt\\\";s:4:\\\"slug\\\";s:7:\\\"t-shirt\\\";s:12:\\\"product_type\\\";s:6:\\\"simple\\\";s:10:\\\"meta_title\\\";N;s:16:\\\"meta_description\\\";N;s:12:\\\"meta_keyword\\\";N;s:11:\\\"description\\\";s:26:\\\"<p>Cool tshirt buy now<\\/p>\\\";s:5:\\\"price\\\";s:6:\\\"200.00\\\";s:8:\\\"discount\\\";s:4:\\\"5.00\\\";s:14:\\\"track_quantity\\\";i:1;s:8:\\\"quantity\\\";i:40;s:3:\\\"sku\\\";N;s:7:\\\"barcode\\\";N;s:7:\\\"is_sale\\\";i:1;s:13:\\\"cost_per_item\\\";s:5:\\\"60.00\\\";s:6:\\\"weight\\\";s:6:\\\"200.00\\\";s:11:\\\"weight_unit\\\";s:1:\\\"g\\\";s:15:\\\"manufacturer_id\\\";i:4;s:7:\\\"user_id\\\";N;s:5:\\\"views\\\";i:0;s:6:\\\"status\\\";i:1;s:10:\\\"created_at\\\";s:19:\\\"2024-01-08 02:45:50\\\";s:10:\\\"updated_at\\\";s:19:\\\"2024-01-08 02:51:35\\\";}s:10:\\\"\\u0000*\\u0000changes\\\";a:0:{}s:8:\\\"\\u0000*\\u0000casts\\\";a:0:{}s:17:\\\"\\u0000*\\u0000classCastCache\\\";a:0:{}s:21:\\\"\\u0000*\\u0000attributeCastCache\\\";a:0:{}s:8:\\\"\\u0000*\\u0000dates\\\";a:0:{}s:13:\\\"\\u0000*\\u0000dateFormat\\\";N;s:10:\\\"\\u0000*\\u0000appends\\\";a:3:{i:0;s:13:\\\"currency_sign\\\";i:1;s:13:\\\"currency_code\\\";i:2;s:12:\\\"availability\\\";}s:19:\\\"\\u0000*\\u0000dispatchesEvents\\\";a:0:{}s:14:\\\"\\u0000*\\u0000observables\\\";a:0:{}s:12:\\\"\\u0000*\\u0000relations\\\";a:1:{s:6:\\\"images\\\";O:39:\\\"Illuminate\\\\Database\\\\Eloquent\\\\Collection\\\":2:{s:8:\\\"\\u0000*\\u0000items\\\";a:2:{i:0;O:31:\\\"App\\\\Models\\\\Product\\\\ProductImage\\\":30:{s:13:\\\"\\u0000*\\u0000connection\\\";s:5:\\\"mysql\\\";s:8:\\\"\\u0000*\\u0000table\\\";s:14:\\\"product_images\\\";s:13:\\\"\\u0000*\\u0000primaryKey\\\";s:2:\\\"id\\\";s:10:\\\"\\u0000*\\u0000keyType\\\";s:3:\\\"int\\\";s:12:\\\"incrementing\\\";b:1;s:7:\\\"\\u0000*\\u0000with\\\";a:0:{}s:12:\\\"\\u0000*\\u0000withCount\\\";a:0:{}s:19:\\\"preventsLazyLoading\\\";b:0;s:10:\\\"\\u0000*\\u0000perPage\\\";i:15;s:6:\\\"exists\\\";b:1;s:18:\\\"wasRecentlyCreated\\\";b:0;s:28:\\\"\\u0000*\\u0000escapeWhenCastingToString\\\";b:0;s:13:\\\"\\u0000*\\u0000attributes\\\";a:9:{s:2:\\\"id\\\";i:15;s:5:\\\"image\\\";s:29:\\\"1704660441-659b0dd983eae.webp\\\";s:5:\\\"title\\\";N;s:8:\\\"alt_text\\\";N;s:10:\\\"product_id\\\";s:2:\\\"92\\\";s:6:\\\"status\\\";i:1;s:10:\\\"sort_order\\\";i:0;s:10:\\\"created_at\\\";s:19:\\\"2024-01-08 02:47:21\\\";s:10:\\\"updated_at\\\";s:19:\\\"2024-01-08 02:47:21\\\";}s:11:\\\"\\u0000*\\u0000original\\\";a:9:{s:2:\\\"id\\\";i:15;s:5:\\\"image\\\";s:29:\\\"1704660441-659b0dd983eae.webp\\\";s:5:\\\"title\\\";N;s:8:\\\"alt_text\\\";N;s:10:\\\"product_id\\\";s:2:\\\"92\\\";s:6:\\\"status\\\";i:1;s:10:\\\"sort_order\\\";i:0;s:10:\\\"created_at\\\";s:19:\\\"2024-01-08 02:47:21\\\";s:10:\\\"updated_at\\\";s:19:\\\"2024-01-08 02:47:21\\\";}s:10:\\\"\\u0000*\\u0000changes\\\";a:0:{}s:8:\\\"\\u0000*\\u0000casts\\\";a:0:{}s:17:\\\"\\u0000*\\u0000classCastCache\\\";a:0:{}s:21:\\\"\\u0000*\\u0000attributeCastCache\\\";a:0:{}s:8:\\\"\\u0000*\\u0000dates\\\";a:0:{}s:13:\\\"\\u0000*\\u0000dateFormat\\\";N;s:10:\\\"\\u0000*\\u0000appends\\\";a:1:{i:0;s:9:\\\"image_url\\\";}s:19:\\\"\\u0000*\\u0000dispatchesEvents\\\";a:0:{}s:14:\\\"\\u0000*\\u0000observables\\\";a:0:{}s:12:\\\"\\u0000*\\u0000relations\\\";a:0:{}s:10:\\\"\\u0000*\\u0000touches\\\";a:0:{}s:10:\\\"timestamps\\\";b:1;s:9:\\\"\\u0000*\\u0000hidden\\\";a:3:{i:0;s:10:\\\"created_at\\\";i:1;s:10:\\\"updated_at\\\";i:2;s:6:\\\"status\\\";}s:10:\\\"\\u0000*\\u0000visible\\\";a:0:{}s:11:\\\"\\u0000*\\u0000fillable\\\";a:0:{}s:10:\\\"\\u0000*\\u0000guarded\\\";a:1:{i:0;s:1:\\\"*\\\";}}i:1;O:31:\\\"App\\\\Models\\\\Product\\\\ProductImage\\\":30:{s:13:\\\"\\u0000*\\u0000connection\\\";s:5:\\\"mysql\\\";s:8:\\\"\\u0000*\\u0000table\\\";s:14:\\\"product_images\\\";s:13:\\\"\\u0000*\\u0000primaryKey\\\";s:2:\\\"id\\\";s:10:\\\"\\u0000*\\u0000keyType\\\";s:3:\\\"int\\\";s:12:\\\"incrementing\\\";b:1;s:7:\\\"\\u0000*\\u0000with\\\";a:0:{}s:12:\\\"\\u0000*\\u0000withCount\\\";a:0:{}s:19:\\\"preventsLazyLoading\\\";b:0;s:10:\\\"\\u0000*\\u0000perPage\\\";i:15;s:6:\\\"exists\\\";b:1;s:18:\\\"wasRecentlyCreated\\\";b:0;s:28:\\\"\\u0000*\\u0000escapeWhenCastingToString\\\";b:0;s:13:\\\"\\u0000*\\u0000attributes\\\";a:9:{s:2:\\\"id\\\";i:16;s:5:\\\"image\\\";s:28:\\\"1704661070-659b104eb54a0.jpg\\\";s:5:\\\"title\\\";N;s:8:\\\"alt_text\\\";N;s:10:\\\"product_id\\\";s:2:\\\"92\\\";s:6:\\\"status\\\";i:1;s:10:\\\"sort_order\\\";i:0;s:10:\\\"created_at\\\";s:19:\\\"2024-01-08 02:57:50\\\";s:10:\\\"updated_at\\\";s:19:\\\"2024-01-08 02:57:50\\\";}s:11:\\\"\\u0000*\\u0000original\\\";a:9:{s:2:\\\"id\\\";i:16;s:5:\\\"image\\\";s:28:\\\"1704661070-659b104eb54a0.jpg\\\";s:5:\\\"title\\\";N;s:8:\\\"alt_text\\\";N;s:10:\\\"product_id\\\";s:2:\\\"92\\\";s:6:\\\"status\\\";i:1;s:10:\\\"sort_order\\\";i:0;s:10:\\\"created_at\\\";s:19:\\\"2024-01-08 02:57:50\\\";s:10:\\\"updated_at\\\";s:19:\\\"2024-01-08 02:57:50\\\";}s:10:\\\"\\u0000*\\u0000changes\\\";a:0:{}s:8:\\\"\\u0000*\\u0000casts\\\";a:0:{}s:17:\\\"\\u0000*\\u0000classCastCache\\\";a:0:{}s:21:\\\"\\u0000*\\u0000attributeCastCache\\\";a:0:{}s:8:\\\"\\u0000*\\u0000dates\\\";a:0:{}s:13:\\\"\\u0000*\\u0000dateFormat\\\";N;s:10:\\\"\\u0000*\\u0000appends\\\";a:1:{i:0;s:9:\\\"image_url\\\";}s:19:\\\"\\u0000*\\u0000dispatchesEvents\\\";a:0:{}s:14:\\\"\\u0000*\\u0000observables\\\";a:0:{}s:12:\\\"\\u0000*\\u0000relations\\\";a:0:{}s:10:\\\"\\u0000*\\u0000touches\\\";a:0:{}s:10:\\\"timestamps\\\";b:1;s:9:\\\"\\u0000*\\u0000hidden\\\";a:3:{i:0;s:10:\\\"created_at\\\";i:1;s:10:\\\"updated_at\\\";i:2;s:6:\\\"status\\\";}s:10:\\\"\\u0000*\\u0000visible\\\";a:0:{}s:11:\\\"\\u0000*\\u0000fillable\\\";a:0:{}s:10:\\\"\\u0000*\\u0000guarded\\\";a:1:{i:0;s:1:\\\"*\\\";}}}s:28:\\\"\\u0000*\\u0000escapeWhenCastingToString\\\";b:0;}}s:10:\\\"\\u0000*\\u0000touches\\\";a:0:{}s:10:\\\"timestamps\\\";b:1;s:9:\\\"\\u0000*\\u0000hidden\\\";a:11:{i:0;s:13:\\\"cost_per_item\\\";i:1;s:8:\\\"quantity\\\";i:2;s:6:\\\"weight\\\";i:3;s:11:\\\"weight_unit\\\";i:4;s:14:\\\"track_quantity\\\";i:5;s:7:\\\"barcode\\\";i:6;s:3:\\\"sku\\\";i:7;s:6:\\\"status\\\";i:8;s:5:\\\"views\\\";i:9;s:10:\\\"created_at\\\";i:10;s:10:\\\"updated_at\\\";}s:10:\\\"\\u0000*\\u0000visible\\\";a:0:{}s:11:\\\"\\u0000*\\u0000fillable\\\";a:0:{}s:10:\\\"\\u0000*\\u0000guarded\\\";a:1:{i:0;s:1:\\\"*\\\";}}}s:10:\\\"\\u0000*\\u0000touches\\\";a:0:{}s:10:\\\"timestamps\\\";b:1;s:9:\\\"\\u0000*\\u0000hidden\\\";a:0:{}s:10:\\\"\\u0000*\\u0000visible\\\";a:0:{}s:11:\\\"\\u0000*\\u0000fillable\\\";a:0:{}s:10:\\\"\\u0000*\\u0000guarded\\\";a:1:{i:0;s:1:\\\"*\\\";}}i:1;O:26:\\\"App\\\\Models\\\\Order\\\\OrderItem\\\":30:{s:13:\\\"\\u0000*\\u0000connection\\\";s:5:\\\"mysql\\\";s:8:\\\"\\u0000*\\u0000table\\\";s:11:\\\"order_items\\\";s:13:\\\"\\u0000*\\u0000primaryKey\\\";s:2:\\\"id\\\";s:10:\\\"\\u0000*\\u0000keyType\\\";s:3:\\\"int\\\";s:12:\\\"incrementing\\\";b:1;s:7:\\\"\\u0000*\\u0000with\\\";a:0:{}s:12:\\\"\\u0000*\\u0000withCount\\\";a:0:{}s:19:\\\"preventsLazyLoading\\\";b:0;s:10:\\\"\\u0000*\\u0000perPage\\\";i:15;s:6:\\\"exists\\\";b:1;s:18:\\\"wasRecentlyCreated\\\";b:0;s:28:\\\"\\u0000*\\u0000escapeWhenCastingToString\\\";b:0;s:13:\\\"\\u0000*\\u0000attributes\\\";a:14:{s:2:\\\"id\\\";i:2;s:8:\\\"order_id\\\";i:1;s:10:\\\"product_id\\\";i:92;s:10:\\\"variant_id\\\";i:18;s:8:\\\"discount\\\";N;s:5:\\\"price\\\";N;s:11:\\\"total_price\\\";N;s:8:\\\"quantity\\\";i:1;s:6:\\\"weight\\\";N;s:11:\\\"weight_unit\\\";N;s:9:\\\"attribute\\\";N;s:10:\\\"deleted_at\\\";N;s:10:\\\"created_at\\\";s:19:\\\"2024-01-08 03:06:24\\\";s:10:\\\"updated_at\\\";s:19:\\\"2024-01-08 03:06:24\\\";}s:11:\\\"\\u0000*\\u0000original\\\";a:14:{s:2:\\\"id\\\";i:2;s:8:\\\"order_id\\\";i:1;s:10:\\\"product_id\\\";i:92;s:10:\\\"variant_id\\\";i:18;s:8:\\\"discount\\\";N;s:5:\\\"price\\\";N;s:11:\\\"total_price\\\";N;s:8:\\\"quantity\\\";i:1;s:6:\\\"weight\\\";N;s:11:\\\"weight_unit\\\";N;s:9:\\\"attribute\\\";N;s:10:\\\"deleted_at\\\";N;s:10:\\\"created_at\\\";s:19:\\\"2024-01-08 03:06:24\\\";s:10:\\\"updated_at\\\";s:19:\\\"2024-01-08 03:06:24\\\";}s:10:\\\"\\u0000*\\u0000changes\\\";a:0:{}s:8:\\\"\\u0000*\\u0000casts\\\";a:0:{}s:17:\\\"\\u0000*\\u0000classCastCache\\\";a:0:{}s:21:\\\"\\u0000*\\u0000attributeCastCache\\\";a:0:{}s:8:\\\"\\u0000*\\u0000dates\\\";a:0:{}s:13:\\\"\\u0000*\\u0000dateFormat\\\";N;s:10:\\\"\\u0000*\\u0000appends\\\";a:0:{}s:19:\\\"\\u0000*\\u0000dispatchesEvents\\\";a:0:{}s:14:\\\"\\u0000*\\u0000observables\\\";a:0:{}s:12:\\\"\\u0000*\\u0000relations\\\";a:1:{s:7:\\\"product\\\";r:163;}s:10:\\\"\\u0000*\\u0000touches\\\";a:0:{}s:10:\\\"timestamps\\\";b:1;s:9:\\\"\\u0000*\\u0000hidden\\\";a:0:{}s:10:\\\"\\u0000*\\u0000visible\\\";a:0:{}s:11:\\\"\\u0000*\\u0000fillable\\\";a:0:{}s:10:\\\"\\u0000*\\u0000guarded\\\";a:1:{i:0;s:1:\\\"*\\\";}}}s:28:\\\"\\u0000*\\u0000escapeWhenCastingToString\\\";b:0;}s:7:\\\"coupons\\\";O:39:\\\"Illuminate\\\\Database\\\\Eloquent\\\\Collection\\\":2:{s:8:\\\"\\u0000*\\u0000items\\\";a:0:{}s:28:\\\"\\u0000*\\u0000escapeWhenCastingToString\\\";b:0;}s:13:\\\"shipping_zone\\\";N;s:22:\\\"order_shipping_address\\\";O:37:\\\"App\\\\Models\\\\Order\\\\OrderShippingAddress\\\":30:{s:13:\\\"\\u0000*\\u0000connection\\\";s:5:\\\"mysql\\\";s:8:\\\"\\u0000*\\u0000table\\\";s:24:\\\"order_shipping_addresses\\\";s:13:\\\"\\u0000*\\u0000primaryKey\\\";s:2:\\\"id\\\";s:10:\\\"\\u0000*\\u0000keyType\\\";s:3:\\\"int\\\";s:12:\\\"incrementing\\\";b:1;s:7:\\\"\\u0000*\\u0000with\\\";a:0:{}s:12:\\\"\\u0000*\\u0000withCount\\\";a:0:{}s:19:\\\"preventsLazyLoading\\\";b:0;s:10:\\\"\\u0000*\\u0000perPage\\\";i:15;s:6:\\\"exists\\\";b:1;s:18:\\\"wasRecentlyCreated\\\";b:0;s:28:\\\"\\u0000*\\u0000escapeWhenCastingToString\\\";b:0;s:13:\\\"\\u0000*\\u0000attributes\\\";a:19:{s:2:\\\"id\\\";i:3;s:5:\\\"fname\\\";N;s:5:\\\"lname\\\";N;s:12:\\\"phone_number\\\";N;s:5:\\\"email\\\";N;s:10:\\\"country_id\\\";N;s:7:\\\"country\\\";N;s:8:\\\"address1\\\";N;s:8:\\\"address2\\\";N;s:4:\\\"city\\\";N;s:5:\\\"state\\\";N;s:3:\\\"zip\\\";N;s:8:\\\"latitude\\\";N;s:9:\\\"longitude\\\";N;s:7:\\\"user_id\\\";N;s:6:\\\"status\\\";i:1;s:10:\\\"deleted_at\\\";N;s:10:\\\"created_at\\\";s:19:\\\"2024-01-08 03:06:24\\\";s:10:\\\"updated_at\\\";s:19:\\\"2024-01-08 03:06:24\\\";}s:11:\\\"\\u0000*\\u0000original\\\";a:19:{s:2:\\\"id\\\";i:3;s:5:\\\"fname\\\";N;s:5:\\\"lname\\\";N;s:12:\\\"phone_number\\\";N;s:5:\\\"email\\\";N;s:10:\\\"country_id\\\";N;s:7:\\\"country\\\";N;s:8:\\\"address1\\\";N;s:8:\\\"address2\\\";N;s:4:\\\"city\\\";N;s:5:\\\"state\\\";N;s:3:\\\"zip\\\";N;s:8:\\\"latitude\\\";N;s:9:\\\"longitude\\\";N;s:7:\\\"user_id\\\";N;s:6:\\\"status\\\";i:1;s:10:\\\"deleted_at\\\";N;s:10:\\\"created_at\\\";s:19:\\\"2024-01-08 03:06:24\\\";s:10:\\\"updated_at\\\";s:19:\\\"2024-01-08 03:06:24\\\";}s:10:\\\"\\u0000*\\u0000changes\\\";a:0:{}s:8:\\\"\\u0000*\\u0000casts\\\";a:0:{}s:17:\\\"\\u0000*\\u0000classCastCache\\\";a:0:{}s:21:\\\"\\u0000*\\u0000attributeCastCache\\\";a:0:{}s:8:\\\"\\u0000*\\u0000dates\\\";a:0:{}s:13:\\\"\\u0000*\\u0000dateFormat\\\";N;s:10:\\\"\\u0000*\\u0000appends\\\";a:0:{}s:19:\\\"\\u0000*\\u0000dispatchesEvents\\\";a:0:{}s:14:\\\"\\u0000*\\u0000observables\\\";a:0:{}s:12:\\\"\\u0000*\\u0000relations\\\";a:1:{s:7:\\\"country\\\";N;}s:10:\\\"\\u0000*\\u0000touches\\\";a:0:{}s:10:\\\"timestamps\\\";b:1;s:9:\\\"\\u0000*\\u0000hidden\\\";a:0:{}s:10:\\\"\\u0000*\\u0000visible\\\";a:0:{}s:11:\\\"\\u0000*\\u0000fillable\\\";a:0:{}s:10:\\\"\\u0000*\\u0000guarded\\\";a:1:{i:0;s:1:\\\"*\\\";}}s:21:\\\"order_billing_address\\\";N;}s:10:\\\"\\u0000*\\u0000touches\\\";a:0:{}s:10:\\\"timestamps\\\";b:1;s:9:\\\"\\u0000*\\u0000hidden\\\";a:0:{}s:10:\\\"\\u0000*\\u0000visible\\\";a:0:{}s:11:\\\"\\u0000*\\u0000fillable\\\";a:0:{}s:10:\\\"\\u0000*\\u0000guarded\\\";a:1:{i:0;s:1:\\\"*\\\";}}s:15:\\\"inline_shipping\\\";i:1;s:16:\\\"courier_shipping\\\";N;}s:2:\\\"to\\\";a:1:{i:0;a:2:{s:4:\\\"name\\\";N;s:7:\\\"address\\\";s:12:\\\"as@gmail.com\\\";}}s:6:\\\"mailer\\\";s:4:\\\"smtp\\\";}s:5:\\\"tries\\\";N;s:7:\\\"timeout\\\";N;s:13:\\\"maxExceptions\\\";N;s:17:\\\"shouldBeEncrypted\\\";b:0;s:10:\\\"connection\\\";N;s:5:\\\"queue\\\";N;s:15:\\\"chainConnection\\\";N;s:10:\\\"chainQueue\\\";N;s:19:\\\"chainCatchCallbacks\\\";N;s:5:\\\"delay\\\";N;s:11:\\\"afterCommit\\\";N;s:10:\\\"middleware\\\";a:0:{}s:7:\\\"chained\\\";a:0:{}s:3:\\\"job\\\";N;}\"}}', 0, NULL, 1704731964, 1704731964);
+
+--
 -- Dumping data for table `mailing_lists`
 --
 
@@ -445,15 +412,15 @@ INSERT INTO `mailing_lists` (`id`, `uuid`, `user_id`, `fname`, `lname`, `email`,
 INSERT INTO `manufacturers` (`id`, `name`, `slug`, `image`, `description`, `meta_title`, `meta_description`, `meta_keyword`, `status`, `sort_order`, `created_at`, `updated_at`) VALUES
 (1, 'Apple', 'apple', NULL, NULL, NULL, NULL, NULL, 1, 0, '2023-01-05 06:08:08', '2023-01-05 06:08:08'),
 (2, 'Google', 'google', NULL, NULL, NULL, NULL, NULL, 1, 0, '2023-01-05 06:08:12', '2023-01-05 06:08:12'),
-(3, 'Amazon', 'amazon', NULL, NULL, NULL, NULL, NULL, 1, 0, '2023-01-05 06:08:20', '2023-01-05 06:08:20');
+(3, 'Amazon', 'amazon', NULL, NULL, NULL, NULL, NULL, 1, 0, '2023-01-05 06:08:20', '2023-01-05 06:08:20'),
+(4, 'Cust Universe', 'cust-universe', NULL, '<p>Cust Universe is a fashion band.</p>', NULL, NULL, NULL, 1, 0, '2024-01-07 20:12:39', '2024-01-07 20:12:39');
 
 --
 -- Dumping data for table `option_sets`
 --
 
 INSERT INTO `option_sets` (`id`, `name`, `description`, `status`, `sort_order`, `created_at`, `updated_at`) VALUES
-(2, 'tshirt', 'this is for tshirt', 1, 0, '2024-01-03 12:28:26', '2024-01-03 12:28:26'),
-(3, 'shirt', NULL, 1, 0, '2024-01-03 12:29:00', '2024-01-03 12:29:00');
+(2, 'tshirt', 'this is for tshirt', 1, 0, '2024-01-03 12:28:26', '2024-01-03 12:28:26');
 
 --
 -- Dumping data for table `option_set_elements`
@@ -463,11 +430,19 @@ INSERT INTO `option_set_elements` (`id`, `option_set_id`, `type`, `label`, `name
 (3, 2, 'textarea', NULL, 'Size', 0, NULL, NULL, NULL, 0, NULL, 1, 0, '2024-01-03 12:28:38', '2024-01-03 12:28:38');
 
 --
--- Dumping data for table `order_drafts`
+-- Dumping data for table `orders`
 --
 
-INSERT INTO `order_drafts` (`id`, `user_id`, `comment`, `fname`, `lname`, `phone_number`, `email`, `country_id`, `country`, `address1`, `address2`, `city`, `state`, `zip`, `latitude`, `longitude`, `created_at`, `updated_at`) VALUES
-(1, 2, 'I\'m creating this order from draft', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2024-01-07 19:45:20', '2024-01-07 19:45:20');
+INSERT INTO `orders` (`id`, `invoice_number`, `payment_ref_id`, `properties`, `tracking_number`, `courier_provider`, `sub_total`, `order_total`, `shipping_zone_id`, `shipping_zone_name`, `shipping_charge`, `payment_provider_id`, `payment_provider`, `payment_provider_charge_type`, `payment_provider_charge`, `payment_status`, `payment_raw_status`, `paid_amount`, `paid_currency`, `status`, `fulfillment_status`, `currency`, `comment`, `order_shipping_address_id`, `order_billing_address_id`, `user_id`, `latitude`, `longitude`, `fname`, `lname`, `phone_number`, `email`, `deleted_at`, `created_at`, `updated_at`) VALUES
+(5, '1000', NULL, NULL, NULL, 'pathao', NULL, 475.00, NULL, NULL, NULL, NULL, NULL, 'percentage', NULL, 'unpaid', NULL, NULL, NULL, 'order_placed', 'unfulfilled', 'BDT', NULL, 7, NULL, 2, NULL, NULL, 'sd', 'sdsd', NULL, 'as@gmail.com', NULL, '2024-01-08 18:58:40', '2024-01-08 18:58:40');
+
+--
+-- Dumping data for table `order_items`
+--
+
+INSERT INTO `order_items` (`id`, `order_id`, `product_id`, `variant_id`, `discount`, `price`, `total_price`, `quantity`, `weight`, `weight_unit`, `attribute`, `deleted_at`, `created_at`, `updated_at`) VALUES
+(7, 5, 92, 17, 5.00, 300.00, 285.00, 1, 200.00, 'g', NULL, NULL, '2024-01-08 18:58:40', '2024-01-08 18:58:40'),
+(8, 5, 92, NULL, 5.00, 200.00, 190.00, 1, 200.00, 'g', NULL, NULL, '2024-01-08 18:58:40', '2024-01-08 18:58:40');
 
 --
 -- Dumping data for table `order_shipping_addresses`
@@ -475,7 +450,12 @@ INSERT INTO `order_drafts` (`id`, `user_id`, `comment`, `fname`, `lname`, `phone
 
 INSERT INTO `order_shipping_addresses` (`id`, `fname`, `lname`, `phone_number`, `email`, `country_id`, `country`, `address1`, `address2`, `city`, `state`, `zip`, `latitude`, `longitude`, `user_id`, `status`, `deleted_at`, `created_at`, `updated_at`) VALUES
 (1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, NULL, '2023-07-30 07:53:17', '2023-07-30 07:53:17'),
-(2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, NULL, '2024-01-05 14:08:23', '2024-01-05 14:08:23');
+(2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, NULL, '2024-01-05 14:08:23', '2024-01-05 14:08:23'),
+(3, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, NULL, '2024-01-07 21:06:24', '2024-01-07 21:06:24'),
+(4, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, NULL, '2024-01-08 16:52:14', '2024-01-08 16:52:14'),
+(5, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, NULL, '2024-01-08 17:47:33', '2024-01-08 17:47:33'),
+(6, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, NULL, '2024-01-08 18:53:50', '2024-01-08 18:53:50'),
+(7, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, NULL, '2024-01-08 18:58:40', '2024-01-08 18:58:40');
 
 --
 -- Dumping data for table `pages`
@@ -671,20 +651,14 @@ INSERT INTO `permission_roles` (`id`, `permission_id`, `role_id`, `created_at`, 
 --
 
 INSERT INTO `products` (`id`, `name`, `slug`, `product_type`, `meta_title`, `meta_description`, `meta_keyword`, `description`, `price`, `discount`, `track_quantity`, `quantity`, `sku`, `barcode`, `is_sale`, `cost_per_item`, `weight`, `weight_unit`, `manufacturer_id`, `user_id`, `views`, `status`, `created_at`, `updated_at`) VALUES
-(82, 'Black T-shirt', 'black-tshirt', 'simple', NULL, NULL, NULL, '<p>Cool black tshirt</p>', 350.00, NULL, 1, 200, NULL, NULL, 0, 60.00, 0.50, 'kg', NULL, NULL, 0, 1, '2024-01-03 12:57:38', '2024-01-03 13:00:38'),
-(83, 'Logo', 'logo', 'simple', NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, 0, NULL, NULL, NULL, 3, NULL, 0, 1, '2024-01-07 19:52:00', '2024-01-07 19:52:00');
+(92, 'T-shirt', 't-shirt', 'simple', NULL, NULL, NULL, '<p>Cool tshirt buy now</p>', 200.00, 5.00, 1, 40, NULL, NULL, 1, 60.00, 200.00, 'g', 4, NULL, 0, 1, '2024-01-07 20:45:50', '2024-01-07 20:51:35');
 
 --
 -- Dumping data for table `product_categories`
 --
 
 INSERT INTO `product_categories` (`id`, `product_id`, `category_id`, `created_at`, `updated_at`) VALUES
-(1, 1, 1, NULL, NULL),
-(2, 2, 2, NULL, NULL),
-(3, 81, 3, NULL, NULL),
-(4, 81, 4, NULL, NULL),
-(5, 82, 51, NULL, NULL),
-(6, 83, 4, NULL, NULL);
+(8, 92, 52, NULL, NULL);
 
 --
 -- Dumping data for table `product_details`
@@ -704,7 +678,12 @@ INSERT INTO `product_images` (`id`, `image`, `title`, `alt_text`, `product_id`, 
 (7, '1673703604-63c2b0b476105.png', NULL, NULL, '81', 1, 1, '2023-01-14 07:40:04', '2023-01-14 07:40:34'),
 (8, '1673713933-63c2d90dbed3b.jpg', NULL, NULL, '81', 1, 2, '2023-01-14 10:32:13', '2023-01-14 10:33:05'),
 (9, '1673713933-63c2d90dd6620.png', NULL, NULL, '81', 1, 3, '2023-01-14 10:32:13', '2023-01-14 10:33:13'),
-(10, '1704308464-6595aef0a5066.jpg', NULL, NULL, '82', 1, 0, '2024-01-03 13:01:04', '2024-01-03 13:01:04');
+(10, '1704308464-6595aef0a5066.jpg', NULL, NULL, '82', 1, 0, '2024-01-03 13:01:04', '2024-01-03 13:01:04'),
+(11, '1704659106-659b08a20a0cd.jpg', NULL, NULL, '85', 1, 0, '2024-01-07 20:25:06', '2024-01-07 20:25:06'),
+(12, '1704659106-659b08a21d0d5.webp', NULL, NULL, '85', 1, 0, '2024-01-07 20:25:06', '2024-01-07 20:25:06'),
+(13, '1704660147-659b0cb3baae1.jpg', NULL, NULL, '91', 1, 0, '2024-01-07 20:42:27', '2024-01-07 20:42:27'),
+(15, '1704660441-659b0dd983eae.webp', NULL, NULL, '92', 1, 0, '2024-01-07 20:47:21', '2024-01-07 20:47:21'),
+(16, '1704661070-659b104eb54a0.jpg', NULL, NULL, '92', 1, 0, '2024-01-07 20:57:50', '2024-01-07 20:57:50');
 
 --
 -- Dumping data for table `product_option_sets`
@@ -712,8 +691,14 @@ INSERT INTO `product_images` (`id`, `image`, `title`, `alt_text`, `product_id`, 
 
 INSERT INTO `product_option_sets` (`id`, `product_id`, `option_set_id`, `created_at`, `updated_at`) VALUES
 (2, 81, 2, NULL, NULL),
-(3, 82, 2, NULL, NULL),
-(4, 83, 2, NULL, NULL);
+(6, 92, 2, NULL, NULL);
+
+--
+-- Dumping data for table `product_tags`
+--
+
+INSERT INTO `product_tags` (`id`, `product_id`, `tag_id`, `status`, `created_at`, `updated_at`) VALUES
+(4, 92, 1, 1, '2024-01-07 20:57:50', '2024-01-07 20:57:50');
 
 --
 -- Dumping data for table `roles`
@@ -793,6 +778,13 @@ INSERT INTO `statuses` (`id`, `label`, `name`, `description`, `image`, `alt_text
 (3, 'Order Delivered', 'order_delivered', NULL, NULL, NULL, 1, NULL, 1, 0, '2023-07-30 07:58:47', '2023-07-30 07:58:47');
 
 --
+-- Dumping data for table `tags`
+--
+
+INSERT INTO `tags` (`id`, `name`, `label`, `status`, `created_at`, `updated_at`) VALUES
+(1, 'tshirt', NULL, 1, '2024-01-07 20:14:29', '2024-01-07 20:14:29');
+
+--
 -- Dumping data for table `users`
 --
 
@@ -805,8 +797,8 @@ INSERT INTO `users` (`id`, `fname`, `lname`, `name`, `email`, `phone_number`, `d
 --
 
 INSERT INTO `variants` (`id`, `product_id`, `price`, `discount`, `track_quantity`, `quantity`, `sku`, `barcode`, `is_sale`, `cost_per_item`, `weight`, `weight_unit`, `status`, `sort_order`, `created_at`, `updated_at`) VALUES
-(3, 82, 350.00, 10.00, 0, 40, NULL, NULL, 0, 60.00, 200.00, 'kg', 1, 0, '2024-01-06 10:18:06', '2024-01-06 10:20:06'),
-(4, 83, 500.00, NULL, 0, NULL, NULL, NULL, 0, NULL, NULL, NULL, 1, 0, '2024-01-07 19:52:17', '2024-01-07 19:52:17');
+(17, 92, 300.00, 5.00, 1, 40, NULL, NULL, 1, 60.00, 200.00, 'g', 1, 0, '2024-01-07 20:56:23', '2024-01-07 20:56:49'),
+(18, 92, 350.00, 5.00, 1, 40, NULL, NULL, 1, 60.00, 200.00, 'g', 1, 0, '2024-01-07 20:57:03', '2024-01-07 20:57:03');
 
 --
 -- Dumping data for table `variant_attributes`
@@ -814,16 +806,18 @@ INSERT INTO `variants` (`id`, `product_id`, `price`, `discount`, `track_quantity
 
 INSERT INTO `variant_attributes` (`id`, `variant_id`, `attribute_id`, `attribute_value_id`, `created_at`, `updated_at`) VALUES
 (3, NULL, 1, 3, '2024-01-06 10:03:23', '2024-01-06 10:03:23'),
-(5, 3, 1, 3, '2024-01-06 10:28:56', '2024-01-06 10:28:56'),
-(6, 3, 2, 8, '2024-01-06 10:29:04', '2024-01-06 10:29:04');
+(12, 17, 1, 3, '2024-01-07 20:56:28', '2024-01-07 20:56:28'),
+(13, 17, 2, 8, '2024-01-07 20:56:36', '2024-01-07 20:56:36'),
+(14, 18, 1, 4, '2024-01-07 20:57:09', '2024-01-07 20:57:09'),
+(15, 18, 2, 7, '2024-01-07 20:57:15', '2024-01-07 20:57:15');
 
 --
 -- Dumping data for table `variant_images`
 --
 
 INSERT INTO `variant_images` (`id`, `variant_id`, `image`, `alt_text`, `status`, `sort_order`, `created_at`, `updated_at`) VALUES
-(2, 3, '1704558522-65997fbaeb537.jpg', NULL, 1, 0, '2024-01-06 10:28:42', '2024-01-06 10:28:42'),
-(3, 4, '1704657152-659b010031c81.jpg', NULL, 1, 0, '2024-01-07 19:52:32', '2024-01-07 19:52:32');
+(4, 17, '1704661002-659b100a74159.jpg', NULL, 1, 0, '2024-01-07 20:56:42', '2024-01-07 20:56:42'),
+(5, 18, '1704661045-659b103527940.webp', NULL, 1, 0, '2024-01-07 20:57:25', '2024-01-07 20:57:25');
 SET FOREIGN_KEY_CHECKS=1;
 COMMIT;
 

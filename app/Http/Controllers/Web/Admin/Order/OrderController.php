@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Web\Admin\Order;
 
+use App\Helper\SettingHelper;
+use App\Helper\StringHelper;
 use App\Http\Controllers\Controller;
 use App\Mail\User\Order\OrderFulfilled;
 use App\Models\Address\Country;
@@ -147,6 +149,8 @@ class OrderController extends Controller
         $order->order_total = $order_draft->order_total;
         $order->payment_status = "unpaid";
         $order->status = "order_placed";
+        $order->currency = SettingHelper::currency_code();
+        $order->currency_sign = SettingHelper::currency_sign();
         $order->order_shipping_address_id = $shipping_address->id;
 
         $order->save();
@@ -154,14 +158,48 @@ class OrderController extends Controller
         // create order items from draft items
         $order_draft_items = $order_draft->order_draft_items;
         foreach ($order_draft_items as $order_draft_item) {
+
             $order_item = new OrderItem();
             $order_item->order_id = $order->id;
             $order_item->product_id = $order_draft_item->product_id;
             if ($order_draft_item->variant_id) {
                 $order_item->variant_id = $order_draft_item->variant_id;
             }
+            $order_item->attribute = $order_draft_item->attribute;
             $order_item->quantity = $order_draft_item->quantity;
-            $order_item->price = $order_draft_item->price;
+
+            if ($order_draft_item->variant_id) {
+                $total = 0.0;
+                if ($order_draft_item->variant->is_sale == 1) {
+                    $total += StringHelper::discount($order_draft_item->variant->price, $order_draft_item->variant->discount);
+                } else {
+                    $total += $order_draft_item->variant->price;
+                }
+
+                $order_item->weight = $order_draft_item->variant->weight;
+                $order_item->weight_unit = $order_draft_item->variant->weight_unit;
+                if ($order_draft_item->variant->is_sale) {
+                    $order_item->discount = $order_draft_item->variant->discount;
+                }
+                $order_item->price = $order_draft_item->variant->price;
+                $order_item->total_price = $total;
+            } else {
+                $total = 0.0;
+                if ($order_draft_item->product->is_sale == 1) {
+                    $total += StringHelper::discount($order_draft_item->product->price, $order_draft_item->product->discount);
+                } else {
+                    $total += $order_draft_item->product->price;
+                }
+
+                $order_item->weight = $order_draft_item->product->weight;
+                $order_item->weight_unit = $order_draft_item->product->weight_unit;
+                if ($order_draft_item->product->is_sale) {
+                    $order_item->discount = $order_draft_item->product->discount;
+                }
+                $order_item->price = $order_draft_item->product->price;
+                $order_item->total_price = $total;
+            }
+
             $order_item->save();
         }
 
@@ -194,6 +232,13 @@ class OrderController extends Controller
         $statuses = Status::orderBy('sort_order', 'asc')->get();
         $order = Order::with([
             'user',
+            'order_items' => function ($query) {
+                $query->with(['product', 'variant' => function ($variant) {
+                    $variant->with(['variant_attributes' => function ($query) {
+                        $query->with(['attribute', 'attribute_value']);
+                    }, 'images']);
+                }]);
+            },
             'order_timelines' => function ($query) {
                 $query->with('user')->latest();
             },
@@ -354,6 +399,13 @@ class OrderController extends Controller
         $order->payment_status = $payment_status;
         $order->save();
 
+        // keep history
+        $orderTimeline = new OrderTimeline();
+        $orderTimeline->order_id = $id;
+        $orderTimeline->type = "status";
+        $orderTimeline->body = $payment_status;
+        $orderTimeline->save();
+
         // log activity
         activity()
             ->performedOn($order)
@@ -386,6 +438,13 @@ class OrderController extends Controller
             $order->status = 'order_processing';
         }
         $order->save();
+
+        // keep history
+        $orderTimeline = new OrderTimeline();
+        $orderTimeline->order_id = $id;
+        $orderTimeline->type = "status";
+        $orderTimeline->body = $fulfillment_status;
+        $orderTimeline->save();
 
 
         /**

@@ -75,7 +75,11 @@ class OrderDraftController extends Controller
     public function show($id)
     {
         $order_draft = OrderDraft::with(['order_draft_items' => function ($query) {
-            $query->with(['product', 'variant']);
+            $query->with(['product', 'variant' => function ($variant) {
+                $variant->with(['variant_attributes' => function ($query) {
+                    $query->with(['attribute', 'attribute_value']);
+                }, 'images']);
+            }]);
         }])->findOrFail($id);
         return view('backend.order.draft.show', compact('order_draft'));
     }
@@ -110,6 +114,9 @@ class OrderDraftController extends Controller
         $order_draft_id = $request->input('order_draft_id');
         $product_id = $request->input('product_id');
         $variant_id = $request->input('variant_id');
+        $attribute = $request->input('attribute');
+        $quantity = $request->input('quantity');
+
 
         $order_draft = OrderDraft::findOrFail($order_draft_id);
 
@@ -122,6 +129,8 @@ class OrderDraftController extends Controller
             return back()->with('warning', 'Product not found');
         }
         $order_draft_item->product_id = $product->id;
+        // $order_draft_item->attribute = $attribute;
+        // $order_draft_item->quantity = $quantity;
         if ($variant_id) {
             $variant = $product->variants()->where('id', $variant_id)->first();
             if (!$variant) {

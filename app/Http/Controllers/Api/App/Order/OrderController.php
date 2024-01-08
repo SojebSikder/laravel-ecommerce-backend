@@ -274,6 +274,7 @@ class OrderController extends Controller
                 $order->status = "order_placed";
             }
             $order->currency = SettingHelper::currency_code();
+            $order->currency_sign = SettingHelper::currency_sign();
             $order->save();
 
             // add order status history
