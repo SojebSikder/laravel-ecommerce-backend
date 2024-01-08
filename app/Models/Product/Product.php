@@ -32,7 +32,7 @@ class Product extends Model
         'updated_at',
     ];
 
-    protected $appends = ['currency_sign', 'currency_code', 'availability'];
+    protected $appends = ['currency_sign', 'currency_code', 'availability', 'total_variant_quantity'];
 
     // custom currency attribute
     public function getCurrencySignAttribute()
@@ -62,6 +62,19 @@ class Product extends Model
         } else {
             return $outOfStock;
         }
+    }
+
+    public function getTotalVariantQuantityAttribute()
+    {
+        $totalQuantity = 0;
+
+        foreach ($this->variants as $variant) {
+            if ($variant->quantity > 0) {
+                $totalQuantity +=  $variant->quantity;
+            }
+        }
+
+        return $totalQuantity;
     }
 
     public function images()

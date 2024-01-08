@@ -61,6 +61,7 @@
                                     enctype="multipart/form-data">
                                     @csrf
                                     @method('PUT')
+
                                     <div class="row">
                                         <div class="col">
 
@@ -251,7 +252,7 @@
                                                                                 {{ $variant_attribute->attribute_value->name }}
                                                                                 <br>
                                                                             @endforeach
-                                                                        
+
                                                                         </td>
                                                                         <td>{{ $variant->price }}</td>
                                                                         <td>{{ $variant->quantity }}</td>
@@ -284,9 +285,10 @@
                                                                                 <li>
                                                                                     <a class="btn btn-sm btn-danger"
                                                                                         href="javascript:void(0);"
-                                                                                        onclick="event.preventDefault();
+                                                                                        {{-- onclick="event.preventDefault();
                                                                                         if(confirm('Are you really want to delete?')){
-                                                                                        document.getElementById('product-variant-delete-{{ $variant->id }}').submit() }"
+                                                                                        document.getElementById('product-variant-delete-{{ $variant->id }}').submit() }" --}}
+                                                                                        onclick="deleteVariant({{ $variant->id }})"
                                                                                         data-bs-toggle="tooltip"
                                                                                         data-bs-placement="top"
                                                                                         title=""
@@ -310,12 +312,12 @@
                                                                                         Delete
                                                                                     </a>
                                                                                     {{-- delete  --}}
-                                                                                    <form method="post"
+                                                                                    {{-- <form method="post"
                                                                                         action="{{ route('variant.destroy', $variant->id) }}"
                                                                                         id="{{ 'product-variant-delete-' . $variant->id }}">
                                                                                         @csrf
                                                                                         @method('DELETE')
-                                                                                    </form>
+                                                                                    </form> --}}
 
                                                                                 </li>
                                                                             </ul>
@@ -827,6 +829,21 @@
                 }
                 const delete_Image = await fetch(
                     `/product/details/${id}?_method=DELETE&_token={{ csrf_token() }}`, {
+                        method: 'DELETE',
+                    })
+                window.location.reload()
+            } catch (error) {
+                alert("Something went wrong")
+            }
+        }
+        // delete variant
+        async function deleteVariant(id) {
+            try {
+                if (!confirm('Are you sure?')) {
+                    return;
+                }
+                const response = await fetch(
+                    `/product/variant/${id}?_method=DELETE&_token={{ csrf_token() }}`, {
                         method: 'DELETE',
                     })
                 window.location.reload()

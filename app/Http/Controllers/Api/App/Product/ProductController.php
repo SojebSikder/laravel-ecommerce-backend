@@ -66,7 +66,7 @@ class ProductController extends Controller
 
             if (!$product) {
                 return response()->json([
-                    'error' => true,
+                    'success' => false,
                     'message' => 'Product not exist',
                 ]);
             }
@@ -86,7 +86,7 @@ class ProductController extends Controller
             ]);
         } catch (\Throwable $th) {
             return response()->json([
-                'error' => true,
+                'success' => false,
                 'message' => 'Something went wrong',
             ]);
         }

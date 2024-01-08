@@ -102,6 +102,8 @@
                                                                             <tr>
                                                                                 <th></th>
                                                                                 <th>Product</th>
+                                                                                <th>Quantity</th>
+                                                                                <th>Discount(-) %</th>
                                                                                 <th>Price</th>
                                                                             </tr>
                                                                         </thead>
@@ -109,25 +111,61 @@
                                                                             @foreach ($order_draft->order_draft_items as $item)
                                                                                 <tr>
                                                                                     <td>
-                                                                                        @if (count($item->product->images) > 0)
-                                                                                            <a href="{{ $item->product->images[0]->image_url }}"
-                                                                                                target="_blank"
-                                                                                                rel="noopener noreferrer">
-                                                                                                <img style="width:50px; min-width: 50px;"
-                                                                                                    class="img-thumbnail"
-                                                                                                    src="{{ $item->product->images[0]->image_url }}"
-                                                                                                    alt="{{ $item->product->images[0]->image_url }}"
-                                                                                                    data-bs-toggle="tooltip"
-                                                                                                    data-placement="top"
-                                                                                                    title="Click to view large mode">
-                                                                                            </a>
+                                                                                        @if ($item->variant_id)
+                                                                                            @if (count($item->variant->images) > 0)
+                                                                                                <a href="{{ $item->variant->images[0]->image_url }}"
+                                                                                                    target="_blank"
+                                                                                                    rel="noopener noreferrer">
+                                                                                                    <img style="width:50px; min-width: 50px;"
+                                                                                                        class="img-thumbnail"
+                                                                                                        src="{{ $item->variant->images[0]->image_url }}"
+                                                                                                        alt="{{ $item->variant->images[0]->image_url }}"
+                                                                                                        data-bs-toggle="tooltip"
+                                                                                                        data-placement="top"
+                                                                                                        title="Click to view large mode">
+                                                                                                </a>
+                                                                                            @endif
+                                                                                        @else
+                                                                                            @if (count($item->product->images) > 0)
+                                                                                                <a href="{{ $item->product->images[0]->image_url }}"
+                                                                                                    target="_blank"
+                                                                                                    rel="noopener noreferrer">
+                                                                                                    <img style="width:50px; min-width: 50px;"
+                                                                                                        class="img-thumbnail"
+                                                                                                        src="{{ $item->product->images[0]->image_url }}"
+                                                                                                        alt="{{ $item->product->images[0]->image_url }}"
+                                                                                                        data-bs-toggle="tooltip"
+                                                                                                        data-placement="top"
+                                                                                                        title="Click to view large mode">
+                                                                                                </a>
+                                                                                            @endif
                                                                                         @endif
                                                                                     </td>
                                                                                     <td>
-                                                                                        <a
-                                                                                            href="{{ route('product.edit', $item->product->id) }}">
-                                                                                            {{ $item->product->name }}
-                                                                                        </a>
+                                                                                        @if ($item->variant_id)
+                                                                                            <a target="_blank"
+                                                                                                href="{{ route('variant.edit', $item->variant_id) }}">
+                                                                                                {{ $item->product->name }}
+
+                                                                                                <div>
+                                                                                                    <span
+                                                                                                        class="badge bg-secondary text-start">
+                                                                                                        @foreach ($item->variant->variant_attributes as $variant_attribute)
+                                                                                                            {{ $variant_attribute->attribute->name }}:
+                                                                                                            {{ $variant_attribute->attribute_value->name }}
+                                                                                                            <br>
+                                                                                                        @endforeach
+                                                                                                    </span>
+                                                                                                </div>
+
+                                                                                            </a>
+                                                                                        @else
+                                                                                            <a target="_blank"
+                                                                                                href="{{ route('product.edit', $item->product_id) }}">
+                                                                                                {{ $item->product->name }}
+                                                                                            </a>
+                                                                                        @endif
+
 
                                                                                         {{-- product attribute --}}
                                                                                         @if (isset($item->attribute) && count($item->attribute) > 0)
@@ -140,7 +178,21 @@
                                                                                             </ul>
                                                                                         @endif
                                                                                     </td>
-                                                                                    <td>{{ $order_draft->currency }}{{ $item->product->price }}
+                                                                                    <td>{{ $item->quantity }}</td>
+                                                                                    <td>
+                                                                                        @if ($item->variant_id)
+                                                                                            {{ $item->variant->discount }}
+                                                                                        @else
+                                                                                            {{ $item->product->discount }}
+                                                                                        @endif
+
+                                                                                    </td>
+                                                                                    <td>{{ $order_draft->currency }}
+                                                                                        @if ($item->variant_id)
+                                                                                            {{ $item->variant->price }}
+                                                                                        @else
+                                                                                            {{ $item->product->price }}
+                                                                                        @endif
                                                                                     </td>
                                                                                 </tr>
                                                                             @endforeach
@@ -378,10 +430,11 @@
 
                                             <hr>
                                             <div class="col">
-                                                <form action="{{ route('order.store') }}?order_draft_id={{ $order_draft->id }}"
+                                                <form
+                                                    action="{{ route('order.store') }}?order_draft_id={{ $order_draft->id }}"
                                                     id="place_order" method="post">
                                                     @csrf
-                                        
+
                                                     <div class="form-group mb-3">
                                                         <button
                                                             onclick="event.preventDefault();

@@ -20,6 +20,8 @@ return new class extends Migration
             $table->foreignId('checkout_id')->nullable()->constrained('checkouts')->onDelete('cascade');
             // product id
             $table->foreignId('product_id')->nullable()->constrained('products')->onDelete('cascade');
+            // if product is variant then variant_id will be set
+            $table->foreignId('variant_id')->nullable()->constrained('variants')->onDelete('cascade');
 
             $table->decimal('discount')->nullable();
             $table->decimal('price')->nullable();

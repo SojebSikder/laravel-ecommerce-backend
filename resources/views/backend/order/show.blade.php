@@ -139,6 +139,16 @@
                                                                             @csrf
                                                                             <input type="hidden" value="fulfilled"
                                                                                 name="fulfillment_status">
+                                                                            {{-- courier provider --}}
+                                                                            <div class="form-group">
+                                                                                <label for="courier_provider">Courier
+                                                                                    Provider</label>
+                                                                                <input class="form-control"
+                                                                                    name="courier_provider"
+                                                                                    id="courier_provider" type="text"
+                                                                                    value="{{ $order->courier_provider }}"
+                                                                                    placeholder="Courier Provider">
+                                                                            </div>
                                                                             {{-- tracking number --}}
                                                                             <div class="form-group">
                                                                                 <label for="tracking_number">Tracking
@@ -224,6 +234,16 @@
                                                                         action="{{ route('fulfillment_status', $order->id) }}"
                                                                         method="post">
                                                                         @csrf
+                                                                        {{-- courier provider --}}
+                                                                        <div class="form-group">
+                                                                            <label for="courier_provider">Courier
+                                                                                Provider</label>
+                                                                            <input class="form-control"
+                                                                                name="courier_provider"
+                                                                                id="courier_provider" type="text"
+                                                                                value="{{ $order->courier_provider }}"
+                                                                                placeholder="Courier Provider">
+                                                                        </div>
                                                                         {{-- tracking number --}}
                                                                         <div class="form-group">
                                                                             <label for="tracking_number">Tracking
@@ -573,32 +593,70 @@
                                                                             <tr>
                                                                                 <th></th>
                                                                                 <th>Product</th>
+                                                                                <th>Quantity</th>
                                                                                 <th>Price</th>
+                                                                                <th>Discount(-) %</th>
+                                                                                <th>Total price</th>
                                                                             </tr>
                                                                         </thead>
                                                                         <tbody>
                                                                             @foreach ($order->order_items as $item)
                                                                                 <tr>
                                                                                     <td>
-                                                                                        @if (count($item->product->images) > 0)
-                                                                                            <a href="{{ $item->product->images[0]->image_url }}"
-                                                                                                target="_blank"
-                                                                                                rel="noopener noreferrer">
-                                                                                                <img style="width:50px; min-width: 50px;"
-                                                                                                    class="img-thumbnail"
-                                                                                                    src="{{ $item->product->images[0]->image_url }}"
-                                                                                                    alt="{{ $item->product->images[0]->image_url }}"
-                                                                                                    data-bs-toggle="tooltip"
-                                                                                                    data-placement="top"
-                                                                                                    title="Click to view large mode">
-                                                                                            </a>
+                                                                                        @if ($item->variant_id)
+                                                                                            @if (count($item->variant->images) > 0)
+                                                                                                <a href="{{ $item->variant->images[0]->image_url }}"
+                                                                                                    target="_blank"
+                                                                                                    rel="noopener noreferrer">
+                                                                                                    <img style="width:50px; min-width: 50px;"
+                                                                                                        class="img-thumbnail"
+                                                                                                        src="{{ $item->variant->images[0]->image_url }}"
+                                                                                                        alt="{{ $item->variant->images[0]->image_url }}"
+                                                                                                        data-bs-toggle="tooltip"
+                                                                                                        data-placement="top"
+                                                                                                        title="Click to view large mode">
+                                                                                                </a>
+                                                                                            @endif
+                                                                                        @else
+                                                                                            @if (count($item->product->images) > 0)
+                                                                                                <a href="{{ $item->product->images[0]->image_url }}"
+                                                                                                    target="_blank"
+                                                                                                    rel="noopener noreferrer">
+                                                                                                    <img style="width:50px; min-width: 50px;"
+                                                                                                        class="img-thumbnail"
+                                                                                                        src="{{ $item->product->images[0]->image_url }}"
+                                                                                                        alt="{{ $item->product->images[0]->image_url }}"
+                                                                                                        data-bs-toggle="tooltip"
+                                                                                                        data-placement="top"
+                                                                                                        title="Click to view large mode">
+                                                                                                </a>
+                                                                                            @endif
                                                                                         @endif
                                                                                     </td>
                                                                                     <td>
-                                                                                        <a
-                                                                                            href="{{ route('product.edit', $item->product->id) }}">
-                                                                                            {{ $item->product->name }}
-                                                                                        </a>
+                                                                                        @if ($item->variant_id)
+                                                                                            <a target="_blank"
+                                                                                                href="{{ route('variant.edit', $item->variant_id) }}">
+                                                                                                {{ $item->product->name }}
+
+                                                                                                <div>
+                                                                                                    <span
+                                                                                                        class="badge bg-secondary text-start">
+                                                                                                        @foreach ($item->variant->variant_attributes as $variant_attribute)
+                                                                                                            {{ $variant_attribute->attribute->name }}:
+                                                                                                            {{ $variant_attribute->attribute_value->name }}
+                                                                                                            <br>
+                                                                                                        @endforeach
+                                                                                                    </span>
+                                                                                                </div>
+
+                                                                                            </a>
+                                                                                        @else
+                                                                                            <a target="_blank"
+                                                                                                href="{{ route('product.edit', $item->product_id) }}">
+                                                                                                {{ $item->product->name }}
+                                                                                            </a>
+                                                                                        @endif
 
                                                                                         {{-- product attribute --}}
                                                                                         @if (isset($item->attribute) && count($item->attribute) > 0)
@@ -611,6 +669,10 @@
                                                                                             </ul>
                                                                                         @endif
                                                                                     </td>
+
+                                                                                    <td>{{ $item->quantity }}</td>
+                                                                                    <td>{{ $order->currency }}{{ $item->price }}
+                                                                                    <td>{{ $item->discount }} </td>
                                                                                     <td>{{ $order->currency }}{{ $item->total_price }}
                                                                                     </td>
                                                                                 </tr>
@@ -1016,19 +1078,42 @@
                                                             <div class="p-2">
                                                                 @if ($order_timeline->type == 'comment')
                                                                     <div>
-                                                                        <div class="fw-bold">
-                                                                            {{ $order_timeline->user ? $order_timeline->user->fname : '' }}
-                                                                            {{ $order_timeline->user ? $order_timeline->user->lname : '' }}
+                                                                        <div class="card" style="width: 18rem;">
+                                                                            {{-- <img src="..." class="card-img-top" alt="..."> --}}
+                                                                            <div class="card-body">
+                                                                                <h5 class="card-title">
+                                                                                    <div>
+                                                                                        {{ $order_timeline->user ? $order_timeline->user->fname : '' }}
+                                                                                        {{ $order_timeline->user ? $order_timeline->user->lname : '' }}
+                                                                                    </div>
 
+                                                                                    <div class="fw-light">
+                                                                                        {{ date('d M Y', strtotime($order_timeline->created_at)) }}
+                                                                                        at
+                                                                                        {{ date('h:i a', strtotime($order_timeline->created_at)) }}
+                                                                                    </div>
+                                                                                </h5>
+                                                                                <p class="card-text">
+                                                                                    {{ $order_timeline->body }}
+                                                                                </p>
+                                                                                <div class="col">
+                                                                                    <form id="delete_order_timeline"
+                                                                                        action="{{ route('order-timeline.destroy', $order_timeline->id) }}"
+                                                                                        method="post">
+                                                                                        @csrf
+                                                                                        @method('DELETE')
+                                                                                        <div class="form-group">
+                                                                                            <button
+                                                                                                onclick="event.preventDefault();
+                                                                                            if(confirm('Are you really want to delete status?')){
+                                                                                                document.getElementById('delete_order_timeline').submit()
+                                                                                            }"
+                                                                                                class="btn btn-sm btn-warning">Delete</button>
+                                                                                        </div>
+                                                                                    </form>
+                                                                                </div>
 
-                                                                        </div>
-                                                                        <div class="fw-light">
-                                                                            {{ date('d M Y', strtotime($order_timeline->created_at)) }}
-                                                                            at
-                                                                            {{ date('h:i a', strtotime($order_timeline->created_at)) }}
-                                                                        </div>
-                                                                        <div>
-                                                                            {{ $order_timeline->body }}
+                                                                            </div>
                                                                         </div>
                                                                     </div>
                                                                 @else
@@ -1044,22 +1129,6 @@
                                                                     </div>
                                                                 @endif
 
-                                                                <div class="col">
-                                                                    <form id="delete_order_timeline"
-                                                                        action="{{ route('order-timeline.destroy', $order_timeline->id) }}"
-                                                                        method="post">
-                                                                        @csrf
-                                                                        @method('DELETE')
-                                                                        <div class="form-group">
-                                                                            <button
-                                                                                onclick="event.preventDefault();
-                                                                            if(confirm('Are you really want to delete status?')){
-                                                                                document.getElementById('delete_order_timeline').submit()
-                                                                            }"
-                                                                                class="btn btn-sm btn-warning">Delete</button>
-                                                                        </div>
-                                                                    </form>
-                                                                </div>
                                                             </div>
                                                         @endforeach
                                                     @endif

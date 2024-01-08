@@ -19,7 +19,7 @@ class CartController extends Controller
         // user id
         $user_id = auth("api")->user()->id;
 
-        $carts = Cart::with('product')->where('user_id', $user_id)->get();
+        $carts = Cart::with('product', 'variant')->where('user_id', $user_id)->get();
 
         return response()->json([
             'coupon_discounted' => Cart::coupon_price(),
@@ -50,13 +50,88 @@ class CartController extends Controller
     {
         try {
             $product_id = $request->input('product_id');
+            $variant_id = $request->input('variant_id');
             $quantity = $request->input('quantity');
             // user id
             $user_id = auth("api")->user()->id;
 
+
+            // check if product is available
+            $product = Product::where('id', $product_id)->first();
+            if (!$product) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Product not found',
+                ]);
+            }
+
+            // check if product is variant
+            if ($variant_id) {
+                $variant = $product->variants()->where('id', $variant_id)->first();
+                if (!$variant) {
+                    return response()->json([
+                        'success' => false,
+                        'message' => 'Product variant not found',
+                    ]);
+                }
+            }
+
+            // check product quantity
+            if ($variant_id) {
+                if ($variant->quantity < $quantity) {
+                    return response()->json([
+                        'success' => false,
+                        'message' => 'Product quantity not available',
+                    ]);
+                }
+            } else {
+                if ($product->quantity < $quantity) {
+                    return response()->json([
+                        'success' => false,
+                        'message' => 'Product quantity not available',
+                    ]);
+                }
+            }
+
+            if ($variant_id) {
+                // check if product is already in cart
+                $cart = Cart::where('user_id', $user_id)
+                    ->where('product_id', $product_id)
+                    ->where('variant_id', $variant_id)
+                    ->first();
+                if ($cart) {
+                    $cart->quantity += $quantity;
+                    $cart->save();
+
+                    return response()->json([
+                        'success' => true,
+                        'message' => 'Added to cart successfully',
+                    ]);
+                }
+            } else {
+                // check if product is already in cart
+                $cart = Cart::where('user_id', $user_id)
+                    ->where('product_id', $product_id)
+                    ->first();
+                if ($cart) {
+                    $cart->quantity += $quantity;
+                    $cart->save();
+
+                    return response()->json([
+                        'success' => true,
+                        'message' => 'Added to cart successfully',
+                    ]);
+                }
+            }
+
+
+            // add to cart
             $cart = new Cart();
             $cart->user_id = $user_id;
             $cart->product_id = $product_id;
+            if ($variant_id) {
+                $cart->variant_id = $variant_id;
+            }
             $cart->quantity = $quantity;
             $cart->save();
 
@@ -66,7 +141,7 @@ class CartController extends Controller
             ]);
         } catch (\Throwable $th) {
             return response()->json([
-                'error' => true,
+                'success' => false,
                 'message' => 'Something went wrong.',
             ]);
         }
@@ -108,9 +183,10 @@ class CartController extends Controller
             // user id
             $user_id = auth("api")->user()->id;
 
-            $cart = Cart::where('user_id', $user_id)
+            $cart = Cart::with('product', 'variant')->where('user_id', $user_id)
                 ->where('id', $id)
                 ->first();
+
             if ($quantity <= 0) {
                 $cart->delete();
 
@@ -119,6 +195,23 @@ class CartController extends Controller
                     'message' => 'Cart Item deleted',
                 ]);
             } else {
+                // check if product quantity
+                if ($cart->variant_id) {
+                    if ($cart->variant->quantity < $quantity) {
+                        return response()->json([
+                            'success' => false,
+                            'message' => 'Product quantity not available',
+                        ]);
+                    }
+                } else {
+                    if ($cart->product->quantity < $quantity) {
+                        return response()->json([
+                            'success' => false,
+                            'message' => 'Product quantity not available',
+                        ]);
+                    }
+                }
+
                 $cart->quantity = $quantity;
                 $cart->save();
 
@@ -129,7 +222,7 @@ class CartController extends Controller
             }
         } catch (\Throwable $th) {
             return response()->json([
-                'error' => true,
+                'success' => false,
                 'message' => 'Something went wrong.',
             ]);
         }
@@ -159,7 +252,7 @@ class CartController extends Controller
             ]);
         } catch (\Throwable $th) {
             return response()->json([
-                'error' => true,
+                'success' => false,
                 'message' => 'Something went wrong.',
             ]);
         }

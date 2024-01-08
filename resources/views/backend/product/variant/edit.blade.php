@@ -142,9 +142,10 @@
                                                                                     <li>
                                                                                         <a class="btn btn-sm btn-danger"
                                                                                             href="javascript:void(0);"
-                                                                                            onclick="event.preventDefault();
-                                                                                        if(confirm('Are you really want to delete?')){
-                                                                                        document.getElementById('variant-attribute-delete-{{ $variant_attribute->id }}').submit() }"
+                                                                                            {{-- onclick="event.preventDefault();
+                                                                                            if(confirm('Are you really want to delete?')){
+                                                                                            document.getElementById('variant-attribute-delete-{{ $variant_attribute->id }}').submit() }" --}}
+                                                                                            onclick="deleteAttribute({{ $variant_attribute->id }})"
                                                                                             data-bs-toggle="tooltip"
                                                                                             data-bs-placement="top"
                                                                                             title=""
@@ -169,12 +170,12 @@
                                                                                             Delete
                                                                                         </a>
                                                                                         {{-- delete  --}}
-                                                                                        <form method="post"
+                                                                                        {{-- <form method="post"
                                                                                             action="{{ route('variant_attribute.destroy', $variant->id) }}"
                                                                                             id="{{ 'variant-attribute-delete-' . $variant->id }}">
                                                                                             @csrf
                                                                                             @method('DELETE')
-                                                                                        </form>
+                                                                                        </form> --}}
 
                                                                                     </li>
                                                                                 </ul>
@@ -234,7 +235,8 @@
                                                 </div>
 
                                                 <div class="form-check form-switch mt-2">
-                                                    <input class="form-check-input" value="1" name="is_sale"
+                                                    <input class="form-check-input"
+                                                    @if($variant->is_sale) checked @endif value="1" name="is_sale"
                                                         type="checkbox" role="switch" id="is_sale">
                                                     <label class="form-check-label"
                                                         title="Check this if you want to provide discount"
@@ -273,7 +275,7 @@
                                                                 class="form-control @error('weight_unit') is-invalid @enderror"
                                                                 name="weight_unit" id="weight_unit">
                                                                 @foreach ($weight_units as $key => $value)
-                                                                    <option value={{ $key }}>{{ $value }}
+                                                                    <option @if($variant->weight_unit == $key) selected @endif value={{ $key }}>{{ $value }}
                                                                     </option>
                                                                 @endforeach
                                                             </select>
@@ -301,7 +303,8 @@
                                                     @enderror
                                                 </div>
                                                 <div class="form-check form-switch mt-2">
-                                                    <input class="form-check-input" value="1" name="track_quantity"
+                                                    <input class="form-check-input"
+                                                    @if($variant->track_quantity) checked @endif value="1" name="track_quantity"
                                                         type="checkbox" role="switch" id="track_quantity">
                                                     <label class="form-check-label" for="track_quantity">Track
                                                         quantity</label>
@@ -522,6 +525,21 @@
 
 @section('script')
     <script>
+        // delete attribute
+        async function deleteAttribute(id) {
+            try {
+                if (!confirm('Are you sure?')) {
+                    return;
+                }
+                const response = await fetch(
+                    `/variant/variant_attribute/${id}?_method=DELETE&_token={{ csrf_token() }}`, {
+                        method: 'DELETE',
+                    })
+                window.location.reload()
+            } catch (error) {
+                alert("Something went wrong")
+            }
+        }
         // delete image
         async function deleteImage(id) {
             try {

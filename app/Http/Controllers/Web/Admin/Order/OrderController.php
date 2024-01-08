@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers\Web\Admin\Order;
 
+use App\Helper\SettingHelper;
+use App\Helper\StringHelper;
 use App\Http\Controllers\Controller;
 use App\Mail\User\Order\OrderFulfilled;
 use App\Models\Address\Country;
 use App\Models\Order\Order;
+use App\Models\Order\OrderCoupon;
 use App\Models\Order\OrderDraft\OrderDraft;
 use App\Models\Order\OrderItem;
 use App\Models\Order\OrderShippingAddress;
@@ -146,6 +149,8 @@ class OrderController extends Controller
         $order->order_total = $order_draft->order_total;
         $order->payment_status = "unpaid";
         $order->status = "order_placed";
+        $order->currency = SettingHelper::currency_code();
+        $order->currency_sign = SettingHelper::currency_sign();
         $order->order_shipping_address_id = $shipping_address->id;
 
         $order->save();
@@ -153,11 +158,48 @@ class OrderController extends Controller
         // create order items from draft items
         $order_draft_items = $order_draft->order_draft_items;
         foreach ($order_draft_items as $order_draft_item) {
+
             $order_item = new OrderItem();
             $order_item->order_id = $order->id;
             $order_item->product_id = $order_draft_item->product_id;
+            if ($order_draft_item->variant_id) {
+                $order_item->variant_id = $order_draft_item->variant_id;
+            }
+            $order_item->attribute = $order_draft_item->attribute;
             $order_item->quantity = $order_draft_item->quantity;
-            $order_item->price = $order_draft_item->price;
+
+            if ($order_draft_item->variant_id) {
+                $total = 0.0;
+                if ($order_draft_item->variant->is_sale == 1) {
+                    $total += StringHelper::discount($order_draft_item->variant->price, $order_draft_item->variant->discount);
+                } else {
+                    $total += $order_draft_item->variant->price;
+                }
+
+                $order_item->weight = $order_draft_item->variant->weight;
+                $order_item->weight_unit = $order_draft_item->variant->weight_unit;
+                if ($order_draft_item->variant->is_sale) {
+                    $order_item->discount = $order_draft_item->variant->discount;
+                }
+                $order_item->price = $order_draft_item->variant->price;
+                $order_item->total_price = $total;
+            } else {
+                $total = 0.0;
+                if ($order_draft_item->product->is_sale == 1) {
+                    $total += StringHelper::discount($order_draft_item->product->price, $order_draft_item->product->discount);
+                } else {
+                    $total += $order_draft_item->product->price;
+                }
+
+                $order_item->weight = $order_draft_item->product->weight;
+                $order_item->weight_unit = $order_draft_item->product->weight_unit;
+                if ($order_draft_item->product->is_sale) {
+                    $order_item->discount = $order_draft_item->product->discount;
+                }
+                $order_item->price = $order_draft_item->product->price;
+                $order_item->total_price = $total;
+            }
+
             $order_item->save();
         }
 
@@ -190,6 +232,13 @@ class OrderController extends Controller
         $statuses = Status::orderBy('sort_order', 'asc')->get();
         $order = Order::with([
             'user',
+            'order_items' => function ($query) {
+                $query->with(['product', 'variant' => function ($variant) {
+                    $variant->with(['variant_attributes' => function ($query) {
+                        $query->with(['attribute', 'attribute_value']);
+                    }, 'images']);
+                }]);
+            },
             'order_timelines' => function ($query) {
                 $query->with('user')->latest();
             },
@@ -308,7 +357,7 @@ class OrderController extends Controller
             $orderTimeline = new OrderTimeline();
             $orderTimeline->order_id = $id;
             $orderTimeline->type = "status";
-            $orderTimeline->body =$db_status->label;
+            $orderTimeline->body = $db_status->label;
             $orderTimeline->save();
 
             // log activity
@@ -350,6 +399,13 @@ class OrderController extends Controller
         $order->payment_status = $payment_status;
         $order->save();
 
+        // keep history
+        $orderTimeline = new OrderTimeline();
+        $orderTimeline->order_id = $id;
+        $orderTimeline->type = "status";
+        $orderTimeline->body = $payment_status;
+        $orderTimeline->save();
+
         // log activity
         activity()
             ->performedOn($order)
@@ -364,6 +420,7 @@ class OrderController extends Controller
     {
         $fulfillment_status = $request->input('fulfillment_status');
         $tracking_number = $request->input('tracking_number');
+        $courier_provider = $request->input('courier_provider');
         $fulfill_mail = $request->input('fulfill_mail') == 1 ? 1 : 0;
         $inline_shipping = $request->input('inline_shipping') == 1 ? 1 : 0;
 
@@ -374,10 +431,20 @@ class OrderController extends Controller
         if ($tracking_number) {
             $order->tracking_number = $tracking_number;
         }
+        if ($courier_provider) {
+            $order->courier_provider = $courier_provider;
+        }
         if ($fulfillment_status == 'fulfilled') {
             $order->status = 'order_processing';
         }
         $order->save();
+
+        // keep history
+        $orderTimeline = new OrderTimeline();
+        $orderTimeline->order_id = $id;
+        $orderTimeline->type = "status";
+        $orderTimeline->body = $fulfillment_status;
+        $orderTimeline->save();
 
 
         /**
@@ -392,7 +459,8 @@ class OrderController extends Controller
                     $data = new \stdClass();
                     $data->order = $order;
                     $data->inline_shipping = $inline_shipping;
-                    $data->courier_shipping = 'https://callcourier.com.pk/tracking/?tc=';
+                    // $data->courier_shipping = 'https://callcourier.com.pk/tracking/?tc=';
+                    $data->courier_shipping = $tracking_number;
 
                     Mail::to($user)->send(new OrderFulfilled($data));
                 }
@@ -406,7 +474,8 @@ class OrderController extends Controller
                 $data = new \stdClass();
                 $data->order = $order;
                 $data->inline_shipping = $inline_shipping;
-                $data->courier_shipping = 'https://callcourier.com.pk/tracking/?tc=';
+                // $data->courier_shipping = 'https://callcourier.com.pk/tracking/?tc=';
+                $data->courier_shipping = $tracking_number;
 
                 Mail::to($customerTo)->send(new OrderFulfilled($data));
             }
@@ -430,6 +499,24 @@ class OrderController extends Controller
      */
     public function destroy($id)
     {
-        //
+        try {
+            //start the transaction
+            DB::beginTransaction();
+
+            $order = Order::findOrFail($id);
+            // remove order item
+            OrderItem::where('order_id', $order->id)->delete();
+            // remove order coupon
+            OrderCoupon::where('order_id', $order->id)->delete();
+            // remove order
+            $order->delete();
+
+            //commit the transaction
+            DB::commit();
+            return redirect('/order?date=today')->with('success', 'Order Deleted');
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            return back()->with('warning', $th->getMessage());
+        }
     }
 }

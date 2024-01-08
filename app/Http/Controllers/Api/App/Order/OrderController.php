@@ -50,7 +50,7 @@ class OrderController extends Controller
             ]);
         } catch (\Throwable $th) {
             return response()->json([
-                'error' => true,
+                'success' => false,
                 'data' => 'Something went wrong :(',
             ]);
         }
@@ -274,6 +274,7 @@ class OrderController extends Controller
                 $order->status = "order_placed";
             }
             $order->currency = SettingHelper::currency_code();
+            $order->currency_sign = SettingHelper::currency_sign();
             $order->save();
 
             // add order status history
@@ -321,6 +322,9 @@ class OrderController extends Controller
                     $orderItem->order_id = $order->id;
 
                     $orderItem->product_id = $checkout_item->product_id;
+                    if ($checkout_item->variant_id) {
+                        $orderItem->variant_id = $checkout_item->variant_id;
+                    }
                     if ($checkout_item->product->is_sale == 1) {
                         $orderItem->discount = $checkout_item->product->discount;
                     }
@@ -411,13 +415,13 @@ class OrderController extends Controller
                 ]);
             } else {
                 return response()->json([
-                    'error' => true,
+                    'success' => false,
                     'message' => "Not found.",
                 ]);
             }
         } catch (\Throwable $th) {
             return response()->json([
-                'error' => true,
+                'success' => false,
                 'data' => 'Something went wrong.',
             ]);
         }
@@ -449,13 +453,13 @@ class OrderController extends Controller
                 ]);
             } else {
                 return response()->json([
-                    'error' => true,
+                    'success' => false,
                     'message' => 'Order not found',
                 ]);
             }
         } catch (\Throwable $th) {
             return response()->json([
-                'error' => true,
+                'success' => false,
                 'message' => 'Something went wrong :(',
             ]);
         }

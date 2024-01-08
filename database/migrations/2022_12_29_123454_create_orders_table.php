@@ -28,7 +28,7 @@ return new class extends Migration
             $table->longText('properties')->nullable();
             // tracking number provided by courier company
             $table->string('tracking_number')->nullable();
-            $table->string('courier_provider')->nullable()->default('call_courier');
+            $table->string('courier_provider')->nullable()->default('pathao');
             /**
              * price
              */
@@ -92,7 +92,8 @@ return new class extends Migration
              * 'fulfilled'
              */
             $table->string('fulfillment_status')->nullable()->default('unfulfilled');
-            $table->string('currency')->nullable();
+            $table->string('currency')->nullable(); // currency code ex: BDT, USD
+            $table->string('currency_sign')->nullable(); // currency symbol ex: ৳, $
             $table->text('comment')->nullable();
 
             // user shipping address
