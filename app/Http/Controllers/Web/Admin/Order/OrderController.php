@@ -18,7 +18,9 @@ use App\Models\Order\Status;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Mail;
 
 class OrderController extends Controller
@@ -30,6 +32,8 @@ class OrderController extends Controller
      */
     public function index(Request $request)
     {
+        abort_if(Gate::denies('order_management_read'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        
         // search query
         $q = $request->input('q');
         // filter
@@ -111,6 +115,8 @@ class OrderController extends Controller
      */
     public function store(Request $request)
     {
+        abort_if(Gate::denies('order_management_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+
         // create order from draft
         $order_draft_id = $request->input('order_draft_id');
         $order_draft = OrderDraft::with('user', 'order_draft_items')->findOrFail($order_draft_id);
@@ -228,6 +234,8 @@ class OrderController extends Controller
      */
     public function show($id)
     {
+        abort_if(Gate::denies('order_management_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+
         $countries = Country::orderBy('name', 'asc')->get();
         $statuses = Status::orderBy('sort_order', 'asc')->get();
         $order = Order::with([
@@ -278,6 +286,8 @@ class OrderController extends Controller
 
     public function saveUserShippingDetails(Request $request, $id)
     {
+        abort_if(Gate::denies('order_management_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+
         // user shipping address
         $shipping_fname = $request->input('shipping_fname');
         $shipping_lname = $request->input('shipping_lname');
@@ -336,6 +346,8 @@ class OrderController extends Controller
 
     public function status(Request $request, $id)
     {
+        abort_if(Gate::denies('order_management_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+
         try {
             $status = $request->input('status');
 
@@ -378,6 +390,8 @@ class OrderController extends Controller
 
     public function destroyStatus($id)
     {
+        abort_if(Gate::denies('order_management_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+
         $order_status = OrderStatus::find($id);
         $order_status->delete();
 
@@ -393,6 +407,8 @@ class OrderController extends Controller
 
     public function paymentStatus(Request $request, $id)
     {
+        abort_if(Gate::denies('order_management_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+
         $payment_status = $request->input('payment_status');
 
         $order = Order::findOrFail($id);
@@ -418,6 +434,8 @@ class OrderController extends Controller
 
     public function fulfillmentStatus(Request $request, $id)
     {
+        abort_if(Gate::denies('order_management_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+
         $fulfillment_status = $request->input('fulfillment_status');
         $tracking_number = $request->input('tracking_number');
         $courier_provider = $request->input('courier_provider');
@@ -500,6 +518,8 @@ class OrderController extends Controller
     public function destroy($id)
     {
         try {
+            abort_if(Gate::denies('order_management_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+
             //start the transaction
             DB::beginTransaction();
 

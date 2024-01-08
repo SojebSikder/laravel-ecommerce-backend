@@ -31,7 +31,8 @@ class CustomerController extends Controller
                 ->orWhere('lname', 'like', '%' . $q . '%')
                 ->orWhere('phone_number', 'like', '%' . $q . '%');
         }
-        $customers = $customers->where('type', 'user')->paginate(15);
+        // $customers = $customers->where('type', 'user')->paginate(15);
+        $customers = $customers->paginate(15);
 
         return view('backend.customer.index', compact('customers'));
     }
@@ -57,6 +58,8 @@ class CustomerController extends Controller
     public function store(Request $request)
     {
         try {
+            abort_if(Gate::denies('user_management_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+
             $request->validate([
                 'fname' => 'required|string|max:255',
                 'lname' => 'required|string|max:255',
@@ -141,6 +144,8 @@ class CustomerController extends Controller
      */
     public function update(Request $request, $id)
     {
+        abort_if(Gate::denies('user_management_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        
         $fname = $request->input('fname');
         $lname = $request->input('lname');
         $email = $request->input('email');
