@@ -58,7 +58,11 @@ class ProductController extends Controller
     public function show($id)
     {
         try {
-            $product = Product::with(['images', 'details' => function ($query) {
+            $product = Product::with(['variants' => function ($variant) {
+                $variant->with(['variant_attributes' => function ($query) {
+                    $query->with(['attribute', 'attribute_value']);
+                }, 'images']);
+            }, 'images', 'details' => function ($query) {
                 $query->where('status', 1);
             }])
                 ->where('status', 1)

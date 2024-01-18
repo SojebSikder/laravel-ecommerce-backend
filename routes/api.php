@@ -40,8 +40,9 @@ Route::get('/verify/email/{code}', [AuthController::class, 'emailVerify'])->name
 
 // User
 Route::get("/user", [AuthController::class, 'index']);
-Route::post("/user/login", [AuthController::class, 'login']);
-Route::post("/user/register", [AuthController::class, 'register']);
+Route::get("user/me", [AuthController::class, 'me']);
+Route::post("/auth/login", [AuthController::class, 'login']);
+Route::post("/auth/register", [AuthController::class, 'register']);
 Route::get("/user/logout", [AuthController::class, 'logout']);
 Route::put("/user/update", [AuthController::class, 'updateUser']);
 // Forgot password

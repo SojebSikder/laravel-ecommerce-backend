@@ -34,6 +34,31 @@ class AuthController extends Controller
         //
     }
 
+    public function me()
+    {
+        try {
+            $user = auth("api")->user();
+
+            if ($user) {
+                return response()->json([
+                    'success' => true,
+                    'data' => $user,
+                ]);
+            } else {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'User not found',
+                ]);
+            }
+        } catch (\Throwable $th) {
+            return response()->json([
+                'success' => false,
+                // 'message' => $th->getMessage(),
+                'message' => "Something went wrong :(",
+            ]);
+        }
+    }
+
     public function updateUser(Request $request)
     {
         try {
