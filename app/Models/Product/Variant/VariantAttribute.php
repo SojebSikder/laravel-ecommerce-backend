@@ -9,6 +9,17 @@ class VariantAttribute extends Model
 {
     use HasFactory;
 
+    /**
+     * The attributes that should be hidden for serialization.
+     *
+     * @var array<int, string>
+     */
+    protected $hidden = [
+        'status',
+        'created_at',
+        'updated_at',
+    ];
+
     public function attribute()
     {
         return $this->hasOne(Attribute::class, 'id', 'attribute_id');

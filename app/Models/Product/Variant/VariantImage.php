@@ -10,6 +10,17 @@ class VariantImage extends Model
 {
     use HasFactory;
 
+    /**
+     * The attributes that should be hidden for serialization.
+     *
+     * @var array<int, string>
+     */
+    protected $hidden = [
+        'status',
+        'created_at',
+        'updated_at',
+    ];
+
     protected $appends = ['image_url'];
 
     public function getImageUrlAttribute()

@@ -32,7 +32,7 @@ class Product extends Model
         'updated_at',
     ];
 
-    protected $appends = ['currency_sign', 'currency_code', 'availability', 'total_variant_quantity'];
+    protected $appends = ['is_variant', 'new_price', 'currency_sign', 'currency_code', 'availability', 'total_variant_quantity'];
 
     // custom currency attribute
     public function getCurrencySignAttribute()
@@ -44,6 +44,28 @@ class Product extends Model
     public function getCurrencyCodeAttribute()
     {
         return SettingHelper::currency_code();
+    }
+
+    public function getNewPriceAttribute()
+    {
+        if ($this->is_sale) {
+            $newPrice = 0;
+
+            $newPrice = $this->price - ($this->price * $this->discount / 100);
+
+            return $newPrice;
+        } else {
+            return $this->price;
+        }
+    }
+
+    public function getIsVariantAttribute()
+    {
+        if ($this->variants->count() > 0) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     // custom availability attribute

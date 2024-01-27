@@ -4,6 +4,7 @@ use App\Http\Controllers\Api\App\Auth\AuthController;
 use App\Http\Controllers\Api\App\Category\CategoryController;
 use App\Http\Controllers\Api\App\Checkout\CheckoutController;
 use App\Http\Controllers\Api\App\Cms\Footer\FooterController;
+use App\Http\Controllers\Api\App\Cms\Menu\MenuController;
 use App\Http\Controllers\Api\App\Cms\Page\PageController;
 use App\Http\Controllers\Api\App\Cms\Sitemap\SitemapController;
 use App\Http\Controllers\Api\App\Order\OrderController;
@@ -40,8 +41,9 @@ Route::get('/verify/email/{code}', [AuthController::class, 'emailVerify'])->name
 
 // User
 Route::get("/user", [AuthController::class, 'index']);
-Route::post("/user/login", [AuthController::class, 'login']);
-Route::post("/user/register", [AuthController::class, 'register']);
+Route::get("user/me", [AuthController::class, 'me']);
+Route::post("/auth/login", [AuthController::class, 'login']);
+Route::post("/auth/register", [AuthController::class, 'register']);
 Route::get("/user/logout", [AuthController::class, 'logout']);
 Route::put("/user/update", [AuthController::class, 'updateUser']);
 // Forgot password
@@ -63,6 +65,7 @@ Route::resource("order", OrderController::class);
 // page
 Route::resource('page', PageController::class);
 Route::resource('footer', FooterController::class);
+Route::resource("menu", MenuController::class);
 // sitemap
 Route::get('sitemap.xml', [SitemapController::class, 'index']);
 Route::resource('sitemap', SitemapController::class);
