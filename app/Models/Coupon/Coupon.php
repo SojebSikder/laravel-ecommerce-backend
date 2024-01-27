@@ -2,7 +2,9 @@
 
 namespace App\Models\Coupon;
 
+use App\Models\Category\Category;
 use App\Models\Order\OrderCoupon;
+use App\Models\Product\Product;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -10,6 +12,16 @@ use Illuminate\Database\Eloquent\Model;
 class Coupon extends Model
 {
     use HasFactory;
+
+    /**
+     * The attributes that should be hidden for serialization.
+     *
+     * @var array<int, string>
+     */
+    protected $hidden = [
+        'created_at',
+        'updated_at',
+    ];
 
     protected $guarded = [];
 
