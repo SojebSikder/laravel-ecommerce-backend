@@ -3,6 +3,8 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+
+use App\Models\Auth\AuthProvider;
 use App\Models\Cart\Cart;
 use App\Models\Order\Order;
 use App\Models\User\Role;
@@ -64,6 +66,11 @@ class User extends Authenticatable implements JWTSubject
     public function roles()
     {
         return $this->belongsToMany(Role::class, 'role_users');
+    }
+
+    public function auth_providers()
+    {
+        return $this->hasMany(AuthProvider::class);
     }
 
 

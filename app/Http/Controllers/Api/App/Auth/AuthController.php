@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\App\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Mail\RecoveryMail;
+use App\Models\Auth\AuthProvider;
 use App\Models\Ucode;
 use App\Models\User;
 use App\Notifications\VerifyEmail;
@@ -465,12 +466,20 @@ class AuthController extends Controller
             return response()->json(['error' => 'Invalid credentials provided.'], 422);
         }
 
-        $providerId = User::where('provider_id', $socialiteUser->getId())->first();
+        // $providerId = User::where('provider_uid', $socialiteUser->getId())->first();
+        $providerId = User::whereRelation('auth_providers', 'provider_uid', "=", $socialiteUser->getId())->first();
+        // $providerId = User::whereHas('auth_providers', function ($query) use ($socialiteUser) {
+        //     return $query->where('provider_uid',  $socialiteUser->getId());
+        // })->first();
 
         if ($providerId) {
-            // $updateUser = User::where('email', $socialiteUser->getEmail())->first();
-            $updateUser = User::where('provider_id', $socialiteUser->getId())->first();
-            // $token = $updateUser->createToken('token')->plainTextToken;
+            //// $updateUser = User::where('email', $socialiteUser->getEmail())->first();
+            // $updateUser = User::where('provider_uid', $socialiteUser->getId())->first();
+            $updateUser = User::whereRelation('auth_providers', 'provider_uid', "=", $socialiteUser->getId())->first();
+            // $updateUser = User::whereHas('auth_providers', function ($query) use ($socialiteUser) {
+            //     return $query->where('provider_uid',  $socialiteUser->getId());
+            // })->first();
+            //// $token = $updateUser->createToken('token')->plainTextToken;
             if ($updateUser) {
                 if (!$updateUser->email_verified_at) {
                     $updateUser->email_verified_at = now();
@@ -506,10 +515,14 @@ class AuthController extends Controller
                     $user->email_verified_at = now();
                     $user->fname = $fname;
                     $user->lname = $lname;
-                    $user->provider = $provider;
-                    $user->provider_id = $socialiteUser->getId();
-                    $user->avatar = $socialiteUser->getAvatar();
                     $user->save();
+
+                    $authProvider = new AuthProvider();
+                    $authProvider->user_id = $user->id;
+                    $authProvider->provider = $provider;
+                    $authProvider->provider_uid = $socialiteUser->getId();
+                    $authProvider->avatar = $socialiteUser->getAvatar();
+                    $authProvider->save();
 
                     // add into mailing list
                     (new MailingListService())->store(email: $user->email, user_id: $user->id);
@@ -525,20 +538,23 @@ class AuthController extends Controller
                 //             'fname' => $fname,
                 //             'lname' => $lname,
                 //             'provider' => $provider,
-                //             'provider_id' => $socialiteUser->getId(),
+                //             'provider_uid' => $socialiteUser->getId(),
                 //             'avatar' => $socialiteUser->getAvatar(),
                 //         ]
                 //     );
             } else {
                 // create account without email
-                $user = User::query()
-                    ->create([
-                        'fname' => $fname,
-                        'lname' => $lname,
-                        'provider' => $provider,
-                        'provider_id' => $socialiteUser->getId(),
-                        'avatar' => $socialiteUser->getAvatar(),
-                    ]);
+                $user = new User();
+                $user->fname = $fname;
+                $user->lname = $lname;
+                $user->save();
+
+                $authProvider = new AuthProvider();
+                $authProvider->user_id = $user->id;
+                $authProvider->provider = $provider;
+                $authProvider->provider_uid = $socialiteUser->getId();
+                $authProvider->avatar = $socialiteUser->getAvatar();
+                $authProvider->save();
             }
 
             // $token = $user->createToken('token')->plainTextToken;

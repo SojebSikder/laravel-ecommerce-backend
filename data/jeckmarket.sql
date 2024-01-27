@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 08, 2024 at 09:40 PM
+-- Generation Time: Jan 27, 2024 at 06:21 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -60,7 +60,8 @@ INSERT INTO `activity_log` (`id`, `log_name`, `description`, `subject_type`, `ev
 
 INSERT INTO `attributes` (`id`, `name`, `status`, `sort_order`, `created_at`, `updated_at`) VALUES
 (1, 'Size', 1, 0, '2024-01-06 04:50:17', '2024-01-06 04:51:52'),
-(2, 'Color', 1, 0, '2024-01-06 06:49:16', '2024-01-06 06:49:16');
+(2, 'Color', 1, 0, '2024-01-06 06:49:16', '2024-01-06 06:49:16'),
+(3, 'Material', 1, 0, '2024-01-25 18:58:46', '2024-01-25 18:58:46');
 
 --
 -- Dumping data for table `attribute_values`
@@ -73,7 +74,9 @@ INSERT INTO `attribute_values` (`id`, `attribute_id`, `name`, `status`, `sort_or
 (6, 1, 'XL', 1, 0, '2024-01-06 05:21:54', '2024-01-06 05:21:54'),
 (7, 2, 'White', 1, 0, '2024-01-06 06:49:25', '2024-01-06 06:49:25'),
 (8, 2, 'Black', 1, 0, '2024-01-06 06:49:29', '2024-01-06 06:49:29'),
-(9, 2, 'Red', 1, 0, '2024-01-06 06:49:33', '2024-01-06 06:49:33');
+(9, 2, 'Red', 1, 0, '2024-01-06 06:49:33', '2024-01-06 06:49:33'),
+(10, 3, 'Cotton', 1, 0, '2024-01-25 18:58:57', '2024-01-25 18:58:57'),
+(11, 3, 'Polyester', 1, 0, '2024-01-25 18:59:05', '2024-01-25 18:59:05');
 
 --
 -- Dumping data for table `categories`
@@ -372,9 +375,8 @@ INSERT INTO `currencies` (`id`, `name`, `currency_code`, `currency_sign`, `rate`
 --
 
 INSERT INTO `footers` (`id`, `name`, `status`, `sort_order`, `created_at`, `updated_at`) VALUES
-(1, 'About', 1, 1, '2023-01-05 05:25:12', '2023-01-05 05:33:42'),
-(2, 'Social', 1, 2, '2023-01-05 05:33:06', '2023-01-05 05:33:45'),
-(3, 'Apps', 1, 3, '2023-01-05 05:33:22', '2023-01-05 05:33:46');
+(1, 'COMPANY', 1, 2, '2023-01-05 05:25:12', '2024-01-18 16:48:28'),
+(2, 'CUSTOMER SERVICE', 1, 1, '2023-01-05 05:33:06', '2024-01-18 16:49:06');
 
 --
 -- Dumping data for table `footer_items`
@@ -420,7 +422,12 @@ INSERT INTO `manufacturers` (`id`, `name`, `slug`, `image`, `description`, `meta
 --
 
 INSERT INTO `menus` (`id`, `name`, `sub_menu`, `parent_id`, `category_id`, `is_link`, `link`, `is_right`, `head`, `text`, `image`, `alt_text`, `right_link`, `meta_title`, `meta_description`, `meta_keyword`, `style`, `status`, `sort_order`, `created_at`, `updated_at`) VALUES
-(1, 'Fashion', 0, NULL, NULL, 1, NULL, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '#000000', 1, 0, '2024-01-08 20:19:16', '2024-01-08 20:26:53');
+(2, 'CRAZY OFFERS !', 0, NULL, NULL, 1, '/offer', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '#000000', 1, 0, '2024-01-27 13:30:44', '2024-01-27 13:30:44'),
+(3, 'JOGGERS', 0, NULL, NULL, 1, '/products?c=joggers', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '#000000', 1, 0, '2024-01-27 13:31:12', '2024-01-27 13:31:12'),
+(4, 'Hoodies', 0, NULL, NULL, 1, '/products?c=hoodides', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '#000000', 1, 0, '2024-01-27 13:31:39', '2024-01-27 13:31:39'),
+(5, 'SOLID POLO', 0, NULL, NULL, 1, '/products?c=solid-polo', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '#000000', 1, 0, '2024-01-27 13:32:08', '2024-01-27 13:32:08'),
+(6, 'SHORTS', 0, NULL, NULL, 1, '/products?c=shorts', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '#000000', 1, 0, '2024-01-27 13:32:26', '2024-01-27 13:32:26'),
+(7, 'COLLECTIONS', 0, NULL, NULL, 1, '/category', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '#000000', 1, 0, '2024-01-27 13:32:44', '2024-01-27 13:32:44');
 
 --
 -- Dumping data for table `option_sets`
@@ -658,14 +665,16 @@ INSERT INTO `permission_roles` (`id`, `permission_id`, `role_id`, `created_at`, 
 --
 
 INSERT INTO `products` (`id`, `name`, `slug`, `product_type`, `meta_title`, `meta_description`, `meta_keyword`, `description`, `price`, `discount`, `track_quantity`, `quantity`, `sku`, `barcode`, `is_sale`, `cost_per_item`, `weight`, `weight_unit`, `manufacturer_id`, `user_id`, `views`, `status`, `created_at`, `updated_at`) VALUES
-(92, 'T-shirt', 't-shirt', 'simple', NULL, NULL, NULL, '<p>Cool tshirt buy now</p>', 200.00, 5.00, 1, 40, NULL, NULL, 1, 60.00, 200.00, 'g', 4, NULL, 0, 1, '2024-01-07 20:45:50', '2024-01-07 20:51:35');
+(92, 'T-shirt', 't-shirt', 'simple', NULL, NULL, NULL, '<p>Cool tshirt buy now</p>', 200.00, 5.00, 1, 40, NULL, NULL, 1, 60.00, 200.00, 'g', 4, NULL, 0, 1, '2024-01-07 20:45:50', '2024-01-07 20:51:35'),
+(94, 'Blue Tshirt', 'blue-tshirt', 'simple', NULL, NULL, NULL, NULL, 400.00, 10.00, 0, NULL, NULL, NULL, 1, 60.00, NULL, NULL, 4, NULL, 0, 1, '2024-01-27 09:31:40', '2024-01-27 09:31:55');
 
 --
 -- Dumping data for table `product_categories`
 --
 
 INSERT INTO `product_categories` (`id`, `product_id`, `category_id`, `created_at`, `updated_at`) VALUES
-(8, 92, 52, NULL, NULL);
+(8, 92, 52, NULL, NULL),
+(10, 94, 52, NULL, NULL);
 
 --
 -- Dumping data for table `product_details`
@@ -690,7 +699,8 @@ INSERT INTO `product_images` (`id`, `image`, `title`, `alt_text`, `product_id`, 
 (12, '1704659106-659b08a21d0d5.webp', NULL, NULL, '85', 1, 0, '2024-01-07 20:25:06', '2024-01-07 20:25:06'),
 (13, '1704660147-659b0cb3baae1.jpg', NULL, NULL, '91', 1, 0, '2024-01-07 20:42:27', '2024-01-07 20:42:27'),
 (15, '1704660441-659b0dd983eae.webp', NULL, NULL, '92', 1, 0, '2024-01-07 20:47:21', '2024-01-07 20:47:21'),
-(16, '1704661070-659b104eb54a0.jpg', NULL, NULL, '92', 1, 0, '2024-01-07 20:57:50', '2024-01-07 20:57:50');
+(16, '1704661070-659b104eb54a0.jpg', NULL, NULL, '92', 1, 0, '2024-01-07 20:57:50', '2024-01-07 20:57:50'),
+(17, '1706347915-65b4cd8be8d56.webp', NULL, NULL, '94', 1, 0, '2024-01-27 09:31:56', '2024-01-27 09:31:56');
 
 --
 -- Dumping data for table `product_option_sets`
@@ -698,14 +708,16 @@ INSERT INTO `product_images` (`id`, `image`, `title`, `alt_text`, `product_id`, 
 
 INSERT INTO `product_option_sets` (`id`, `product_id`, `option_set_id`, `created_at`, `updated_at`) VALUES
 (2, 81, 2, NULL, NULL),
-(6, 92, 2, NULL, NULL);
+(6, 92, 2, NULL, NULL),
+(8, 94, 2, NULL, NULL);
 
 --
 -- Dumping data for table `product_tags`
 --
 
 INSERT INTO `product_tags` (`id`, `product_id`, `tag_id`, `status`, `created_at`, `updated_at`) VALUES
-(4, 92, 1, 1, '2024-01-07 20:57:50', '2024-01-07 20:57:50');
+(4, 92, 1, 1, '2024-01-07 20:57:50', '2024-01-07 20:57:50'),
+(7, 94, 1, 1, '2024-01-27 09:31:55', '2024-01-27 09:31:55');
 
 --
 -- Dumping data for table `roles`
@@ -785,14 +797,6 @@ INSERT INTO `statuses` (`id`, `label`, `name`, `description`, `image`, `alt_text
 (3, 'Order Delivered', 'order_delivered', NULL, NULL, NULL, 1, NULL, 1, 0, '2023-07-30 07:58:47', '2023-07-30 07:58:47');
 
 --
--- Dumping data for table `sublinks`
---
-
-INSERT INTO `sublinks` (`id`, `head`, `name`, `description`, `image`, `menu_id`, `category_id`, `is_link`, `link`, `parent_id`, `meta_title`, `meta_description`, `meta_keyword`, `style`, `status`, `sort_order`, `created_at`, `updated_at`) VALUES
-(1, 'Fashion', NULL, NULL, NULL, 1, NULL, 1, NULL, NULL, NULL, NULL, NULL, NULL, 1, 0, '2024-01-08 20:35:43', '2024-01-08 20:39:41'),
-(2, NULL, 'Tshirt', NULL, NULL, 1, NULL, 0, NULL, 1, NULL, NULL, NULL, NULL, 1, 0, '2024-01-08 20:38:22', '2024-01-08 20:39:32');
-
---
 -- Dumping data for table `tags`
 --
 
@@ -803,9 +807,10 @@ INSERT INTO `tags` (`id`, `name`, `label`, `status`, `created_at`, `updated_at`)
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`id`, `fname`, `lname`, `name`, `email`, `phone_number`, `dial_code`, `email_verified_at`, `phone_verified_at`, `provider`, `provider_uid`, `avatar`, `type`, `status`, `password`, `remember_token`, `created_at`, `updated_at`) VALUES
-(1, 'admin', 'admin', NULL, 'admin@example.com', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'su_admin', 1, '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'JHwH0HdQC1XuHGGOx63TegQJqgQBATibjg69rT7SQRoF23qB1ceHv5hqi7SV', '2023-07-30 02:11:58', '2023-07-30 02:11:58'),
-(2, 'sd', 'sdsd', NULL, 'as@gmail.com', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'su_admin', 1, '$2y$10$a5lUNEobpCWplDHP3WIr7eHejJ6CQc8G8LM4SNnzT7OxATaVwLER2', NULL, '2023-07-30 02:24:56', '2024-01-03 12:44:11');
+INSERT INTO `users` (`id`, `fname`, `lname`, `email`, `phone_number`, `dial_code`, `email_verified_at`, `phone_verified_at`, `avatar`, `type`, `status`, `password`, `remember_token`, `created_at`, `updated_at`) VALUES
+(1, 'admin', 'admin', 'admin@example.com', NULL, NULL, NULL, NULL, NULL, 'su_admin', 1, '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'JHwH0HdQC1XuHGGOx63TegQJqgQBATibjg69rT7SQRoF23qB1ceHv5hqi7SV', '2023-07-30 02:11:58', '2023-07-30 02:11:58'),
+(2, 'sd', 'sdsd', 'as@gmail.com', NULL, NULL, NULL, NULL, NULL, 'su_admin', 1, '$2y$10$a5lUNEobpCWplDHP3WIr7eHejJ6CQc8G8LM4SNnzT7OxATaVwLER2', NULL, '2023-07-30 02:24:56', '2024-01-03 12:44:11'),
+(3, 'test', 'demo', 'testdemo@gmail.com', NULL, NULL, NULL, NULL, NULL, 'user', 1, '$2y$10$z6uz.pm8/PGkx6XVe4ef2u/9EoaKWCZW6167sJhaFlrSnBrIkoaum', NULL, '2024-01-12 18:58:31', '2024-01-12 18:58:31');
 
 --
 -- Dumping data for table `variants`
@@ -813,7 +818,8 @@ INSERT INTO `users` (`id`, `fname`, `lname`, `name`, `email`, `phone_number`, `d
 
 INSERT INTO `variants` (`id`, `product_id`, `price`, `discount`, `track_quantity`, `quantity`, `sku`, `barcode`, `is_sale`, `cost_per_item`, `weight`, `weight_unit`, `status`, `sort_order`, `created_at`, `updated_at`) VALUES
 (17, 92, 300.00, 5.00, 1, 40, NULL, NULL, 1, 60.00, 200.00, 'g', 1, 0, '2024-01-07 20:56:23', '2024-01-07 20:56:49'),
-(18, 92, 350.00, 5.00, 1, 40, NULL, NULL, 1, 60.00, 200.00, 'g', 1, 0, '2024-01-07 20:57:03', '2024-01-07 20:57:03');
+(18, 92, 350.00, 5.00, 1, 40, NULL, NULL, 1, 60.00, 200.00, 'g', 1, 0, '2024-01-07 20:57:03', '2024-01-07 20:57:03'),
+(19, 92, 200.00, 5.00, 1, 40, NULL, NULL, 1, 60.00, 200.00, 'g', 1, 0, '2024-01-25 19:04:11', '2024-01-25 19:04:11');
 
 --
 -- Dumping data for table `variant_attributes`
@@ -824,7 +830,11 @@ INSERT INTO `variant_attributes` (`id`, `variant_id`, `attribute_id`, `attribute
 (12, 17, 1, 3, '2024-01-07 20:56:28', '2024-01-07 20:56:28'),
 (13, 17, 2, 8, '2024-01-07 20:56:36', '2024-01-07 20:56:36'),
 (14, 18, 1, 4, '2024-01-07 20:57:09', '2024-01-07 20:57:09'),
-(15, 18, 2, 7, '2024-01-07 20:57:15', '2024-01-07 20:57:15');
+(15, 18, 2, 7, '2024-01-07 20:57:15', '2024-01-07 20:57:15'),
+(16, 17, 3, 10, '2024-01-25 18:59:32', '2024-01-25 18:59:32'),
+(17, 18, 3, 11, '2024-01-25 18:59:52', '2024-01-25 18:59:52'),
+(18, 19, 1, 5, '2024-01-25 19:04:20', '2024-01-25 19:04:20'),
+(19, 19, 2, 7, '2024-01-25 19:04:32', '2024-01-25 19:04:32');
 
 --
 -- Dumping data for table `variant_images`

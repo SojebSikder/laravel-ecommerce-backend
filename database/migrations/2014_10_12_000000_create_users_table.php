@@ -17,7 +17,6 @@ return new class extends Migration
             $table->id();
             $table->string('fname')->nullable();
             $table->string('lname')->nullable();
-            $table->string('name')->nullable(); // currently not using
             $table->string('email')->unique();
             $table->string('phone_number')->nullable();
             // phone number country code
@@ -25,9 +24,7 @@ return new class extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->timestamp('phone_verified_at')->nullable();
 
-            // for google, faceboook auth
-            $table->string('provider')->nullable();
-            $table->string('provider_uid')->nullable();
+            $table->string('gender')->nullable();
             $table->string('avatar')->nullable();
 
             /**
