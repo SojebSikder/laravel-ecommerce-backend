@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\App\Auth\AuthController;
+use App\Http\Controllers\Api\App\Cart\CartController;
 use App\Http\Controllers\Api\App\Category\CategoryController;
 use App\Http\Controllers\Api\App\Checkout\CheckoutController;
 use App\Http\Controllers\Api\App\Cms\Footer\FooterController;
@@ -61,6 +62,7 @@ Route::resource("category", CategoryController::class);
 // order
 Route::resource("checkout", CheckoutController::class);
 Route::resource("order", OrderController::class);
+Route::resource("cart", CartController::class);
 
 // page
 Route::resource('page', PageController::class);
