@@ -30,6 +30,7 @@ class Product extends Model
         'views',
         'created_at',
         'updated_at',
+        'user_id',
     ];
 
     protected $appends = ['is_variant', 'new_price', 'currency_sign', 'currency_code', 'availability', 'total_variant_quantity'];

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\App\Product;
 use App\Http\Controllers\Controller;
 use App\Lib\SojebVar\SojebVar;
 use App\Models\Product\Product;
+use App\Models\Product\Tag;
 use Illuminate\Http\Request;
 
 class ProductController extends Controller
@@ -92,6 +93,37 @@ class ProductController extends Controller
             return response()->json([
                 'success' => false,
                 'message' => 'Something went wrong',
+            ]);
+        }
+    }
+
+    public function trending()
+    {
+        $tag = 'bestseller';
+        $tagDb = Tag::where('name', $tag)->first();
+
+        if ($tagDb) {
+            $products = Product::latest()->with([
+                "variants" => function ($query) {
+                    $query->where('status', 1);
+                },
+            ])
+                ->whereHas("tags", function ($query) use ($tagDb) {
+                    $query->where('tags.id', $tagDb->id);
+                })
+                ->where('status', 1)
+                // ->limit(11)
+                ->limit(4)
+                ->get();
+
+            return response()->json([
+                'status' => 'success',
+                'data' => $products
+            ]);
+        } else {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Tag not found',
             ]);
         }
     }

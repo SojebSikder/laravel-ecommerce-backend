@@ -55,6 +55,7 @@ Route::get("/product/search", [ProductController::class, 'search']);
 Route::get("/product/show/{id}/{slug}", [ProductController::class, 'showOne']);
 Route::get("/product/trending", [ProductController::class, 'trending']);
 Route::get("/product/{id}/rating/me", [ProductController::class, 'showRating']);
+Route::get("/product/trending", [ProductController::class, 'trending']);
 Route::resource("product", ProductController::class);
 
 Route::resource("category", CategoryController::class);
