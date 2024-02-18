@@ -60,7 +60,7 @@ class ProductController extends Controller
     {
         try {
             $product = Product::with(['variants' => function ($variant) {
-                $variant->with(['variant_attributes' => function ($query) {
+                $variant->with(['images', 'variant_attributes' => function ($query) {
                     $query->with(['attribute', 'attribute_value']);
                 }, 'images']);
             }, 'images', 'details' => function ($query) {
