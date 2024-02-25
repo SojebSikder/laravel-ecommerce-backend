@@ -30,6 +30,19 @@ class CartController extends Controller
         ]);
     }
 
+    public function cartCount()
+    {
+        // user id
+        $user_id = auth("api")->user()->id;
+
+        $carts = Cart::where('user_id', $user_id)->count();
+
+        return response()->json([
+            'success' => true,
+            'data' => $carts,
+        ]);
+    }
+
     /**
      * Show the form for creating a new resource.
      *

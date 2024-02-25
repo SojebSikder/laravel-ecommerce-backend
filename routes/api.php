@@ -63,6 +63,9 @@ Route::resource("category", CategoryController::class);
 // order
 Route::resource("checkout", CheckoutController::class);
 Route::resource("order", OrderController::class);
+
+// cart
+Route::get("cart-count", [CartController::class, 'cartCount']);
 Route::resource("cart", CartController::class);
 
 // page
