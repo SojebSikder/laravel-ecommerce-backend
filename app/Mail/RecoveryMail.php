@@ -35,7 +35,7 @@ class RecoveryMail extends Mailable
     public function envelope()
     {
         return new Envelope(
-            from: new Address(SettingHelper::get('email'), SettingHelper::get('name')),
+            from: new Address(SettingHelper::get('email'), SettingHelper::getSiteName()),
             subject: 'Password Recovery Mail',
         );
     }

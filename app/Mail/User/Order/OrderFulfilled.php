@@ -41,7 +41,7 @@ class OrderFulfilled extends Mailable implements ShouldQueue
             $subject = "A shipment from order #" . $this->data->order->invoice_number . " is on the way";
         }
         return new Envelope(
-            from: new Address(SettingHelper::get('email'), SettingHelper::get('name')),
+            from: new Address(SettingHelper::get('email'), SettingHelper::getSiteName()),
             subject: $subject,
         );
     }

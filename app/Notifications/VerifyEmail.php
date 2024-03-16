@@ -75,7 +75,7 @@ class VerifyEmail extends Notification implements ShouldQueue
     protected function buildMailMessage($url)
     {
         return (new MailMessage)
-            ->from(SettingHelper::get('email'), SettingHelper::get('name'))
+            ->from(SettingHelper::get('email'), SettingHelper::getSiteName())
             ->subject(Lang::get('Verify Email Address'))
             ->line(Lang::get('Please click the button below to verify your email address.'))
             ->action(Lang::get('Verify Email Address'), $url)

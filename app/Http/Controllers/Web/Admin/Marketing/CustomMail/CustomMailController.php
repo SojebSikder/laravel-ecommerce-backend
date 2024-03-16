@@ -45,7 +45,7 @@ class CustomMailController extends Controller
             $body = $request->input('body');
 
             $from_email = SettingHelper::get('email');
-            $from_name = SettingHelper::get('name');
+            $from_name = SettingHelper::getSiteName();
 
             $data = new \stdClass();
             $data->subject = $subject;

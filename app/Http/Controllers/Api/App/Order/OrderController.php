@@ -373,7 +373,7 @@ class OrderController extends Controller
             $to = [
                 [
                     'email' => SettingHelper::get('contact_email'),
-                    'name' => SettingHelper::get('name'),
+                    'name' => SettingHelper::getSiteName(),
                 ]
             ];
             $data = new \stdClass();

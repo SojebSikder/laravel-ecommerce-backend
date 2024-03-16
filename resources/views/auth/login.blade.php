@@ -60,7 +60,7 @@
 
                 <div>
                     <div class="header">
-                        Log In to {{ SettingHelper::get('name') }}
+                        Log In to {{ SettingHelper::getSiteName() }}
                     </div>
                 </div>
 

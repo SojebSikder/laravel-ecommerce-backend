@@ -20,7 +20,7 @@ class SojebVarMiddleware
     {
         // set custom variable
         SojebVar::addVariable([
-            'app.name' => SettingHelper::get('name'),
+            'app.name' => SettingHelper::getSiteName(),
         ]);
         return $next($request);
     }

@@ -36,7 +36,7 @@ class OrderConfirm extends Mailable implements ShouldQueue
     public function envelope()
     {
         return new Envelope(
-            from: new Address(SettingHelper::get('email'), SettingHelper::get('name')),
+            from: new Address(SettingHelper::get('email'), SettingHelper::getSiteName()),
             subject: "Order #" . $this->data->order->invoice_number . " confirmed",
         );
     }
