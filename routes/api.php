@@ -9,6 +9,7 @@ use App\Http\Controllers\Api\App\Cms\Menu\MenuController;
 use App\Http\Controllers\Api\App\Cms\Page\PageController;
 use App\Http\Controllers\Api\App\Cms\Sitemap\SitemapController;
 use App\Http\Controllers\Api\App\Order\OrderController;
+use App\Http\Controllers\Api\App\Payment\PaymentController;
 use App\Http\Controllers\Api\App\Product\ProductController;
 use App\Http\Controllers\Api\App\Setting\Setting\SettingController;
 use App\Http\Controllers\Api\App\Shipping\ShippingController;
@@ -62,7 +63,13 @@ Route::resource("category", CategoryController::class);
 
 // order
 Route::resource("checkout", CheckoutController::class);
+Route::post("/order/status/check", [OrderController::class, 'orderStatus']);
 Route::resource("order", OrderController::class);
+
+// payment
+Route::post("/payment/pay", [PaymentController::class, 'payment']);
+Route::post("/payment/status", [PaymentController::class, 'payment_success']);
+
 
 // cart
 Route::get("cart-count", [CartController::class, 'cartCount']);
