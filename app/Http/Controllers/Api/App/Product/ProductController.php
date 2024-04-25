@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\App\Product;
 
 use App\Http\Controllers\Controller;
 use App\Lib\SojebVar\SojebVar;
+use App\Models\Category\Category;
 use App\Models\Product\Product;
 use App\Models\Product\Tag;
 use Illuminate\Http\Request;
@@ -22,6 +23,39 @@ class ProductController extends Controller
 
         $products = Product::query()->with('images')->where('status', 1);
         $products = $products->latest()->paginate($default_limit);
+
+        return response()->json([
+            'success' => true,
+            'data' => $products,
+        ]);
+    }
+
+    public function productWithCategories()
+    {
+        // lazy loading
+        $default_limit = 40;
+
+        $products = Category::query()->where('status', 1)->with(['products' => function ($query) {
+            $query->latest()->limit(10);
+        }]);
+        $products = $products->latest()->paginate($default_limit);
+
+        return response()->json([
+            'success' => true,
+            'data' => $products,
+        ]);
+    }
+
+    public function productWithCategory($id)
+    {
+        // lazy loading
+        $default_limit = 40;
+
+        $products = Category::where('id', $id)
+            ->where('status', 1)
+            ->with(['products' => function ($query) use ($default_limit) {
+                $query->latest()->paginate($default_limit);
+            }])->first();
 
         return response()->json([
             'success' => true,

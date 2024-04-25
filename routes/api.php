@@ -52,6 +52,8 @@ Route::put("/user/update", [AuthController::class, 'updateUser']);
 Route::post('/forgot-password', [AuthController::class, 'sendMail']);
 Route::post('/recover-password', [AuthController::class, 'recover']);
 // Product
+Route::get("/product/productWithCategory", [ProductController::class, 'productWithCategories']);
+Route::get("/product/productWithCategory/{id}", [ProductController::class, 'productWithCategory']);
 Route::get("/product/search", [ProductController::class, 'search']);
 Route::get("/product/show/{id}/{slug}", [ProductController::class, 'showOne']);
 Route::get("/product/trending", [ProductController::class, 'trending']);
