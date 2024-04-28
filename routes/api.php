@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\App\Auth\AuthController;
+use App\Http\Controllers\Api\App\Cart\CartController;
 use App\Http\Controllers\Api\App\Category\CategoryController;
 use App\Http\Controllers\Api\App\Checkout\CheckoutController;
 use App\Http\Controllers\Api\App\Cms\Footer\FooterController;
@@ -8,6 +9,7 @@ use App\Http\Controllers\Api\App\Cms\Menu\MenuController;
 use App\Http\Controllers\Api\App\Cms\Page\PageController;
 use App\Http\Controllers\Api\App\Cms\Sitemap\SitemapController;
 use App\Http\Controllers\Api\App\Order\OrderController;
+use App\Http\Controllers\Api\App\Payment\PaymentController;
 use App\Http\Controllers\Api\App\Product\ProductController;
 use App\Http\Controllers\Api\App\Setting\Setting\SettingController;
 use App\Http\Controllers\Api\App\Shipping\ShippingController;
@@ -50,17 +52,30 @@ Route::put("/user/update", [AuthController::class, 'updateUser']);
 Route::post('/forgot-password', [AuthController::class, 'sendMail']);
 Route::post('/recover-password', [AuthController::class, 'recover']);
 // Product
+Route::get("/product/productWithCategory", [ProductController::class, 'productWithCategories']);
+Route::get("/product/productWithCategory/{id}", [ProductController::class, 'productWithCategory']);
 Route::get("/product/search", [ProductController::class, 'search']);
 Route::get("/product/show/{id}/{slug}", [ProductController::class, 'showOne']);
 Route::get("/product/trending", [ProductController::class, 'trending']);
 Route::get("/product/{id}/rating/me", [ProductController::class, 'showRating']);
+Route::get("/product/trending", [ProductController::class, 'trending']);
 Route::resource("product", ProductController::class);
 
 Route::resource("category", CategoryController::class);
 
 // order
 Route::resource("checkout", CheckoutController::class);
+Route::post("/order/status/check", [OrderController::class, 'orderStatus']);
 Route::resource("order", OrderController::class);
+
+// payment
+Route::post("/payment/pay", [PaymentController::class, 'payment']);
+Route::post("/payment/status", [PaymentController::class, 'payment_success']);
+
+
+// cart
+Route::get("cart-count", [CartController::class, 'cartCount']);
+Route::resource("cart", CartController::class);
 
 // page
 Route::resource('page', PageController::class);

@@ -1,7 +1,7 @@
 @extends('backend.master')
 
 @section('title')
-    Draft order · {{ SettingHelper::get('name') }}
+    Draft order · {{ SettingHelper::getSiteName() }}
 @endsection
 
 @section('style')

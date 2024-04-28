@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\App\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Mail\RecoveryMail;
+use App\Models\Auth\AuthProvider;
 use App\Models\Ucode;
 use App\Models\User;
 use App\Notifications\VerifyEmail;
@@ -69,10 +70,10 @@ class AuthController extends Controller
             ]);
             $fname = $request->input('fname');
             $lname = $request->input('lname');
+            $gender = $request->input('gender');
             $email = $request->input('email');
             $phone = $request->input('phone');
             // $birth = $request->input('birth');
-            // $gender = $request->input('gender');
 
             $user_id = auth("api")->user()->id;
 
@@ -83,12 +84,15 @@ class AuthController extends Controller
             if ($lname) {
                 $user->lname = $lname;
             }
+            if ($gender) {
+                $user->gender = $gender;
+            }
             if ($email) {
                 $emailExist = User::where('id', "!=", $user_id)
                     ->where('email', $email)->exists();
                 if ($emailExist) {
                     return response()->json([
-                        'status' => 'error',
+                        'success' => false,
                         'message' => "The email has already been taken."
                     ]);
                 } else {
@@ -132,7 +136,7 @@ class AuthController extends Controller
             $user_exist = User::where('email', $request->input('email'))->first();
             if (!$user_exist) {
                 return response()->json([
-                    'status' => 'error',
+                    'success' => false,
                     'message' => 'User not found',
                 ], 401);
             }
@@ -140,7 +144,7 @@ class AuthController extends Controller
             $token = Auth::guard('api')->attempt($credentials);
             if (!$token) {
                 return response()->json([
-                    'status' => 'error',
+                    'success' => false,
                     'message' => 'Password not correct',
                 ], 401);
             }
@@ -184,6 +188,7 @@ class AuthController extends Controller
             $fname = $request->input('fname');
             $lname = $request->input('lname');
             $email = $request->input('email');
+            $gender = $request->input('gender');
             $password = $request->input('password');
             // if true then add user email into mailinglist
             $mailing = $request->input('mailing');
@@ -193,6 +198,7 @@ class AuthController extends Controller
             $user->fname = $fname;
             $user->lname = $lname;
             $user->email = $email;
+            $user->gender = $gender;
             $user->password = Hash::make($password);
             $user->save();
 
@@ -364,18 +370,18 @@ class AuthController extends Controller
                 Mail::to($email)->send(new RecoveryMail($data));
                 //
                 return response()->json([
-                    'status' => 'success',
+                    'success' => true,
                     'message' => 'Email sent. Please check your inbox in a minute'
                 ]);
             } else {
                 return response()->json([
-                    'status' => 'error',
+                    'success' => false,
                     'message' => 'Please enter Email'
                 ]);
             }
         } catch (\Throwable $th) {
             return response()->json([
-                'status' => 'error',
+                'success' => false,
                 'message' => $th->getMessage()
             ]);
         }
@@ -404,24 +410,24 @@ class AuthController extends Controller
                     $ucode->delete();
 
                     return response()->json([
-                        'status' => 'success',
+                        'success' => true,
                         'message' => 'Password changed successfully. Now you can login'
                     ]);
                 } else {
                     return response()->json([
-                        'status' => 'error',
+                        'success' => false,
                         'message' => 'Please enter your new password'
                     ]);
                 }
             } else {
                 return response()->json([
-                    'status' => 'error',
+                    'success' => false,
                     'message' => 'You\'re not able to proceed'
                 ]);
             }
         } catch (\Throwable $th) {
             return response()->json([
-                'status' => 'error',
+                'success' => false,
                 'message' => $th->getMessage()
             ]);
         }
@@ -465,12 +471,20 @@ class AuthController extends Controller
             return response()->json(['error' => 'Invalid credentials provided.'], 422);
         }
 
-        $providerId = User::where('provider_id', $socialiteUser->getId())->first();
+        // $providerId = User::where('provider_uid', $socialiteUser->getId())->first();
+        $providerId = User::whereRelation('auth_providers', 'provider_uid', "=", $socialiteUser->getId())->first();
+        // $providerId = User::whereHas('auth_providers', function ($query) use ($socialiteUser) {
+        //     return $query->where('provider_uid',  $socialiteUser->getId());
+        // })->first();
 
         if ($providerId) {
-            // $updateUser = User::where('email', $socialiteUser->getEmail())->first();
-            $updateUser = User::where('provider_id', $socialiteUser->getId())->first();
-            // $token = $updateUser->createToken('token')->plainTextToken;
+            //// $updateUser = User::where('email', $socialiteUser->getEmail())->first();
+            // $updateUser = User::where('provider_uid', $socialiteUser->getId())->first();
+            $updateUser = User::whereRelation('auth_providers', 'provider_uid', "=", $socialiteUser->getId())->first();
+            // $updateUser = User::whereHas('auth_providers', function ($query) use ($socialiteUser) {
+            //     return $query->where('provider_uid',  $socialiteUser->getId());
+            // })->first();
+            //// $token = $updateUser->createToken('token')->plainTextToken;
             if ($updateUser) {
                 if (!$updateUser->email_verified_at) {
                     $updateUser->email_verified_at = now();
@@ -506,10 +520,14 @@ class AuthController extends Controller
                     $user->email_verified_at = now();
                     $user->fname = $fname;
                     $user->lname = $lname;
-                    $user->provider = $provider;
-                    $user->provider_id = $socialiteUser->getId();
-                    $user->avatar = $socialiteUser->getAvatar();
                     $user->save();
+
+                    $authProvider = new AuthProvider();
+                    $authProvider->user_id = $user->id;
+                    $authProvider->provider = $provider;
+                    $authProvider->provider_uid = $socialiteUser->getId();
+                    $authProvider->avatar = $socialiteUser->getAvatar();
+                    $authProvider->save();
 
                     // add into mailing list
                     (new MailingListService())->store(email: $user->email, user_id: $user->id);
@@ -525,20 +543,23 @@ class AuthController extends Controller
                 //             'fname' => $fname,
                 //             'lname' => $lname,
                 //             'provider' => $provider,
-                //             'provider_id' => $socialiteUser->getId(),
+                //             'provider_uid' => $socialiteUser->getId(),
                 //             'avatar' => $socialiteUser->getAvatar(),
                 //         ]
                 //     );
             } else {
                 // create account without email
-                $user = User::query()
-                    ->create([
-                        'fname' => $fname,
-                        'lname' => $lname,
-                        'provider' => $provider,
-                        'provider_id' => $socialiteUser->getId(),
-                        'avatar' => $socialiteUser->getAvatar(),
-                    ]);
+                $user = new User();
+                $user->fname = $fname;
+                $user->lname = $lname;
+                $user->save();
+
+                $authProvider = new AuthProvider();
+                $authProvider->user_id = $user->id;
+                $authProvider->provider = $provider;
+                $authProvider->provider_uid = $socialiteUser->getId();
+                $authProvider->avatar = $socialiteUser->getAvatar();
+                $authProvider->save();
             }
 
             // $token = $user->createToken('token')->plainTextToken;
@@ -547,7 +568,7 @@ class AuthController extends Controller
 
         if ($socialiteUser->getEmail()) {
             return response()->json([
-                'status' => 'success',
+                'success' => true,
                 'message' => 'Logged in successfully',
                 'data' => $user,
                 'authorization' => [
@@ -557,7 +578,7 @@ class AuthController extends Controller
             ]);
         } else {
             return response()->json([
-                'status' => 'success',
+                'success' => true,
                 'action' => 'email_verify',
                 'message' => 'Please verify email',
                 'data' => $user,
@@ -601,7 +622,7 @@ class AuthController extends Controller
     //             ->create($data['dial_code'] . $data['phone'], "sms");
 
     //         return response()->json([
-    //             'status' => 'success',
+    //             'success' => true,
     //             'message' => 'Sms sent with Otp.',
     //             'data' => [
     //                 'dial_code' => $data['dial_code'],
@@ -610,7 +631,7 @@ class AuthController extends Controller
     //         ]);
     //     } catch (\Throwable $th) {
     //         return response()->json([
-    //             'status' => 'error',
+    //             'success' => false,
     //             // 'message' => 'Please insert number with country code'
     //             'message' => $th->getMessage()
     //         ]);
@@ -650,7 +671,7 @@ class AuthController extends Controller
     //             // Auth::login($user->first());
 
     //             return response()->json([
-    //                 'status' => 'success',
+    //                 'success' => true,
     //                 'data' => [
     //                     'email_verified_at' => $user->email_verified_at,
     //                 ],
@@ -658,7 +679,7 @@ class AuthController extends Controller
     //             ]);
     //         }
     //         return response()->json([
-    //             'status' => 'error',
+    //             'success' => false,
     //             'message' => 'Invalid verification code entered!',
     //             'data' => [
     //                 'dial_code' => $data['dial_code'],
@@ -667,7 +688,7 @@ class AuthController extends Controller
     //         ]);
     //     } catch (\Throwable $th) {
     //         return response()->json([
-    //             'status' => 'error',
+    //             'success' => false,
     //             'message' => $th->getMessage(),
     //             'data' => [
     //                 'dial_code' => $data['dial_code'],
@@ -709,7 +730,7 @@ class AuthController extends Controller
                 ->notify(new VerifyEmail($dataObject));
 
             return response()->json([
-                'status' => 'success',
+                'success' => true,
                 'message' => 'Email sent to your inbox. Please check.',
                 'data' => [
                     'email' => $data['email'],
@@ -717,7 +738,7 @@ class AuthController extends Controller
             ]);
         } catch (\Throwable $th) {
             return response()->json([
-                'status' => 'error',
+                'success' => false,
                 // 'message' => 'Please insert your email'
                 'message' => $th->getMessage()
             ]);
@@ -782,14 +803,14 @@ class AuthController extends Controller
     {
         if (auth("api")->user()->hasVerifiedEmail()) {
             return response()->json([
-                'status' => 'success',
+                'success' => true,
                 'message' => 'Email already verified.',
             ]);
         }
         auth("api")->user()->sendEmailVerificationNotification();
 
         return response()->json([
-            'status' => 'success',
+            'success' => true,
             'message' => 'Email verification link sent on your email id',
         ]);
     }

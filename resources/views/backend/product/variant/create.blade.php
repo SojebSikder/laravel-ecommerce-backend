@@ -124,6 +124,18 @@
                                                         <div class="alert alert-danger">{{ $message }}</div>
                                                     @enderror
                                                 </div>
+                                                <div class="col mt-4">
+                                                    <div class="form-group mb-3">
+                                                        <label for="old_discount">Old Discount <sup>%</sup></label>
+                                                        <input type="number" id="old_discount"
+                                                            class="form-control @error('old_discount') is-invalid @enderror"
+                                                            value="{{ old('old_discount', $product->old_discount) }}" name="old_discount"
+                                                            placeholder='e.g. 10'>
+                                                    </div>
+                                                    @error('old_discount')
+                                                        <div class="alert alert-danger">{{ $message }}</div>
+                                                    @enderror
+                                                </div>
 
                                                 <div class="form-check form-switch mt-2">
                                                     <input class="form-check-input"

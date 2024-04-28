@@ -1,7 +1,7 @@
 @extends('backend.master')
 
 @section('title')
-    Orders · #{{ $order->invoice_number }} · {{ SettingHelper::get('name') }}
+    Orders · #{{ $order->invoice_number }} · {{ SettingHelper::getSiteName() }}
 @endsection
 
 @section('style')

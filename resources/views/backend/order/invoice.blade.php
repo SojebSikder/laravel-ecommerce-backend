@@ -170,7 +170,7 @@
                     <div class="row justify-content-between">
                         <div>
                             <div class="header">
-                                {{ SettingHelper::get('name') }}
+                                {{ SettingHelper::getSiteName() }}
                             </div>
                         </div>
                         <div>
@@ -301,23 +301,63 @@
                                 @foreach ($order->order_items as $item)
                                     <tr>
                                         <td>
-                                            <?php
-                                            $file = Storage::get('product/' . $item->product->images[0]->image);
-                                            $file = base64_encode($file);
-                                            ?>
-                                            @if (count($item->product->images) > 0)
-                                                <a href="{{ $item->product->images[0]->image_url }}" target="_blank"
-                                                    rel="noopener noreferrer">
-                                                    <img style="width:50px; min-width: 50px;" class="img-thumbnail"
-                                                        src="data:image/png;base64,{{ $file }}"
-                                                        alt="{{ $item->product->images[0]->image }}"
-                                                        data-toggle="tooltip" data-placement="top"
-                                                        title="Click to view large mode">
-                                                </a>
+                                            @if ($item->variant_id)
+                                                @if (count($item->variant->images) > 0)
+                                                    <?php
+                                                    $file = Storage::get('product/' . $item->variant->images[0]->image);
+                                                    $file = base64_encode($file);
+                                                    ?>
+                                                    <a href="{{ $item->variant->images[0]->image_url }}"
+                                                        target="_blank" rel="noopener noreferrer">
+                                                        <img style="width:50px; min-width: 50px;" class="img-thumbnail"
+                                                            {{-- src="{{ $item->variant->images[0]->image_url }}" --}}
+                                                            src="data:image/png;base64,{{ $file }}"
+                                                            alt="{{ $item->variant->images[0]->image_url }}"
+                                                            data-bs-toggle="tooltip" data-placement="top"
+                                                            title="Click to view large mode">
+                                                    </a>
+                                                @endif
+                                            @else
+                                                @if (count($item->product->images) > 0)
+                                                    <?php
+                                                    $file = Storage::get('product/' . $item->product->images[0]->image);
+                                                    $file = base64_encode($file);
+                                                    ?>
+                                                    <a href="{{ $item->product->images[0]->image_url }}"
+                                                        target="_blank" rel="noopener noreferrer">
+                                                        <img style="width:50px; min-width: 50px;" class="img-thumbnail"
+                                                            {{-- src="{{ $item->product->images[0]->image_url }}" --}}
+                                                            src="data:image/png;base64,{{ $file }}"
+                                                            alt="{{ $item->product->images[0]->image_url }}"
+                                                            data-bs-toggle="tooltip" data-placement="top"
+                                                            title="Click to view large mode">
+                                                    </a>
+                                                @endif
                                             @endif
                                         </td>
                                         <td>
-                                            <a>{{ $item->product->name }}</a>
+                                            @if ($item->variant_id)
+                                                <a target="_blank"
+                                                    href="{{ route('variant.edit', $item->variant_id) }}">
+                                                    {{ $item->product->name }}
+
+                                                    <div>
+                                                        <span class="badge bg-secondary text-start">
+                                                            @foreach ($item->variant->variant_attributes as $variant_attribute)
+                                                                {{ $variant_attribute->attribute->name }}:
+                                                                {{ $variant_attribute->attribute_value->name }}
+                                                                <br>
+                                                            @endforeach
+                                                        </span>
+                                                    </div>
+
+                                                </a>
+                                            @else
+                                                <a target="_blank"
+                                                    href="{{ route('product.edit', $item->product_id) }}">
+                                                    {{ $item->product->name }}
+                                                </a>
+                                            @endif
 
                                             {{-- product attribute --}}
                                             @if (isset($item->attribute) && count($item->attribute) > 0)
@@ -395,7 +435,7 @@
                             <label>Thank you for shopping with us</label>
                         </div>
                         <div>
-                            <label class="font-weight-bold">{{ SettingHelper::get('name') }}</label>
+                            <label class="font-weight-bold">{{ SettingHelper::getSiteName() }}</label>
                         </div>
                         <div>
                             <label>{{ SettingHelper::get('contact_email') }}</label>

@@ -43,7 +43,7 @@ class AdminOrderConfirm extends Mailable implements ShouldQueue
             $subject = '[' . SettingHelper::get("name") . '] Order #' . $this->data->order->order_id . ' placed by someone';
         }
         return new Envelope(
-            from: new Address(SettingHelper::get('email'), SettingHelper::get('name')),
+            from: new Address(SettingHelper::get('email'), SettingHelper::getSiteName()),
             subject: $subject,
         );
     }

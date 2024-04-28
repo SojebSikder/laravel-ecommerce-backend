@@ -3,6 +3,7 @@
 namespace App\Helper;
 
 use App\Models\Setting\Currency\Currency;
+use App\Models\Setting\General\GeneralSetting;
 use App\Models\Setting\Setting\Setting;
 
 /**
@@ -10,6 +11,20 @@ use App\Models\Setting\Setting\Setting;
  */
 class SettingHelper
 {
+    /**
+     * Get site name
+     */
+    public static function getSiteName($default = null)
+    {
+        $generalSetting = GeneralSetting::first();
+        if ($generalSetting) {
+            return $generalSetting->name;
+        } else {
+            return $default;
+        }
+    }
+
+
     /**
      * Get setting value
      */
