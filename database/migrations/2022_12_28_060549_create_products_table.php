@@ -36,6 +36,7 @@ return new class extends Migration
             $table->longText('description')->nullable();
             $table->decimal('price')->nullable();
             $table->decimal('discount')->nullable();
+            $table->decimal('old_discount')->nullable();
             $table->tinyInteger('track_quantity')->nullable()->default(0);
             $table->bigInteger('quantity')->nullable();
             $table->string('sku')->nullable(); // stock keeping unit

@@ -56,6 +56,7 @@ class VariantController extends Controller
             $weight = $request->input('weight');
             $weight_unit = $request->input('weight_unit');
             $discount = $request->input('discount');
+            $old_discount = $request->input('old_discount');
             $is_sale = $request->input('is_sale') == 1 ? 1 : 0;
             $status = $request->input('status') == 1 ? 1 : 0;
 
@@ -80,6 +81,11 @@ class VariantController extends Controller
                 $variant->discount = $discount;
             } else {
                 $variant->discount = null;
+            }
+            if ($old_discount) {
+                $variant->old_discount = $old_discount;
+            } else {
+                $variant->old_discount = null;
             }
             $variant->is_sale = $is_sale;
             $variant->status = $status;
@@ -148,6 +154,7 @@ class VariantController extends Controller
             $weight = $request->input('weight');
             $weight_unit = $request->input('weight_unit');
             $discount = $request->input('discount');
+            $old_discount = $request->input('old_discount');
             $is_sale = $request->input('is_sale') == 1 ? 1 : 0;
             $status = $request->input('status') == 1 ? 1 : 0;
 
@@ -170,6 +177,11 @@ class VariantController extends Controller
                 $variant->discount = $discount;
             } else {
                 $variant->discount = null;
+            }
+            if ($old_discount) {
+                $variant->old_discount = $old_discount;
+            } else {
+                $variant->old_discount = null;
             }
             $variant->is_sale = $is_sale;
             $variant->status = $status;

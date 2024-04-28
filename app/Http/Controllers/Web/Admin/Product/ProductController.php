@@ -86,6 +86,7 @@ class ProductController extends Controller
             $weight_unit = $request->input('weight_unit');
 
             $discount = $request->input('discount');
+            $old_discount = $request->input('old_discount');
             $is_sale = $request->input('is_sale') == 1 ? 1 : 0;
             // seo
             $meta_title = $request->input('meta_title');
@@ -126,6 +127,11 @@ class ProductController extends Controller
                 $product->discount = $discount;
             } else {
                 $product->discount = null;
+            }
+            if ($old_discount) {
+                $product->old_discount = $old_discount;
+            } else {
+                $product->old_discount = null;
             }
             $product->is_sale = $is_sale;
 
@@ -230,6 +236,7 @@ class ProductController extends Controller
             $weight_unit = $request->input('weight_unit');
 
             $discount = $request->input('discount');
+            $old_discount = $request->input('old_discount');
             $is_sale = $request->input('is_sale') == 1 ? 1 : 0;
             // seo
             $meta_title = $request->input('meta_title');
@@ -270,6 +277,11 @@ class ProductController extends Controller
                 $product->discount = $discount;
             } else {
                 $product->discount = null;
+            }
+            if ($old_discount) {
+                $product->old_discount = $old_discount;
+            } else {
+                $product->old_discount = null;
             }
             $product->is_sale = $is_sale;
 
