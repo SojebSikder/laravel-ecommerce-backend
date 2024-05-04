@@ -68,6 +68,13 @@ class CartController extends Controller
             // user id
             $user_id = auth("api")->user()->id;
 
+            if ($quantity <= 0) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Quantity must be greater than 0',
+                ]);
+            }
+
 
             // check if product is available
             $product = Product::where('id', $product_id)->first();
