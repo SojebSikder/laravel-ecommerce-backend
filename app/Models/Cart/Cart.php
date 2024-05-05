@@ -49,9 +49,10 @@ class Cart extends Model
     {
         $total = 0.0;
         if ($this->product->is_sale == 1) {
-            $total += StringHelper::discount($this->product->price, $this->product->discount);
+            // $total += StringHelper::discount($this->product->price, $this->product->discount);
+            $total += ($this->product->new_price * $this->quantity);
         } else {
-            $total += $this->product->price;
+            $total += ($this->product->new_price * $this->quantity);
         }
 
         return $total;
@@ -68,9 +69,10 @@ class Cart extends Model
             $price = 0.0;
 
             if ($cart['product']['is_sale'] == 1) {
-                return $price + StringHelper::discount($cart['product']['price'], $cart['product']['discount']);
+                // return ($price * $cart['quantity']) + StringHelper::discount($cart['product']['price'], $cart['product']['discount']);
+                return $price + ($cart['product']['new_price'] * $cart['quantity']);
             } else {
-                return $price + (float) $cart['product']['price'];
+                return $price + ((float) $cart['product']['new_price'] * $cart['quantity']);
             }
         }, $carts->toArray());
 
