@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api\App\Cart;
 
+use App\Helper\SettingHelper;
 use App\Http\Controllers\Controller;
 use App\Models\Cart\Cart;
 use App\Models\Product\Product;
@@ -22,6 +23,8 @@ class CartController extends Controller
         $carts = Cart::with('product', 'variant')->where('user_id', $user_id)->get();
 
         return response()->json([
+            'currency_sign' => SettingHelper::currency_sign(),
+            'currency_code' => SettingHelper::currency_code(),
             'coupon_discounted' => Cart::coupon_price(),
             'order_total' => Cart::order_total(),
             'subtotal' => Cart::subtotal(),
