@@ -65,6 +65,10 @@ class CartController extends Controller
     public function store(Request $request)
     {
         try {
+            if (!auth("api")->user()) {
+                return response()->json(['message' => 'Please login first'], 500);
+            }
+
             $product_id = $request->input('product_id');
             $variant_id = $request->input('variant_id');
             $quantity = $request->input('quantity');
