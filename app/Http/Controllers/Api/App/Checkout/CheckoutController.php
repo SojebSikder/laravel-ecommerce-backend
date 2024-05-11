@@ -129,6 +129,7 @@ class CheckoutController extends Controller
 
             return response()->json([
                 'success' => true,
+                'message' => "Success",
                 'data' => [
                     'checkout_id' => $checkout->uuid,
                 ]
