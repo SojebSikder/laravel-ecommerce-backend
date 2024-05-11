@@ -16,7 +16,7 @@ class ShippingController extends Controller
      */
     public function index()
     {
-        $shipping = Shipping::select('id', 'name')->with(['shopping_zones' => function ($query) {
+        $shipping = Shipping::select('id', 'name')->with(['shipping_zones' => function ($query) {
             $query->select('id', 'shipping_id', 'name', 'price');
         }])->first();
 

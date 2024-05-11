@@ -9,7 +9,7 @@ class Shipping extends Model
 {
     use HasFactory;
 
-    public function shopping_zones()
+    public function shipping_zones()
     {
         return $this->hasMany(ShippingZone::class);
     }
