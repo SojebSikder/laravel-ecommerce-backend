@@ -189,7 +189,7 @@ class CheckoutController extends Controller
         if ($checkout) {
             return response()->json([
                 'coupon_discounted' => Checkout::coupon_price($id),
-                'order_total' => Checkout::order_total($id),
+                'total' => Checkout::order_total($id),
                 'subtotal' => Checkout::subtotal($id),
                 'success' => true,
                 'data' => $checkout,
