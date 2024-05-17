@@ -4,8 +4,8 @@ namespace App\Http\Controllers\Api\App\Payment;
 
 use App\Helper\SettingHelper;
 use App\Http\Controllers\Controller;
-use App\Http\Helper\Payment\Method\StripeMethod;
-use App\Http\Helper\Payment\PaymentMethodHelper;
+use App\Helper\Payment\Method\StripeMethod;
+use App\Helper\Payment\PaymentMethodHelper;
 use App\Models\Order\Order;
 use App\Models\Payment\PaymentProvider;
 use App\Models\Payment\PaymentTransaction;
@@ -179,7 +179,7 @@ class PaymentController extends Controller
     /**
      * Pay existing unpaid order
      */
-    private function makePayment($order, $paymentProvider = 'stripe')
+    public function makePayment($order, $paymentProvider = 'stripe')
     {
         try {
             $loggedInUser = auth('api')->user();
@@ -193,23 +193,25 @@ class PaymentController extends Controller
                         'price_data' => [
                             'currency' => SettingHelper::currency_code(),
                             'product_data' => [
-                                'name' => $item['variant']['product']['title'] . ($item['variant']['material'] ? ('-' . $item['variant']['material']['title']) : ""),
+                                'name' => $item['product']['name'],
                             ],
                             'unit_amount' => (float)$item['total_price'] * 100, // cent to dollar
                         ],
-                        'quantity' => $item['qnty'],
+                        'quantity' => $item['quantity'],
                     ]);
                 }
 
 
                 // pay
-                $paymentMethod = new PaymentMethodHelper(new StripeMethod($order, $items));
-                $paymentUrl = $paymentMethod->store();
+                // $paymentMethod = new PaymentMethodHelper(new StripeMethod($order, $items));
+                // $paymentUrl = $paymentMethod->store();
+                $stripe = new StripeMethod($order, $items);
+                $paymentUrl = $stripe->checkout();
 
+                // return $paymentUrl;
                 return [
                     'status' => 'success',
-                    'client_secret' => $paymentUrl->client_secret,
-                    'id' => $paymentUrl->id,
+                    'payment_info' => $paymentUrl,
                 ];
             }
         } catch (\Throwable $th) {

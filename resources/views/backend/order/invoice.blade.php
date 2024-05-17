@@ -369,8 +369,8 @@
                                             @endif
                                         </td>
                                         <td>
-                                            @if ($item->qnty)
-                                                {{ $item->qnty }}
+                                            @if ($item->quantity)
+                                                {{ $item->quantity }}
                                             @else
                                                 1
                                             @endif

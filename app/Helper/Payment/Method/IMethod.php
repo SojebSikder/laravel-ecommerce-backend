@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Helper\Payment\Method;
+namespace App\Helper\Payment\Method;
 
 /**
  * Stripe Payment method

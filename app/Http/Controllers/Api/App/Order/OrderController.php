@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\App\Order;
 
 use App\Helper\SettingHelper;
+use App\Http\Controllers\Api\App\Payment\PaymentController;
 use App\Http\Controllers\Controller;
 use App\Mail\Admin\Order\AdminOrderConfirm;
 use App\Mail\User\Order\OrderConfirm;
@@ -20,6 +21,7 @@ use App\Models\Order\Status;
 use App\Models\Payment\PaymentProvider;
 use App\Models\Product\Product;
 use App\Models\Shipping\ShippingZone;
+use Faker\Provider\ar_EG\Payment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
@@ -353,7 +355,13 @@ class OrderController extends Controller
 
 
             $customerOrder = Order::find($order->id);
-            // TODO make payment
+            // make payment
+            $paymentController = new PaymentController();
+            $redirect = false;
+            $redirect_url = $paymentController->makePayment($customerOrder, $payment_provider->name);
+            if ($payment_provider->name == "stripe") {
+                $redirect = true;
+            }
 
 
             /**
@@ -385,10 +393,20 @@ class OrderController extends Controller
             DB::commit();
 
             // response
-            return response()->json([
-                'success' => true,
-                'message' => 'Order placed successfully',
-            ]);
+            if ($redirect_url['status'] == 'success') {
+                return response()->json([
+                    'redirect_url' => $redirect_url['payment_info']['url'],
+                    'redirect' => $redirect,
+                    'success' => true,
+                    'message' => 'Order placed successfully, proceeding to payment.',
+                ]);
+            } else {
+                return response()->json([
+                    'redirect' => false,
+                    'success' => false,
+                    'message' => $redirect_url['message'],
+                ]);
+            }
         } catch (\Throwable $th) {
             DB::rollBack();
             throw $th;
