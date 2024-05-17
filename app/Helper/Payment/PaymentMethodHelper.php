@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Http\Helper\Payment;
+namespace App\Helper\Payment;
 
-use App\Http\Helper\Payment\Method\IMethod;
+use App\Helper\Payment\Method\IMethod;
 
 /**
  * Payment method Helper

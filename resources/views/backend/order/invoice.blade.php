@@ -212,9 +212,9 @@
                                 <div>
                                     {{ $order->order_shipping_address->state }}
                                 </div>
-                                @if ($order->order_shipping_address->country)
+                                @if ($order->order_shipping_address->country_info)
                                     <div>
-                                        {{ $order->order_shipping_address->country->name }}
+                                        {{ $order->order_shipping_address->country_info->name }}
                                     </div>
                                 @endif
                             @endif
@@ -248,7 +248,7 @@
                                             {{ $order->order_billing_address->state }}
                                         </div>
                                         <div>
-                                            {{ $order->order_billing_address->country->name }}
+                                            {{ $order->order_billing_address->country_info->name }}
                                         </div>
                                     @endif
                                 @else
@@ -272,9 +272,9 @@
                                         <div>
                                             {{ $order->order_shipping_address->state }}
                                         </div>
-                                        @if ($order->order_shipping_address->country)
+                                        @if ($order->order_shipping_address->country_info)
                                             <div>
-                                                {{ $order->order_shipping_address->country->name }}
+                                                {{ $order->order_shipping_address->country_info->name }}
                                             </div>
                                         @endif
                                     @endif
@@ -369,8 +369,8 @@
                                             @endif
                                         </td>
                                         <td>
-                                            @if ($item->qnty)
-                                                {{ $item->qnty }}
+                                            @if ($item->quantity)
+                                                {{ $item->quantity }}
                                             @else
                                                 1
                                             @endif

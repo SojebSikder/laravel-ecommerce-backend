@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Helper\Payment\Method;
+namespace App\Helper\Payment\Method;
 
 use App\Helper\SettingHelper;
 use Stripe\Stripe;
@@ -31,7 +31,7 @@ class StripeMethod implements IMethod
     public function checkout()
     {
         try {
-            Stripe::setApiKey(env('STRIPE_SECRET_KEY'));
+            Stripe::setApiKey(env('STRIPE_SECRET'));
             $session = \Stripe\Checkout\Session::create([
                 // 'line_items' => [
                 //     [

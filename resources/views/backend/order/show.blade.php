@@ -344,7 +344,7 @@
                                                                                     @foreach ($countries as $country)
                                                                                         <option
                                                                                             value="{{ $country->id }}"
-                                                                                            @if ($order->order_shipping_address->country && $order->order_shipping_address->country->id == $country->id) selected @endif>
+                                                                                            @if ($order->order_shipping_address->country_info && $order->order_shipping_address->country_info->id == $country->id) selected @endif>
                                                                                             {{ $country->name }}
                                                                                         </option>
                                                                                     @endforeach
@@ -480,7 +480,7 @@
                                                                                         @foreach ($countries as $country)
                                                                                             <option
                                                                                                 value="{{ $country->id }}"
-                                                                                                @if ($order->order_billing_address->country && $order->order_billing_address->country->id == $country->id) selected @endif>
+                                                                                                @if ($order->order_billing_address->country_info && $order->order_billing_address->country_info->id == $country->id) selected @endif>
                                                                                                 {{ $country->name }}
                                                                                             </option>
                                                                                         @endforeach
@@ -966,9 +966,9 @@
                                                                             <div>
                                                                                 {{ $order->order_shipping_address->state }}
                                                                             </div>
-                                                                            @if ($order->order_shipping_address->country)
+                                                                            @if ($order->order_shipping_address->country_info)
                                                                                 <div>
-                                                                                    {{ $order->order_shipping_address->country->name }}
+                                                                                    {{ $order->order_shipping_address->country_info->name }}
                                                                                 </div>
                                                                             @endif
                                                                         @endif
