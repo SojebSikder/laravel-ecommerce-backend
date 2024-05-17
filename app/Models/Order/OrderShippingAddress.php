@@ -10,7 +10,7 @@ class OrderShippingAddress extends Model
 {
     use HasFactory;
 
-    public function country()
+    public function country_info()
     {
         return $this->belongsTo(Country::class, 'country_id');
     }

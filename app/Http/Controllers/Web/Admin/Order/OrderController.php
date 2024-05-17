@@ -33,7 +33,7 @@ class OrderController extends Controller
     public function index(Request $request)
     {
         abort_if(Gate::denies('order_management_read'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-        
+
         // search query
         $q = $request->input('q');
         // filter

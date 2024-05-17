@@ -60,11 +60,11 @@ class Order extends Model
 
     public function order_shipping_address()
     {
-        return $this->belongsTo(OrderShippingAddress::class, 'order_shipping_address_id')->with('country');
+        return $this->belongsTo(OrderShippingAddress::class, 'order_shipping_address_id')->with('country_info');
     }
 
     public function order_billing_address()
     {
-        return $this->belongsTo(OrderShippingAddress::class, 'order_billing_address_id')->with('country');
+        return $this->belongsTo(OrderShippingAddress::class, 'order_billing_address_id')->with('country_info');
     }
 }
