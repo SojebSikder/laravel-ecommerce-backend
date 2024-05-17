@@ -60,7 +60,7 @@ class ShippingController extends Controller
             ->with(['countries' => function ($query) {
                 $query->select('countries.id', 'name', 'country_code', 'dial_code', 'flag');
             }, 'payment_providers' => function ($query) {
-                $query->select('payment_providers.id', 'label', 'name');
+                $query->select('payment_providers.id', 'label', 'name')->where('payment_providers.status', 1);
             }])
             ->find($id);
 
