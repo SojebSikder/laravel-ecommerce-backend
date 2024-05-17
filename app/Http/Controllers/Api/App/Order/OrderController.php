@@ -130,7 +130,7 @@ class OrderController extends Controller
                 $updateCheckout = Checkout::with('checkout_items')
                     ->where('uuid', $checkout_id)
                     ->first();
-                $updateCheckout->user_id =  $loggedInUser;
+                $updateCheckout->user_id = $loggedInUser->id;
                 $updateCheckout->save();
             }
 
