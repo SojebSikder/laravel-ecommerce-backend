@@ -86,7 +86,7 @@ class OrderController extends Controller
                 'shipping_city' => 'required',
                 'shipping_address1' => 'required',
                 'shipping_country' => 'required',
-                'shipping_zone_id' => 'required',
+                // 'shipping_zone_id' => 'required',
                 'payment_provider_id' => 'required',
             ];
 
