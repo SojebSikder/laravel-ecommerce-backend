@@ -17,7 +17,9 @@ class FooterController extends Controller
     {
         $footers = Footer::with(['items' => function ($query) {
             $query->where('status', 1);
-        }])->orderBy("sort_order", "asc")->get();
+        }])->orderBy("sort_order", "asc")
+            ->where('status', 1)
+            ->get();
 
         return response()->json([
             'success' => true,
