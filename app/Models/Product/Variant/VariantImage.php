@@ -25,6 +25,10 @@ class VariantImage extends Model
 
     public function getImageUrlAttribute()
     {
-        return Storage::url(config('constants.uploads.product') . '/' . $this->image);
+        if ($this->image) {
+            return Storage::url(config('constants.uploads.product') . '/' . $this->image);
+        } else {
+            return null;
+        }
     }
 }
