@@ -16,12 +16,19 @@ class ProductController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
+        $category_id = $request->input('category');
+
         // lazy loading
         $default_limit = 40;
 
         $products = Product::query()->with('images')->where('status', 1);
+        if ($category_id) {
+            $products = $products->whereHas('categories', function ($query) use ($category_id) {
+                return $query->where('category_id', $category_id);
+            });
+        }
         $products = $products->latest()->paginate($default_limit);
 
         return response()->json([
@@ -37,7 +44,7 @@ class ProductController extends Controller
 
         $products = Category::query()->where('status', 1)->with(['products' => function ($query) {
             $query->latest()->limit(10);
-        }]);
+        }])->where('parent_id', null);
         $products = $products->latest()->paginate($default_limit);
 
         return response()->json([
