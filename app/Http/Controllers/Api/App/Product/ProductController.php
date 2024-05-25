@@ -71,6 +71,47 @@ class ProductController extends Controller
     }
 
     /**
+     * Search product
+     */
+    public function search(Request $request)
+    {
+        try {
+            // measure the search time
+            $start = microtime(TRUE);
+            $search_text = $request->input('q');
+
+            // lazy loading
+            $default_limit = 40;
+
+            $product = Product::query()->with('images')->where('status', 1)
+                ->where(function ($query) use ($search_text) {
+                    $query->where('name', 'like', '%' . $search_text . '%')
+                        ->orWhere('meta_keyword', 'like', '%' . $search_text . '%')
+                        ->orWhere('meta_description', 'like', '%' . $search_text . '%');
+                });
+
+
+            $product = $product->latest()->paginate($default_limit);
+
+            $end = microtime(TRUE);
+            $time = number_format($end - $start, 2, '.', '');
+
+            return response()->json([
+                'time' => $time . ' ms',
+                'count' => $product->total(),
+                'data' => $product,
+                'success' => true
+            ]);
+        } catch (\Throwable $th) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Something went wrong'
+                // 'message' => $th->getMessage()
+            ]);
+        }
+    }
+
+    /**
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response

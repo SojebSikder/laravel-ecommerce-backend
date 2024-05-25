@@ -42,7 +42,7 @@ class PaymentController extends Controller
 
             if (!$customerOrder) {
                 return response()->json([
-                    'status' => 'error',
+                    'success' => false,
                     'message' => 'Order not exist',
                 ]);
             }
@@ -50,7 +50,7 @@ class PaymentController extends Controller
             // make payment
             if ($payment_provider->name == "cod") {
 
-                $res_status = 'success';
+                $res_status = true;
                 // $res_message = 'Order placed successfully';
                 $res_message = 'Your order #' . $customerOrder->order_id . ' is placed at ' . SettingHelper::get('name') . ' and details emailed you';
                 $provider = 'cod';
@@ -58,14 +58,14 @@ class PaymentController extends Controller
                 $provider = $payment_provider->name;
                 $redirect_url = $this->makePayment($customerOrder, $provider);
 
-                if ($redirect_url['status'] == 'success') {
-                    $res_status = 'success';
+                if ($redirect_url['success'] == true) {
+                    $res_status = true;
                     // $res_message = 'Order placed successfully';
                     $res_message = 'Your order #' . $customerOrder->order_id . ' is placed at ' . SettingHelper::get('name') . ' and details emailed you';
                     $res_client_secret = $redirect_url['client_secret'];
                     $res_transaction_id = $redirect_url['id'];
                 } else {
-                    $res_status = 'success';
+                    $res_status = true;
                     // $res_message = 'Order placed successfully';
                     $res_message = 'Your order #' . $customerOrder->order_id . ' is placed at ' . SettingHelper::get('name') . ' and details emailed you';
                 }
@@ -74,14 +74,14 @@ class PaymentController extends Controller
             // response
             if ($provider == 'cod') {
                 return response()->json([
-                    'status' => $res_status,
+                    'success' => $res_status,
                     'provider' => $provider,
                     'message' => $res_message,
                 ]);
             } else if ($provider == StripeMethod::$provider_name) {
                 if ($res_client_secret) {
                     return response()->json([
-                        'status' => $res_status,
+                        'success' => $res_status,
                         'provider' => $provider,
                         'message' => $res_message,
                         'client_secret' => $res_client_secret,
@@ -91,13 +91,13 @@ class PaymentController extends Controller
                 }
             } else {
                 return response()->json([
-                    'status' => $res_status,
+                    'success' => $res_status,
                     'message' => $res_message,
                 ]);
             }
         } catch (\Throwable $th) {
             return response()->json([
-                'status' => 'error',
+                'success' => false,
                 'message' => $th->getMessage(),
             ]);
         }
@@ -154,23 +154,23 @@ class PaymentController extends Controller
                     $payment_transaction->save();
 
                     return response()->json([
-                        'status' => 'success',
+                        'success' => 'success',
                         'message' => "Payment sucessful",
                     ]);
                 }
                 return response()->json([
-                    'status' => 'success',
+                    'success' => 'success',
                     'message' => "Payment already paid before",
                 ]);
             } else {
                 return response()->json([
-                    'status' => 'error',
+                    'success' => false,
                     'message' => "Payment unsucessful",
                 ]);
             }
         } else {
             return response()->json([
-                'status' => 'error',
+                'success' => false,
                 'message' => "Payment provider not found :(",
             ]);
         }
@@ -210,13 +210,13 @@ class PaymentController extends Controller
 
                 // return $paymentUrl;
                 return [
-                    'status' => 'success',
+                    'success' => 'success',
                     'payment_info' => $paymentUrl,
                 ];
             }
         } catch (\Throwable $th) {
             return [
-                'status' => 'error',
+                'success' => false,
                 // 'message' => "Something went wrong :(",
                 'message' => $th->getMessage(),
             ];
