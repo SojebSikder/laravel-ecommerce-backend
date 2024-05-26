@@ -16,12 +16,19 @@ class ProductController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
+        $category_id = $request->input('category');
+
         // lazy loading
         $default_limit = 40;
 
         $products = Product::query()->with('images')->where('status', 1);
+        if ($category_id) {
+            $products = $products->whereHas('categories', function ($query) use ($category_id) {
+                return $query->where('category_id', $category_id);
+            });
+        }
         $products = $products->latest()->paginate($default_limit);
 
         return response()->json([
@@ -35,9 +42,10 @@ class ProductController extends Controller
         // lazy loading
         $default_limit = 40;
 
-        $products = Category::query()->where('status', 1)->with(['products' => function ($query) {
-            $query->latest()->limit(10);
-        }]);
+        $products = Category::query()->has('products')->where('status', 1)
+            ->with(['products' => function ($query) {
+                $query->latest()->limit(10);
+            }])->where('parent_id', null);
         $products = $products->latest()->paginate($default_limit);
 
         return response()->json([
@@ -61,6 +69,47 @@ class ProductController extends Controller
             'success' => true,
             'data' => $products,
         ]);
+    }
+
+    /**
+     * Search product
+     */
+    public function search(Request $request)
+    {
+        try {
+            // measure the search time
+            $start = microtime(TRUE);
+            $search_text = $request->input('q');
+
+            // lazy loading
+            $default_limit = 40;
+
+            $product = Product::query()->with('images')->where('status', 1)
+                ->where(function ($query) use ($search_text) {
+                    $query->where('name', 'like', '%' . $search_text . '%')
+                        ->orWhere('meta_keyword', 'like', '%' . $search_text . '%')
+                        ->orWhere('meta_description', 'like', '%' . $search_text . '%');
+                });
+
+
+            $product = $product->latest()->paginate($default_limit);
+
+            $end = microtime(TRUE);
+            $time = number_format($end - $start, 2, '.', '');
+
+            return response()->json([
+                'time' => $time . ' ms',
+                'count' => $product->total(),
+                'data' => $product,
+                'success' => true
+            ]);
+        } catch (\Throwable $th) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Something went wrong'
+                // 'message' => $th->getMessage()
+            ]);
+        }
     }
 
     /**

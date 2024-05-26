@@ -36,13 +36,11 @@ class PaymentController extends Controller
             $payment_provider = PaymentProvider::find($payment_provider_id);
             $res_status = null;
             $res_message = null;
-            $res_client_secret = null;
-            $res_transaction_id = null;
             $provider = null;
 
             if (!$customerOrder) {
                 return response()->json([
-                    'status' => 'error',
+                    'success' => false,
                     'message' => 'Order not exist',
                 ]);
             }
@@ -50,54 +48,56 @@ class PaymentController extends Controller
             // make payment
             if ($payment_provider->name == "cod") {
 
-                $res_status = 'success';
+                $res_status = true;
                 // $res_message = 'Order placed successfully';
-                $res_message = 'Your order #' . $customerOrder->order_id . ' is placed at ' . SettingHelper::get('name') . ' and details emailed you';
+                $res_message = 'Your order #' . $customerOrder->invoice_number . ' is placed at ' . SettingHelper::get('name') . ' and details emailed you';
                 $provider = 'cod';
             } else if ($payment_provider->name == StripeMethod::$provider_name) {
                 $provider = $payment_provider->name;
                 $redirect_url = $this->makePayment($customerOrder, $provider);
 
-                if ($redirect_url['status'] == 'success') {
-                    $res_status = 'success';
+                if ($redirect_url['success'] == true) {
+                    $res_status = true;
                     // $res_message = 'Order placed successfully';
-                    $res_message = 'Your order #' . $customerOrder->order_id . ' is placed at ' . SettingHelper::get('name') . ' and details emailed you';
-                    $res_client_secret = $redirect_url['client_secret'];
-                    $res_transaction_id = $redirect_url['id'];
+                    $res_message = 'Your order #' . $customerOrder->invoice_number . ' is placed at ' . SettingHelper::get('name') . ' and details emailed you';
                 } else {
-                    $res_status = 'success';
+                    $res_status = true;
                     // $res_message = 'Order placed successfully';
-                    $res_message = 'Your order #' . $customerOrder->order_id . ' is placed at ' . SettingHelper::get('name') . ' and details emailed you';
+                    $res_message = 'Your order #' . $customerOrder->invoice_number . ' is placed at ' . SettingHelper::get('name') . ' and details emailed you';
                 }
             }
 
             // response
             if ($provider == 'cod') {
                 return response()->json([
-                    'status' => $res_status,
+                    'success' => true,
                     'provider' => $provider,
                     'message' => $res_message,
                 ]);
             } else if ($provider == StripeMethod::$provider_name) {
-                if ($res_client_secret) {
+                if ($redirect_url['success'] == true) {
                     return response()->json([
-                        'status' => $res_status,
-                        'provider' => $provider,
-                        'message' => $res_message,
-                        'client_secret' => $res_client_secret,
-                        'transaction_id' => $res_transaction_id,
-                        'order_details' => $customerOrder,
+                        'redirect_url' => $redirect_url['payment_info']['url'],
+                        'redirect' => true,
+                        'success' => true,
+                        'message' => 'Order placed successfully, proceeding to payment.',
+                    ]);
+                } else {
+                    return response()->json([
+                        'redirect' => false,
+                        'success' => false,
+                        'message' => $redirect_url['message'],
                     ]);
                 }
             } else {
                 return response()->json([
-                    'status' => $res_status,
+                    'success' => $res_status,
                     'message' => $res_message,
                 ]);
             }
         } catch (\Throwable $th) {
             return response()->json([
-                'status' => 'error',
+                'success' => false,
                 'message' => $th->getMessage(),
             ]);
         }
@@ -145,7 +145,7 @@ class PaymentController extends Controller
                     if ($loggedInUser) {
                         $payment_transaction->user_id = $loggedInUser->id;
                     }
-                    $payment_transaction->order_id = $order_id;
+                    $payment_transaction->invoice_number = $order_id;
                     $payment_transaction->transaction_id = $transaction_id;
                     $payment_transaction->transaction_provider = $payment_provider->name;
                     $payment_transaction->amount = $paymentDetails->amount != 0 ? ((float)$paymentDetails->amount / 100) : 0; // converting to dollar
@@ -154,23 +154,23 @@ class PaymentController extends Controller
                     $payment_transaction->save();
 
                     return response()->json([
-                        'status' => 'success',
+                        'success' => true,
                         'message' => "Payment sucessful",
                     ]);
                 }
                 return response()->json([
-                    'status' => 'success',
+                    'success' => true,
                     'message' => "Payment already paid before",
                 ]);
             } else {
                 return response()->json([
-                    'status' => 'error',
+                    'success' => false,
                     'message' => "Payment unsucessful",
                 ]);
             }
         } else {
             return response()->json([
-                'status' => 'error',
+                'success' => false,
                 'message' => "Payment provider not found :(",
             ]);
         }
@@ -187,6 +187,20 @@ class PaymentController extends Controller
                 // preparing data for stripe
                 $items = [];
                 $itemArray = collect($order->order_items)->toArray();
+
+                // shipping charge
+                if ((float)$order->shipping_charge > 0) {
+                    array_push($items, [
+                        'price_data' => [
+                            'currency' => SettingHelper::currency_code(),
+                            'product_data' => [
+                                'name' => 'Shipping Charge',
+                            ],
+                            'unit_amount' => (float)$order->shipping_charge * 100, // cent to dollar
+                        ],
+                        'quantity' => 1,
+                    ]);
+                }
 
                 foreach ($itemArray as $item) {
                     array_push($items, [
@@ -210,13 +224,13 @@ class PaymentController extends Controller
 
                 // return $paymentUrl;
                 return [
-                    'status' => 'success',
+                    'success' => true,
                     'payment_info' => $paymentUrl,
                 ];
             }
         } catch (\Throwable $th) {
             return [
-                'status' => 'error',
+                'success' => false,
                 // 'message' => "Something went wrong :(",
                 'message' => $th->getMessage(),
             ];

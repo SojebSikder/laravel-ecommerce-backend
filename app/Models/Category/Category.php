@@ -26,7 +26,11 @@ class Category extends Model
 
     public function getImageUrlAttribute()
     {
-        return Storage::url(config('constants.uploads.category') . '/' . $this->image);
+        if ($this->image) {
+            return Storage::url(config('constants.uploads.category') . '/' . $this->image);
+        } else {
+            return null;
+        }
     }
 
     public function products()
