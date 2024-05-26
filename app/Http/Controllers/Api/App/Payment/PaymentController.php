@@ -127,7 +127,7 @@ class PaymentController extends Controller
             $retrieveCheckout = new StripeMethod();
             $paymentDetails = $retrieveCheckout->retrieveCheckout($transaction_id);
 
-            $amount_received = $paymentDetails->amount_received != 0 ? ((float)$paymentDetails->amount_received / 100) : 0; // converting to dollar
+            $amount_received = $paymentDetails->amount_subtotal != 0 ? ((float)$paymentDetails->amount_subtotal / 100) : 0; // converting to dollar
             $currency = $paymentDetails->currency;
             $status = $paymentDetails->status;
             $payment_status = $paymentDetails->payment_status;
