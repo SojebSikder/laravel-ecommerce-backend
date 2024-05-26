@@ -21,7 +21,6 @@ use App\Models\Order\Status;
 use App\Models\Payment\PaymentProvider;
 use App\Models\Product\Product;
 use App\Models\Shipping\ShippingZone;
-use Faker\Provider\ar_EG\Payment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
@@ -393,7 +392,11 @@ class OrderController extends Controller
             DB::commit();
 
             // response
-            if ($redirect_url['status'] == 'success') {
+            if ($redirect_url['success'] == true) {
+                // save payment transaction id
+                $customerOrder->payment_ref_id = $redirect_url['payment_info']['id'];
+                $customerOrder->save();
+
                 return response()->json([
                     'redirect_url' => $redirect_url['payment_info']['url'],
                     'redirect' => $redirect,
