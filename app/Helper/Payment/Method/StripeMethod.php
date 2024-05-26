@@ -64,7 +64,7 @@ class StripeMethod implements IMethod
     public function storePaymentIntent()
     {
         try {
-            $stripe = new \Stripe\StripeClient(env('STRIPE_SECRET_KEY'));
+            $stripe = new \Stripe\StripeClient(env('STRIPE_SECRET'));
 
             $intent = $stripe->paymentIntents->create(
                 [
@@ -81,13 +81,28 @@ class StripeMethod implements IMethod
         }
     }
 
+
+    /**
+     * Retrieve payment using stripe built in checkout
+     */
+    public function retrieveCheckout($id)
+    {
+        try {
+            Stripe::setApiKey(env('STRIPE_SECRET'));
+            $session = \Stripe\Checkout\Session::retrieve($id);
+            return $session;
+        } catch (\Throwable $th) {
+            throw $th;
+        }
+    }
+
     /**
      * Make payment using stripe payment intent for custom ui
      */
     public function retrievePaymentIntent($id)
     {
         try {
-            $stripe = new \Stripe\StripeClient(env('STRIPE_SECRET_KEY'));
+            $stripe = new \Stripe\StripeClient(env('STRIPE_SECRET'));
             $intent = $stripe->paymentIntents->retrieve(
                 $id,
                 []
