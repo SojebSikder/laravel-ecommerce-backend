@@ -47,8 +47,8 @@ class StripeMethod implements IMethod
                 // ],
                 'line_items' => $this->items,
                 'mode' => 'payment',
-                'success_url' => env('APP_URL') . '/api/payment?status=success',
-                'cancel_url' => env('APP_URL') . '/api/payment?status=cancel',
+                'success_url' => env('CLIENT_APP_URL') . '/payment/success',
+                'cancel_url' => env('CLIENT_APP_URL') . '/payment/cancel',
             ]);
             // return $session->url;
             return $session;

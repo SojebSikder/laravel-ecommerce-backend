@@ -188,6 +188,20 @@ class PaymentController extends Controller
                 $items = [];
                 $itemArray = collect($order->order_items)->toArray();
 
+                // shipping charge
+                if ((float)$order->shipping_charge > 0) {
+                    array_push($items, [
+                        'price_data' => [
+                            'currency' => SettingHelper::currency_code(),
+                            'product_data' => [
+                                'name' => 'Shipping Charge',
+                            ],
+                            'unit_amount' => (float)$order->shipping_charge * 100, // cent to dollar
+                        ],
+                        'quantity' => 1,
+                    ]);
+                }
+
                 foreach ($itemArray as $item) {
                     array_push($items, [
                         'price_data' => [
