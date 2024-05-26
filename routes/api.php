@@ -70,7 +70,7 @@ Route::resource("order", OrderController::class);
 
 // payment
 Route::post("/payment/pay", [PaymentController::class, 'payment']);
-Route::post("/payment/status", [PaymentController::class, 'payment_success']);
+Route::post("/payment/stripe_webhook", [PaymentController::class, 'stripe_webhook']);
 
 
 // cart

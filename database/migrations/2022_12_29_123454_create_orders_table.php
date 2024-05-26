@@ -22,7 +22,7 @@ return new class extends Migration
              */
             // this will be using to track user order
             $table->string('invoice_number')->nullable()->unique();
-            // this is payment ref id for other payment gateway like bsecure
+            // this is payment ref id for other payment gateway like stripe
             $table->text('payment_ref_id')->nullable();
             // for additional custom information (currently not using) 
             $table->longText('properties')->nullable();

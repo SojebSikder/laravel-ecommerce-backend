@@ -57,6 +57,11 @@ class PaymentController extends Controller
                 $redirect_url = $this->makePayment($customerOrder, $provider);
 
                 if ($redirect_url['success'] == true) {
+
+                    // save payment transaction id
+                    $customerOrder->payment_ref_id = $redirect_url['payment_info']['id'];
+                    $customerOrder->save();
+
                     $res_status = true;
                     // $res_message = 'Order placed successfully';
                     $res_message = 'Your order #' . $customerOrder->invoice_number . ' is placed at ' . SettingHelper::get('name') . ' and details emailed you';
@@ -104,75 +109,51 @@ class PaymentController extends Controller
     }
 
 
-    public function payment_success(Request $request)
+    public function stripe_webhook(Request $request)
     {
-        $payment_provider_id = $request->input('payment_provider_id');
-        $order_id = $request->input('order_id');
-        $transaction_id = $request->input('transaction_id');
-        // this if for bsecure
-        $provider_name = $request->input('provider_name');
-        // bsecure id
-        $order_ref = $request->input('order_ref');
+        try {
+            $payload = json_decode($request->getContent(), true);
+            $event = $payload['type'];
+            $data = $payload['data']['object'];
+
+            $transaction_id = $data['id'];
 
 
-        $loggedInUser = auth('api')->user();
-        // ?order_ref=ddf07145-666f-45cd-90cd-2b900fc73949
-        // get payment provider
-        if ($payment_provider_id) {
-            $payment_provider = PaymentProvider::find($payment_provider_id);
-        } else if ($provider_name) {
-            $payment_provider = PaymentProvider::where('name', $provider_name)->first();
-        }
-
-        if ($payment_provider->name == StripeMethod::$provider_name) {
             // get payment details
-            $retrievePaymentIntent = new PaymentMethodHelper(new StripeMethod());
-            $paymentDetails = $retrievePaymentIntent->retrieve($transaction_id);
+            $retrieveCheckout = new StripeMethod();
+            $paymentDetails = $retrieveCheckout->retrieveCheckout($transaction_id);
 
+            $amount_received = $paymentDetails->amount_received != 0 ? ((float)$paymentDetails->amount_received / 100) : 0; // converting to dollar
+            $currency = $paymentDetails->currency;
+            $status = $paymentDetails->status;
+            $payment_status = $paymentDetails->payment_status;
 
-            if ($paymentDetails->status == "succeeded") {
-                // mark payment status to paid
-                $order = Order::find($order_id);
-                $order->payment_status = "paid";
-                $order->save();
+            // mark payment status to paid
+            $order = Order::where('payment_ref_id', $transaction_id)->first();
 
-                // store transaction history
-                $is_payment_transaction = PaymentTransaction::where('transaction_id', $transaction_id)
-                    ->where('order_id', $order_id)->first();
+            $order->payment_status = $payment_status;
+            $order->paid_amount = $amount_received;
+            $order->paid_currency = $currency;
+            $order->save();
 
-                if (!$is_payment_transaction) {
-                    $payment_transaction = new PaymentTransaction();
-                    if ($loggedInUser) {
-                        $payment_transaction->user_id = $loggedInUser->id;
-                    }
-                    $payment_transaction->invoice_number = $order_id;
-                    $payment_transaction->transaction_id = $transaction_id;
-                    $payment_transaction->transaction_provider = $payment_provider->name;
-                    $payment_transaction->amount = $paymentDetails->amount != 0 ? ((float)$paymentDetails->amount / 100) : 0; // converting to dollar
-                    $payment_transaction->currency = $paymentDetails->currency;
-                    $payment_transaction->status = 'succeeded';
-                    $payment_transaction->save();
+            // store transaction history
+            $payment_transaction = new PaymentTransaction();
+            $payment_transaction->user_id = $order->user_id;
 
-                    return response()->json([
-                        'success' => true,
-                        'message' => "Payment sucessful",
-                    ]);
-                }
-                return response()->json([
-                    'success' => true,
-                    'message' => "Payment already paid before",
-                ]);
-            } else {
-                return response()->json([
-                    'success' => false,
-                    'message' => "Payment unsucessful",
-                ]);
-            }
-        } else {
+            $payment_transaction->order_id = $order->id;
+            $payment_transaction->transaction_id = $transaction_id;
+            $payment_transaction->transaction_provider = $order->payment_provider;
+            $payment_transaction->amount = $amount_received;
+            $payment_transaction->currency = $currency;
+            $payment_transaction->status = $payment_status;
+            $payment_transaction->save();
+
             return response()->json([
-                'success' => false,
-                'message' => "Payment provider not found :(",
+                'success' => true,
+                'message' => 'Payment status updated',
             ]);
+        } catch (\Throwable $th) {
+            throw $th;
         }
     }
 
