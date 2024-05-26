@@ -36,8 +36,6 @@ class PaymentController extends Controller
             $payment_provider = PaymentProvider::find($payment_provider_id);
             $res_status = null;
             $res_message = null;
-            $res_client_secret = null;
-            $res_transaction_id = null;
             $provider = null;
 
             if (!$customerOrder) {
@@ -52,7 +50,7 @@ class PaymentController extends Controller
 
                 $res_status = true;
                 // $res_message = 'Order placed successfully';
-                $res_message = 'Your order #' . $customerOrder->order_id . ' is placed at ' . SettingHelper::get('name') . ' and details emailed you';
+                $res_message = 'Your order #' . $customerOrder->invoice_number . ' is placed at ' . SettingHelper::get('name') . ' and details emailed you';
                 $provider = 'cod';
             } else if ($payment_provider->name == StripeMethod::$provider_name) {
                 $provider = $payment_provider->name;
@@ -61,32 +59,34 @@ class PaymentController extends Controller
                 if ($redirect_url['success'] == true) {
                     $res_status = true;
                     // $res_message = 'Order placed successfully';
-                    $res_message = 'Your order #' . $customerOrder->order_id . ' is placed at ' . SettingHelper::get('name') . ' and details emailed you';
-                    $res_client_secret = $redirect_url['client_secret'];
-                    $res_transaction_id = $redirect_url['id'];
+                    $res_message = 'Your order #' . $customerOrder->invoice_number . ' is placed at ' . SettingHelper::get('name') . ' and details emailed you';
                 } else {
                     $res_status = true;
                     // $res_message = 'Order placed successfully';
-                    $res_message = 'Your order #' . $customerOrder->order_id . ' is placed at ' . SettingHelper::get('name') . ' and details emailed you';
+                    $res_message = 'Your order #' . $customerOrder->invoice_number . ' is placed at ' . SettingHelper::get('name') . ' and details emailed you';
                 }
             }
 
             // response
             if ($provider == 'cod') {
                 return response()->json([
-                    'success' => $res_status,
+                    'success' => true,
                     'provider' => $provider,
                     'message' => $res_message,
                 ]);
             } else if ($provider == StripeMethod::$provider_name) {
-                if ($res_client_secret) {
+                if ($redirect_url['success'] == true) {
                     return response()->json([
-                        'success' => $res_status,
-                        'provider' => $provider,
-                        'message' => $res_message,
-                        'client_secret' => $res_client_secret,
-                        'transaction_id' => $res_transaction_id,
-                        'order_details' => $customerOrder,
+                        'redirect_url' => $redirect_url['payment_info']['url'],
+                        'redirect' => true,
+                        'success' => true,
+                        'message' => 'Order placed successfully, proceeding to payment.',
+                    ]);
+                } else {
+                    return response()->json([
+                        'redirect' => false,
+                        'success' => false,
+                        'message' => $redirect_url['message'],
                     ]);
                 }
             } else {
@@ -145,7 +145,7 @@ class PaymentController extends Controller
                     if ($loggedInUser) {
                         $payment_transaction->user_id = $loggedInUser->id;
                     }
-                    $payment_transaction->order_id = $order_id;
+                    $payment_transaction->invoice_number = $order_id;
                     $payment_transaction->transaction_id = $transaction_id;
                     $payment_transaction->transaction_provider = $payment_provider->name;
                     $payment_transaction->amount = $paymentDetails->amount != 0 ? ((float)$paymentDetails->amount / 100) : 0; // converting to dollar
@@ -154,12 +154,12 @@ class PaymentController extends Controller
                     $payment_transaction->save();
 
                     return response()->json([
-                        'success' => 'success',
+                        'success' => true,
                         'message' => "Payment sucessful",
                     ]);
                 }
                 return response()->json([
-                    'success' => 'success',
+                    'success' => true,
                     'message' => "Payment already paid before",
                 ]);
             } else {
@@ -210,7 +210,7 @@ class PaymentController extends Controller
 
                 // return $paymentUrl;
                 return [
-                    'success' => 'success',
+                    'success' => true,
                     'payment_info' => $paymentUrl,
                 ];
             }
