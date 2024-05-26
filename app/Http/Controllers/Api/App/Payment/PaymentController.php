@@ -62,6 +62,11 @@ class PaymentController extends Controller
                     $customerOrder->payment_ref_id = $redirect_url['payment_info']['id'];
                     $customerOrder->save();
 
+
+                    // save payment transaction id
+                    $customerOrder->payment_ref_id = $redirect_url['payment_info']['id'];
+                    $customerOrder->save();
+
                     $res_status = true;
                     // $res_message = 'Order placed successfully';
                     $res_message = 'Your order #' . $customerOrder->invoice_number . ' is placed at ' . SettingHelper::get('name') . ' and details emailed you';
@@ -117,7 +122,6 @@ class PaymentController extends Controller
             $data = $payload['data']['object'];
 
             $transaction_id = $data['id'];
-
 
             // get payment details
             $retrieveCheckout = new StripeMethod();
