@@ -42,9 +42,10 @@ class ProductController extends Controller
         // lazy loading
         $default_limit = 40;
 
-        $products = Category::query()->where('status', 1)->with(['products' => function ($query) {
-            $query->latest()->limit(10);
-        }])->where('parent_id', null);
+        $products = Category::query()->has('products')->where('status', 1)
+            ->with(['products' => function ($query) {
+                $query->latest()->limit(10);
+            }])->where('parent_id', null);
         $products = $products->latest()->paginate($default_limit);
 
         return response()->json([
