@@ -55,7 +55,7 @@ return new class extends Migration
             $table->string('weight_unit')->nullable();
 
             //
-            $table->foreignId('manufacturer_id')->nullable()->constrained()->onDelete('set null');
+            // $table->foreignId('manufacturer_id')->nullable()->constrained()->onDelete('set null');
 
             $table->foreignId('user_id')->nullable()->constrained()->onDelete('set null');
             $table->bigInteger("views")->nullable()->default(0);

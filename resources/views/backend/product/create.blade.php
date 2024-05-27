@@ -128,7 +128,6 @@
                                                         <div class="alert alert-danger">{{ $message }}</div>
                                                     @enderror
                                                 </div>
-
                                                 <div class="col mb-4">
                                                     <div class="form-group mb-3">
                                                         <label for="option_set_id">Option sets</label>
@@ -152,15 +151,16 @@
 
                                                 <div class="col mb-4">
                                                     <div class="form-group mb-3">
-                                                        <label for="manufacturer_id">Manufacturer</label>
-                                                        <select id="select2" class="form-select mb-3"
-                                                            name="manufacturer_id">
-                                                            <option value="0">None</option>
+                                                        <label for="manufacturer_id">Manufacturers</label>
+                                                        <select id="manufacturer_id" class="manufacturers-select2 form-select mb-3"
+                                                            name="manufacturer_id[]" multiple="multiple">
+                                                            {{-- <option value="0">None</option> --}}
                                                             @if (count($manufacturers) > 0)
                                                                 @foreach ($manufacturers as $manufacturer)
                                                                     <?php $dash = ''; ?>
                                                                     <option value={{ $manufacturer->id }}>
-                                                                        {{ $manufacturer->name }}</option>
+                                                                        {{ $manufacturer->name }}
+                                                                    </option>
                                                                 @endforeach
                                                             @endif
                                                         </select>
@@ -395,10 +395,17 @@
                 tags: true
             });
         });
-        // select2
+        // categories
         $(document).ready(function() {
             $(".tagsselect2").select2({
                 placeholder: "Select categories",
+                allowClear: true,
+                tags: true
+            });
+        });
+        $(document).ready(function() {
+            $(".manufacturers-select2").select2({
+                placeholder: "Select manufacturers",
                 allowClear: true,
                 tags: true
             });

@@ -158,14 +158,12 @@
                                                 <div class="col mb-4">
                                                     <div class="form-group mb-3">
                                                         <label for="manufacturer_id">Manufacturer</label>
-                                                        <select id="select2" class="form-select mb-3"
-                                                            name="manufacturer_id">
-                                                            <option value="0">None</option>
+                                                        <select id="manufacturers-select2" class="form-select mb-3" name="manufacturer_id[]"
+                                                            multiple="multiple">
+                                                            {{-- <option value="0">None</option> --}}
                                                             @if (count($manufacturers) > 0)
                                                                 @foreach ($manufacturers as $manufacturer)
-                                                                    <?php $dash = ''; ?>
-                                                                    <option value={{ $manufacturer->id }}
-                                                                        @if ($product->manufacturer_id == $manufacturer->id) selected @endif>
+                                                                    <option value={{ $manufacturer->id }}>
                                                                         {{ $manufacturer->name }}
                                                                     </option>
                                                                 @endforeach
@@ -916,7 +914,7 @@
             tags.val(newSelectedValues).trigger('change');
         });
 
-        // categoris
+        // categories
         $(document).ready(function() {
             const categoriesSelect2 = $("#categories-select2");
             const selectedValues = <?php echo json_encode($product->categories); ?>;
@@ -930,6 +928,22 @@
             });
 
             categoriesSelect2.val(newSelectedValues).trigger('change');
+        });
+
+        // manufacturers
+        $(document).ready(function() {
+            const manufacturersSelect2 = $("#manufacturers-select2");
+            const selectedValues = <?php echo json_encode($product->manufacturers); ?>;
+            const newSelectedValues = selectedValues.map((selectedValue) => selectedValue.id)
+
+            manufacturersSelect2.select2({
+
+                placeholder: "Select manufacturers",
+                allowClear: true,
+                tags: true
+            });
+
+            manufacturersSelect2.val(newSelectedValues).trigger('change');
         });
 
         // option set
