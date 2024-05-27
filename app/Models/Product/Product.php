@@ -115,6 +115,11 @@ class Product extends Model
         return $this->belongsToMany(Category::class, 'product_categories');
     }
 
+    public function manufacturers()
+    {
+        return $this->belongsToMany(Manufacturer::class, 'product_manufacturers');
+    }
+
     public function option_sets()
     {
         return $this->belongsToMany(OptionSet::class, 'product_option_sets');

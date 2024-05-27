@@ -101,11 +101,11 @@ class ProductController extends Controller
             $product->slug = Str::slug($slug);
             $product->price = $price;
             $product->cost_per_item = $cost_per_item;
-            if ($manufacturer_id) {
-                $product->manufacturer_id = $manufacturer_id;
-            } else {
-                $product->manufacturer_id = null;
-            }
+            // if ($manufacturer_id) {
+            //     $product->manufacturer_id = $manufacturer_id;
+            // } else {
+            //     $product->manufacturer_id = null;
+            // }
             if ($description) {
 
                 $product->description = $description;
@@ -143,6 +143,8 @@ class ProductController extends Controller
             $product->save();
             // save categories
             $product->categories()->sync($category_id);
+            // save manufacturers
+            $product->manufacturers()->sync($manufacturer_id);
             // save option sets
             $product->option_sets()->sync($option_set_id);
             // save tags
@@ -252,11 +254,11 @@ class ProductController extends Controller
             $product->slug = Str::slug($slug);
             $product->price = $price;
             $product->cost_per_item = $cost_per_item;
-            if ($manufacturer_id) {
-                $product->manufacturer_id = $manufacturer_id;
-            } else {
-                $product->manufacturer_id = null;
-            }
+            // if ($manufacturer_id) {
+            //     $product->manufacturer_id = $manufacturer_id;
+            // } else {
+            //     $product->manufacturer_id = null;
+            // }
             if ($description) {
                 $product->description = $description;
             } else {
@@ -293,6 +295,8 @@ class ProductController extends Controller
             $product->save();
             // save categories
             $product->categories()->sync($category_id);
+            // save manufacturers
+            $product->manufacturers()->sync($manufacturer_id);
             // save option sets
             $product->option_sets()->sync($option_set_id);
             // save tags
