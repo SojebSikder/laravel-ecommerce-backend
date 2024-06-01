@@ -22,9 +22,14 @@ Laravel E-commerce application backend with plugin architecture.
 -   Plugin system
 
 And many more.
+
 # Setup
 
 Enable `zip` extension in `php.ini`
+
+Setup stripe webhook:
+
+`http://{domain_name}/payment/stripe_webhook`
 
 # Install
 
@@ -38,6 +43,12 @@ composer install
 
 ```
 php artisan serve
+```
+
+## Listen stripe webhook locally for development
+
+```bash
+stripe listen --forward-to localhost:8000/api/payment/stripe_webhook
 ```
 
 ## Guide for plugin development
