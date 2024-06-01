@@ -32,7 +32,7 @@
                     Dashboard
                 </div>
             </div>
-            <div class="row">
+            {{-- <div class="row">
                 <div class="col-md-3">
                     <div class="card text-bg-primary mb-3" style="max-width: 18rem;">
                         <div class="card-header">Primary Card</div>
@@ -154,7 +154,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> --}}
         </div>
     </main>
     <!-- End Main section -->
