@@ -13,6 +13,7 @@ use App\Http\Controllers\Api\App\Payment\PaymentController;
 use App\Http\Controllers\Api\App\Product\ProductController;
 use App\Http\Controllers\Api\App\Setting\Setting\SettingController;
 use App\Http\Controllers\Api\App\Shipping\ShippingController;
+use App\Http\Controllers\Api\App\User\UserFavoriteProductController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -76,6 +77,9 @@ Route::post("/payment/stripe_webhook", [PaymentController::class, 'stripe_webhoo
 // cart
 Route::get("cart-count", [CartController::class, 'cartCount']);
 Route::resource("cart", CartController::class);
+
+// favorite product
+Route::resource("user-favorite-product", UserFavoriteProductController::class);
 
 // page
 Route::resource('page', PageController::class);

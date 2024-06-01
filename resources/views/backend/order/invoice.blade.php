@@ -175,7 +175,7 @@
                         </div>
                         <div>
                             <div>
-                                Order #{{ $order->order_id }}
+                                Order #{{ $order->invoice_number }}
                             </div>
                             <div>
                                 {{ date('d M Y', strtotime($order->created_at)) }}
