@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 01, 2024 at 10:25 AM
+-- Generation Time: Jun 08, 2024 at 07:37 AM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -754,7 +754,16 @@ INSERT INTO `permission_roles` (`id`, `permission_id`, `role_id`, `created_at`, 
 
 INSERT INTO `products` (`id`, `name`, `slug`, `product_type`, `meta_title`, `meta_description`, `meta_keyword`, `description`, `price`, `discount`, `old_discount`, `track_quantity`, `quantity`, `sku`, `barcode`, `is_sale`, `cost_per_item`, `weight`, `weight_unit`, `user_id`, `views`, `status`, `created_at`, `updated_at`) VALUES
 (95, 'Eau de Source - Cristaline - 1,5 L', 'eau-de-source-cristaline', 'simple', NULL, NULL, NULL, NULL, 50.00, 10.00, 8.00, 1, 200, NULL, NULL, 1, 20.00, NULL, NULL, NULL, 0, 1, '2024-05-27 15:23:35', '2024-06-01 06:16:38'),
-(97, 'Whole Wheat Chocolate Biscuits - Lu', 'whole-wheat-chocolate-biscuits-lu', 'simple', NULL, NULL, NULL, NULL, 150.00, 10.00, 8.00, 1, 98, NULL, NULL, 1, 40.00, NULL, NULL, NULL, 0, 1, '2024-05-27 16:26:14', '2024-06-01 06:23:03');
+(97, 'Whole Wheat Chocolate Biscuits - Lu', 'whole-wheat-chocolate-biscuits-lu', 'simple', NULL, NULL, NULL, NULL, 150.00, 10.00, 8.00, 1, 98, NULL, NULL, 1, 40.00, NULL, NULL, NULL, 0, 1, '2024-05-27 16:26:14', '2024-06-01 06:23:03'),
+(98, 'Nutella - Ferrero - 1 kg', 'nutella-ferrero-1-kg', 'simple', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 1, '2024-06-08 05:24:32', '2024-06-08 05:24:32'),
+(99, 'Gerblé - Sesame Cookie', 'gerble-sesame-cookie', 'simple', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 1, '2024-06-08 05:26:04', '2024-06-08 05:26:04'),
+(100, 'Yeast Extract - Marmite - 250 g', 'yeast-extract-marmite-250-g', 'simple', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 1, '2024-06-08 05:26:43', '2024-06-08 05:26:43'),
+(101, 'Eau de source - Cristaline - 50 cl', 'eau-de-source-cristaline-50-cl', 'simple', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 1, '2024-06-08 05:27:16', '2024-06-08 05:27:16'),
+(102, 'Roast Chicken Gravy - Tesco', 'roast-chicken-gravy-tesco', 'simple', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 1, '2024-06-08 05:28:01', '2024-06-08 05:28:01'),
+(103, 'Chocolat noir 65% de cacao - Chocolaterie Monbana', 'chocolat-noir-65-de-cacao-chocolaterie-monbana', 'simple', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 1, '2024-06-08 05:28:32', '2024-06-08 05:28:32'),
+(104, 'Ziegenfrischkäse Natur - Zurück zum Ursprung - 1pcs', 'ziegenfrischkase-natur-zuruck-zum-ursprung-1pcs', 'simple', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 1, '2024-06-08 05:29:21', '2024-06-08 05:29:21'),
+(105, 'Gelatina sabor Morango - Condi - 114 g', 'gelatina-sabor-morango-condi-114-g', 'simple', NULL, NULL, NULL, NULL, 60.00, 50.00, 10.00, 1, 50, NULL, NULL, 0, 20.00, NULL, NULL, NULL, 0, 1, '2024-06-08 05:29:59', '2024-06-08 05:32:31'),
+(106, 'Californian Almond - Alesto - 200g', 'californian-almond-alesto-200g', 'simple', NULL, NULL, NULL, NULL, 50.00, 10.00, 5.00, 1, 50, NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 1, '2024-06-08 05:30:34', '2024-06-08 05:32:13');
 
 --
 -- Dumping data for table `product_categories`
@@ -762,7 +771,15 @@ INSERT INTO `products` (`id`, `name`, `slug`, `product_type`, `meta_title`, `met
 
 INSERT INTO `product_categories` (`id`, `product_id`, `category_id`, `created_at`, `updated_at`) VALUES
 (13, 95, 57, NULL, NULL),
-(14, 97, 59, NULL, NULL);
+(14, 97, 59, NULL, NULL),
+(15, 106, 59, NULL, NULL),
+(16, 104, 57, NULL, NULL),
+(17, 103, 57, NULL, NULL),
+(18, 102, 57, NULL, NULL),
+(19, 98, 59, NULL, NULL),
+(20, 99, 59, NULL, NULL),
+(21, 100, 59, NULL, NULL),
+(22, 101, 57, NULL, NULL);
 
 --
 -- Dumping data for table `product_details`
@@ -792,7 +809,16 @@ INSERT INTO `product_images` (`id`, `image`, `title`, `alt_text`, `product_id`, 
 (16, '1704661070-659b104eb54a0.jpg', NULL, NULL, '92', 1, 0, '2024-01-07 20:57:50', '2024-01-07 20:57:50'),
 (17, '1706347915-65b4cd8be8d56.webp', NULL, NULL, '94', 1, 0, '2024-01-27 09:31:56', '2024-01-27 09:31:56'),
 (19, '1716827188-6654b434a0751.jpg', NULL, NULL, '97', 1, 0, '2024-05-27 16:26:28', '2024-05-27 16:26:28'),
-(21, '1717220668-665ab53c311a4.jpg', NULL, NULL, '95', 1, 0, '2024-06-01 05:44:28', '2024-06-01 05:44:28');
+(21, '1717220668-665ab53c311a4.jpg', NULL, NULL, '95', 1, 0, '2024-06-01 05:44:28', '2024-06-01 05:44:28'),
+(22, '1717824286-6663eb1ea1a7a.jpg', NULL, NULL, '98', 1, 0, '2024-06-08 05:24:46', '2024-06-08 05:24:46'),
+(23, '1717824381-6663eb7dbd844.jpg', NULL, NULL, '99', 1, 0, '2024-06-08 05:26:21', '2024-06-08 05:26:21'),
+(24, '1717824414-6663eb9e972a4.jpg', NULL, NULL, '100', 1, 0, '2024-06-08 05:26:54', '2024-06-08 05:26:54'),
+(25, '1717824449-6663ebc196e8b.jpg', NULL, NULL, '101', 1, 0, '2024-06-08 05:27:29', '2024-06-08 05:27:29'),
+(26, '1717824494-6663ebee7426c.jpg', NULL, NULL, '102', 1, 0, '2024-06-08 05:28:14', '2024-06-08 05:28:14'),
+(27, '1717824523-6663ec0bbcbdc.jpg', NULL, NULL, '103', 1, 0, '2024-06-08 05:28:43', '2024-06-08 05:28:43'),
+(28, '1717824572-6663ec3c26b3d.jpg', NULL, NULL, '104', 1, 0, '2024-06-08 05:29:32', '2024-06-08 05:29:32'),
+(29, '1717824606-6663ec5e07d55.jpg', NULL, NULL, '105', 1, 0, '2024-06-08 05:30:06', '2024-06-08 05:30:06'),
+(30, '1717824644-6663ec8419531.jpg', NULL, NULL, '106', 1, 0, '2024-06-08 05:30:44', '2024-06-08 05:30:44');
 
 --
 -- Dumping data for table `product_manufacturers`
@@ -902,13 +928,6 @@ INSERT INTO `users` (`id`, `fname`, `lname`, `email`, `phone_number`, `dial_code
 (2, 'sd', 'sdsd', 'as@gmail.com', NULL, NULL, NULL, NULL, NULL, NULL, 'su_admin', 1, '$2y$10$a5lUNEobpCWplDHP3WIr7eHejJ6CQc8G8LM4SNnzT7OxATaVwLER2', NULL, '2023-07-30 02:24:56', '2024-01-03 12:44:11'),
 (3, 'test', 'demo', 'testdemo@gmail.com', NULL, NULL, NULL, NULL, NULL, NULL, 'user', 1, '$2y$10$z6uz.pm8/PGkx6XVe4ef2u/9EoaKWCZW6167sJhaFlrSnBrIkoaum', NULL, '2024-01-12 18:58:31', '2024-01-12 18:58:31'),
 (5, 'Sojeb', 'Sikder', 'sojebsikder@gmail.com', NULL, NULL, NULL, NULL, NULL, NULL, 'user', 1, '$2y$10$IekPA988TVVZucN47i656.22uPLCni7dJ/T9laIor5Mw1SBcQ5Im2', NULL, '2024-05-04 11:12:10', '2024-05-04 11:12:10');
-
---
--- Dumping data for table `user_favorite_products`
---
-
-INSERT INTO `user_favorite_products` (`id`, `user_id`, `product_id`, `created_at`, `updated_at`) VALUES
-(1, 5, 97, '2024-06-01 08:09:01', '2024-06-01 08:09:01');
 
 --
 -- Dumping data for table `variant_attributes`
