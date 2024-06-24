@@ -150,6 +150,18 @@ class AuthController extends Controller
             }
 
             $user = Auth::guard('api')->user();
+
+            if ($user->status != 1) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Your account is not allowed',
+                ], 401);
+            }
+
+            $user->last_login = now();
+            $user->save();
+
+
             return response()->json([
                 'success' => true,
                 'message' => 'Logged in successfully',

@@ -46,6 +46,11 @@ class AuthController extends Controller
 
         $request->session()->regenerate();
 
+        // last_login_at
+        $user = auth()->user();
+        $user->last_login = now();
+        $user->save();
+
         return redirect()->intended(RouteServiceProvider::HOME);
     }
 
