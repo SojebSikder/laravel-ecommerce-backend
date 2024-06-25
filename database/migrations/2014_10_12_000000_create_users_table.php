@@ -33,9 +33,11 @@ return new class extends Migration
              * su_admin
              */
             $table->string('type')->nullable()->default("user");
-            $table->tinyInteger("status")->nullable()->default(1);
+            $table->tinyInteger("status")->nullable()->default(1); // 1: active, 2: inactive
 
             $table->string('password')->nullable();
+
+            $table->timestamp('last_login')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });

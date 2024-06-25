@@ -68,6 +68,7 @@
                                                 <th>Email</th>
                                                 <th>Type</th>
                                                 <th>Role</th>
+                                                <th>Last login</th>
                                                 <th>Created at</th>
                                                 <th class="text-center">Status</th>
                                                 <th class="text-center">Actions</th>
@@ -80,6 +81,7 @@
                                                     <td>{{ $customer->email }}</td>
                                                     <td>{{ $customer->type }}</td>
                                                     <td>{{ $customer->roles->first() && $customer->roles->first()->title }}</td>
+                                                    <td>{{ $customer->last_login ? date('d-M-Y h:m:s A', strtotime($customer->last_login)) : "" }}</td>
                                                     <td>{{ date('d-M-Y', strtotime($customer->created_at)) }}</td>
 
                                                     @if ($customer->status == '1')

@@ -8,6 +8,7 @@ use App\Http\Controllers\Api\App\Cms\Footer\FooterController;
 use App\Http\Controllers\Api\App\Cms\Menu\MenuController;
 use App\Http\Controllers\Api\App\Cms\Page\PageController;
 use App\Http\Controllers\Api\App\Cms\Sitemap\SitemapController;
+use App\Http\Controllers\Api\App\Coupon\CouponController;
 use App\Http\Controllers\Api\App\Order\OrderController;
 use App\Http\Controllers\Api\App\Payment\PaymentController;
 use App\Http\Controllers\Api\App\Product\ProductController;
@@ -77,6 +78,8 @@ Route::post("/payment/stripe_webhook", [PaymentController::class, 'stripe_webhoo
 // cart
 Route::get("cart-count", [CartController::class, 'cartCount']);
 Route::resource("cart", CartController::class);
+
+Route::resource('coupon', CouponController::class);
 
 // favorite product
 Route::resource("user-favorite-product", UserFavoriteProductController::class);
