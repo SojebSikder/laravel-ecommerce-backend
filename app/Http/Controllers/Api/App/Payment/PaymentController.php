@@ -226,7 +226,7 @@ class PaymentController extends Controller
                     $couponData = [];
                     foreach ($order->coupons as $coupon) {
                         array_push($couponData, [
-                            'amount_off' => $coupon->amount,
+                            'amount_off' => (int) $coupon->amount,
                             'currency' => SettingHelper::currency_code(),
                             'duration' => 'once',
                             'id' => $coupon->code,
