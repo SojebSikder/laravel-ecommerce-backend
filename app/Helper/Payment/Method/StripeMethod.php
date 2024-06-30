@@ -12,6 +12,7 @@ class StripeMethod implements IMethod
 {
     protected $order;
     protected $items;
+    protected $coupon_id;
     public static $provider_name = 'stripe';
 
     /**
@@ -25,14 +26,33 @@ class StripeMethod implements IMethod
         return $this;
     }
 
-    /**
-     * Make payment using stripe built in checkout
-     */
-    public function checkout()
+    public function createCoupon($couponInfo)
     {
         try {
             Stripe::setApiKey(env('STRIPE_SECRET'));
-            $session = \Stripe\Checkout\Session::create([
+
+            // $coupon = \Stripe\Coupon::create([
+            //     'amount_off' => 30,
+            //     'currency' => SettingHelper::currency_code(),
+            //     'duration' => 'once',
+            //     'id' => '30OFF',
+            // ]);
+            $coupon = \Stripe\Coupon::create($couponInfo);
+            return $coupon;
+        } catch (\Throwable $th) {
+            throw $th;
+        }
+    }
+
+    /**
+     * Make payment using stripe built in checkout
+     */
+    public function checkout($coupon_id = null)
+    {
+        try {
+            Stripe::setApiKey(env('STRIPE_SECRET'));
+
+            $stripeData = [
                 // 'line_items' => [
                 //     [
                 //         'price_data' => [
@@ -46,10 +66,19 @@ class StripeMethod implements IMethod
                 //     ]
                 // ],
                 'line_items' => $this->items,
+                // 'discounts' => [['coupon' => $coupon_id]],
                 'mode' => 'payment',
                 'success_url' => env('CLIENT_APP_URL') . '/payment/success',
                 'cancel_url' => env('CLIENT_APP_URL') . '/payment/cancel',
-            ]);
+            ];
+
+            if ($coupon_id) {
+                $stripeData['discounts'] = [['coupon' => $coupon_id]];
+            }
+
+
+
+            $session = \Stripe\Checkout\Session::create($stripeData);
             // return $session->url;
             return $session;
         } catch (\Throwable $th) {
