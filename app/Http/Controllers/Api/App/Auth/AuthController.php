@@ -511,7 +511,7 @@ class AuthController extends Controller
                 $nameArr = explode(" ", $socialiteUser->getName());
                 $fname = $nameArr[0];
                 $lname = $nameArr[1];
-            } else if ($provider == "microsoft") {
+            } else if ($provider == "microsoft" || $provider == "azure") {
                 $nameArr = explode(" ", $socialiteUser->user['displayName']);
                 $fname = $nameArr[0];
                 $lname = $nameArr[1];
@@ -612,7 +612,7 @@ class AuthController extends Controller
 
     protected function validateProvider($provider)
     {
-        if (!in_array($provider, ['facebook', 'google', 'microsoft', 'apple'])) {
+        if (!in_array($provider, ['facebook', 'google', 'microsoft', 'azure', 'apple'])) {
             return response()->json(['error' => 'Please login using facebook or google'], 422);
         }
     }
