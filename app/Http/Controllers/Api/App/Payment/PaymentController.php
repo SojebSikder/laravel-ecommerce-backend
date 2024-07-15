@@ -187,6 +187,22 @@ class PaymentController extends Controller
                     ]);
                 }
 
+                // $couponArray = collect($order->coupons)->toArray();
+                // if (count($couponArray)) {
+                //     foreach ($couponArray as $coupon) {
+                //         array_push($items, [
+                //             'price_data' => [
+                //                 'currency' => SettingHelper::currency_code(),
+                //                 'product_data' => [
+                //                     'name' => 'Discount',
+                //                 ],
+                //                 'unit_amount' => -(float)$coupon['amount'] * 100, // cent to dollar
+                //             ],
+                //             'quantity' => 1,
+                //         ]);
+                //     }
+                // }
+
                 foreach ($itemArray as $item) {
                     array_push($items, [
                         'price_data' => [
@@ -205,8 +221,30 @@ class PaymentController extends Controller
                 // $paymentMethod = new PaymentMethodHelper(new StripeMethod($order, $items));
                 // $paymentUrl = $paymentMethod->store();
                 $stripe = new StripeMethod($order, $items);
-                $paymentUrl = $stripe->checkout();
 
+                if (count($order->coupons)) {
+                    $couponData = [];
+                    foreach ($order->coupons as $coupon) {
+                        array_push($couponData, [
+                            'amount_off' => (int) $coupon->amount,
+                            'currency' => SettingHelper::currency_code(),
+                            'duration' => 'once',
+                            'id' => $coupon->code,
+                        ]);
+                    }
+                    // array_push($couponData, [
+                    //     'amount_off' => 30,
+                    //     'currency' => SettingHelper::currency_code(),
+                    //     'duration' => 'once',
+                    //     'id' => '30OFF',
+                    // ]);
+                    // coupon
+                    $stripeCoupon = $stripe->createCoupon($couponData);
+                    $paymentUrl = $stripe->checkout($stripeCoupon->id);
+                } else {
+                    $paymentUrl = $stripe->checkout();
+                }
+                $paymentUrl = $stripe->checkout();
                 // return $paymentUrl;
                 return [
                     'success' => true,

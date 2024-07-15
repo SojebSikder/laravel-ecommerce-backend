@@ -51,6 +51,11 @@ php artisan serve
 stripe listen --forward-to localhost:8000/api/payment/stripe_webhook
 ```
 
+Enable this in `php.ini` for microsoft login
+```bash
+;extension=sodium
+```
+
 ## Guide for plugin development
 
 Create new plugin
