@@ -20,7 +20,8 @@ class EventServiceProvider extends ServiceProvider
 
             \SocialiteProviders\Manager\SocialiteWasCalled::class => [
                 // ... other providers
-                \SocialiteProviders\Microsoft\MicrosoftExtendSocialite::class . '@handle',
+                // \SocialiteProviders\Microsoft\MicrosoftExtendSocialite::class . '@handle',
+                \SocialiteProviders\Azure\AzureExtendSocialite::class . '@handle',
                 \SocialiteProviders\Apple\AppleExtendSocialite::class . '@handle',
             ],
         ],

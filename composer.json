@@ -15,6 +15,7 @@
         "php-open-source-saver/jwt-auth": "^2.0",
         "socialiteproviders/apple": "^5.6",
         "socialiteproviders/microsoft": "^4.4",
+        "socialiteproviders/microsoft-azure": "^5.2",
         "spatie/laravel-activitylog": "^4.7",
         "stripe/stripe-php": "^14.3"
     },
