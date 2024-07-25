@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Web\Admin\Dashboard;
 
 use App\Http\Controllers\Controller;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class DashboardController extends Controller
@@ -14,7 +15,13 @@ class DashboardController extends Controller
      */
     public function index()
     {
-        return view('backend.dashboard.index');
+        $customers = User::latest();
+        
+        $total_customer = $customers->count();
+
+        $customers = $customers->paginate(15);
+
+        return view('backend.dashboard.index', compact('customers', 'total_customer'));
     }
 
     /**

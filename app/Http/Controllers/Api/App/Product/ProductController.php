@@ -146,7 +146,7 @@ class ProductController extends Controller
                 $variant->with(['images', 'variant_attributes' => function ($query) {
                     $query->with(['attribute', 'attribute_value']);
                 }, 'images']);
-            }, 'images', 'details' => function ($query) {
+            }, 'images', 'categories', 'details' => function ($query) {
                 $query->where('status', 1);
             }])
                 ->where('status', 1)
