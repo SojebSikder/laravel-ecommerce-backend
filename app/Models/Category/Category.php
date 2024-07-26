@@ -42,7 +42,7 @@ class Category extends Model
 
     public function sub_categories()
     {
-        return $this->hasMany(Category::class, 'parent_id')->where('status', 1);
+        return $this->hasMany(Category::class, 'parent_id')->where('status', 1)->with('sub_categories');
     }
 
     public function parent()

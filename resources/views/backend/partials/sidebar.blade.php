@@ -121,6 +121,14 @@ $menus = [
                 'order' => 2,
                 'parent' => 'customers',
             ],
+            // [
+            //     'label' => 'Contact form',
+            //     'name' => 'contact-form',
+            //     'icon' => 'bi bi-layout-split',
+            //     'route' => 'contact-form.index',
+            //     'order' => 3,
+            //     'parent' => 'customers',
+            // ],
         ],
     ],
     [
