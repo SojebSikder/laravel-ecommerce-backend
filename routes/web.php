@@ -9,6 +9,7 @@ use App\Http\Controllers\Web\Admin\Cms\Footer\FooterItemController;
 use App\Http\Controllers\Web\Admin\Cms\Menu\MenuController;
 use App\Http\Controllers\Web\Admin\Cms\Menu\SublinkController;
 use App\Http\Controllers\Web\Admin\Cms\Page\PageController;
+use App\Http\Controllers\Web\Admin\ContactForm\ContactFormController;
 use App\Http\Controllers\Web\Admin\Coupon\CouponController;
 use App\Http\Controllers\Web\Admin\Customer\CustomerController;
 use App\Http\Controllers\Web\Admin\Customer\RoleController;
@@ -165,6 +166,9 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('customer/{id}/status', [CustomerController::class, 'status'])->name('customer.status');
     Route::resource('customer', CustomerController::class);
     Route::resource('role', RoleController::class);
+
+    // contact form
+    Route::resource('contact-form', ContactFormController::class);
 
     //cms
     // page
