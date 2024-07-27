@@ -116,6 +116,18 @@
                                                 @enderror
                                             </div>
 
+                                            <div class="col">
+                                                <div class="form-group mb-3">
+                                                    <label for="sort_order">Sort order</label>
+                                                    <input type="text" id="sort_order"
+                                                        class="form-control @error('sort_order') is-invalid @enderror"
+                                                        value="{{ old('sort_order') }}" name="sort_order">
+                                                </div>
+                                                @error('sort_order')
+                                                    <div class="alert alert-danger">{{ $message }}</div>
+                                                @enderror
+                                            </div>
+
                                             {{-- image --}}
                                             <div class="col mb-4">
                                                 <div class="form-group">
