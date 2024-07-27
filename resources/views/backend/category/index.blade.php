@@ -67,6 +67,7 @@
                                                 <th>Category</th>
                                                 <th>Slug</th>
                                                 <th>Subcategories</th>
+                                                <th>Sort order</th>
                                                 <th class="text-center">Status</th>
                                                 <th class="text-center">Actions</th>
                                             </tr>
@@ -81,6 +82,9 @@
                                                             class="btn btn-sm btn-light">
                                                             {{ count($category->sub_categories) }} subcategories
                                                         </a>
+                                                    </td>
+                                                    <td>
+                                                        {{ $category->sort_order }}
                                                     </td>
                                                     @if ($category->status == 1)
                                                         <td class="text-center">

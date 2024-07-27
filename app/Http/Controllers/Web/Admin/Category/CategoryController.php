@@ -60,6 +60,7 @@ class CategoryController extends Controller
         $name = $request->input('name');
         $slug = $request->input('slug');
         $parent_category_id = $request->input('parent_category_id');
+        $sort_order = $request->input('sort_order');
         $file = $request->file('image');
         $description = $request->input('description');
         $meta_title = $request->input('meta_title');
@@ -73,6 +74,9 @@ class CategoryController extends Controller
         $category->slug = Str::slug($slug);
         if ($parent_category_id) {
             $category->parent_id = $parent_category_id;
+        }
+        if ($sort_order) {
+            $category->sort_order = $sort_order;
         }
         if ($description) {
             $category->description = $description;
@@ -162,6 +166,7 @@ class CategoryController extends Controller
         $name = $request->input('name');
         $slug = $request->input('slug');
         $parent_category_id = $request->input('parent_category_id');
+        $sort_order = $request->input('sort_order');
         $file = $request->file('image');
         $description = $request->input('description');
         $meta_title = $request->input('meta_title');
@@ -174,6 +179,9 @@ class CategoryController extends Controller
         $category->slug = Str::slug($slug);
         if ($parent_category_id) {
             $category->parent_id = $parent_category_id;
+        }
+        if ($sort_order) {
+            $category->sort_order = $sort_order;
         }
         if ($description) {
             $category->description = $description;
