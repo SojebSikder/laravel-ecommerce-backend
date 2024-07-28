@@ -359,7 +359,7 @@ class AuthController extends Controller
         try {
             $code = uniqid("U", true);
             // $url = "http://" . $_SERVER["HTTP_HOST"] . "/forgot-password/$code";
-            $url = env("CLIENT_APP_URL") . "/forgot-password/$code";
+            $url = env("CLIENT_APP_URL") . "/recover-password/$code";
 
             $email = $request->input('email');
 
