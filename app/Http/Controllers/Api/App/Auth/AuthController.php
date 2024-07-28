@@ -371,12 +371,13 @@ class AuthController extends Controller
 
                 // insert ucode to table
                 $ucode = new Ucode();
-                $ucode->code = $code;
+                $ucode->token = $code;
                 $ucode->email = $email;
+                $ucode->for = 'password_recover';
                 $ucode->save();
                 //
                 $data = new \stdClass();
-                $data->code = $code;
+                $data->token = $code;
                 $data->url = $url;
                 $data->sender = env("APP_NAME", 'Laravel');
                 Mail::to($email)->send(new RecoveryMail($data));
@@ -736,7 +737,8 @@ class AuthController extends Controller
             // create token
             $ucode = new Ucode();
             $ucode->user_id = auth('api')->user()->id;
-            $ucode->code = $token;
+            $ucode->token = $token;
+            $ucode->for = 'email_verify';
             $ucode->email = $data['email'];
             $ucode->save();
 
@@ -744,7 +746,7 @@ class AuthController extends Controller
             $dataObject = new \stdClass();
             $dataObject->email = $data['email'];
             $dataObject->user = auth('api')->user();
-            $dataObject->code = $token;
+            $dataObject->token = $token;
 
             Notification::route('mail', $data['email'])
                 ->notify(new VerifyEmail($dataObject));

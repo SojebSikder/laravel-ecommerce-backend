@@ -57,7 +57,7 @@ class VerifyEmail extends Notification implements ShouldQueue
      */
     public function toMail($notifiable)
     {
-        $verificationUrl = route('email.verify', $this->data->code);
+        $verificationUrl = route('email.verify', $this->data->token);
 
         if (static::$toMailCallback) {
             return call_user_func(static::$toMailCallback, $notifiable, $verificationUrl);
