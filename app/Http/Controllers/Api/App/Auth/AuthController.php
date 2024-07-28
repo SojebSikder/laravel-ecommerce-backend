@@ -404,7 +404,7 @@ class AuthController extends Controller
     public function recover(Request $request)
     {
         try {
-            $code = $request->input('code');
+            $token = $request->input('token');
             $password = $request->input('password');
 
             $request->validate([
@@ -412,14 +412,14 @@ class AuthController extends Controller
             ]);
 
             // check if code exists
-            if (Ucode::where('code', $code)->exists()) {
+            if (Ucode::where('token', $token)->exists()) {
                 if ($password) {
                     // save new password
-                    $user = User::where('email', Ucode::where('code', $code)->first()->email)->first();
+                    $user = User::where('email', Ucode::where('token', $token)->first()->email)->first();
                     $user->password = bcrypt($password);
                     $user->save();
                     // delete code from database
-                    $ucode = Ucode::where('code', $code)->first();
+                    $ucode = Ucode::where('code', $token)->first();
                     $ucode->delete();
 
                     return response()->json([
@@ -799,10 +799,10 @@ class AuthController extends Controller
     //         return redirect()->to(env('CLIENT_APP_URL') . '/thankyou?message=Something went wrong');
     //     }
     // }
-    public function emailVerify($code, Request $request)
+    public function emailVerify($token, Request $request)
     {
         try {
-            $ucode = Ucode::where('code', $code)->first();
+            $ucode = Ucode::where('token', $token)->first();
 
             if ($ucode) {
                 $user = User::findOrFail($ucode->user_id);
