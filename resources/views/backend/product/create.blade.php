@@ -204,7 +204,7 @@
                                                 <div class="col mt-4">
                                                     <div class="form-group mb-3">
                                                         <label for="price">Price</label>
-                                                        <input type="number" id="price"
+                                                        <input type="text" id="price"
                                                             class="form-control @error('price') is-invalid @enderror"
                                                             value="{{ old('price') }}" name="price"
                                                             placeholder='0.00'>
@@ -216,7 +216,7 @@
                                                 <div class="col mt-4">
                                                     <div class="form-group mb-3">
                                                         <label for="cost_per_item">Cost per item</label>
-                                                        <input type="number" id="cost_per_item"
+                                                        <input type="text" id="cost_per_item"
                                                             class="form-control @error('cost_per_item') is-invalid @enderror"
                                                             value="{{ old('cost_per_item') }}" name="cost_per_item"
                                                             placeholder='0.00'>
@@ -231,7 +231,7 @@
                                                 <div class="col mt-4">
                                                     <div class="form-group mb-3">
                                                         <label for="discount">Discount <sup>%</sup></label>
-                                                        <input type="number" id="discount"
+                                                        <input type="text" id="discount"
                                                             class="form-control @error('discount') is-invalid @enderror"
                                                             value="{{ old('discount') }}" name="discount"
                                                             placeholder='e.g. 10'>
@@ -243,7 +243,7 @@
                                                 <div class="col mt-4">
                                                     <div class="form-group mb-3">
                                                         <label for="old_discount">Old Discount <sup>%</sup></label>
-                                                        <input type="number" id="old_discount"
+                                                        <input type="text" id="old_discount"
                                                             class="form-control @error('old_discount') is-invalid @enderror"
                                                             value="{{ old('old_discount') }}" name="old_discount"
                                                             placeholder='e.g. 10'>
