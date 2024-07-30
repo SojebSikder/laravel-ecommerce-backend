@@ -55,7 +55,7 @@ class Cart extends Model
             $total += ($this->product->new_price * $this->quantity);
         }
 
-        return $total;
+        return number_format($total, 2);
     }
 
     // returns all products subtotal (for client side)
@@ -79,7 +79,8 @@ class Cart extends Model
         $total = array_reduce($map, function ($prev, $curr) {
             return (float)$prev + (float)$curr;
         }, 0.0);
-        return $total;
+
+        return number_format($total, 2);
     }
 
     // check cart if amount or quantity less or exmpty
