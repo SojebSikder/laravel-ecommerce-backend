@@ -21,8 +21,8 @@ class Product extends Model
     protected $hidden = [
         'cost_per_item',
         'quantity',
-        'weight',
-        'weight_unit',
+        // 'weight',
+        // 'weight_unit',
         'track_quantity',
         'barcode',
         'sku',
