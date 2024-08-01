@@ -23,9 +23,11 @@ return new class extends Migration
             // if product is variant then variant_id will be set
             $table->foreignId('variant_id')->nullable()->constrained('variants')->onDelete('cascade');
 
+            // not using
             $table->decimal('discount')->nullable();
+            // not using
             $table->decimal('price')->nullable();
-            // with discount
+            // with discount (// not using)
             $table->decimal('total_price')->nullable();
             $table->bigInteger('quantity')->nullable();
             $table->text('attribute')->nullable(); // store product option sets

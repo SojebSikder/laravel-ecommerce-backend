@@ -90,9 +90,9 @@ class CheckoutController extends Controller
                     if (isset($cart->variant_id)) {
                         $checkoutItem->variant_id = $cart->variant_id;
                     }
-                    if ($cart->product->is_sale == 1) {
-                        $checkoutItem->discount = $cart->product->discount;
-                    }
+                    // if ($cart->product->is_sale == 1) {
+                    //     $checkoutItem->discount = $cart->product->discount;
+                    // }
                     $checkoutItem->quantity = $cart->quantity;
                     $checkoutItem->attribute = isset($cart->attribute) ? json_encode($cart->attribute) : null;
                 } else {
@@ -100,9 +100,9 @@ class CheckoutController extends Controller
                     if (isset($cart['variant_id'])) {
                         $checkoutItem->variant_id = $cart['variant_id'];
                     }
-                    if ($cart['product']['is_sale'] == 1) {
-                        $checkoutItem->discount = $cart['product']['discount'];
-                    }
+                    // if ($cart['product']['is_sale'] == 1) {
+                    //     $checkoutItem->discount = $cart['product']['discount'];
+                    // }
                     $checkoutItem->quantity = $cart['quantity'];
                     $checkoutItem->attribute = isset($cart['attribute']) ? json_encode($cart['attribute']) : null;
                 }
