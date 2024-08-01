@@ -11,10 +11,24 @@ class OrderItem extends Model
 {
     use HasFactory;
 
+    protected $appends = ['total_price'];
+
     public function getAttributeAttribute($value)
     {
         return json_decode($value);
     }
+
+    // public function getTotalPriceAttribute()
+    // {
+    //     // if ($this->product->is_sale == 1) {
+    //     //     $total -= $this->discount;
+    //     // }
+
+
+    //     $total = $this->price * $this->quantity;
+        
+    //     return number_format($total, 2);
+    // }
 
     public function product()
     {

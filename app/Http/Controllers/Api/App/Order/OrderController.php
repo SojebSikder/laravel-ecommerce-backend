@@ -325,13 +325,18 @@ class OrderController extends Controller
                     $orderItem->product_id = $checkout_item->product_id;
                     if ($checkout_item->variant_id) {
                         $orderItem->variant_id = $checkout_item->variant_id;
+                        if ($checkout_item->variant->is_sale == 1) {
+                            $orderItem->discount = $checkout_item->variant->discount;
+                        }
+                        $orderItem->price = $checkout_item->variant->new_price;
+                    } else {
+                        if ($checkout_item->product->is_sale == 1) {
+                            $orderItem->discount = $checkout_item->product->discount;
+                        }
+                        $orderItem->price = $checkout_item->product->new_price;
                     }
-                    if ($checkout_item->product->is_sale == 1) {
-                        $orderItem->discount = $checkout_item->product->discount;
-                    }
-                    $orderItem->quantity = $checkout_item->quantity;
-                    $orderItem->price = $checkout_item->product->price;
                     $orderItem->total_price = $checkout_item->subtotal;
+                    $orderItem->quantity = $checkout_item->quantity;
                     $orderItem->attribute = json_encode($checkout_item->attribute);
 
                     $orderItem->save();
