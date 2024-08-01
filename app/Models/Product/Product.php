@@ -6,6 +6,7 @@ use App\Helper\SettingHelper;
 use App\Models\Category\Category;
 use App\Models\OptionSet\OptionSet;
 use App\Models\Product\Variant\Variant;
+use App\Models\Review\Review;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -33,7 +34,11 @@ class Product extends Model
         'user_id',
     ];
 
-    protected $appends = ['is_variant', 'new_price', 'currency_sign', 'currency_code', 'availability', 'total_variant_quantity'];
+    protected $appends = [
+        'is_variant', 'new_price', 'currency_sign',
+        'currency_code', 'availability', 'total_variant_quantity',
+        'rating_meta'
+    ];
 
     // custom currency attribute
     public function getCurrencySignAttribute()
@@ -100,6 +105,64 @@ class Product extends Model
         return $totalQuantity;
     }
 
+    // custom rating meta attribute
+    public function getRatingMetaAttribute()
+    {
+        $oneStar = 0;
+        $twoStar = 0;
+        $threeStar = 0;
+        $fourStar = 0;
+        $fiveStar = 0;
+
+        $reviews = $this->reviews;
+        $reviews_count = count($this->reviews);
+        foreach ($reviews as $review) {
+            if ($review->rating_value == 1) {
+                $oneStar += 1;
+            }
+            if ($review->rating_value == 2) {
+                $twoStar += 1;
+            }
+            if ($review->rating_value == 3) {
+                $threeStar += 1;
+            }
+            if ($review->rating_value == 4) {
+                $fourStar += 1;
+            }
+            if ($review->rating_value == 5) {
+                $fiveStar += 1;
+            }
+        }
+        /*
+        *calculate avarage rating value
+        * AR = 1*a+2*b+3*c+4*d+5*e/(R)
+        * Where AR is the average rating
+        * a is the number of 1-star ratings
+        * b is the number of 2-star ratings
+        * c is the number of 3-star ratings
+        * d is the number of 4-star ratings
+        * e is the number of 5-star ratings
+        * R is the total number of ratings
+        */
+        // total number of rating
+        $total_rating = $oneStar + $twoStar + $threeStar + $fourStar + $fiveStar;
+
+        // avarage value of rating
+        $avg_value = $total_rating == 0 ? 0 : ((1 * $oneStar + 2 * $twoStar + 3 * $threeStar + 4 * $fourStar + 5 * $fiveStar) / $total_rating);
+
+        return [
+            'value' => number_format($avg_value, 1, '.', ''),
+            'reviews' => $reviews_count,
+            'stars' => [
+                'one' => $oneStar,
+                'two' => $twoStar,
+                'three' => $threeStar,
+                'four' => $fourStar,
+                'five' => $fiveStar,
+            ],
+        ];
+    }
+
     public function images()
     {
         return $this->hasMany(ProductImage::class)->orderBy('sort_order', 'asc');
@@ -133,5 +196,10 @@ class Product extends Model
     public function details()
     {
         return $this->hasMany(ProductDetails::class)->orderBy('sort_order', 'asc');
+    }
+
+    public function reviews()
+    {
+        return $this->hasMany(Review::class);
     }
 }

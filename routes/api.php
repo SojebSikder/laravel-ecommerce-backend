@@ -12,9 +12,11 @@ use App\Http\Controllers\Api\App\Coupon\CouponController;
 use App\Http\Controllers\Api\App\Order\OrderController;
 use App\Http\Controllers\Api\App\Payment\PaymentController;
 use App\Http\Controllers\Api\App\Product\ProductController;
+use App\Http\Controllers\Api\App\Review\ReviewController;
 use App\Http\Controllers\Api\App\Setting\Setting\SettingController;
 use App\Http\Controllers\Api\App\Shipping\ShippingController;
 use App\Http\Controllers\Api\App\User\UserFavoriteProductController;
+use App\Models\Review\Review;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -62,6 +64,9 @@ Route::get("/product/trending", [ProductController::class, 'trending']);
 Route::get("/product/{id}/rating/me", [ProductController::class, 'showRating']);
 Route::get("/product/trending", [ProductController::class, 'trending']);
 Route::resource("product", ProductController::class);
+
+// Review
+Route::resource("review", ReviewController::class);
 
 Route::resource("category", CategoryController::class);
 
