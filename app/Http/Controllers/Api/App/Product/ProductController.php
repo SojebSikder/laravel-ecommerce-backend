@@ -43,10 +43,12 @@ class ProductController extends Controller
         $default_limit = 40;
 
         $products = Category::query()->has('products')->where('status', 1)
-            ->orderBy('sort_order', 'asc')
-            ->with(['products' => function ($query) {
-                $query->latest()->limit(10);
-            }])->where('parent_id', null);
+            ->where('parent_id', null)
+            ->with(['products_with_limit' => function ($query) {
+                // $query->latest()->limit(10);
+            }])
+            ->orderBy('sort_order', 'asc');
+
         $products = $products->latest()->paginate($default_limit);
 
         return response()->json([
