@@ -39,6 +39,12 @@ class Category extends Model
             ->with(['images'])
             ->where('status', 1);
     }
+    public function products_with_limit()
+    {
+        return $this->belongsToMany(Product::class, 'product_categories')
+            ->with(['images'])
+            ->where('status', 1)->limit(10);
+    }
 
     public function sub_categories()
     {
